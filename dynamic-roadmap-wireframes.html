@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Roadmap V1 — Wireframes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f5f5;
+  --white: #ffffff;
+  --hover: #fafafa;
+  --text: #1a1a2e;
+  --text2: #6b7280;
+  --text3: #9ca3af;
+  --border: #e5e7eb;
+  --border2: #f0f0f0;
+  --accent: #4f46e5;
+  --accent2: #6366f1;
+  --green: #16a34a;
+  --green-bg: #dcfce7;
+  --green-t: #15803d;
+  --yellow-bg: #fef9c3;
+  --yellow-t: #a16207;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
+  --red-t: #b91c1c;
+  --orange: #ea580c;
+  --orange-bg: #fff7ed;
+  --orange-t: #c2410c;
+  --blue: #2563eb;
+  --blue-bg: #eff6ff;
+  --purple: #7c3aed;
+  --purple-bg: #f5f3ff;
+  --miro-yellow: #ffd02f;
+  --miro-dark: #050038;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; background:#1a1a2e; font-family:'Inter',-apple-system,sans-serif; font-size:13px; color:var(--text); -webkit-font-smoothing:antialiased; }
+
+/* ── Wireframe Nav ── */
+.wf-nav { display:flex; align-items:center; gap:0; background:#1a1a2e; padding:6px 16px; position:fixed; top:0; left:0; right:0; z-index:9999; border-bottom:1px solid rgba(255,255,255,0.08); overflow-x:auto; }
+.wf-nav-title { font-size:11px; font-weight:700; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.8px; padding-right:14px; border-right:1px solid rgba(255,255,255,0.1); margin-right:6px; white-space:nowrap; }
+.wf-tab { padding:5px 12px; border-radius:6px; font-size:11px; font-weight:500; color:rgba(255,255,255,0.45); cursor:pointer; border:none; background:transparent; white-space:nowrap; }
+.wf-tab:hover { color:rgba(255,255,255,0.8); background:rgba(255,255,255,0.05); }
+.wf-tab.active { color:#fff; background:var(--accent); }
+
+/* ── Screen ── */
+.screen { display:none; position:absolute; top:38px; left:0; right:0; bottom:0; background:var(--white); overflow:hidden; }
+.screen.active { display:flex; flex-direction:column; }
+
+/* ── Miro Global Top Bar ── */
+.miro-top { display:flex; align-items:center; height:48px; padding:0 16px; background:var(--white); border-bottom:1px solid var(--border); flex-shrink:0; }
+.miro-logo { display:flex; align-items:center; gap:8px; margin-right:16px; }
+.miro-logo svg { width:24px; height:24px; }
+.miro-logo-text { font-size:18px; font-weight:800; color:var(--text); letter-spacing:-0.5px; }
+.miro-bc { font-size:13px; color:var(--text2); display:flex; align-items:center; gap:4px; }
+.miro-bc strong { color:var(--text); font-weight:600; }
+.miro-tag { padding:2px 10px; border-radius:4px; font-size:10px; font-weight:600; background:var(--orange-bg); color:var(--orange-t); margin-left:8px; }
+.spacer { flex:1; }
+.top-icons { display:flex; align-items:center; gap:8px; }
+.icon-btn { width:32px; height:32px; border-radius:50%; border:none; background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text2); font-size:16px; }
+.icon-btn:hover { background:var(--bg); }
+.avatar { width:32px; height:32px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:600; flex-shrink:0; }
+
+/* ── Layout ── */
+.app { display:flex; flex:1; overflow:hidden; }
+
+/* ── Miro Home Sidebar (dark) ── */
+.home-sb { width:200px; background:var(--white); border-right:1px solid var(--border); padding:8px 0; flex-shrink:0; overflow-y:auto; }
+.home-sb .org { display:flex; align-items:center; gap:8px; padding:8px 14px 12px; font-size:13px; font-weight:700; border-bottom:1px solid var(--border); margin-bottom:6px; }
+.home-sb .org .org-icon { width:24px; height:24px; border-radius:6px; background:var(--miro-dark); display:flex; align-items:center; justify-content:center; }
+.home-sb .org .org-icon svg { width:14px; height:14px; }
+.hsb-item { display:flex; align-items:center; gap:10px; padding:6px 14px; font-size:13px; color:var(--text2); cursor:pointer; border-radius:0; position:relative; }
+.hsb-item:hover { background:var(--hover); color:var(--text); }
+.hsb-item.active { background:#e8e8fd; color:var(--accent); font-weight:600; }
+.hsb-item .icon { width:20px; text-align:center; font-size:15px; }
+.hsb-section { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.6px; color:var(--text3); padding:14px 14px 4px; }
+.hsb-sub { padding-left:28px; }
+.hsb-tree { padding:0; }
+.hsb-tree-item { display:flex; align-items:center; gap:8px; padding:5px 14px 5px 20px; font-size:13px; color:var(--text2); cursor:pointer; }
+.hsb-tree-item:hover { background:var(--hover); }
+.hsb-tree-item.active { background:var(--accent); color:#fff; border-radius:6px; margin:1px 8px; padding:5px 12px; font-weight:600; }
+.hsb-tree-item .dot { width:6px; height:6px; border-radius:50%; }
+
+/* ── Product Roadmap Sidebar (white/light) ── */
+.pr-sb { width:200px; background:var(--white); border-right:1px solid var(--border); padding:0; flex-shrink:0; overflow-y:auto; display:flex; flex-direction:column; }
+.pr-sb-header { padding:14px 14px 10px; border-bottom:1px solid var(--border); }
+.pr-sb-header h2 { font-size:14px; font-weight:700; display:flex; align-items:center; gap:6px; }
+.pr-sb-header .meta { font-size:11px; color:var(--text3); margin-top:2px; }
+.pr-sb-header .actions { display:flex; gap:4px; margin-top:8px; }
+.pr-sb-header .actions button { width:28px; height:28px; border-radius:6px; border:1px solid var(--border); background:var(--white); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; color:var(--text2); }
+.pr-sb-nav { flex:1; padding:8px 0; }
+.pr-sb-section { margin-bottom:4px; }
+.pr-sb-section-title { display:flex; align-items:center; gap:6px; padding:4px 14px; font-size:12px; font-weight:600; color:var(--text); cursor:pointer; }
+.pr-sb-section-title svg { width:12px; height:12px; color:var(--text2); }
+.pr-item { display:flex; align-items:center; gap:8px; padding:5px 14px 5px 28px; font-size:13px; color:var(--text2); cursor:pointer; border-radius:0; }
+.pr-item:hover { background:var(--hover); }
+.pr-item.active { background:var(--accent); color:#fff; border-radius:8px; margin:1px 8px; padding:5px 12px; font-weight:600; }
+.pr-item .icon { font-size:14px; width:18px; text-align:center; }
+.pr-item .badge { margin-left:auto; background:var(--bg); padding:1px 6px; border-radius:10px; font-size:10px; font-weight:600; color:var(--text2); }
+.pr-item.active .badge { background:rgba(255,255,255,0.2); color:#fff; }
+
+/* ── Main ── */
+.main { flex:1; overflow-y:auto; background:var(--bg); }
+.main-white { background:var(--white); }
+
+/* ── Table Toolbar (matches Miro) ── */
+.table-toolbar { display:flex; align-items:center; gap:2px; padding:8px 16px; border-bottom:1px solid var(--border); background:var(--white); flex-shrink:0; }
+.tb-icon { width:30px; height:30px; border-radius:6px; border:none; background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text2); font-size:15px; }
+.tb-icon:hover { background:var(--bg); }
+.tb-divider { width:1px; height:20px; background:var(--border); margin:0 4px; }
+.tb-enriched { display:flex; align-items:center; gap:4px; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:600; color:var(--orange); cursor:pointer; }
+.tb-enriched:hover { background:var(--orange-bg); }
+.tb-enriched .dot { width:8px; height:8px; border-radius:50%; background:var(--orange); }
+
+/* ── Data Table (Miro-accurate) ── */
+.mt { width:100%; border-collapse:collapse; font-size:13px; }
+.mt thead th { text-align:left; padding:8px 14px; font-size:12px; font-weight:500; color:var(--text2); border-bottom:1px solid var(--border); white-space:nowrap; background:var(--white); position:sticky; top:0; z-index:5; }
+.mt thead th .th-icon { display:inline-block; margin-right:4px; font-size:11px; }
+.mt thead th.enriched { color:var(--orange); }
+.mt tbody tr { border-bottom:1px solid var(--border2); cursor:pointer; }
+.mt tbody tr:hover { background:#fafbfc; }
+.mt tbody tr.high-priority { background:linear-gradient(90deg, #fef2f2 0%, var(--white) 4%); }
+.mt tbody td { padding:9px 14px; vertical-align:middle; }
+.mt .row-num { color:var(--text3); font-size:12px; width:36px; }
+.mt .title-cell { font-weight:600; display:flex; align-items:center; gap:6px; }
+.mt .desc-cell { color:var(--text2); max-width:250px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.mt .status-cell { font-size:12px; color:var(--text2); }
+.priority-badge { display:inline-block; padding:2px 12px; border-radius:4px; font-size:11px; font-weight:600; }
+.priority-badge.high { background:#fee2e2; color:#dc2626; }
+.priority-badge.medium { background:#fef3c7; color:#d97706; }
+.priority-badge.low { background:var(--green-bg); color:var(--green-t); }
+.assignee-cell { display:flex; align-items:center; gap:6px; }
+.assignee-cell .av { width:22px; height:22px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; color:#fff; font-size:9px; font-weight:600; flex-shrink:0; }
+.company-tag { display:inline-block; padding:2px 10px; border-radius:4px; font-size:11px; font-weight:500; background:#f1f3f5; color:var(--text2); margin:1px 2px; }
+.jira-icon { display:inline-flex; width:16px; height:16px; border-radius:3px; background:#0052CC; align-items:center; justify-content:center; flex-shrink:0; }
+.jira-icon svg { width:10px; height:10px; fill:#fff; }
+
+/* ── View Tabs (matches Miro Mobile site project) ── */
+.view-tabs { display:flex; align-items:center; gap:0; padding:10px 16px 0; }
+.vt { display:flex; align-items:center; gap:6px; padding:7px 14px; border:1px solid var(--border); border-bottom:none; border-radius:8px 8px 0 0; font-size:13px; font-weight:500; color:var(--text2); cursor:pointer; background:var(--white); margin-right:-1px; }
+.vt.active { font-weight:600; color:var(--text); background:var(--white); border-bottom:1px solid var(--white); z-index:2; }
+.vt .icon { font-size:14px; }
+.vt-add { width:30px; height:30px; border-radius:6px; border:1px solid var(--border); background:var(--white); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:16px; color:var(--text2); margin-left:4px; }
+
+/* ── Side Panel (Miro-accurate) ── */
+.sp-overlay { position:fixed; top:38px; left:0; right:0; bottom:0; background:rgba(0,0,0,0.15); z-index:500; display:none; }
+.sp { position:fixed; top:38px; right:0; bottom:0; width:420px; background:var(--white); border-left:1px solid var(--border); z-index:501; display:flex; flex-direction:column; box-shadow:-4px 0 20px rgba(0,0,0,0.06); }
+.sp-top { display:flex; align-items:center; padding:12px 16px; border-bottom:1px solid var(--border); gap:8px; }
+.sp-top h3 { flex:1; font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sp-top-btn { width:28px; height:28px; border-radius:6px; border:none; background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text2); font-size:15px; }
+.sp-top-btn:hover { background:var(--bg); }
+.sp-tabs { display:flex; border-bottom:1px solid var(--border); }
+.sp-tab { flex:1; padding:10px 0; text-align:center; font-size:13px; font-weight:500; color:var(--text2); cursor:pointer; border:none; background:none; border-bottom:2px solid transparent; }
+.sp-tab.active { color:var(--accent); border-bottom-color:var(--accent); font-weight:600; }
+.sp-body { flex:1; overflow-y:auto; padding:16px; }
+
+/* Detail fields (Miro-accurate) */
+.df { display:flex; align-items:flex-start; padding:7px 0; gap:0; }
+.df-label { width:130px; flex-shrink:0; font-size:12px; color:var(--text2); display:flex; align-items:center; gap:4px; }
+.df-label .df-icon { font-size:13px; }
+.df-val { font-size:13px; color:var(--text); flex:1; }
+
+/* Insights panel (Miro-accurate) */
+.ins-header { font-size:14px; font-weight:700; margin-bottom:8px; }
+.ins-summary { font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:20px; }
+.ins-stats { display:flex; gap:0; margin-bottom:20px; }
+.ins-stat { flex:1; text-align:center; padding:16px 8px; }
+.ins-stat .num { font-size:28px; font-weight:700; color:var(--text); }
+.ins-stat .lbl { font-size:11px; color:var(--text3); margin-top:2px; }
+.ins-companies { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px; }
+.ins-company { display:flex; align-items:center; gap:4px; padding:4px 12px; border:1px solid var(--border); border-radius:20px; font-size:12px; font-weight:500; }
+.ins-feedback-card { border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:10px; }
+.ins-fb-type { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:4px; font-size:11px; font-weight:600; margin-bottom:6px; }
+.ins-fb-stars { color:#d97706; font-size:12px; margin-bottom:6px; }
+.ins-fb-quote { font-size:13px; color:var(--white); background:#2d2b55; border-radius:8px; padding:10px 14px; line-height:1.5; margin-bottom:8px; }
+.ins-fb-meta { font-size:12px; color:var(--text2); }
+
+/* Comments (Miro-accurate) */
+.comment { display:flex; gap:10px; padding:12px 0; border-bottom:1px solid var(--border2); }
+.comment .cav { width:32px; height:32px; border-radius:50%; background:#e8e8ed; display:flex; align-items:center; justify-content:center; flex-shrink:0; overflow:hidden; }
+.comment .cauthor { font-size:12px; font-weight:600; }
+.comment .ctime { font-size:11px; color:var(--text3); margin-left:6px; }
+.comment .ctext { font-size:13px; color:var(--text2); margin-top:3px; }
+
+/* ── Modal ── */
+.modal-bg { position:absolute; inset:0; background:rgba(0,0,0,0.4); z-index:100; display:flex; align-items:center; justify-content:center; }
+.modal { background:var(--white); border-radius:16px; box-shadow:var(--shadow-lg); width:520px; max-height:85vh; overflow-y:auto; }
+.modal-head { display:flex; align-items:center; justify-content:space-between; padding:20px 24px 16px; }
+.modal-head h2 { font-size:20px; font-weight:700; }
+.modal-close { width:32px; height:32px; border-radius:50%; border:1px solid var(--border); background:var(--white); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px; color:var(--text2); }
+.modal-body { padding:0 24px 24px; }
+
+/* ── Pulse Cards (matches new screenshot) ── */
+.pulse-section { padding:24px 32px; }
+.pulse-title { display:flex; align-items:center; gap:8px; margin-bottom:20px; font-size:15px; font-weight:600; }
+.pulse-grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.pulse-grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:16px; }
+.p-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); }
+.p-card.full { grid-column:1/-1; }
+.p-card.threat { border-left:3px solid var(--red); }
+.p-card h4 { font-size:13px; font-weight:600; display:flex; align-items:center; gap:6px; margin-bottom:8px; }
+.p-card .p-body { font-size:13px; color:var(--text2); line-height:1.5; }
+.p-card .arr-badge { display:inline-block; padding:2px 10px; border-radius:4px; font-size:11px; font-weight:600; background:var(--red-bg); color:var(--red); margin-top:6px; }
+.p-card .action-btn { display:flex; align-items:center; gap:6px; margin-top:10px; padding:8px 16px; border-radius:8px; border:2px solid var(--accent); background:var(--white); color:var(--accent); font-size:12px; font-weight:600; cursor:pointer; width:fit-content; }
+.stat-card { text-align:left; }
+.stat-card .stat-label { font-size:12px; color:var(--text2); font-weight:500; margin-bottom:4px; }
+.stat-card .stat-big { font-size:32px; font-weight:700; color:var(--text); }
+.stat-card .stat-delta { font-size:12px; margin-top:4px; }
+.stat-card .stat-delta.up { color:var(--green); }
+.stat-card .stat-delta.down { color:var(--red); }
+.stat-card .stat-sub { font-size:11px; color:var(--text3); margin-top:2px; }
+
+/* AI Sidekick */
+.sk-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.45); z-index:200; display:flex; align-items:center; justify-content:center; }
+.sk-panel { width:540px; max-height:80vh; background:var(--white); border-radius:16px; box-shadow:0 25px 60px rgba(0,0,0,0.18); overflow:hidden; display:flex; flex-direction:column; }
+.sk-head { padding:24px 24px 16px; background:linear-gradient(135deg, #f5f3ff 0%, #fff 100%); border-bottom:1px solid var(--border); }
+.sk-head .ai-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.sk-head .ai-icon { width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg, var(--accent), var(--purple)); display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; }
+.sk-head h2 { font-size:17px; font-weight:700; }
+.sk-head p { font-size:12px; color:var(--text2); margin-top:2px; }
+.sk-body { flex:1; overflow-y:auto; padding:16px 24px; }
+.sk-sug { display:flex; align-items:center; gap:12px; padding:12px; border:1px solid var(--border); border-radius:10px; margin-bottom:8px; }
+.sk-sug .s-icon { width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+.sk-sug .s-info { flex:1; }
+.sk-sug .s-info h4 { font-size:12px; font-weight:600; }
+.sk-sug .s-info p { font-size:11px; color:var(--text2); }
+.sk-sug .s-btns { display:flex; gap:4px; }
+.btn { padding:6px 14px; border-radius:6px; font-size:12px; font-weight:600; border:none; cursor:pointer; }
+.btn-dark { background:var(--miro-dark); color:#fff; }
+.btn-dark:hover { background:#1a1a3e; }
+.btn-outline { background:var(--white); color:var(--text2); border:1px solid var(--border); }
+.btn-outline:hover { background:var(--bg); }
+.btn-accent { background:var(--accent); color:#fff; }
+.btn-accent:hover { background:var(--accent2); }
+.btn-sm { padding:4px 10px; font-size:11px; }
+.sk-footer { padding:14px 24px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:8px; }
+
+/* Timeline bars */
+.tl-row { display:flex; align-items:center; min-height:38px; border-bottom:1px solid var(--border2); }
+.tl-label { width:200px; flex-shrink:0; padding:0 14px; font-size:12px; font-weight:600; display:flex; align-items:center; gap:6px; }
+.tl-bars { flex:1; position:relative; height:38px; }
+.tl-bar { position:absolute; top:6px; height:26px; border-radius:6px; display:flex; align-items:center; padding:0 10px; font-size:10px; font-weight:600; color:#fff; white-space:nowrap; }
+
+/* ── Boards Table (Miro Home) ── */
+.bt { width:100%; border-collapse:collapse; font-size:13px; }
+.bt th { text-align:left; padding:8px 14px; font-size:12px; font-weight:500; color:var(--text2); border-bottom:1px solid var(--border); }
+.bt td { padding:10px 14px; border-bottom:1px solid var(--border2); }
+.bt tr:hover { background:var(--hover); }
+.bt .name-cell { font-weight:600; }
+.bt .name-sub { font-size:11px; color:var(--text3); font-weight:400; }
+.bt .int-badge { display:inline-block; padding:1px 8px; border-radius:4px; font-size:10px; font-weight:600; background:var(--orange-bg); color:var(--orange-t); }
+
+/* Project header */
+.proj-header { display:flex; align-items:center; gap:8px; padding:16px 16px 8px; }
+.proj-header h2 { font-size:16px; font-weight:700; display:flex; align-items:center; gap:6px; }
+.proj-header .expand { font-size:14px; color:var(--text3); cursor:pointer; }
+.proj-header .dots { font-size:16px; color:var(--text3); cursor:pointer; }
+
+/* Filter panel */
+.fp { width:300px; background:var(--white); border-left:1px solid var(--border); padding:16px; flex-shrink:0; overflow-y:auto; display:none; }
+.fp.open { display:block; }
+.fp h3 { font-size:14px; font-weight:700; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; }
+.fp-group { margin-bottom:14px; }
+.fp-group label { display:block; font-size:11px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px; }
+.fp-check { display:flex; align-items:center; gap:6px; padding:3px 0; font-size:12px; cursor:pointer; }
+.fp-check input { accent-color:var(--accent); }
+
+/* Create menu dropdown */
+.create-dropdown { position:absolute; top:42px; right:50px; width:200px; background:var(--white); border:1px solid var(--border); border-radius:10px; box-shadow:var(--shadow-lg); z-index:50; padding:4px; display:none; }
+.cd-item { display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:6px; font-size:13px; cursor:pointer; }
+.cd-item:hover { background:var(--bg); }
+.cd-item.featured { background:var(--purple-bg); font-weight:600; }
+.cd-item.featured:hover { background:#ede9fe; }
+.cd-item .cd-icon { width:24px; height:24px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:13px; }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<div class="wf-nav">
+  <span class="wf-nav-title">Wireframes</span>
+  <button class="wf-tab active" onclick="go(0)">1. Home</button>
+  <button class="wf-tab" onclick="go(1)">2. New Roadmap</button>
+  <button class="wf-tab" onclick="go(2)">3. AI Sidekick</button>
+  <button class="wf-tab" onclick="go(3)">4. Pulse</button>
+  <button class="wf-tab" onclick="go(4)">5. Table</button>
+  <button class="wf-tab" onclick="go(5)">6. Detail Panel</button>
+  <button class="wf-tab" onclick="go(6)">7. Timeline</button>
+  <button class="wf-tab" onclick="go(7)">8. Ideas Backlog</button>
+</div>
+
+<!-- ═══ SCREEN 1: MIRO HOME ═══ -->
+<div class="screen active" id="s0">
+  <div class="miro-top" style="position:relative;">
+    <div class="miro-logo">
+      <svg viewBox="0 0 32 32" fill="none"><path d="M22.44 4H18.36L22.16 10.67L15.88 4H11.8L15.6 12L9.32 4H5.56L9.64 14.67L5 28H9.08L13.16 14.67L9.64 28H13.72L18.08 14.67L14.56 28H18.64L24.28 10.67L27 4H22.44Z" fill="#050038"/></svg>
+      <span class="miro-logo-text">miro</span>
+    </div>
+    <span class="spacer"></span>
+    <button class="btn btn-accent" style="font-size:12px;padding:6px 16px;" onclick="document.getElementById('cd0').style.display=document.getElementById('cd0').style.display==='block'?'none':'block'">+ Create new</button>
+    <span style="width:8px;"></span>
+    <div class="avatar">RK</div>
+    <!-- Create dropdown -->
+    <div class="create-dropdown" id="cd0">
+      <div class="cd-item"><div class="cd-icon" style="background:var(--bg);">&#128196;</div> Blank board</div>
+      <div class="cd-item"><div class="cd-icon" style="background:var(--bg);">&#128203;</div> Project</div>
+      <div class="cd-item featured" onclick="go(1)"><div class="cd-icon" style="background:var(--accent);color:#fff;">&#10023;</div> Product Roadmap</div>
+      <div class="cd-item"><div class="cd-icon" style="background:var(--bg);">&#128200;</div> From template</div>
+    </div>
+  </div>
+  <div class="app">
+    <div class="home-sb">
+      <div class="org"><div class="org-icon"><svg viewBox="0 0 32 32" fill="none" width="14" height="14"><path d="M22.44 4H18.36L22.16 10.67L15.88 4H11.8L15.6 12L9.32 4H5.56L9.64 14.67L5 28H9.08L13.16 14.67L9.64 28H13.72L18.08 14.67L14.56 28H18.64L24.28 10.67L27 4H22.44Z" fill="#ffd02f"/></svg></div> Miro</div>
+      <div class="hsb-item active"><span class="icon">&#127968;</span> Home</div>
+      <div class="hsb-item"><span class="icon">&#128336;</span> Recent</div>
+      <div class="hsb-item"><span class="icon">&#11088;</span> Starred</div>
+      <div class="hsb-item"><span class="icon">&#128161;</span> Insights</div>
+      <div class="hsb-item"><span class="icon">&#127908;</span> Recordings</div>
+      <div class="hsb-section">Spaces</div>
+      <div class="hsb-item"><span class="icon">&#9654;</span> Your Spaces</div>
+      <div class="hsb-item" style="font-weight:600;color:var(--text);"><span class="icon">&#9660;</span> Product Roadmap</div>
+      <div class="hsb-tree-item" style="padding-left:36px;">Overview</div>
+      <div class="hsb-tree-item" style="padding-left:36px;">Backlog</div>
+      <div class="hsb-tree-item" style="padding-left:36px;">Roadmap</div>
+      <div class="hsb-tree-item" style="padding-left:36px;">&#128312; Suggested</div>
+      <div class="hsb-tree-item" style="padding-left:36px;">&#128312; Ideas</div>
+    </div>
+    <div class="main">
+      <div style="padding:32px 40px;">
+        <div style="text-align:center;margin-bottom:32px;">
+          <h2 style="font-size:20px;font-weight:600;margin-bottom:12px;">Ready to kick things off?</h2>
+          <div style="max-width:500px;margin:0 auto;padding:12px 20px;background:var(--white);border:1px solid var(--border);border-radius:28px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);">
+            <span style="color:var(--text3);font-size:14px;flex:1;text-align:left;">Search or ask anything</span>
+            <span style="font-size:10px;color:var(--text3);padding:2px 8px;background:var(--bg);border-radius:4px;">Beta</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <h3 style="font-size:15px;font-weight:600;">Boards in this team</h3>
+          <div style="display:flex;gap:8px;align-items:center;font-size:12px;color:var(--text2);">
+            <span>Filter by</span><span style="padding:3px 10px;border:1px solid var(--border);border-radius:6px;background:var(--white);">All boards</span>
+            <span>Sort by</span><span style="padding:3px 10px;border:1px solid var(--border);border-radius:6px;background:var(--white);">Last opened</span>
+          </div>
+        </div>
+        <table class="bt">
+          <thead><tr><th>Name</th><th>Online users</th><th>Space</th><th>Classification</th><th>Last opened</th><th>Owner</th></tr></thead>
+          <tbody>
+            <tr><td><div class="name-cell">Insights: Onboarding Journey Map<div class="name-sub">Modified by Holly Rankin, Today</div></div></td><td><div class="avatar" style="width:24px;height:24px;font-size:9px;">HR</div></td><td>Miro Insights ...</td><td><span class="int-badge">Internal</span></td><td>Today</td><td>Holly Rankin</td></tr>
+            <tr><td><div class="name-cell">Miro Insights Playtests<div class="name-sub">Modified by Cody Mathisen, Jan 30</div></div></td><td><div class="avatar" style="width:24px;height:24px;font-size:9px;background:var(--green);">MS</div></td><td>Miro Insights ...</td><td><span class="int-badge">Internal</span></td><td>Today</td><td>Mor Sela</td></tr>
+            <tr><td><div class="name-cell">Insights-Driven Roadmapping Evolution<div class="name-sub">Modified by Lauren Brucato, Yesterday</div></div></td><td></td><td></td><td><span class="int-badge">Internal</span></td><td>Today</td><td>Lauren Brucato</td></tr>
+            <tr><td><div class="name-cell">Metrics Dashboard<div class="name-sub">Modified by Holly Rankin, Jan 31</div></div></td><td></td><td>Roadmap Tracki...</td><td><span class="int-badge">Internal</span></td><td>Yesterday</td><td>Holly Rankin</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 2: NEW PRODUCT ROADMAP MODAL ═══ -->
+<div class="screen" id="s1">
+  <div class="miro-top"><div class="miro-logo"><svg viewBox="0 0 32 32" fill="none" width="24" height="24"><path d="M22.44 4H18.36L22.16 10.67L15.88 4H11.8L15.6 12L9.32 4H5.56L9.64 14.67L5 28H9.08L13.16 14.67L9.64 28H13.72L18.08 14.67L14.56 28H18.64L24.28 10.67L27 4H22.44Z" fill="#050038"/></svg><span class="miro-logo-text">miro</span></div><span class="miro-bc" style="margin-left:8px;">&#8250; Projects</span><span class="spacer"></span><div class="avatar">RK</div></div>
+  <div class="app" style="position:relative;">
+    <div class="home-sb" style="opacity:0.25;pointer-events:none;"><div class="hsb-item active"><span class="icon">&#127968;</span> Home</div></div>
+    <div class="main" style="opacity:0.15;pointer-events:none;"></div>
+    <div class="modal-bg">
+      <div class="modal">
+        <div class="modal-head"><h2>New product roadmap</h2><button class="modal-close" onclick="go(0)">&times;</button></div>
+        <div class="modal-body">
+          <div style="border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px;">
+            <div style="font-size:14px;color:var(--text);line-height:1.5;min-height:48px;" contenteditable="true">Create a project for a new mobile site that pulls in data from customer insights</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border2);">
+              <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:500;background:var(--bg);color:var(--text2);cursor:pointer;">&#10023; AI</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;">&#9998; Add context</span>
+            </div>
+          </div>
+          <div style="margin-bottom:20px;">
+            <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Add collaborators</div>
+            <div style="display:flex;gap:16px;">
+              <div style="text-align:center;"><div style="width:48px;height:48px;border-radius:50%;background:#e8e8ed;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:var(--text2);">KD</div><div style="font-size:11px;color:var(--text2);">Kianna Dias</div></div>
+              <div style="text-align:center;"><div style="width:48px;height:48px;border-radius:50%;background:#e8e8ed;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:var(--text2);">HC</div><div style="font-size:11px;color:var(--text2);">Hanna Calzoni</div></div>
+              <div style="text-align:center;"><div style="width:48px;height:48px;border-radius:50%;background:#0891b2;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;">G</div><div style="font-size:11px;color:var(--text2);">Glean AI</div></div>
+            </div>
+          </div>
+          <button class="btn btn-dark" style="width:100%;padding:10px;font-size:14px;" onclick="go(2)">Create roadmap</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 3: AI SIDEKICK ONBOARDING ═══ -->
+<div class="screen" id="s2">
+  <div class="miro-top"><div class="miro-logo"><svg viewBox="0 0 32 32" fill="none" width="24" height="24"><path d="M22.44 4H18.36L22.16 10.67L15.88 4H11.8L15.6 12L9.32 4H5.56L9.64 14.67L5 28H9.08L13.16 14.67L9.64 28H13.72L18.08 14.67L14.56 28H18.64L24.28 10.67L27 4H22.44Z" fill="#050038"/></svg><span class="miro-logo-text">miro</span></div><span class="miro-bc" style="margin-left:8px;">&#128203; Product Roadmap</span><span class="miro-tag">Internal</span><span class="spacer"></span><div class="avatar">RK</div></div>
+  <div class="app" style="position:relative;">
+    <nav class="pr-sb" style="opacity:0.3;">
+      <div class="pr-sb-header"><h2>Mobile Site Roadmap</h2><div class="meta">1 member</div></div>
+      <div class="pr-sb-nav">
+        <div class="pr-item active"><span class="icon">&#10023;</span> Pulse</div>
+      </div>
+    </nav>
+    <div class="main main-white" style="opacity:0.1;"></div>
+    <div class="sk-overlay">
+      <div class="sk-panel">
+        <div class="sk-head">
+          <div class="ai-row"><div class="ai-icon">&#10023;</div><div><h2>Connect your artifacts</h2><p>Help me build your roadmap by connecting relevant data sources</p></div></div>
+        </div>
+        <div class="sk-body">
+          <p style="font-size:12px;color:var(--text2);margin-bottom:14px;">Based on your description, I found these relevant sources:</p>
+          <div class="sk-sug"><div class="s-icon" style="background:#e8f0fe;">&#9881;</div><div class="s-info"><h4>Jira: Mobile-Web Project</h4><p>47 open issues, 12 epics &middot; Updated 2h ago</p></div><div class="s-btns"><button class="btn btn-accent btn-sm">Connect</button><button class="btn btn-outline btn-sm">Skip</button></div></div>
+          <div class="sk-sug"><div class="s-icon" style="background:var(--blue-bg);">&#128196;</div><div class="s-info"><h4>Q2 Mobile Strategy Document</h4><p>Company OKRs and mobile-first goals</p></div><div class="s-btns"><button class="btn btn-accent btn-sm">Connect</button><button class="btn btn-outline btn-sm">Skip</button></div></div>
+          <div class="sk-sug"><div class="s-icon" style="background:var(--yellow-bg);">&#128203;</div><div class="s-info"><h4>UX Research: Mobile Usability Board</h4><p>3 journey maps and 120 sticky notes</p></div><div class="s-btns"><button class="btn btn-accent btn-sm">Connect</button><button class="btn btn-outline btn-sm">Skip</button></div></div>
+          <div class="sk-sug"><div class="s-icon" style="background:var(--green-bg);">&#128200;</div><div class="s-info"><h4>Amplitude: Mobile Analytics</h4><p>Feature adoption, session data, funnels</p></div><div class="s-btns"><button class="btn btn-accent btn-sm">Connect</button><button class="btn btn-outline btn-sm">Skip</button></div></div>
+          <div class="sk-sug"><div class="s-icon" style="background:var(--purple-bg);">&#128172;</div><div class="s-info"><h4>Miro Insights: Mobile Feedback</h4><p>135 mentions across Gong, Zendesk, NPS</p></div><div class="s-btns"><button class="btn btn-accent btn-sm">Connect</button><button class="btn btn-outline btn-sm">Skip</button></div></div>
+        </div>
+        <div class="sk-footer"><button class="btn btn-outline">Skip for now</button><button class="btn btn-dark" onclick="go(3)">Connect &amp; build roadmap</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 4: PULSE (POPULATED) ═══ -->
+<div class="screen" id="s3">
+  <div class="miro-top"><div class="miro-logo"><svg viewBox="0 0 32 32" fill="none" width="24" height="24"><path d="M22.44 4H18.36L22.16 10.67L15.88 4H11.8L15.6 12L9.32 4H5.56L9.64 14.67L5 28H9.08L13.16 14.67L9.64 28H13.72L18.08 14.67L14.56 28H18.64L24.28 10.67L27 4H22.44Z" fill="#050038"/></svg><span class="miro-logo-text">miro</span></div><span class="miro-bc" style="margin-left:8px;">&#128203; Product Roadmap</span><span class="miro-tag">Internal</span><span class="spacer"></span><div class="avatar">RK</div></div>
+  <div class="app">
+    <nav class="pr-sb">
+      <div class="pr-sb-header"><h2>Mobile Site Roadmap</h2><div class="meta">1 member</div><div class="actions"><button>+</button><button>&middot;&middot;&middot;</button></div></div>
+      <div class="pr-sb-nav">
+        <div class="pr-item active"><span class="icon">&#10023;</span> Pulse <span class="badge">3</span></div>
+        <div class="pr-sb-section"><div class="pr-sb-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg> Roadmap Planning</div></div>
+        <div class="pr-item" onclick="go(4)"><span class="icon">&#9632;</span> Backlog</div>
+        <div class="pr-item" onclick="go(4)"><span class="icon">&bull;</span> Roadmap</div>
+        <div class="pr-item" onclick="go(7)"><span class="icon">&#128312;</span> Suggested</div>
+        <div class="pr-item" onclick="go(7)"><span class="icon">&#128312;</span> Ideas</div>
+        <div style="height:16px;"></div>
+        <div class="pr-sb-section"><div class="pr-sb-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg> Signals</div></div>
+        <div class="pr-item"><span class="icon">&#127760;</span> Market <span class="badge">14</span></div>
+        <div class="pr-item"><span class="icon">&#128200;</span> Analytics</div>
+      </div>
+    </nav>
+    <div class="main main-white">
+      <div style="text-align:center;padding:28px 0 16px;">
+        <div style="display:flex;gap:0;justify-content:center;margin-bottom:8px;">
+          <span style="padding:6px 16px;border-radius:20px;font-size:13px;font-weight:500;color:var(--accent);border-bottom:2px solid var(--accent);cursor:pointer;">For You</span>
+          <span style="padding:6px 16px;border-radius:20px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;">Activity</span>
+        </div>
+        <h2 style="font-size:20px;font-weight:600;margin-bottom:10px;">Good morning, Rosanna!</h2>
+        <div style="max-width:480px;margin:0 auto 24px;padding:10px 18px;background:var(--bg);border:1px solid var(--border);border-radius:28px;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:16px;color:var(--text3);">+</span>
+          <span style="color:var(--text3);font-size:13px;flex:1;text-align:left;">Describe what you need to do...</span>
+        </div>
+      </div>
+      <div class="pulse-section" style="padding-top:0;">
+        <div class="pulse-title">&#10023; Your Daily Pulse</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
+          <!-- Threat card (spans 1 col, 2 rows) -->
+          <div style="grid-row:1/3;" class="p-card threat">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <span style="width:28px;height:28px;border-radius:50%;background:var(--red-bg);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--red);">&#9888;</span>
+              <strong style="font-size:14px;">Competitive threat</strong>
+            </div>
+            <p style="font-size:13px;color:var(--text);line-height:1.5;margin-bottom:8px;"><strong>Shopify</strong> launched mobile-first checkout redesign yesterday, a direct threat to Q2 roadmap positioning.</p>
+            <div style="margin-bottom:12px;">Pipeline at risk: <span class="arr-badge">$1.46M ARR</span></div>
+            <button class="action-btn" style="border-color:var(--accent);color:var(--accent);">&#10023; Take action</button>
+          </div>
+          <!-- Health -->
+          <div class="p-card stat-card">
+            <div class="stat-label">Health</div>
+            <div class="stat-big">72%</div>
+            <div class="stat-delta down">6 At risk &#8593;</div>
+            <div class="stat-sub">3 items slipped this week</div>
+          </div>
+          <!-- NPS -->
+          <div class="p-card stat-card">
+            <div class="stat-label">NPS</div>
+            <div class="stat-big">+15</div>
+            <div class="stat-delta up">+3pts vs Jan</div>
+            <div class="stat-sub">Enterprise cohort trending +22</div>
+          </div>
+          <!-- Budget -->
+          <div class="p-card stat-card">
+            <div class="stat-label">Budget</div>
+            <div class="stat-big">81%</div>
+            <div class="stat-delta up">+7pts vs Jan</div>
+            <div class="stat-sub">$2.1M remaining in Q1</div>
+          </div>
+          <!-- Resourcing -->
+          <div class="p-card stat-card">
+            <div class="stat-label">Resourcing</div>
+            <div class="stat-big">83%</div>
+            <div class="stat-delta up">8% +92 &#8593;</div>
+            <div class="stat-sub">2 teams near capacity</div>
+          </div>
+        </div>
+        <!-- Customer insights row -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="p-card">
+            <h4>&#128172; Top Customer Insights</h4>
+            <div style="padding:6px 0;border-bottom:1px solid var(--border2);font-size:13px;"><strong>"Mobile navigation is confusing"</strong><br><span style="color:var(--text2);">23 accounts &middot; $2.1M ARR &middot; &#8593; 45% MoM</span></div>
+            <div style="padding:6px 0;border-bottom:1px solid var(--border2);font-size:13px;"><strong>"Checkout takes too many steps"</strong><br><span style="color:var(--text2);">18 accounts &middot; $1.8M ARR &middot; &#8593; 30% MoM</span></div>
+            <div style="padding:6px 0;font-size:13px;"><strong>"Pages don't render on tablet"</strong><br><span style="color:var(--text2);">12 accounts &middot; $950K ARR &middot; Stable</span></div>
+          </div>
+          <div class="p-card">
+            <h4>&#128161; Suggested Actions</h4>
+            <div style="padding:6px 0;border-bottom:1px solid var(--border2);font-size:13px;"><span style="display:inline-block;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:600;background:var(--purple-bg);color:var(--purple);margin-bottom:3px;">Reprioritize</span><br><strong>Move "Mobile navigation" to top</strong><br><span style="color:var(--text2);">23 accounts, #1 pain, 3 in renewal</span></div>
+            <div style="padding:6px 0;font-size:13px;"><span style="display:inline-block;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:600;background:var(--blue-bg);color:var(--blue);margin-bottom:3px;">Investigate</span><br><strong>Session duration drop -12%</strong><br><span style="color:var(--text2);">14-day decline. Check specific pages.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 5: TABLE VIEW ═══ -->
+<div class="screen" id="s4">
+  <div class="miro-top"><div class="miro-logo"><svg viewBox="0 0 32 32" fill="none" width="24" height="24"><path d="M22.44 4H18.36L22.16 10.67L15.88 4H11.8L15.6 12L9.32 4H5.56L9.64 14.67L5 28H9.08L13.16 14.67L9.64 28H13.72L18.08 14.67L14.56 28H18.64L24.28 10.67L27 4H22.44Z" fill="#050038"/></svg><span class="miro-logo-text">miro</span></div><span class="miro-bc" style="margin-left:8px;">&#128203; Product Roadmap</span><span class="miro-tag">Internal</span><span class="spacer"></span><div class="avatar">RK</div></div>
+  <div class="app">
+    <nav class="pr-sb">
+      <div class="pr-sb-header"><h2>Product Roadmap</h2><div class="meta">1 member</div><div class="actions"><button>+</button><button>&middot;&middot;&middot;</button></div></div>
+      <div class="pr-sb-nav">
+        <div class="pr-item" onclick="go(3)"><span class="icon">&#10023;</span> Pulse <span class="badge">3</span></div>
+        <div class="pr-sb-section"><div class="pr-sb-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg> Roadmap Planning</div></div>
+        <div class="pr-item active"><span class="icon">&#9632;</span> Backlog</div>
+        <div class="pr-item"><span class="icon">&bull;</span> Roadmap</div>
+        <div class="pr-item" onclick="go(7)"><span class="icon">&#128312;</span> Suggested</div>
+        <div class="pr-item" onclick="go(7)"><span class="icon">&#128312;</span> Ideas</div>
+        <div style="height:16px;"></div>
+        <div class="pr-sb-section"><div class="pr-sb-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg> Signals</div></div>
+        <div class="pr-item"><span class="icon">&#127760;</span> Market</div>
+        <div class="pr-item"><span class="icon">&#128200;</span> Analytics</div>
+      </div>
+    </nav>
+    <div class="main main-white" style="display:flex;flex-direction:column;">
+      <!-- Project header + view tabs -->
+      <div class="proj-header"><h2>&#128203; Mobile site project <span class="expand" style="font-weight:400;">&#8599;</span> <span class="dots">&middot;&middot;&middot;</span></h2></div>
+      <div class="view-tabs" style="border-bottom:1px solid var(--border);">
+        <button class="vt active"><span class="icon">&#128451;</span> Table</button>
+        <button class="vt" onclick="go(6)"><span class="icon">&#128197;</span> Timeline</button>
+        <button class="vt"><span class="icon">&#9632;</span> Kanban</button>
+        <button class="vt-add">+</button>
+      </div>
+      <!-- Table toolbar -->
+      <div class="table-toolbar">
+        <button class="tb-icon">&#8635;</button>
+        <button class="tb-icon">&#128451;</button>
+        <button class="tb-icon">&#9661;</button>
+        <button class="tb-icon">&#8693;</button>
+        <button class="tb-icon">&#9881;</button>
+        <button class="tb-icon">&#128274;</button>
+        <button class="tb-icon">&#128065;</button>
+        <div class="tb-divider"></div>
+        <div class="tb-enriched"><span class="dot"></span> Enriched</div>
+        <span class="spacer"></span>
+        <button class="btn btn-outline btn-sm" onclick="toggleFP()">&#128295; Filter</button>
+      </div>
+      <!-- Table + optional filter panel -->
+      <div style="display:flex;flex:1;overflow:hidden;">
+        <div style="flex:1;overflow:auto;">
+          <table class="mt">
+            <thead><tr>
+              <th style="width:36px;"></th>
+              <th><span class="th-icon">&#128196;</span> Title</th>
+              <th><span class="th-icon">&#128196;</span> Description</th>
+              <th><span class="th-icon">&#9898;</span> Status</th>
+              <th><span class="th-icon">&#9898;</span> Priority</th>
+              <th><span class="th-icon">&#128100;</span> Assignee</th>
+              <th><span class="th-icon">&#128100;</span> Assigner</th>
+              <th class="enriched"><span class="th-icon">#</span> Mentions</th>
+              <th class="enriched"><span class="th-icon">#</span> Est. Revenue i...</th>
+              <th class="enriched"><span class="th-icon">&#9883;</span> Companies</th>
+            </tr></thead>
+            <tbody>
+              <tr class="high-priority" onclick="go(5)"><td class="row-num">1</td><td><div class="title-cell"><span class="jira-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/></svg></span>Mobile navigation redesign</div></td><td class="desc-cell">When I develop a navigation me...</td><td class="status-cell">To do</td><td><span class="priority-badge high">High</span></td><td><div class="assignee-cell"><div class="av">EJ</div>Emily Joh...</div></td><td><div class="assignee-cell"><div class="av" style="background:#6b7280;">BT</div>Brent Tay...</div></td><td>100</td><td>$700K</td><td><span class="company-tag">Apple</span><span class="company-tag">Google</span></td></tr>
+              <tr class="high-priority"><td class="row-num">2</td><td><div class="title-cell"><span class="jira-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/></svg></span>Checkout flow optimization</div></td><td class="desc-cell">When I set up a checkout proce...</td><td class="status-cell">To do</td><td><span class="priority-badge high">High</span></td><td><div class="assignee-cell"><div class="av" style="background:#7c3aed;">SW</div>Sophia W...</div></td><td><div class="assignee-cell"><div class="av" style="background:#6b7280;">BT</div>Brent Tay...</div></td><td>53</td><td>$175K</td><td><span class="company-tag">Google</span></td></tr>
+              <tr class="high-priority"><td class="row-num">3</td><td><div class="title-cell">Product home page</div></td><td class="desc-cell">When I need to create a user-fri...</td><td class="status-cell">To do</td><td><span class="priority-badge high">High</span></td><td><div class="assignee-cell"><div class="av" style="background:#ea580c;">OB</div>Olivia Br...</div></td><td><div class="assignee-cell"><div class="av" style="background:#6b7280;">BT</div>Brent Tay...</div></td><td>75</td><td>$93K</td><td><span class="company-tag">Apple</span><span class="company-tag">Google</span></td></tr>
+              <tr class="high-priority"><td class="row-num">4</td><td><div class="title-cell"><span class="jira-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/></svg></span>Responsive layout</div></td><td class="desc-cell">When I build a responsive layout...</td><td class="status-cell">To do</td><td><span class="priority-badge high">High</span></td><td><div class="assignee-cell"><div class="av" style="background:#0891b2;">AD</div>Ava Davis</div></td><td><div class="assignee-cell"><div class="av" style="background:#6b7280;">BT</div>Brent Tay...</div></td><td>101</td><td>$123K</td><td><span class="company-tag">Brex</span><span class="company-tag">Google</span></td></tr>
+              <tr class="high-priority"><td class="row-num">5</td><td><div class="title-cell">SEO optimization</div></td><td class="desc-cell">When I implement SEO strategie...</td><td class="status-cell">To do</td><td><span class="priority-badge high">High</span></td><td><div class="assignee-cell"><div class="av" style="background:#16a34a;">RE</div>Ryan Eldr...</div></td><td><div class="assignee-cell"><div class="av" style="background:#6b7280;">BT</div>Brent Tay...</div></td><td>204</td><td>$272K</td><td><span class="company-tag">Navan</span><span class="company-tag">Brex</span></td></tr>
+              <tr><td class="row-num">6</td><td><div class="title-cell"><span class="jira-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/></svg></span>Contact page</div></td><td class="desc-cell">When I design a contact page, I...</td><td class="status-cell">To do</td><td><span class="priority-badge medium">Medium</span></td><td><div class="assignee-cell"><div class="av">EJ</div>Emily Joh...</div></td><td><div class="assignee-cell"><div class="av" style="background:#d97706;">CC</div>Chance C...</div></td><td>1,000</td><td>$374K</td><td><span class="company-tag">Apple</span><span class="company-tag">Canva</span></td></tr>
+              <tr><td class="row-num">7</td><td><div class="title-cell">Engaging product showcase</div></td><td class="desc-cell">When I build a product showcas...</td><td class="status-cell">To do</td><td><span class="priority-badge medium">Medium</span></td><td><div class="assignee-cell"><div class="av" style="background:#7c3aed;">SW</div>Sophia W...</div></td><td><div class="assignee-cell"><div class="av" style="background:#d97706;">CC</div>Chance C...</div></td><td>910</td><td>$125</td><td><span class="company-tag">Adidas</span><span class="company-tag">Nike</span></td></tr>
+              <tr><td class="row-num">8</td><td><div class="title-cell">Blog section</div></td><td class="desc-cell">When I create a blog section, I w...</td><td class="status-cell">To do</td><td><span class="priority-badge medium">Medium</span></td><td><div class="assignee-cell"><div class="av" style="background:#ea580c;">OB</div>Olivia Br...</div></td><td><div class="assignee-cell"><div class="av" style="background:#d97706;">CC</div>Chance C...</div></td><td>905</td><td>$654K</td><td><span class="company-tag">Apple</span><span class="company-tag">Google</span></td></tr>
+              <tr><td class="row-num">9</td><td><div class="title-cell">Landing page CTA improvements</div></td><td class="desc-cell">When I create a landing page, I...</td><td class="status-cell">To do</td><td><span class="priority-badge medium">Medium</span></td><td><div class="assignee-cell"><div class="av" style="background:#0891b2;">AD</div>Ava Davis</div></td><td><div class="assignee-cell"><div class="av" style="background:#d97706;">CC</div>Chance C...</div></td><td>596</td><td>$932K</td><td><span class="company-tag">Navan</span><span class="company-tag">Google</span></td></tr>
+              <tr><td class="row-num">10</td><td><div class="title-cell">Global footer</div></td><td class="desc-cell">When I design a footer, I want it...</td><td class="status-cell">To do</td><td><span class="priority-badge medium">Medium</span></td><td><div class="assignee-cell"><div class="av" style="background:#16a34a;">RE</div>Ryan Eldr...</div></td><td><div class="assignee-cell"><div class="av" style="background:#d97706;">CC</div>Chance C...</div></td><td>23</td><td>$500K</td><td><span class="company-tag">Apple</span><span class="company-tag">Google</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="fp" id="fp1">
+          <h3>Filters <button class="btn btn-outline btn-sm" onclick="toggleFP()" style="margin-left:auto;">&times;</button></h3>
+          <div class="fp-group"><label>Status</label><div class="fp-check"><input type="checkbox" checked> To do</div><div class="fp-check"><input type="checkbox" checked> In progress</div><div class="fp-check"><input type="checkbox"> Done</div></div>
+          <div class="fp-group"><label>Priority</label><div class="fp-check"><input type="checkbox" checked> High</div><div class="fp-check"><input type="checkbox" checked> Medium</div><div class="fp-check"><input type="checkbox"> Low</div></div>
+          <div class="fp-group"><label>Assignee</label><div class="fp-check"><input type="checkbox" checked> Emily Johnson</div><div class="fp-check"><input type="checkbox" checked> Sophia Williams</div><div class="fp-check"><input type="checkbox" checked> Olivia Brown</div><div class="fp-check"><input type="checkbox" checked> Ava Davis</div><div class="fp-check"><input type="checkbox" checked> Ryan Elder</div></div>
+          <div class="fp-group"><label>Companies</label><div class="fp-check"><input type="checkbox"> Apple</div><div class="fp-check"><input type="checkbox"> Google</div><div class="fp-check"><input type="checkbox"> Navan</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 6: RECORD DETAIL PANEL ═══ -->
+<div class="screen" id="s5">
+  <div class="miro-top"><span style="cursor:pointer;font-size:13px;color:var(--text2);margin-right:8px;" onclick="go(4)">&larr; Home</span><span style="cursor:pointer;font-size:16px;color:var(--text2);margin-right:8px;">&#128269;</span><span style="cursor:pointer;font-size:16px;color:var(--text2);margin-right:12px;">&times;</span><div class="miro-logo"><svg viewBox="0 0 32 32" fill="none" width="24" height="24"><path d="M22.44 4H18.36L22.16 10.67L15.88 4H11.8L15.6 12L9.32 4H5.56L9.64 14.67L5 28H9.08L13.16 14.67L9.64 28H13.72L18.08 14.67L14.56 28H18.64L24.28 10.67L27 4H22.44Z" fill="#050038"/></svg><span class="miro-logo-text">miro</span></div><span class="miro-bc" style="margin-left:8px;">&#128203; Product Roadmap</span><span class="miro-tag">Internal</span><span class="spacer"></span><div class="avatar">RK</div></div>
+  <div class="app">
+    <nav class="pr-sb">
+      <div class="pr-sb-header"><h2>Product Roadmap</h2><div class="meta">1 member</div></div>
+      <div class="pr-sb-nav">
+        <div class="pr-item" onclick="go(3)"><span class="icon">&#10023;</span> Pulse</div>
+        <div class="pr-sb-section"><div class="pr-sb-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg> Roadmap Planning</div></div>
+        <div class="pr-item active"><span class="icon">&#9632;</span> Backlog</div>
+        <div class="pr-item"><span class="icon">&bull;</span> Roadmap</div>
+        <div class="pr-item"><span class="icon">&#128312;</span> Suggested</div>
+        <div class="pr-item"><span class="icon">&#128312;</span> Ideas</div>
+      </div>
+    </nav>
+    <!-- Table (dimmed) + side panel -->
+    <div class="main main-white" style="display:flex;overflow:hidden;">
+      <div style="flex:1;overflow:auto;opacity:0.4;pointer-events:none;">
+        <div class="table-toolbar"><button class="tb-icon">&#8635;</button><button class="tb-icon">&#128451;</button><button class="tb-icon">&#9661;</button><div class="tb-divider"></div><div class="tb-enriched"><span class="dot"></span> Enriched</div></div>
+        <table class="mt"><thead><tr><th></th><th>Title</th><th>Description</th></tr></thead>
+        <tbody><tr><td class="row-num">1</td><td class="title-cell">Design the user interface for the login page.</td><td class="desc-cell">When I want to log in to the app...</td></tr><tr><td class="row-num">2</td><td>Create wireframes for the registration process.</td><td class="desc-cell">When I am registering for an ac...</td></tr><tr><td class="row-num">3</td><td>Develop a user flow diagram for account recovery.</td><td class="desc-cell">When I forget my password, I ne...</td></tr></tbody></table>
+      </div>
+      <!-- SIDE PANEL -->
+      <div class="sp" style="position:relative;right:0;top:0;bottom:0;">
+        <div class="sp-top">
+          <h3>Design the user interface for the login...</h3>
+          <button class="sp-top-btn">&#8599;</button>
+          <button class="sp-top-btn">&#128279;</button>
+          <button class="sp-top-btn" onclick="go(4)">&times;</button>
+        </div>
+        <div class="sp-tabs">
+          <button class="sp-tab active" onclick="spTab('det',this)">Details</button>
+          <button class="sp-tab" onclick="spTab('com',this)">Comments</button>
+          <button class="sp-tab" onclick="spTab('ins',this)">Insights</button>
+        </div>
+        <div class="sp-body">
+          <!-- DETAILS -->
+          <div id="sp-det">
+            <div class="df"><span class="df-label"><span class="df-icon">&#128196;</span> Title</span><span class="df-val">Design the user interface for the login page.</span></div>
+            <div class="df"><span class="df-label"><span class="df-icon">&#9898;</span> Function</span><span class="df-val"><span style="display:inline-block;padding:2px 12px;border-radius:4px;font-size:12px;font-weight:600;background:#dbeafe;color:#1d4ed8;">Handling balance</span></span></div>
+            <div class="df"><span class="df-label"><span class="df-icon">#</span> Impact</span><span class="df-val">3</span></div>
+            <div class="df"><span class="df-label"><span class="df-icon">#</span> Confidence</span><span class="df-val">0.9</span></div>
+            <div class="df"><span class="df-label"><span class="df-icon">&#128100;</span> Assignee</span><span class="df-val"><span style="display:inline-flex;align-items:center;gap:6px;"><span class="avatar" style="width:22px;height:22px;font-size:9px;">AT</span> Alexander Thompson</span></span></div>
+            <div class="df"><span class="df-label"><span class="df-icon">#</span> Estimate</span><span class="df-val">1000</span></div>
+            <div class="df"><span class="df-label"><span class="df-icon">&#128279;</span> Parent</span><span class="df-val">Design the user interface for the login page.</span></div>
+            <div class="df"><span class="df-label"><span class="df-icon">#</span> Mentions</span><span class="df-val">596</span></div>
+            <div class="df"><span class="df-label"><span class="df-icon">#</span> Customers</span><span class="df-val">2</span></div>
+            <div class="df"><span class="df-label"><span class="df-icon">#</span> Est. Revenue Imp...</span><span class="df-val">$923K</span></div>
+            <div class="df"><span class="df-label"><span class="df-icon">&#9883;</span> Companies</span><span class="df-val"><span class="company-tag">Navan</span> <span class="company-tag">Google</span> <span class="company-tag">Google</span></span></div>
+          </div>
+          <!-- COMMENTS -->
+          <div id="sp-com" style="display:none;">
+            <div class="comment"><div class="cav" style="background:var(--accent);color:#fff;font-size:10px;font-weight:600;">HR</div><div><div><span class="cauthor">Holly Rankin</span><span class="ctime">Today, 12:25</span></div><div class="ctext">test</div></div></div>
+            <div style="margin-top:16px;"><textarea placeholder="Add a comment..." style="width:100%;min-height:50px;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;resize:vertical;"></textarea></div>
+          </div>
+          <!-- INSIGHTS -->
+          <div id="sp-ins" style="display:none;">
+            <div class="ins-header">Summary</div>
+            <div class="ins-summary">Customers want a faster, more modern mobile experience- especially a simpler checkout. Improving this flow is strongly supported across segments and could boost mobile conversion and reduce churn .</div>
+            <div class="ins-header">Impact estimates</div>
+            <div class="ins-stats">
+              <div class="ins-stat"><div class="num">135</div><div class="lbl">Total<br>Mentions</div></div>
+              <div class="ins-stat"><div class="num">10</div><div class="lbl">Unique<br>Customers</div></div>
+              <div class="ins-stat"><div class="num">$325K</div><div class="lbl">Est. Revenue<br>Impact</div></div>
+            </div>
+            <div class="ins-header">Top impacted customers</div>
+            <div class="ins-companies">
+              <span class="ins-company">&#63743; Apple</span>
+              <span class="ins-company">G Google</span>
+              <span class="ins-company">N Notion</span>
+              <span class="ins-company">+2</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <div class="ins-header" style="margin-bottom:0;">Feedback</div>
+              <select style="padding:4px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:var(--white);">
+                <option>All</option><option>Problem</option><option>Request</option>
+              </select>
+            </div>
+            <div class="ins-feedback-card">
+              <div class="ins-fb-type" style="background:var(--red-bg);color:var(--red);">Problem &#9432;</div>
+              <div class="ins-fb-stars">&#9733;&#9733;&#9734;&#9734;&#9734;</div>
+              <div class="ins-fb-quote">"The app technically works, but every tap feels like it's thinking hard before responding."</div>
+              <div class="ins-fb-meta"><strong>John Butter</strong><br>Added 1 month ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 7: TIMELINE ═══ -->
+<div class="screen" id="s6">
+  <div class="miro-top"><div class="miro-logo"><svg viewBox="0 0 32 32" fill="none" width="24" height="24"><path d="M22.44 4H18.36L22.16 10.67L15.88 4H11.8L15.6 12L9.32 4H5.56L9.64 14.67L5 28H9.08L13.16 14.67L9.64 28H13.72L18.08 14.67L14.56 28H18.64L24.28 10.67L27 4H22.44Z" fill="#050038"/></svg><span class="miro-logo-text">miro</span></div><span class="miro-bc" style="margin-left:8px;">&#128203; Product Roadmap</span><span class="miro-tag">Internal</span><span class="spacer"></span><div class="avatar">RK</div></div>
+  <div class="app">
+    <nav class="pr-sb">
+      <div class="pr-sb-header"><h2>Product Roadmap</h2><div class="meta">1 member</div></div>
+      <div class="pr-sb-nav">
+        <div class="pr-item" onclick="go(3)"><span class="icon">&#10023;</span> Pulse</div>
+        <div class="pr-sb-section"><div class="pr-sb-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg> Roadmap Planning</div></div>
+        <div class="pr-item active"><span class="icon">&#9632;</span> Backlog</div>
+        <div class="pr-item"><span class="icon">&bull;</span> Roadmap</div>
+        <div class="pr-item"><span class="icon">&#128312;</span> Suggested</div>
+        <div class="pr-item" onclick="go(7)"><span class="icon">&#128312;</span> Ideas</div>
+      </div>
+    </nav>
+    <div class="main main-white" style="display:flex;flex-direction:column;">
+      <div class="proj-header"><h2>&#128203; Mobile site project</h2></div>
+      <div class="view-tabs" style="border-bottom:1px solid var(--border);">
+        <button class="vt" onclick="go(4)"><span class="icon">&#128451;</span> Table</button>
+        <button class="vt active"><span class="icon">&#128197;</span> Timeline</button>
+        <button class="vt"><span class="icon">&#9632;</span> Kanban</button>
+        <button class="vt-add">+</button>
+      </div>
+      <div style="flex:1;overflow:auto;padding:0;">
+        <!-- Month headers -->
+        <div style="display:flex;border-bottom:2px solid var(--border);position:sticky;top:0;background:var(--white);z-index:5;">
+          <div style="width:200px;flex-shrink:0;padding:8px 14px;font-size:11px;font-weight:500;color:var(--text2);">Task</div>
+          <div style="flex:1;display:flex;"><div style="flex:1;text-align:center;padding:8px;font-size:11px;font-weight:500;color:var(--text2);border-left:1px solid var(--border2);">Feb 2026</div><div style="flex:1;text-align:center;padding:8px;font-size:11px;font-weight:500;color:var(--text2);border-left:1px solid var(--border2);">Mar 2026</div><div style="flex:1;text-align:center;padding:8px;font-size:11px;font-weight:500;color:var(--text2);border-left:1px solid var(--border2);">Apr 2026</div><div style="flex:1;text-align:center;padding:8px;font-size:11px;font-weight:500;color:var(--text2);border-left:1px solid var(--border2);">May 2026</div></div>
+        </div>
+        <div class="tl-row"><div class="tl-label"><span class="jira-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z" fill="#fff"/></svg></span>Mobile navigation</div><div class="tl-bars"><div class="tl-bar" style="left:5%;width:28%;background:var(--accent);">Mobile navigation</div></div></div>
+        <div class="tl-row"><div class="tl-label"><span class="jira-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z" fill="#fff"/></svg></span>Checkout flow</div><div class="tl-bars"><div class="tl-bar" style="left:22%;width:35%;background:#16a34a;">Checkout flow</div></div></div>
+        <div class="tl-row"><div class="tl-label">Product home page</div><div class="tl-bars"><div class="tl-bar" style="left:12%;width:22%;background:#2563eb;">Product home page</div></div></div>
+        <div class="tl-row"><div class="tl-label"><span class="jira-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z" fill="#fff"/></svg></span>Responsive layout</div><div class="tl-bars"><div class="tl-bar" style="left:0%;width:42%;background:#ea580c;">Responsive layout</div></div></div>
+        <div class="tl-row"><div class="tl-label">SEO optimization</div><div class="tl-bars"><div class="tl-bar" style="left:38%;width:24%;background:#7c3aed;">SEO optimization</div></div></div>
+        <div class="tl-row"><div class="tl-label"><span class="jira-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z" fill="#fff"/></svg></span>Contact page</div><div class="tl-bars"><div class="tl-bar" style="left:48%;width:18%;background:#64748b;">Contact page</div></div></div>
+        <div class="tl-row"><div class="tl-label">Product showcase</div><div class="tl-bars"><div class="tl-bar" style="left:52%;width:20%;background:#0891b2;">Product showcase</div></div></div>
+        <div class="tl-row"><div class="tl-label">Blog section</div><div class="tl-bars"><div class="tl-bar" style="left:58%;width:14%;background:#a78bfa;">Blog section</div></div></div>
+        <div class="tl-row"><div class="tl-label">Landing page CTA</div><div class="tl-bars"><div class="tl-bar" style="left:68%;width:18%;background:#f472b6;">Landing page CTA</div></div></div>
+        <div class="tl-row"><div class="tl-label">Global footer</div><div class="tl-bars"><div class="tl-bar" style="left:74%;width:12%;background:#94a3b8;">Global footer</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 8: IDEAS BACKLOG ═══ -->
+<div class="screen" id="s7">
+  <div class="miro-top"><div class="miro-logo"><svg viewBox="0 0 32 32" fill="none" width="24" height="24"><path d="M22.44 4H18.36L22.16 10.67L15.88 4H11.8L15.6 12L9.32 4H5.56L9.64 14.67L5 28H9.08L13.16 14.67L9.64 28H13.72L18.08 14.67L14.56 28H18.64L24.28 10.67L27 4H22.44Z" fill="#050038"/></svg><span class="miro-logo-text">miro</span></div><span class="miro-bc" style="margin-left:8px;">&#128203; Product Roadmap</span><span class="miro-tag">Internal</span><span class="spacer"></span><div class="avatar">RK</div></div>
+  <div class="app">
+    <nav class="pr-sb">
+      <div class="pr-sb-header"><h2>Product Roadmap</h2><div class="meta">1 member</div></div>
+      <div class="pr-sb-nav">
+        <div class="pr-item" onclick="go(3)"><span class="icon">&#10023;</span> Pulse</div>
+        <div class="pr-sb-section"><div class="pr-sb-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg> Roadmap Planning</div></div>
+        <div class="pr-item" onclick="go(4)"><span class="icon">&#9632;</span> Backlog</div>
+        <div class="pr-item"><span class="icon">&bull;</span> Roadmap</div>
+        <div class="pr-item"><span class="icon">&#128312;</span> Suggested</div>
+        <div class="pr-item active"><span class="icon">&#128312;</span> Ideas</div>
+      </div>
+    </nav>
+    <div class="main main-white" style="display:flex;flex-direction:column;">
+      <div class="proj-header"><h2>&#128161; Ideas Backlog</h2></div>
+      <div class="table-toolbar"><button class="tb-icon">&#8635;</button><button class="tb-icon">&#128451;</button><button class="tb-icon">&#9661;</button><div class="tb-divider"></div><div class="tb-enriched"><span class="dot"></span> Enriched</div><span class="spacer"></span><button class="btn btn-accent btn-sm">+ Add idea</button></div>
+      <div style="flex:1;overflow:auto;">
+        <table class="mt">
+          <thead><tr><th></th><th>&#128196; Title</th><th>&#128196; Description</th><th>&#9898; Status</th><th class="enriched"># Mentions</th><th class="enriched"># Est. Revenue</th><th class="enriched">&#9883; Companies</th></tr></thead>
+          <tbody>
+            <tr><td class="row-num">1</td><td><div class="title-cell">Dark mode for mobile</div></td><td class="desc-cell">When I use the app at night, I want...</td><td class="status-cell">Ideas</td><td>89</td><td>$430K</td><td><span class="company-tag">Apple</span><span class="company-tag">Notion</span></td></tr>
+            <tr><td class="row-num">2</td><td><div class="title-cell">Voice search integration</div></td><td class="desc-cell">When I'm on mobile, I want to search...</td><td class="status-cell">Ideas</td><td>45</td><td>$210K</td><td><span class="company-tag">Google</span></td></tr>
+            <tr><td class="row-num">3</td><td><div class="title-cell">Offline mode for mobile</div></td><td class="desc-cell">When I lose connectivity, I want to...</td><td class="status-cell">Ideas</td><td>120</td><td>$650K</td><td><span class="company-tag">Brex</span><span class="company-tag">Navan</span></td></tr>
+            <tr><td class="row-num">4</td><td><div class="title-cell">Push notification preferences</div></td><td class="desc-cell">When I receive too many notifications...</td><td class="status-cell">Ideas</td><td>67</td><td>$180K</td><td><span class="company-tag">Apple</span></td></tr>
+            <tr><td class="row-num">5</td><td><div class="title-cell">Mobile payment methods (Apple Pay)</div></td><td class="desc-cell">When I'm checking out, I want to pay...</td><td class="status-cell">Ideas</td><td>203</td><td>$890K</td><td><span class="company-tag">Apple</span><span class="company-tag">Google</span><span class="company-tag">Brex</span></td></tr>
+            <tr><td class="row-num">6</td><td><div class="title-cell">Accessibility audit &amp; improvements</div></td><td class="desc-cell">When I use screen readers on mobile...</td><td class="status-cell">Ideas</td><td>31</td><td>$320K</td><td><span class="company-tag">Google</span><span class="company-tag">Notion</span></td></tr>
+            <tr><td class="row-num">7</td><td><div class="title-cell">Social sharing from mobile</div></td><td class="desc-cell">When I find something interesting, I...</td><td class="status-cell">Ideas</td><td>18</td><td>$95K</td><td><span class="company-tag">Adidas</span></td></tr>
+            <tr><td class="row-num">8</td><td><div class="title-cell">Biometric login (Face ID / fingerprint)</div></td><td class="desc-cell">When I open the app, I want to sign in...</td><td class="status-cell">Ideas</td><td>156</td><td>$720K</td><td><span class="company-tag">Apple</span><span class="company-tag">Navan</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function go(i){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.wf-tab').forEach(t=>t.classList.remove('active'));document.getElementById('s'+i).classList.add('active');document.querySelectorAll('.wf-tab')[i].classList.add('active');var cd=document.getElementById('cd0');if(cd)cd.style.display='none';}
+function toggleFP(){document.getElementById('fp1').classList.toggle('open');}
+function spTab(t,b){['det','com','ins'].forEach(x=>document.getElementById('sp-'+x).style.display='none');document.getElementById('sp-'+t).style.display='block';b.parentElement.querySelectorAll('.sp-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');}
+</script>
+</body>
+</html>

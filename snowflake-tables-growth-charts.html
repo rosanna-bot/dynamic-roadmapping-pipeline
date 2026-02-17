@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tables, Timeline & Kanban — FY26 Growth Charts (Snowflake Data)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            color: #e0e0e0;
+            padding: 32px;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 32px;
+        }
+        .subtitle code {
+            background: #1e1e2e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #a0a0c0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .card {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #2a2a3e;
+        }
+        .card.full { grid-column: 1 / -1; }
+        .card h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+        .card .desc {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+        .card canvas { max-height: 320px; }
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .kpi {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #2a2a3e;
+            text-align: center;
+        }
+        .kpi .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #50fa7b;
+        }
+        .kpi .value.blue { color: #6272f1; }
+        .kpi .value.orange { color: #ffb86c; }
+        .kpi .value.pink { color: #ff79c6; }
+        .kpi .label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+        .source-note {
+            font-size: 11px;
+            color: #555;
+            margin-top: 24px;
+            padding: 12px;
+            background: #12121e;
+            border-radius: 8px;
+            border: 1px solid #1e1e2e;
+        }
+        .source-note strong { color: #888; }
+    </style>
+</head>
+<body>
+
+<h1>Tables, Timeline & Kanban — FY26 Growth</h1>
+<p class="subtitle">
+    Data from Snowflake &middot; Feb 2025 – Jan 2026<br>
+    Sources: <code>PRODUCTION.PRODUCT.KEY_CAPABILITY_ADOPTION</code> (WAU) &middot;
+    <code>PRODUCTION.PRODUCT.DATA_TABLE_SUMMARY</code> (creations &amp; unique creators)
+</p>
+
+<!-- KPIs -->
+<div class="kpi-row">
+    <div class="kpi">
+        <div class="value">46K</div>
+        <div class="label">Tables WAU (Jan '26)<br><span style="color:#50fa7b">+100% vs Feb '25</span></div>
+    </div>
+    <div class="kpi">
+        <div class="value blue">16K</div>
+        <div class="label">Timeline WAU (Jan '26)<br><span style="color:#6272f1">+100% vs Feb '25</span></div>
+    </div>
+    <div class="kpi">
+        <div class="value orange">408K</div>
+        <div class="label">Monthly Table Creators (Jan '26)<br><span style="color:#ffb86c">+194% vs Feb '25</span></div>
+    </div>
+    <div class="kpi">
+        <div class="value pink">1.1M</div>
+        <div class="label">Tables Created/Month (Jan '26)<br><span style="color:#ff79c6">+277% vs Feb '25</span></div>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="grid">
+
+    <!-- WAU Chart -->
+    <div class="card full">
+        <h2>Weekly Active Users (WAU) by Feature</h2>
+        <div class="desc">Source: PRODUCTION.PRODUCT.KEY_CAPABILITY_ADOPTION &middot; COUNT(DISTINCT USER_ID) per week</div>
+        <canvas id="wauChart"></canvas>
+    </div>
+
+    <!-- Monthly Creations -->
+    <div class="card">
+        <h2>Monthly Creations by Layout</h2>
+        <div class="desc">Source: PRODUCTION.PRODUCT.DATA_TABLE_SUMMARY &middot; COUNT(*) grouped by CREATED_MONTH, LAYOUT_AT_CREATION</div>
+        <canvas id="creationsChart"></canvas>
+    </div>
+
+    <!-- Monthly Unique Creators -->
+    <div class="card">
+        <h2>Monthly Unique Creators by Layout</h2>
+        <div class="desc">Source: PRODUCTION.PRODUCT.DATA_TABLE_SUMMARY &middot; COUNT(DISTINCT CREATED_BY_ANONYMOUS_OR_USER_ID)</div>
+        <canvas id="creatorsChart"></canvas>
+    </div>
+
+    <!-- Kanban ramp -->
+    <div class="card">
+        <h2>Kanban New — Adoption Ramp</h2>
+        <div class="desc">Launched Sep 2025 &middot; Monthly unique creators &middot; Source: DATA_TABLE_SUMMARY</div>
+        <canvas id="kanbanChart"></canvas>
+    </div>
+
+    <!-- Combined -->
+    <div class="card">
+        <h2>Combined Monthly Creators (Table + Timeline + Kanban)</h2>
+        <div class="desc">Total unique creators across all three layouts per month</div>
+        <canvas id="combinedChart"></canvas>
+    </div>
+</div>
+
+<!-- SQL Queries -->
+<div class="source-note">
+    <strong>Snowflake Queries Used:</strong><br><br>
+    <strong>1. WAU by feature (weekly):</strong><br>
+    <code>SELECT FEATURE, DATE_TRUNC('week', DATE_PARTITION)::date as week_start, COUNT(DISTINCT USER_ID) as WAU
+FROM PRODUCTION.PRODUCT.KEY_CAPABILITY_ADOPTION
+WHERE FEATURE IN ('data_table', 'timeline', 'kanban')
+AND DATE_PARTITION >= '2025-02-01' AND DATE_PARTITION < '2026-02-01'
+GROUP BY FEATURE, week_start ORDER BY week_start ASC, FEATURE</code><br><br>
+    <strong>2. Monthly creations by layout:</strong><br>
+    <code>SELECT CREATED_MONTH, LAYOUT_AT_CREATION, COUNT(*) as total_created
+FROM PRODUCTION.PRODUCT.DATA_TABLE_SUMMARY
+WHERE CREATED_MONTH >= '2025-02-01'
+GROUP BY CREATED_MONTH, LAYOUT_AT_CREATION ORDER BY CREATED_MONTH ASC</code><br><br>
+    <strong>3. Monthly unique creators by layout:</strong><br>
+    <code>SELECT CREATED_MONTH, LAYOUT_AT_CREATION, COUNT(DISTINCT CREATED_BY_ANONYMOUS_OR_USER_ID) as unique_creators
+FROM PRODUCTION.PRODUCT.DATA_TABLE_SUMMARY
+WHERE CREATED_MONTH >= '2025-02-01'
+GROUP BY CREATED_MONTH, LAYOUT_AT_CREATION ORDER BY CREATED_MONTH ASC</code>
+</div>
+
+<script>
+const chartDefaults = {
+    responsive: true,
+    interaction: { intersect: false, mode: 'index' },
+    plugins: {
+        legend: { labels: { color: '#aaa', font: { size: 11 } } },
+        tooltip: { backgroundColor: '#1e1e2e', borderColor: '#3a3a4e', borderWidth: 1 }
+    },
+    scales: {
+        x: { ticks: { color: '#666', font: { size: 10 } }, grid: { color: '#1e1e2e' } },
+        y: { ticks: { color: '#666', font: { size: 10 }, callback: v => v >= 1000 ? (v/1000).toFixed(0) + 'K' : v }, grid: { color: '#1e1e2e' } }
+    }
+};
+
+// ---- WAU Chart ----
+const wauWeeks = [
+    '2025-02-02','2025-02-09','2025-02-16','2025-02-23',
+    '2025-03-02','2025-03-09','2025-03-16','2025-03-23','2025-03-30',
+    '2025-04-06','2025-04-13','2025-04-20','2025-04-27',
+    '2025-05-04','2025-05-11','2025-05-18','2025-05-25',
+    '2025-06-01','2025-06-08','2025-06-15','2025-06-22','2025-06-29',
+    '2025-07-06','2025-07-13','2025-07-20','2025-07-27',
+    '2025-08-03','2025-08-10','2025-08-17','2025-08-24','2025-08-31',
+    '2025-09-07','2025-09-14','2025-09-21','2025-09-28',
+    '2025-10-05','2025-10-12','2025-10-19','2025-10-26',
+    '2025-11-02','2025-11-09','2025-11-16','2025-11-23','2025-11-30',
+    '2025-12-07','2025-12-14',
+    '2026-01-04','2026-01-11','2026-01-18','2026-01-25'
+];
+const wauTable = [23464,23407,23257,24606,25280,25602,25445,25068,28268,31703,27148,25959,26917,30348,33699,33582,30813,34578,33212,32950,34985,33407,35464,35674,35198,34467,34841,32909,35461,35290,35713,37398,37432,36586,38057,40487,40715,40726,40050,40630,40596,42225,40107,45014,39196,34642,35837,42882,45485,46038];
+const wauTimeline = [8021,7640,7467,7710,7620,7635,7569,7650,8272,8954,7338,7167,7295,9375,10330,10337,9197,10446,10174,9802,11650,11353,12273,13008,12986,13266,13101,11756,13047,13319,12973,13543,13603,13281,13179,13664,13490,13761,13420,13283,13769,13858,12688,13869,13687,12594,13689,15802,15994,16005];
+const wauKanban = [38620,37885,38161,38646,38828,39550,38896,38977,39143,39220,33273,31749,32232,35492,36481,35024,31608,35085,32843,32712,33814,32296,32695,31663,30376,29770,30066,28183,30340,30372,31315,33012,32193,31790,30589,31153,29828,29081,28550,29596,28884,28765,25352,27222,25379,22332,23324,25809,25168,24439];
+
+new Chart(document.getElementById('wauChart'), {
+    type: 'line',
+    data: {
+        labels: wauWeeks.map(w => w.substring(5)),
+        datasets: [
+            { label: 'Tables (data_table)', data: wauTable, borderColor: '#50fa7b', backgroundColor: 'rgba(80,250,123,0.08)', fill: true, tension: 0.3, pointRadius: 2 },
+            { label: 'Timeline', data: wauTimeline, borderColor: '#6272f1', backgroundColor: 'rgba(98,114,241,0.08)', fill: true, tension: 0.3, pointRadius: 2 },
+            { label: 'Kanban (legacy)', data: wauKanban, borderColor: '#ffb86c', backgroundColor: 'rgba(255,184,108,0.08)', fill: true, tension: 0.3, pointRadius: 2, borderDash: [5,3] }
+        ]
+    },
+    options: { ...chartDefaults,
+        plugins: {
+            ...chartDefaults.plugins,
+            annotation: {}
+        }
+    }
+});
+
+// ---- Monthly Creations ----
+const months = ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26'];
+const creTable = [293715,548974,630096,699263,742915,790166,721640,790551,1026489,990213,826579,1107970];
+const creTimeline = [155407,249933,241935,223002,207580,222023,211721,251981,258873,222328,182281,241674];
+const creKanban = [0,0,6,1,78,1106,1484,59484,97147,94438,105439,151356];
+
+new Chart(document.getElementById('creationsChart'), {
+    type: 'bar',
+    data: {
+        labels: months,
+        datasets: [
+            { label: 'Tables', data: creTable, backgroundColor: '#50fa7b' },
+            { label: 'Timeline', data: creTimeline, backgroundColor: '#6272f1' },
+            { label: 'Kanban New', data: creKanban, backgroundColor: '#ff79c6' }
+        ]
+    },
+    options: { ...chartDefaults, plugins: { ...chartDefaults.plugins }, scales: { ...chartDefaults.scales, x: { ...chartDefaults.scales.x, stacked: true }, y: { ...chartDefaults.scales.y, stacked: true } } }
+});
+
+// ---- Monthly Unique Creators ----
+const ucTable = [138909,268018,267386,278869,266416,280741,258512,292832,333679,348902,311080,408031];
+const ucTimeline = [97517,161158,147138,140530,128800,128153,120571,144095,145399,128881,105975,134019];
+const ucKanban = [0,0,1,1,13,326,415,39957,62395,59779,64630,84697];
+
+new Chart(document.getElementById('creatorsChart'), {
+    type: 'bar',
+    data: {
+        labels: months,
+        datasets: [
+            { label: 'Tables', data: ucTable, backgroundColor: '#50fa7b' },
+            { label: 'Timeline', data: ucTimeline, backgroundColor: '#6272f1' },
+            { label: 'Kanban New', data: ucKanban, backgroundColor: '#ff79c6' }
+        ]
+    },
+    options: { ...chartDefaults, plugins: { ...chartDefaults.plugins }, scales: { ...chartDefaults.scales, x: { ...chartDefaults.scales.x, stacked: true }, y: { ...chartDefaults.scales.y, stacked: true } } }
+});
+
+// ---- Kanban Ramp ----
+const kanbanMonths = ['Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26'];
+const kanbanCreators = [1,1,13,326,415,39957,62395,59779,64630,84697];
+
+new Chart(document.getElementById('kanbanChart'), {
+    type: 'line',
+    data: {
+        labels: kanbanMonths,
+        datasets: [
+            { label: 'Kanban Unique Creators', data: kanbanCreators, borderColor: '#ff79c6', backgroundColor: 'rgba(255,121,198,0.15)', fill: true, tension: 0.3, pointRadius: 4 }
+        ]
+    },
+    options: chartDefaults
+});
+
+// ---- Combined ----
+const combined = ucTable.map((v, i) => v + ucTimeline[i] + ucKanban[i]);
+
+new Chart(document.getElementById('combinedChart'), {
+    type: 'line',
+    data: {
+        labels: months,
+        datasets: [
+            { label: 'Combined Unique Creators', data: combined, borderColor: '#bd93f9', backgroundColor: 'rgba(189,147,249,0.12)', fill: true, tension: 0.3, pointRadius: 4 }
+        ]
+    },
+    options: chartDefaults
+});
+</script>
+</body>
+</html>

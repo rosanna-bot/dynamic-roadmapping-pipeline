@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Proactive Intelligence Architecture — Miro</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  /* ── Miro Brand Tokens ── */
+  :root {
+    --miro-yellow:  #FFD02F;
+    --miro-blue:    #4262FF;
+    --miro-navy:    #050038;
+    --miro-navy-l:  #0e0a52;
+    --miro-navy-l2: #17126b;
+    --miro-navy-l3: #1f1a7e;
+    --miro-white:   #FFFFFF;
+    --miro-alabaster:#FAFAFA;
+
+    /* Semantic */
+    --bg:           var(--miro-navy);
+    --bg-card:      rgba(255,255,255,0.06);
+    --bg-card-alt:  rgba(255,255,255,0.10);
+    --accent:       var(--miro-yellow);
+    --accent2:      var(--miro-blue);
+    --accent2-light:#6b83ff;
+    --green:        #34d399;
+    --yellow:       var(--miro-yellow);
+    --orange:       #fb923c;
+    --red:          #f87171;
+    --pink:         #f472b6;
+    --cyan:         #22d3ee;
+    --text:         #f0eeff;
+    --text-dim:     #b8b2d4;
+    --text-muted:   #7e77a3;
+    --border:       rgba(255,255,255,0.1);
+    --border-l:     rgba(255,255,255,0.15);
+    --radius:       12px;
+    --glow-yellow:  rgba(255,208,47,0.12);
+    --glow-blue:    rgba(66,98,255,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans', -apple-system, sans-serif;
+  }
+
+  /* ── Slide Container ── */
+  .deck { width: 100vw; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 60px 80px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    transform: translateX(40px);
+    overflow-y: auto;
+  }
+  .slide.active { opacity: 1; pointer-events: auto; transform: translateX(0); z-index: 2; }
+
+  /* ── Typography ── */
+  h1 { font-size: 3rem; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; }
+  h2 { font-size: 2rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 28px; }
+  h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 10px; color: var(--accent); }
+  p, li { font-size: 1.05rem; line-height: 1.7; color: var(--text-dim); }
+  li { margin-bottom: 6px; }
+  ul { list-style: none; padding-left: 0; }
+  ul li::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-right: 12px; vertical-align: middle; }
+
+  .yellow-text { color: var(--miro-yellow); }
+  .blue-text { color: var(--accent2-light); }
+  .gradient-text {
+    background: linear-gradient(135deg, var(--miro-yellow), var(--accent2-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .subtitle { font-size: 1.3rem; font-weight: 400; color: var(--text-dim); margin-top: 16px; }
+
+  .tag {
+    display: inline-block; padding: 4px 14px; border-radius: 100px;
+    font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 16px;
+  }
+  .tag.yellow  { background: var(--glow-yellow); color: var(--miro-yellow); border: 1px solid rgba(255,208,47,0.3); }
+  .tag.blue    { background: var(--glow-blue); color: var(--accent2-light); border: 1px solid rgba(66,98,255,0.35); }
+  .tag.green   { background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.25); }
+  .tag.orange  { background: rgba(251,146,60,0.1); color: var(--orange); border: 1px solid rgba(251,146,60,0.25); }
+  .tag.pink    { background: rgba(244,114,182,0.1); color: var(--pink); border: 1px solid rgba(244,114,182,0.25); }
+  .tag.cyan    { background: rgba(34,211,238,0.1); color: var(--cyan); border: 1px solid rgba(34,211,238,0.25); }
+
+  /* ── Layout ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .four-col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px; }
+  .five-col { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
+
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border-l); }
+  .card-sm {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 20px;
+  }
+
+  .signal-chain {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 24px 28px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.84rem; line-height: 1.8;
+    color: var(--text-dim); white-space: pre-wrap; margin-top: 16px; overflow-x: auto;
+  }
+  .signal-chain .label { color: var(--miro-yellow); font-weight: 500; }
+  .signal-chain .arrow { color: var(--accent2-light); font-weight: 500; }
+
+  .alert-box {
+    background: var(--bg-card);
+    border-left: 3px solid var(--miro-yellow);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 20px 24px; margin-top: 12px;
+    font-size: 0.95rem; line-height: 1.7; color: var(--text-dim);
+  }
+  .alert-box strong { color: var(--text); }
+
+  table {
+    width: 100%; border-collapse: separate; border-spacing: 0;
+    font-size: 0.92rem; margin-top: 12px;
+  }
+  table th {
+    text-align: left; padding: 10px 16px;
+    background: var(--bg-card-alt);
+    color: var(--miro-yellow); font-weight: 600; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  table th:first-child { border-radius: 8px 0 0 0; }
+  table th:last-child  { border-radius: 0 8px 0 0; }
+  table td {
+    padding: 10px 16px; border-bottom: 1px solid var(--border);
+    color: var(--text-dim); line-height: 1.5;
+  }
+  table tr:last-child td { border-bottom: none; }
+  table tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+  table tr:last-child td:last-child  { border-radius: 0 0 8px 0; }
+  table td:first-child { font-weight: 500; color: var(--text); }
+  table tbody { background: var(--bg-card); }
+
+  .diagram {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 32px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1.6;
+    color: var(--text-dim); white-space: pre; overflow-x: auto; margin-top: 16px;
+  }
+
+  /* ── Progress ── */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--miro-yellow), var(--miro-blue));
+    transition: width 0.4s ease; z-index: 100;
+  }
+
+  /* ── Miro logo mark ── */
+  .miro-mark {
+    position: fixed; bottom: 32px; left: 40px;
+    display: flex; align-items: center; gap: 10px; z-index: 50;
+  }
+  .miro-mark svg { width: 28px; height: 28px; }
+  .miro-mark span {
+    font-weight: 700; font-size: 0.85rem; color: var(--text-muted);
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+
+  /* ── Nav ── */
+  .nav {
+    position: fixed; bottom: 32px; right: 40px;
+    display: flex; align-items: center; gap: 12px; z-index: 50;
+  }
+  .nav button {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--border); background: var(--bg-card);
+    color: var(--text); font-size: 1.1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .nav button:hover { background: var(--miro-yellow); border-color: var(--miro-yellow); color: var(--miro-navy); }
+  .slide-counter {
+    font-size: 0.85rem; color: var(--text-muted);
+    font-variant-numeric: tabular-nums; min-width: 55px; text-align: center;
+  }
+
+  /* ── Slide types ── */
+  .title-slide { justify-content: center; align-items: center; text-align: center; }
+  .title-slide h1 { font-size: 3.5rem; margin-bottom: 8px; }
+  .title-slide .meta { margin-top: 36px; font-size: 0.9rem; color: var(--text-muted); }
+
+  .scroll-slide { overflow-y: auto; justify-content: flex-start; padding-top: 48px; padding-bottom: 80px; }
+
+  /* ── Component cards ── */
+  .principle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+  .principle-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px 24px;
+  }
+  .principle-card h4 { font-size: 0.95rem; font-weight: 600; color: var(--miro-yellow); margin-bottom: 6px; }
+  .principle-card p { font-size: 0.9rem; line-height: 1.6; color: var(--text-dim); }
+
+  .signal-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px; text-align: center;
+  }
+  .signal-card .icon { font-size: 2rem; margin-bottom: 10px; }
+  .signal-card h4 { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .signal-card p { font-size: 0.82rem; }
+
+  .agent-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 18px;
+  }
+  .agent-card h4 { font-size: 0.92rem; font-weight: 600; margin-bottom: 4px; }
+  .agent-card .mission { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; }
+
+  .risk-row { display: flex; align-items: stretch; gap: 16px; margin-top: 8px; }
+  .risk-item { flex: 1; border-radius: var(--radius); padding: 16px 20px; background: var(--bg-card); border: 1px solid var(--border); }
+  .risk-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+  .risk-item p { font-size: 0.82rem; }
+
+  .phase-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 12px; }
+  .phase-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px; position: relative;
+  }
+  .phase-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+  .phase-card .focus { font-size: 0.82rem; font-weight: 600; margin-bottom: 8px; }
+  .phase-card p { font-size: 0.82rem; line-height: 1.6; }
+
+  .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 12px; }
+  .trust-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .trust-card .level-num { font-size: 2rem; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+  .trust-card h4 { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .trust-card p { font-size: 0.82rem; line-height: 1.55; }
+
+  .tier-table td:first-child { white-space: nowrap; }
+  .tier-table .crit { color: var(--red); }
+  .tier-table .imp  { color: var(--orange); }
+  .tier-table .info { color: var(--miro-yellow); }
+  .tier-table .bg   { color: var(--text-muted); }
+
+  .opp-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 28px 32px; margin-top: 12px; font-size: 0.9rem; line-height: 1.7;
+  }
+  .opp-card h4 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 16px; }
+  .opp-section { margin-bottom: 14px; }
+  .opp-section h5 {
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--miro-yellow); font-weight: 600; margin-bottom: 4px;
+  }
+  .opp-section p { font-size: 0.88rem; color: var(--text-dim); }
+
+  .scenario-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 12px; }
+  .scenario-col { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+  .scenario-col h4 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+  .scenario-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+  .scenario-row:last-child { border-bottom: none; }
+  .scenario-row .dim { color: var(--text-muted); }
+  .scenario-row .val { color: var(--text-dim); text-align: right; }
+
+  .cadence-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 12px; }
+  .cadence-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .cadence-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 10px; }
+
+  .context-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  .context-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; }
+  .context-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--accent2-light); margin-bottom: 4px; }
+  .context-card p { font-size: 0.85rem; }
+
+  .small { font-size: 0.88rem; }
+
+  /* ── Yellow accent stripe on left of slide ── */
+  .slide::before {
+    content: '';
+    position: absolute; left: 0; top: 15%; bottom: 15%;
+    width: 3px; background: var(--miro-yellow);
+    border-radius: 0 3px 3px 0;
+    opacity: 0.3;
+  }
+  .title-slide::before { display: none; }
+
+  /* ── Mobile ── */
+  @media (max-width: 900px) {
+    .slide { padding: 32px 28px; }
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.5rem; }
+    .two-col, .three-col, .four-col, .five-col, .principle-grid,
+    .phase-row, .trust-grid, .scenario-grid, .cadence-grid,
+    .context-grid { grid-template-columns: 1fr; }
+    .risk-row { flex-direction: column; }
+    .title-slide h1 { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Miro mark -->
+<div class="miro-mark">
+  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="48" height="48" rx="10" fill="#FFD02F"/>
+    <path d="M34.2 12H29.4L24.6 19.5L19.2 12H14.4L21.6 24L14.4 36H19.2L24.6 28.5L29.4 36H34.2L27 24L34.2 12Z" fill="#050038"/>
+  </svg>
+  <span>miro</span>
+</div>
+
+<div class="deck" id="deck">
+
+<!-- ══════ SLIDE 1: TITLE ══════ -->
+<div class="slide title-slide active">
+  <span class="tag yellow">Technical Architecture</span>
+  <h1><span class="gradient-text">AI Proactive Intelligence</span><br><span class="gradient-text">Architecture</span></h1>
+  <p class="subtitle">Dynamic Roadmapping Product &mdash; How proactive AI keeps roadmaps aligned with reality and company strategy</p>
+  <p class="meta">February 2026</p>
+</div>
+
+<!-- ══════ SLIDE 2: OVERVIEW ══════ -->
+<div class="slide">
+  <span class="tag yellow">Overview</span>
+  <h2>Design Philosophy</h2>
+  <p style="margin-bottom:24px;">Traditional roadmapping tools are <strong style="color:var(--text)">reactive</strong>. They display what the PM enters and update only when the PM makes changes. Our system <strong class="yellow-text">inverts this model</strong>.</p>
+  <div class="four-col">
+    <div class="card">
+      <h3 style="font-size:1.6rem;margin-bottom:8px;">1</h3>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--text);margin-bottom:4px;">Continuously Ingests</h4>
+      <p style="font-size:0.88rem;">Signals from five distinct source categories</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:1.6rem;margin-bottom:8px;">2</h3>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--text);margin-bottom:4px;">Analyzes & Correlates</h4>
+      <p style="font-size:0.88rem;">Cross-source patterns invisible to manual review</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:1.6rem;margin-bottom:8px;">3</h3>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--text);margin-bottom:4px;">Proactively Surfaces</h4>
+      <p style="font-size:0.88rem;">Actionable insights at the right time, in the right context</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:1.6rem;margin-bottom:8px;">4</h3>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--text);margin-bottom:4px;">Recommends Actions</h4>
+      <p style="font-size:0.88rem;">Evidence-grounded, with humans firmly in control</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 3: PRINCIPLES ══════ -->
+<div class="slide">
+  <span class="tag yellow">Foundations</span>
+  <h2>Architecture Principles</h2>
+  <div class="principle-grid">
+    <div class="principle-card">
+      <h4>Proactive, not reactive</h4>
+      <p>Surfaces insights without being asked &mdash; continuous intelligence, not query-response</p>
+    </div>
+    <div class="principle-card">
+      <h4>Evidence-grounded</h4>
+      <p>Every suggestion traceable to specific data points &mdash; customer quotes, velocity metrics, competitor actions</p>
+    </div>
+    <div class="principle-card">
+      <h4>Human-in-the-loop</h4>
+      <p>AI recommends; humans decide. Never makes autonomous roadmap changes without approval</p>
+    </div>
+    <div class="principle-card">
+      <h4>Composable intelligence</h4>
+      <p>Individual agent behaviors combine for complex analyses (e.g., Opportunity + Scenario = "What if?")</p>
+    </div>
+    <div class="principle-card">
+      <h4>Progressive trust</h4>
+      <p>Start with alerts and recommendations; evolve toward delegated actions as confidence builds</p>
+    </div>
+    <div class="principle-card">
+      <h4>Privacy-aware</h4>
+      <p>Respect data access boundaries; leaders see aggregated signals, not raw data they shouldn't access</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 4: SIGNAL SOURCES ══════ -->
+<div class="slide">
+  <span class="tag blue">Signal Sources</span>
+  <h2>Five Signal Categories</h2>
+  <p style="margin-bottom:24px;">A comprehensive, multi-dimensional picture of the context surrounding every roadmap decision.</p>
+  <div class="five-col">
+    <div class="signal-card" style="border-top:3px solid var(--miro-yellow);">
+      <div class="icon">&#x1F5E3;</div>
+      <h4>Customer Voice</h4>
+      <p>Gong, Salesforce, Zendesk, NPS, reviews, in-app feedback</p>
+    </div>
+    <div class="signal-card" style="border-top:3px solid var(--miro-blue);">
+      <div class="icon">&#x2699;</div>
+      <h4>Execution Reality</h4>
+      <p>Jira sprints, epic progress, GitHub PR activity, blockers</p>
+    </div>
+    <div class="signal-card" style="border-top:3px solid var(--green);">
+      <div class="icon">&#x1F310;</div>
+      <h4>Market Context</h4>
+      <p>Competitors, analyst reports, news, regulatory updates</p>
+    </div>
+    <div class="signal-card" style="border-top:3px solid var(--orange);">
+      <div class="icon">&#x1F4C8;</div>
+      <h4>Business Metrics</h4>
+      <p>Adoption, retention, revenue, churn risk, usage patterns</p>
+    </div>
+    <div class="signal-card" style="border-top:3px solid var(--pink);">
+      <div class="icon">&#x1F3AF;</div>
+      <h4>Strategy Artifacts</h4>
+      <p>OKRs, department goals, initiative defs, strategy decks</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 5: CUSTOMER VOICE ══════ -->
+<div class="slide scroll-slide">
+  <span class="tag yellow">Signal Source 1</span>
+  <h2>Customer Voice</h2>
+  <p style="margin-bottom:16px;">The richest and most unique signal source, powered by Miro Insights.</p>
+  <div class="two-col">
+    <div>
+      <div class="card-sm" style="margin-bottom:12px;">
+        <h3 style="font-size:0.85rem;">Data Sources</h3>
+        <p class="small">Gong transcripts, Salesforce notes, Zendesk tickets, NPS, app reviews, Qualtrics, in-app feedback, interviews</p>
+      </div>
+      <div class="card-sm" style="margin-bottom:12px;">
+        <h3 style="font-size:0.85rem;">Signals Produced</h3>
+        <p class="small">Emerging themes, volume trends, sentiment shifts, request frequency, pain point clustering, feature demand ranking</p>
+      </div>
+      <div class="card-sm">
+        <h3 style="font-size:0.85rem;">Cadence</h3>
+        <p class="small">Real-time ingestion &rarr; daily clustering &rarr; weekly trend analysis</p>
+      </div>
+    </div>
+    <div class="signal-chain"><span class="label">Raw data:</span> 47 Zendesk tickets "export" + 12 Gong calls "reporting"
+  <span class="arrow">&darr;</span>
+<span class="label">AI clustering:</span> "Reporting & Export" — volume up 60% MoM
+  <span class="arrow">&darr;</span>
+<span class="label">Enrichment:</span> 23 accounts, $4.2M ARR, sentiment: frustrated
+  <span class="arrow">&darr;</span>
+<span class="label">Insight:</span> "Reporting & Export is a top-5 pain this month.
+ 23 accounts ($4.2M ARR). No roadmap coverage."</div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 6: EXECUTION REALITY ══════ -->
+<div class="slide scroll-slide">
+  <span class="tag blue">Signal Source 2</span>
+  <h2>Execution Reality</h2>
+  <p style="margin-bottom:16px;">Real-time data from engineering execution that reveals what's actually happening.</p>
+  <div class="two-col">
+    <div>
+      <div class="card-sm" style="margin-bottom:12px;">
+        <h3 style="font-size:0.85rem;">Data Sources</h3>
+        <p class="small">Jira/Azure DevOps (sprint data, epic progress, blockers), GitHub/GitLab (commits, PRs, code review)</p>
+      </div>
+      <div class="card-sm" style="margin-bottom:12px;">
+        <h3 style="font-size:0.85rem;">Signals Produced</h3>
+        <p class="small">Sprint velocity trends, epic completion forecasts with confidence intervals, blocker patterns, scope change rate, dependency status</p>
+      </div>
+      <div class="card-sm">
+        <h3 style="font-size:0.85rem;">AI Processing</h3>
+        <p class="small">Time-series analysis, predictive delivery modeling, blocker pattern recognition, anomaly detection</p>
+      </div>
+    </div>
+    <div class="signal-chain"><span class="label">Raw data:</span> Team Alpha velocity: 45, 42, 38, 31, 28
+  <span class="arrow">&darr;</span>
+<span class="label">AI analysis:</span> 38% velocity decline over 5 sprints
+  <span class="arrow">&darr;</span>
+<span class="label">Correlation:</span> 3 engineers reassigned + 2 blockers &times; 3 sprints
+  <span class="arrow">&darr;</span>
+<span class="label">Prediction:</span> "Enterprise SSO" misses Q2 by 4 weeks
+  <span class="arrow">&darr;</span>
+<span class="label">Insight:</span> "Recommend: resolve blockers (2-wk recovery)
+ or adjust scope (cut Phase 2)."</div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 7: MARKET + BUSINESS + STRATEGY ══════ -->
+<div class="slide scroll-slide">
+  <span class="tag green">Signal Sources 3 &ndash; 5</span>
+  <h2>Market, Business & Strategy Signals</h2>
+  <div class="three-col" style="margin-top:8px;">
+    <div class="card">
+      <h3>Market Context</h3>
+      <p class="small" style="margin-bottom:12px;">Competitor tracking, analyst reports, news feeds, regulatory updates.</p>
+      <div class="alert-box" style="font-size:0.82rem;padding:14px 18px;">
+        <strong>Example:</strong> Competitor X launches AI assistant &rarr; maps to 3 roadmap items &rarr; 12 accounts mentioned it &rarr; Consider accelerating AI Copilot from Q3.
+      </div>
+    </div>
+    <div class="card">
+      <h3>Business Metrics</h3>
+      <p class="small" style="margin-bottom:12px;">Product analytics, revenue dashboards, churn tracking, activation &amp; retention.</p>
+      <div class="alert-box" style="font-size:0.82rem;padding:14px 18px;">
+        <strong>Example:</strong> Timeline Widget adoption plateaus at 19% (target 30%) &rarr; "grouping" pain (200+ mentions) &rarr; 3 churned accounts &rarr; Accelerate improvements.
+      </div>
+    </div>
+    <div class="card">
+      <h3>Strategy Artifacts</h3>
+      <p class="small" style="margin-bottom:12px;">Company OKRs, department goals, initiative definitions, strategy decks.</p>
+      <div class="alert-box" style="font-size:0.82rem;padding:14px 18px;">
+        <strong>Example:</strong> "Improve Enterprise Onboarding NPS" &rarr; only 15% capacity &rarr; 3 sprints behind &rarr; 15 accounts ($4.2M) flagged pain &rarr; OKR at risk.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 8: AI AGENTS OVERVIEW ══════ -->
+<div class="slide">
+  <span class="tag blue">AI Agents</span>
+  <h2>Five AI Agent Behaviors</h2>
+  <p style="margin-bottom:24px;">Specialized behaviors that transform raw signals into actionable roadmap intelligence.</p>
+  <div class="five-col">
+    <div class="agent-card" style="border-top:3px solid var(--miro-yellow);">
+      <h4 class="yellow-text">Alignment Monitor</h4>
+      <p class="mission">Ensures every piece of work serves a goal, and every goal has sufficient investment</p>
+    </div>
+    <div class="agent-card" style="border-top:3px solid var(--orange);">
+      <h4 style="color:var(--orange);">Risk Predictor</h4>
+      <p class="mission">Identifies delivery risks before they materialize, giving time to mitigate</p>
+    </div>
+    <div class="agent-card" style="border-top:3px solid var(--green);">
+      <h4 style="color:var(--green);">Opportunity Spotter</h4>
+      <p class="mission">Identifies emerging needs and market opportunities the roadmap doesn't address</p>
+    </div>
+    <div class="agent-card" style="border-top:3px solid var(--accent2-light);">
+      <h4 class="blue-text">Scenario Simulator</h4>
+      <p class="mission">Models cascading impact of strategic alternatives with quantified trade-offs</p>
+    </div>
+    <div class="agent-card" style="border-top:3px solid var(--pink);">
+      <h4 style="color:var(--pink);">Cadence Automator</h4>
+      <p class="mission">Auto-generates recurring communications and planning inputs</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 9: ALIGNMENT MONITOR ══════ -->
+<div class="slide scroll-slide">
+  <span class="tag yellow">Agent 1</span>
+  <h2>Alignment Monitor</h2>
+  <p style="margin-bottom:16px;"><strong style="color:var(--text)">Mission:</strong> Ensure every piece of active work serves an active strategic goal, and every goal has sufficient investment.</p>
+  <div class="two-col">
+    <div>
+      <h3>Trigger Conditions</h3>
+      <ul class="small">
+        <li>New work item added without goal linkage</li>
+        <li>Goal-initiative alignment score drops below threshold</li>
+        <li>Goal created without roadmap coverage</li>
+        <li>Scope changes reduce goal alignment</li>
+        <li>Goal retired but associated work continues</li>
+      </ul>
+      <h3 style="margin-top:20px;">Key Outputs</h3>
+      <ul class="small">
+        <li>Alignment score per initiative (real-time)</li>
+        <li>Orphan alerts (immediate)</li>
+        <li>Goal coverage gaps (weekly digest)</li>
+        <li>Re-alignment recommendations</li>
+      </ul>
+    </div>
+    <div>
+      <div class="alert-box" style="margin-top:0;margin-bottom:12px;border-left-color:var(--orange);">
+        <strong>Orphan detected:</strong> "Initiative 'Dark Mode Support' (Team Beta, 20% capacity) has no connection to any active Q2 goal. Linked goal was retired last month."
+      </div>
+      <div class="alert-box" style="border-left-color:var(--red);">
+        <strong>Coverage gap:</strong> "Goal 3 ('Enterprise Growth') has only 10% roadmap coverage &mdash; down from 35% after re-prioritization. 15 enterprise accounts tracking features tied to this goal."
+      </div>
+      <div class="alert-box" style="border-left-color:var(--miro-yellow);">
+        <strong>Drift alert:</strong> "Initiative 'Platform Redesign' scope expanded 40%. Alignment dropped from 85% to 52%. New items added without goal linkage."
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 10: RISK PREDICTOR ══════ -->
+<div class="slide scroll-slide">
+  <span class="tag orange">Agent 2</span>
+  <h2>Risk Predictor</h2>
+  <p style="margin-bottom:16px;"><strong style="color:var(--text)">Mission:</strong> Identify delivery risks before they materialize, giving PMs and leaders time to mitigate.</p>
+  <h3>Risk Scoring Model</h3>
+  <div class="risk-row">
+    <div class="risk-item" style="border-top:3px solid var(--green);">
+      <h4 style="color:var(--green);">Low</h4>
+      <p class="small">On track; velocity stable; no blockers. No action needed.</p>
+    </div>
+    <div class="risk-item" style="border-top:3px solid var(--miro-yellow);">
+      <h4 class="yellow-text">Medium</h4>
+      <p class="small">Minor velocity dip OR scope growth &lt;15% OR 1&ndash;2 blockers. PM monitors.</p>
+    </div>
+    <div class="risk-item" style="border-top:3px solid var(--orange);">
+      <h4 style="color:var(--orange);">High</h4>
+      <p class="small">Velocity &gt;15% decline OR scope &gt;20% OR 3+ blockers. PM intervention; leader notified.</p>
+    </div>
+    <div class="risk-item" style="border-top:3px solid var(--red);">
+      <h4 style="color:var(--red);">Critical</h4>
+      <p class="small">Customer commitment at risk OR company goal at risk. Immediate escalation.</p>
+    </div>
+  </div>
+  <div class="alert-box" style="margin-top:20px;border-left-color:var(--orange);">
+    <strong>High risk &mdash; Epic 'Enterprise SSO':</strong> Velocity declined 38% over 5 sprints. 2 blockers unresolved for 3+ sprints. Projected completion: June 15 (&plusmn;2 weeks) &mdash; original target: May 1. 8 enterprise accounts ($2.8M ARR) expecting Q2 delivery.
+  </div>
+</div>
+
+<!-- ══════ SLIDE 11: OPPORTUNITY SPOTTER ══════ -->
+<div class="slide scroll-slide">
+  <span class="tag green">Agent 3</span>
+  <h2>Opportunity Spotter</h2>
+  <p style="margin-bottom:16px;"><strong style="color:var(--text)">Mission:</strong> Identify emerging customer needs and market opportunities the roadmap doesn't address.</p>
+  <div class="two-col">
+    <div>
+      <h3>Triggers</h3>
+      <ul class="small">
+        <li>New theme: &gt;10 mentions in 30 days</li>
+        <li>Rapid growth: &gt;50% increase MoM</li>
+        <li>Competitor move creates demand</li>
+        <li>Underserved segment identified</li>
+        <li>Churn reveals unaddressed pain</li>
+      </ul>
+      <h3 style="margin-top:20px;">Outputs</h3>
+      <ul class="small">
+        <li>Opportunity cards (on threshold)</li>
+        <li>Gap analysis (weekly)</li>
+        <li>Demand trend reports (weekly)</li>
+        <li>Competitive response recommendations</li>
+        <li>ARR impact estimates</li>
+      </ul>
+    </div>
+    <div class="opp-card">
+      <h4>Opportunity: Collaborative Approval Workflows</h4>
+      <div class="opp-section">
+        <h5>Demand Signal</h5>
+        <p>18 accounts ($3.1M ARR) in 60 days &mdash; up 120%. Enterprise 72%, Financial Services heavy.</p>
+      </div>
+      <div class="opp-section">
+        <h5>Current Coverage</h5>
+        <p>No current roadmap coverage. 2 competitors launched in Q1.</p>
+      </div>
+      <div class="opp-section">
+        <h5>Strategic Fit</h5>
+        <p>Aligns with Goal 4 (Enterprise Growth) and Goal 7 (Regulated Industry Expansion).</p>
+      </div>
+      <div class="opp-section" style="margin-bottom:0;">
+        <h5>Recommendation</h5>
+        <p>Add to Q3 evaluation; schedule discovery calls with top 5 accounts.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 12: SCENARIO SIMULATOR ══════ -->
+<div class="slide scroll-slide">
+  <span class="tag blue">Agent 4</span>
+  <h2>Scenario Simulator</h2>
+  <p style="margin-bottom:16px;"><strong style="color:var(--text)">Mission:</strong> Enable exploration of strategic alternatives with full visibility into consequences.</p>
+  <div class="scenario-grid">
+    <div class="scenario-col" style="border-top:3px solid var(--orange);">
+      <h4>Scenario A: "Aggressive Q2"</h4>
+      <div class="scenario-row"><span class="dim">Timeline</span><span class="val">3 accelerated 4wk; 2 delayed 6wk</span></div>
+      <div class="scenario-row"><span class="dim">Customer Impact</span><span class="val">8 accts ($2.1M) faster; 5 ($800K) delayed</span></div>
+      <div class="scenario-row"><span class="dim">Goal Coverage</span><span class="val">Goal 4: 40%&rarr;70%; Goal 2: 60%&rarr;35%</span></div>
+      <div class="scenario-row"><span class="dim">Capacity</span><span class="val" style="color:var(--red);">Team Alpha at 120%</span></div>
+      <div class="scenario-row"><span class="dim">Dependencies</span><span class="val">2 new cross-team risks</span></div>
+      <div class="scenario-row"><span class="dim">Risk Score</span><span class="val" style="color:var(--orange);font-weight:600;">HIGH</span></div>
+    </div>
+    <div class="scenario-col" style="border-top:3px solid var(--green);">
+      <h4>Scenario B: "Conservative Q2"</h4>
+      <div class="scenario-row"><span class="dim">Timeline</span><span class="val">All on original schedule</span></div>
+      <div class="scenario-row"><span class="dim">Customer Impact</span><span class="val">5 accts ($800K) faster; no negative</span></div>
+      <div class="scenario-row"><span class="dim">Goal Coverage</span><span class="val">Goal 4: 40%&rarr;50%; Goal 2: 60%&rarr;55%</span></div>
+      <div class="scenario-row"><span class="dim">Capacity</span><span class="val" style="color:var(--green);">All teams within capacity</span></div>
+      <div class="scenario-row"><span class="dim">Dependencies</span><span class="val">No new dependency risks</span></div>
+      <div class="scenario-row"><span class="dim">Risk Score</span><span class="val" style="color:var(--green);font-weight:600;">LOW</span></div>
+    </div>
+  </div>
+  <div class="two-col" style="margin-top:16px;">
+    <div class="alert-box" style="margin-top:0;border-left-color:var(--orange);font-size:0.88rem;">
+      <strong>AI on Scenario A:</strong> "High reward but requires Team Alpha capacity resolution"
+    </div>
+    <div class="alert-box" style="margin-top:0;border-left-color:var(--green);font-size:0.88rem;">
+      <strong>AI on Scenario B:</strong> "Safe execution but misses enterprise acceleration window"
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 13: CADENCE AUTOMATOR ══════ -->
+<div class="slide scroll-slide">
+  <span class="tag pink">Agent 5</span>
+  <h2>Cadence Automator</h2>
+  <p style="margin-bottom:16px;"><strong style="color:var(--text)">Mission:</strong> Eliminate manual effort for recurring communications and planning inputs.</p>
+  <div class="cadence-grid">
+    <div class="cadence-card" style="border-top:3px solid var(--miro-yellow);">
+      <h4 class="yellow-text">Weekly</h4>
+      <ul class="small">
+        <li>Roadmap Status Summary</li>
+        <li>Risk Report (all elevated items)</li>
+        <li>Signal Digest (top 5 signals)</li>
+      </ul>
+      <p class="small" style="margin-top:8px;color:var(--text-muted);">Channels: Slack, email, Confluence, in-app</p>
+    </div>
+    <div class="cadence-card" style="border-top:3px solid var(--miro-blue);">
+      <h4 class="blue-text">Monthly</h4>
+      <ul class="small">
+        <li>Strategy Alignment Report</li>
+        <li>Customer Voice Summary</li>
+        <li>Delivery Retrospective</li>
+      </ul>
+      <p class="small" style="margin-top:8px;color:var(--text-muted);">Audience: PM + Leader + Eng Lead</p>
+    </div>
+    <div class="cadence-card" style="border-top:3px solid var(--green);">
+      <h4 style="color:var(--green);">Quarterly</h4>
+      <ul class="small">
+        <li>Planning Input Package</li>
+        <li>Portfolio Health Assessment</li>
+        <li>Strategy Effectiveness Review</li>
+      </ul>
+      <p class="small" style="margin-top:8px;color:var(--text-muted);">Audience: Leader + Executive</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 14: AGENT COMPOSITION ══════ -->
+<div class="slide scroll-slide">
+  <span class="tag blue">Composition</span>
+  <h2>Agent Composition & Interaction</h2>
+  <p style="margin-bottom:16px;">Individual agents are powerful alone &mdash; their real value emerges when they work <strong style="color:var(--text)">together</strong>.</p>
+  <table>
+    <thead>
+      <tr><th>Scenario</th><th>Agents Involved</th><th>Combined Output</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"Should we accelerate Initiative X?"</td>
+        <td style="font-weight:400;">Opportunity + Risk + Alignment + Scenario</td>
+        <td style="font-weight:400;">Full recommendation with demand evidence, risk assessment, alignment score, and simulated impact</td>
+      </tr>
+      <tr>
+        <td>"Key customer threatening to churn"</td>
+        <td style="font-weight:400;">Opportunity + Alignment + Cadence</td>
+        <td style="font-weight:400;">Account intelligence brief with relevant roadmap items and talking-points document</td>
+      </tr>
+      <tr>
+        <td>"Competitor launched a major feature"</td>
+        <td style="font-weight:400;">Opportunity + Scenario + Risk</td>
+        <td style="font-weight:400;">Competitive response analysis with acceleration scenarios and execution feasibility</td>
+      </tr>
+      <tr>
+        <td>"Quarterly planning kickoff"</td>
+        <td style="font-weight:400;">Cadence + Opportunity + Alignment + Risk</td>
+        <td style="font-weight:400;">Comprehensive planning brief with evidence, capacity outlook, and prioritization recs</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════ SLIDE 15: INFORMATION FLOW ══════ -->
+<div class="slide">
+  <span class="tag blue">Architecture</span>
+  <h2>Information Flow</h2>
+  <div class="diagram">                          ┌──────────────────────────────────────────────┐
+                          │              <span style="color:var(--miro-yellow);font-weight:600;">SIGNAL LAYER</span>                     │
+                          │  Customer | Execution | Market | Metrics     │
+                          │                  | Strategy                   │
+                          └────┬────────┬────────┬────────┬────────┬─────┘
+                               │        │        │        │        │
+                               v        v        v        v        v
+                         <span style="color:var(--miro-yellow)">Alignment</span>    <span style="color:var(--orange)">Risk</span>   <span style="color:var(--green)">Opportunity</span> <span style="color:var(--accent2-light)">Scenario</span>  <span style="color:var(--pink)">Cadence</span>
+                          <span style="color:var(--miro-yellow)">Monitor</span>   <span style="color:var(--orange)">Predictor</span>  <span style="color:var(--green)">Spotter</span>  <span style="color:var(--accent2-light)">Simulator</span> <span style="color:var(--pink)">Automator</span>
+                               │        │        │        │        │
+                               └────────┴────────┴────────┴────────┘
+                                                 │
+                                                 v
+                                     ┌───────────────────────┐
+                                     │   <span style="color:var(--miro-yellow);font-weight:600;">INTELLIGENCE HUB</span>    │
+                                     │  Composed insights    │
+                                     │  Context-aware routing│
+                                     │  Priority scoring     │
+                                     └───────────┬───────────┘
+                                                 │
+                              ┌──────────────────┼──────────────────┐
+                              v                  v                  v
+                       <span style="color:var(--accent2-light)">PM Dashboard</span>       <span style="color:var(--accent2-light)">Leader Views</span>        <span style="color:var(--accent2-light)">Stakeholder</span>
+                        <span style="color:var(--accent2-light)">+ Copilot</span>         <span style="color:var(--accent2-light)">+ Portfolio</span>          <span style="color:var(--accent2-light)">Auto-Views</span></div>
+</div>
+
+<!-- ══════ SLIDE 16: DELIVERY ══════ -->
+<div class="slide scroll-slide">
+  <span class="tag yellow">Delivery</span>
+  <h2>Notification & Surfacing Strategy</h2>
+  <p style="margin-bottom:16px;">The right information reaches the right person at the right time.</p>
+  <table class="tier-table">
+    <thead>
+      <tr><th>Tier</th><th>Urgency</th><th>Delivery</th><th>Example</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="crit">Tier 1: Critical</td>
+        <td style="font-weight:400;">Immediate action</td>
+        <td style="font-weight:400;">In-app banner + Slack DM + email</td>
+        <td style="font-weight:400;">"Customer commitment at risk &mdash; Epic X delayed 4 weeks"</td>
+      </tr>
+      <tr>
+        <td class="imp">Tier 2: Important</td>
+        <td style="font-weight:400;">This week</td>
+        <td style="font-weight:400;">In-app notification + dashboard</td>
+        <td style="font-weight:400;">"Emerging theme growing 60% MoM. No roadmap coverage."</td>
+      </tr>
+      <tr>
+        <td class="info">Tier 3: Informational</td>
+        <td style="font-weight:400;">Awareness</td>
+        <td style="font-weight:400;">Dashboard + weekly digest</td>
+        <td style="font-weight:400;">"Competitor updated pricing page &mdash; no direct impact."</td>
+      </tr>
+      <tr>
+        <td class="bg">Tier 4: Background</td>
+        <td style="font-weight:400;">Long-term</td>
+        <td style="font-weight:400;">Monthly/quarterly reports</td>
+        <td style="font-weight:400;">"Team velocity trend: gradual improvement (+12%)."</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 style="margin-top:28px;">Contextual Placement</h3>
+  <div class="context-grid">
+    <div class="context-card">
+      <h4>Timeline View</h4>
+      <p>Risk indicators, customer demand heatmap, alignment scores on items</p>
+    </div>
+    <div class="context-card">
+      <h4>Table / Backlog View</h4>
+      <p>Customer enrichment, priority recommendations, demand trends per item</p>
+    </div>
+    <div class="context-card">
+      <h4>Kanban View</h4>
+      <p>Delivery risk flags, blocker alerts, sprint health indicators</p>
+    </div>
+    <div class="context-card">
+      <h4>Board / Portfolio View</h4>
+      <p>Aggregated health signals, alignment scores, cross-team dependency alerts</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 17: PROGRESSIVE TRUST ══════ -->
+<div class="slide">
+  <span class="tag yellow">Trust Model</span>
+  <h2>Progressive Trust</h2>
+  <p style="margin-bottom:20px;">Earn user trust over time &mdash; from passive observation to delegated action.</p>
+  <div class="trust-grid">
+    <div class="trust-card">
+      <div class="level-num yellow-text">1</div>
+      <h4>Observer</h4>
+      <p><strong style="color:var(--text)">AI:</strong> Monitors, surfaces alerts, provides data<br><strong style="color:var(--text)">User:</strong> Makes all decisions</p>
+      <p style="margin-top:8px;color:var(--text-muted);font-style:italic;">"Here's what we see in customer feedback about Feature X"</p>
+    </div>
+    <div class="trust-card">
+      <div class="level-num blue-text">2</div>
+      <h4>Advisor</h4>
+      <p><strong style="color:var(--text)">AI:</strong> Recommends with evidence<br><strong style="color:var(--text)">User:</strong> Approves or rejects</p>
+      <p style="margin-top:8px;color:var(--text-muted);font-style:italic;">"We recommend re-prioritizing Initiative Y. Here's why."</p>
+    </div>
+    <div class="trust-card">
+      <div class="level-num" style="color:var(--green);">3</div>
+      <h4>Collaborator</h4>
+      <p><strong style="color:var(--text)">AI:</strong> Drafts updates, generates reports<br><strong style="color:var(--text)">User:</strong> Reviews and approves</p>
+      <p style="margin-top:8px;color:var(--text-muted);font-style:italic;">AI drafts weekly status; PM reviews and sends</p>
+    </div>
+    <div class="trust-card">
+      <div class="level-num" style="color:var(--pink);">4</div>
+      <h4>Delegate</h4>
+      <p><strong style="color:var(--text)">AI:</strong> Executes within boundaries<br><strong style="color:var(--text)">User:</strong> Sets boundaries</p>
+      <p style="margin-top:8px;color:var(--text-muted);font-style:italic;">AI auto-updates dates from Jira; PM sets the policy</p>
+    </div>
+  </div>
+  <p style="margin-top:24px;font-size:0.92rem;">Launches at <strong class="yellow-text">Level 1 + 2</strong>. Levels 3 &amp; 4 unlock progressively based on accuracy, user opt-in, and org maturity.</p>
+</div>
+
+<!-- ══════ SLIDE 18: IMPLEMENTATION ══════ -->
+<div class="slide">
+  <span class="tag blue">Roadmap</span>
+  <h2>Implementation Phases</h2>
+  <div class="phase-row">
+    <div class="phase-card" style="border-top:3px solid var(--miro-yellow);">
+      <h4>Phase 1</h4>
+      <div class="focus yellow-text">Foundation</div>
+      <p>Connect signal sources. Miro Insights &rarr; Tables enrichment; Jira sync enhancement; basic customer evidence per backlog item.</p>
+    </div>
+    <div class="phase-card" style="border-top:3px solid var(--miro-blue);">
+      <h4>Phase 2</h4>
+      <div class="focus blue-text">Intelligence</div>
+      <p>Launch core agents. Risk Predictor; Opportunity Spotter; AI Decision Copilot (proactive suggestions); Signal Dashboard.</p>
+    </div>
+    <div class="phase-card" style="border-top:3px solid var(--green);">
+      <h4>Phase 3</h4>
+      <div class="focus" style="color:var(--green);">Strategy</div>
+      <p>Portfolio intelligence. Alignment Monitor; Scenario Simulator; Cadence Automator; cross-team dependency detection.</p>
+    </div>
+    <div class="phase-card" style="border-top:3px solid var(--pink);">
+      <h4>Phase 4</h4>
+      <div class="focus" style="color:var(--pink);">Autonomy</div>
+      <p>Progressive delegation. Level 3/4 trust capabilities; autonomous reports; delegated updates; self-healing roadmaps.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SLIDE 19: CLOSING ══════ -->
+<div class="slide title-slide">
+  <h1><span class="gradient-text">Proactive AI.</span><br><span class="gradient-text">Evidence-Grounded.</span><br><span class="gradient-text">Human in Control.</span></h1>
+  <p class="subtitle">The intelligence layer that keeps roadmaps alive.</p>
+</div>
+
+</div><!-- /deck -->
+
+<!-- Nav -->
+<div class="nav">
+  <button onclick="go(-1)" aria-label="Previous">&#8592;</button>
+  <span class="slide-counter" id="counter">1 / 19</span>
+  <button onclick="go(1)" aria-label="Next">&#8594;</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const bar = document.getElementById('progressBar');
+  let cur = 0;
+
+  function show(n) {
+    slides.forEach((s, i) => { s.classList.remove('active'); if (i === n) s.classList.add('active'); });
+    counter.textContent = `${n + 1} / ${slides.length}`;
+    bar.style.width = `${((n + 1) / slides.length) * 100}%`;
+  }
+
+  function go(dir) {
+    const next = cur + dir;
+    if (next < 0 || next >= slides.length) return;
+    cur = next;
+    show(cur);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    if (e.key === 'Home') { e.preventDefault(); cur = 0; show(cur); }
+    if (e.key === 'End') { e.preventDefault(); cur = slides.length - 1; show(cur); }
+  });
+
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(diff) > 50) go(diff < 0 ? 1 : -1);
+  });
+
+  show(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Roadmap V1 — Product Requirements Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f8f8f5;--white:#fff;--text:#1a1a2e;--text2:#6b7280;--text3:#9ca3af;
+  --border:#e5e7eb;--accent:#4f46e5;--accent2:#6366f1;--accent-bg:#eef2ff;
+  --green:#16a34a;--green-bg:#dcfce7;--green-t:#15803d;
+  --yellow:#ca8a04;--yellow-bg:#fef9c3;--yellow-t:#a16207;
+  --red:#dc2626;--red-bg:#fef2f2;--red-t:#b91c1c;
+  --orange:#ea580c;--orange-bg:#fff7ed;--orange-t:#c2410c;
+  --blue:#2563eb;--blue-bg:#eff6ff;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;--purple-light:#ddd6fe;
+  --cyan:#0891b2;--cyan-bg:#ecfeff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',-apple-system,sans-serif;font-size:15px;line-height:1.7;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;}
+
+/* Layout */
+.page{display:flex;min-height:100vh;}
+.sidebar{width:260px;background:var(--white);border-right:1px solid var(--border);padding:24px 0;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100;}
+.main{flex:1;margin-left:260px;padding:40px 56px 80px;max-width:960px;}
+
+/* Sidebar */
+.sb-header{padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.sb-header h1{font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.sb-header .meta{font-size:11px;color:var(--text3);}
+.sb-header .badge{display:inline-block;padding:2px 10px;border-radius:4px;font-size:10px;font-weight:600;background:var(--yellow-bg);color:var(--yellow-t);margin-top:6px;}
+.toc-section{padding:0 12px;margin-bottom:6px;}
+.toc-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text3);padding:6px 8px;}
+.toc-item{display:block;padding:5px 8px;border-radius:6px;font-size:12px;color:var(--text2);text-decoration:none;transition:all 0.1s;}
+.toc-item:hover{background:var(--bg);color:var(--text);}
+.toc-item.active{background:var(--accent-bg);color:var(--accent);font-weight:600;}
+.toc-sub{padding-left:16px;}
+.toc-sub .toc-item{font-size:11px;padding:3px 8px;}
+
+/* Typography */
+h1{font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px;}
+h2{font-size:22px;font-weight:700;letter-spacing:-0.3px;margin-top:48px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:10px;}
+h2 .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:var(--accent);color:#fff;font-size:14px;font-weight:700;flex-shrink:0;}
+h3{font-size:17px;font-weight:700;margin-top:28px;margin-bottom:10px;color:var(--text);}
+h4{font-size:14px;font-weight:600;margin-top:20px;margin-bottom:8px;color:var(--text);}
+p{margin-bottom:12px;color:var(--text2);}
+strong{color:var(--text);}
+ul,ol{margin:0 0 16px 20px;color:var(--text2);}
+li{margin-bottom:4px;}
+hr{border:none;border-top:1px solid var(--border);margin:32px 0;}
+
+/* Blockquote / callout */
+.callout{background:var(--accent-bg);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:16px;font-size:14px;color:var(--text);}
+.callout.warning{background:var(--orange-bg);border-left-color:var(--orange);}
+.callout.success{background:var(--green-bg);border-left-color:var(--green);}
+.callout .label{font-weight:700;margin-bottom:4px;}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:20px;}
+thead th{text-align:left;padding:8px 12px;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.3px;background:var(--bg);border-bottom:2px solid var(--border);white-space:nowrap;}
+tbody td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top;}
+tbody tr:hover{background:#fafbfc;}
+td:first-child{font-weight:500;color:var(--text);white-space:nowrap;}
+
+/* Priority badges */
+.p0{display:inline-block;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--red-bg);color:var(--red-t);}
+.p1{display:inline-block;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--yellow-bg);color:var(--yellow-t);}
+.p2{display:inline-block;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:700;background:#f3f4f6;color:var(--text2);}
+.sev-critical{display:inline-block;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--red-bg);color:var(--red-t);}
+.sev-high{display:inline-block;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--orange-bg);color:var(--orange-t);}
+.sev-medium{display:inline-block;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--yellow-bg);color:var(--yellow-t);}
+
+/* Code / tree */
+.tree{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px 20px;font-family:'Menlo','Monaco',monospace;font-size:12px;line-height:1.8;color:var(--text2);margin-bottom:20px;overflow-x:auto;white-space:pre;}
+
+/* Tags */
+.tag{display:inline-block;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600;}
+.tag-accent{background:var(--accent-bg);color:var(--accent);}
+.tag-green{background:var(--green-bg);color:var(--green-t);}
+.tag-red{background:var(--red-bg);color:var(--red-t);}
+.tag-orange{background:var(--orange-bg);color:var(--orange-t);}
+.tag-blue{background:var(--blue-bg);color:var(--blue);}
+.tag-gray{background:#f3f4f6;color:var(--text2);}
+
+/* Wireframe ref */
+.wf-ref{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;background:var(--purple-bg);color:var(--purple);margin-top:4px;}
+
+/* User stories */
+.story{padding:10px 14px;border-left:3px solid var(--accent);background:var(--white);border-radius:0 8px 8px 0;margin-bottom:8px;font-size:13px;color:var(--text2);}
+.story strong{color:var(--text);}
+
+/* Feature section card */
+.feature-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:24px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.feature-card h3{margin-top:0;}
+.feature-card .desc{font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;}
+
+/* Metric cards */
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px;}
+.metric-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;}
+.metric-card .target{font-size:20px;font-weight:700;color:var(--accent);}
+.metric-card .name{font-size:11px;color:var(--text2);margin-top:2px;}
+
+/* Print */
+@media print{.sidebar{display:none;}.main{margin-left:0;}}
+@media(max-width:900px){.sidebar{display:none;}.main{margin-left:0;padding:24px 20px;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ═══ SIDEBAR TOC ═══ -->
+<nav class="sidebar">
+  <div class="sb-header">
+    <h1>Dynamic Roadmap V1</h1>
+    <div class="meta">Product Requirements Document</div>
+    <div style="margin-top:4px;"><span class="badge">Draft</span> <span style="font-size:11px;color:var(--text3);margin-left:4px;">Feb 2026</span></div>
+  </div>
+  <div class="toc-section">
+    <a class="toc-item" href="#s1">1. Executive Summary</a>
+    <a class="toc-item" href="#s2">2. Problem Statement</a>
+    <a class="toc-item" href="#s3">3. User Stories & Personas</a>
+    <a class="toc-item" href="#s4">4. Feature Scope -- V1</a>
+    <div class="toc-sub">
+      <a class="toc-item" href="#f41">4.1 Entry Point</a>
+      <a class="toc-item" href="#f42">4.2 Creation Dialog</a>
+      <a class="toc-item" href="#f43">4.3 Space Structure</a>
+      <a class="toc-item" href="#f44">4.4 Pulse View</a>
+      <a class="toc-item" href="#f45">4.5 AI Sidekick</a>
+      <a class="toc-item" href="#f46">4.6 Roadmap Table</a>
+      <a class="toc-item" href="#f47">4.7 Timeline View</a>
+      <a class="toc-item" href="#f48">4.8 Kanban View</a>
+      <a class="toc-item" href="#f49">4.9 Record Detail Panel</a>
+      <a class="toc-item" href="#f410">4.10 Filter Panel</a>
+      <a class="toc-item" href="#f411">4.11 Ideas Backlog</a>
+      <a class="toc-item" href="#f412">4.12 Market Signals</a>
+      <a class="toc-item" href="#f413">4.13 Analytics</a>
+    </div>
+    <a class="toc-item" href="#s5">5. AI Intelligence Layer</a>
+    <a class="toc-item" href="#s6">6. Data & Integrations</a>
+    <a class="toc-item" href="#s7">7. Information Architecture</a>
+    <a class="toc-item" href="#s8">8. Non-Functional Reqs</a>
+    <a class="toc-item" href="#s9">9. Success Metrics</a>
+    <a class="toc-item" href="#s10">10. Phasing & Dependencies</a>
+    <a class="toc-item" href="#s11">11. Open Questions</a>
+  </div>
+</nav>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div class="main">
+
+<h1>Dynamic Roadmap V1</h1>
+<p style="font-size:17px;color:var(--text2);margin-bottom:4px;">Product Requirements Document</p>
+<div style="display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap;">
+  <span class="tag tag-accent">Miro Dynamic Roadmap</span>
+  <span class="tag tag-gray">Version 1.0 (MVP)</span>
+  <span class="tag tag-gray">February 2026</span>
+  <span class="tag" style="background:var(--yellow-bg);color:var(--yellow-t);">Draft</span>
+</div>
+
+<!-- ═══ 1. EXECUTIVE SUMMARY ═══ -->
+<h2 id="s1"><span class="num">1</span> Executive Summary</h2>
+
+<h3>Vision</h3>
+<div class="callout">Build a dynamic, AI-first roadmapping system within Miro where proactive intelligence -- drawn from customer signals, execution data, market context, and strategic goals -- continuously surfaces actionable decisions that keep product roadmaps aligned with reality and company strategy.</div>
+
+<h3>Why Now</h3>
+<ul>
+  <li><strong>$1B+ addressable market</strong> in roadmapping and portfolio management</li>
+  <li><strong>60% of Miro customers already use the product for roadmapping</strong>, yet it has the <strong>highest frustration score</strong> across all agile use cases (only 34% very satisfied)</li>
+  <li><strong>$2.7M ARR in customers</strong> explicitly telling Miro that its roadmapping capabilities are not good enough</li>
+  <li><strong>Productboard is deprecating legacy ARR boards</strong> -- customers are actively evaluating alternatives including Miro Insights</li>
+  <li><strong>No competitor combines</strong> visual collaboration, two-way Jira integration, AI-powered customer insights, and infinite canvas flexibility</li>
+</ul>
+
+<h3>Target Personas</h3>
+<table>
+  <thead><tr><th>Persona</th><th>Role</th><th>Primary Need</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Product Manager (PM)</strong></td><td>Builds and maintains roadmaps, prioritizes features, communicates plans</td><td>Evidence-driven execution: reduce manual toil, connect customer evidence to every decision</td></tr>
+    <tr><td><strong>Product Leader</strong></td><td>Oversees portfolio, ensures strategic alignment, resource allocation</td><td>Strategic command center: portfolio visibility, alignment confidence, fast evidence-based decisions</td></tr>
+  </tbody>
+</table>
+
+<h3>V1 Success Criteria</h3>
+<div class="metric-grid">
+  <div class="metric-card"><div class="target">&lt; 5 min</div><div class="name">Create roadmap connected to Jira + Insights</div></div>
+  <div class="metric-card"><div class="target">Zero</div><div class="name">Manual entry for enriched customer data</div></div>
+  <div class="metric-card"><div class="target">3+/week</div><div class="name">Actionable insights from AI Pulse</div></div>
+  <div class="metric-card"><div class="target">80%+</div><div class="name">Items traceable to customer evidence</div></div>
+</div>
+
+<!-- ═══ 2. PROBLEM STATEMENT ═══ -->
+<h2 id="s2"><span class="num">2</span> Problem Statement</h2>
+
+<h3>Core Pain Points</h3>
+<table>
+  <thead><tr><th>Pain</th><th>Description</th><th>Severity</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Decision traceability</strong></td><td>PM struggles to trace decisions back to specific customer feedback. Prioritization feels arbitrary.</td><td><span class="sev-critical">Critical</span></td></tr>
+    <tr><td><strong>Roadmap currency</strong></td><td>PM struggles to keep roadmap updated as changes occur. Stale within days of creation.</td><td><span class="sev-critical">Critical</span></td></tr>
+    <tr><td><strong>Real-time visibility</strong></td><td>No accurate real-time visibility into delivery status. Information always stale.</td><td><span class="sev-high">High</span></td></tr>
+    <tr><td><strong>Manual signal gathering</strong></td><td>PM spends 4-6 hours/week manually collecting feedback from Gong, Salesforce, Zendesk, NPS.</td><td><span class="sev-high">High</span></td></tr>
+    <tr><td><strong>Idea validation</strong></td><td>No quantified demand data per backlog item. Can't validate ideas against actual customer needs.</td><td><span class="sev-high">High</span></td></tr>
+    <tr><td><strong>Ad-hoc reporting</strong></td><td>Frequent ad-hoc questions about roadmap status from sales, executives, and CS.</td><td><span class="sev-medium">Medium</span></td></tr>
+    <tr><td><strong>Manual reporting</strong></td><td>Creates separate reports for each audience. 5-8 hours/week on communication overhead.</td><td><span class="sev-medium">Medium</span></td></tr>
+  </tbody>
+</table>
+
+<h3>The Gap</h3>
+<p>Today's roadmapping workflow is <strong>fragmented, manual, and reactive</strong>:</p>
+<ol>
+  <li>Customer feedback lives in Gong/Salesforce/Zendesk -- disconnected from the roadmap</li>
+  <li>Execution status lives in Jira -- disconnected from the roadmap</li>
+  <li>Market intelligence is ad-hoc -- not systematically connected to decisions</li>
+  <li>Strategy documents live in slides/spreadsheets -- disconnected from execution</li>
+  <li>The PM is the manual integration layer, spending more time gathering data than making decisions</li>
+</ol>
+
+<div class="callout success"><div class="label">The Opportunity</div>A dynamic roadmap that automatically connects all five signal sources and proactively surfaces intelligence eliminates the manual integration burden and puts evidence at the center of every decision.</div>
+
+<!-- ═══ 3. USER STORIES ═══ -->
+<h2 id="s3"><span class="num">3</span> User Stories & Personas</h2>
+
+<h3>3.1 Product Manager Stories</h3>
+
+<h4>Discovery & Insights</h4>
+<div class="story">As a PM, I want to see <strong>AI-curated customer insights</strong> relevant to my roadmap items so that I can prioritize based on real customer demand, not assumptions.</div>
+<div class="story">As a PM, I want each backlog item <strong>enriched with customer count, ARR, and representative quotes</strong> so that I can defend prioritization decisions with evidence.</div>
+
+<h4>Roadmap Creation</h4>
+<div class="story">As a PM, I want to <strong>create a new product roadmap by describing what I'm building</strong> and having AI suggest relevant data sources to connect, so that I can get started quickly without manual setup.</div>
+<div class="story">As a PM, I want to <strong>import items from my Jira project</strong> directly into the roadmap with two-way sync, so that execution status stays current automatically.</div>
+
+<h4>Roadmap Management</h4>
+<div class="story">As a PM, I want to <strong>view my roadmap as a table, timeline, or kanban board</strong>, so that I can switch views based on context (planning vs. presenting vs. tracking).</div>
+<div class="story">As a PM, I want to <strong>score items using Impact, Confidence, and Effort (ICE)</strong> with an auto-calculated composite score, so that I have a consistent prioritization framework.</div>
+<div class="story">As a PM, I want to <strong>filter the roadmap by status, priority, assignee, company, and ICE score</strong>, so that I can focus on specific subsets.</div>
+
+<h4>Record Detail</h4>
+<div class="story">As a PM, I want to click a roadmap item and see its <strong>details, customer signals, and comments</strong> in a side panel, so that I have full context without leaving the roadmap view.</div>
+
+<h4>Ideas Management</h4>
+<div class="story">As a PM, I want a separate <strong>"Ideas Backlog" section</strong> where pre-committed ideas live with the same enrichment and scoring as roadmap items, so that I can evaluate ideas before committing them.</div>
+
+<h3>3.2 Product Leader Stories</h3>
+
+<h4>Pulse & Intelligence</h4>
+<div class="story">As a Product Leader, I want an <strong>AI-curated Pulse view</strong> that shows the most important insights, competitive threats, customer signals, and suggested actions, so that I always know what needs attention.</div>
+<div class="story">As a Product Leader, I want the AI to <strong>alert me when customer feedback patterns shift</strong> or competitors make moves, so that I can respond quickly.</div>
+
+<h4>Market & Analytics</h4>
+<div class="story">As a Product Leader, I want a <strong>Market Signals section</strong> that tracks competitor launches, market trends, and regulatory changes.</div>
+<div class="story">As a Product Leader, I want an <strong>Analytics section</strong> showing product usage data, feature adoption, and satisfaction metrics.</div>
+
+<!-- ═══ 4. FEATURE SCOPE ═══ -->
+<h2 id="s4"><span class="num">4</span> Feature Scope -- V1</h2>
+
+<!-- 4.1 -->
+<div class="feature-card" id="f41">
+<h3>4.1 Entry Point: Create Product Roadmap from Spaces</h3>
+<p class="desc">Add "Product Roadmap" as a new creation option in the Miro Spaces overview alongside existing options (Blank board, Project, From template).</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.1.1</td><td>Add "Product Roadmap" option to the "+ Create new" dropdown in Spaces overview</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.1.2</td><td>Product Roadmap option visually distinguished (highlighted/featured) to drive discovery</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.1.3</td><td>Clicking "Product Roadmap" opens the AI-powered creation dialog (4.2)</td><td><span class="p0">P0</span></td></tr>
+</tbody></table>
+<span class="wf-ref">Screen 1 -- Spaces Overview + Create New</span>
+</div>
+
+<!-- 4.2 -->
+<div class="feature-card" id="f42">
+<h3>4.2 AI-Powered Roadmap Creation Dialog</h3>
+<p class="desc">A modal dialog where the user names their roadmap and describes what they want to build via an AI chat interface. The AI processes the description and suggests relevant data sources to connect.</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.2.1</td><td>Modal with "Roadmap name" text input field</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.2.2</td><td>AI chat text area: "Tell us about what you want to build a roadmap for..."</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.2.3</td><td>AI processes description and suggests relevant Jira projects, strategy docs, Miro boards, and analytics tools to connect</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.2.4</td><td>Suggestions shown as badges below the description with confirm/dismiss actions</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.2.5</td><td>"Add collaborators" section to invite team members</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.2.6</td><td>"Create roadmap" button creates the Product Roadmap Space and launches onboarding</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.2.7</td><td>AI suggestions based on user's Miro workspace content and connected integrations</td><td><span class="p1">P1</span></td></tr>
+</tbody></table>
+<span class="wf-ref">Screen 2 -- Roadmap Creation Dialog</span>
+</div>
+
+<!-- 4.3 -->
+<div class="feature-card" id="f43">
+<h3>4.3 Product Roadmap Space Structure</h3>
+<p class="desc">Creating a roadmap generates a new Product Roadmap Space with a persistent left sidebar navigation organized into three sections: Pulse, Plan (Roadmap, Ideas Backlog), and Signals (Market, Analytics).</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.3.1</td><td>Product Roadmap Space uses Miro's sidebar design pattern</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.3.2</td><td>Sidebar top: "Pulse" with notification badge showing count of new insights</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.3.3</td><td>Sidebar "Plan" section: "Roadmap" and "Ideas Backlog"</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.3.4</td><td>Sidebar "Signals" section: "Market" and "Analytics"</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.3.5</td><td>Clicking any sidebar item navigates to that section's full-screen view</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.3.6</td><td>Top bar: Miro logo, breadcrumb (Product Roadmap > [Name]), classification badge</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.3.7</td><td>User lands on Pulse section by default when entering the space</td><td><span class="p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- 4.4 -->
+<div class="feature-card" id="f44">
+<h3>4.4 Pulse View -- AI-Curated Insights Overview</h3>
+<p class="desc">The default landing view showing a grid of AI-curated intelligence cards covering the most important things the PM/leader needs to know right now.</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.4.1</td><td>"Pulse Summary" card (full-width) with 3-5 bullet-point insights with emoji severity indicators</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.4.2</td><td>"Competitive Threats" card showing recent competitor moves with impact tags</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.4.3</td><td>"Top Customer Insights" card showing top 3 feedback themes with account count, ARR, trend</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.4.4</td><td>"Suggested Actions" card with AI recommendations tagged by action type</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.4.5</td><td>"Roadmap Health" card showing item count breakdown by status</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.4.6</td><td>"Execution Snapshot" card showing sprint velocity, blockers, next milestone</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.4.7</td><td>All cards clickable, expand to more detail or navigate to relevant sections</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.4.8</td><td>Pulse content refreshes daily; critical alerts surface in real-time</td><td><span class="p0">P0</span></td></tr>
+</tbody></table>
+<span class="wf-ref">Screen 4 -- Pulse (Populated)</span>
+</div>
+
+<!-- 4.5 -->
+<div class="feature-card" id="f45">
+<h3>4.5 AI Sidekick -- First-Time Onboarding</h3>
+<p class="desc">When the user first lands on a newly created Product Roadmap Space, a full-screen AI Sidekick panel overlays the Pulse view, guiding artifact connection.</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.5.1</td><td>Full-screen overlay panel with AI branding (gradient purple header, sparkle icon)</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.5.2</td><td>Header: "Connect your artifacts"</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.5.3</td><td>List of suggested artifacts based on creation-time description</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.5.4</td><td>Each suggestion: icon, title, description, "Connect" / "Skip" buttons</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.5.5</td><td>Artifact types: Jira, Strategy doc, Miro board, Analytics tool, Miro Insights</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.5.6</td><td>"Skip for now" button to dismiss and proceed to empty Pulse</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.5.7</td><td>"Connect & build roadmap" button triggers ingestion and populates Pulse/Roadmap/Signals</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.5.8</td><td>Sidekick remains available as conversational copilot after onboarding</td><td><span class="p2">P2</span></td></tr>
+</tbody></table>
+<span class="wf-ref">Screen 3 -- Pulse + AI Sidekick</span>
+</div>
+
+<!-- 4.6 -->
+<div class="feature-card" id="f46">
+<h3>4.6 Roadmap Table View</h3>
+<p class="desc">Full-screen data table showing all roadmap items with core fields, ICE scoring, and AI-enriched columns from Miro Insights. Supports Jira-synced items with visual indicators.</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.6.1</td><td>View switcher tabs: Table (default) / Timeline / Kanban</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.6.2</td><td>Core columns: Row #, Title, Description, Status, Priority, Assignee</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.6.3</td><td>Scoring columns: Impact (1-10), Confidence (0-1), Effort (1-10), ICE Score (auto-calc)</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.6.4</td><td>Enriched columns (read-only): # Mentions, Est. Revenue Impact, Company Names (pills)</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.6.5</td><td>Enriched headers: sparkle icon + orange color, tooltip "Enriched fields are read-only"</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.6.6</td><td>Jira-synced rows display blue Jira icon next to title</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.6.7</td><td>Clicking a row opens Record Detail Side Panel (4.9)</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.6.8</td><td>Table sortable by any column</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.6.9</td><td>Sticky header row on scroll</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.6.10</td><td>Status values: To do, In progress, Done, Blocked</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.6.11</td><td>Priority values: High (red), Medium (yellow), Low (green)</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.6.12</td><td>Filter button opens Filter Panel (4.10)</td><td><span class="p0">P0</span></td></tr>
+</tbody></table>
+<span class="wf-ref">Screen 5 -- Roadmap Table View</span>
+</div>
+
+<!-- 4.7 -->
+<div class="feature-card" id="f47">
+<h3>4.7 Timeline View</h3>
+<p class="desc">Same roadmap data rendered as a Gantt-style horizontal timeline with colored bars, Jira icons, and ICE scores.</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.7.1</td><td>Horizontal time axis with configurable granularity (months/quarters)</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.7.2</td><td>Each item rendered as a horizontal bar spanning start-to-due-date</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.7.3</td><td>Bars colored by status</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.7.4</td><td>Jira icon on bars for synced items</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.7.5</td><td>ICE score label on each bar</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.7.6</td><td>Risk indicator (warning icon) on at-risk items</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.7.7</td><td>Fixed left column for item labels, timeline scrolls horizontally</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.7.8</td><td>Clicking a bar opens Record Detail Side Panel</td><td><span class="p0">P0</span></td></tr>
+</tbody></table>
+<span class="wf-ref">Screen 7 -- Timeline View</span>
+</div>
+
+<!-- 4.8 -->
+<div class="feature-card" id="f48">
+<h3>4.8 Kanban View</h3>
+<p class="desc">Same roadmap data as a kanban board with columns per status. Cards show title, description, ICE score, and enriched data.</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.8.1</td><td>Columns: To do, In progress, Done, Blocked</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.8.2</td><td>Column headers show item count</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.8.3</td><td>Cards: title (Jira icon if synced), description, ICE badge, priority tag, company pills</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.8.4</td><td>Cards draggable between columns to update status</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.8.5</td><td>Clicking a card opens Record Detail Side Panel</td><td><span class="p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- 4.9 -->
+<div class="feature-card" id="f49">
+<h3>4.9 Record Detail Side Panel</h3>
+<p class="desc">Slide-in right panel with three tabs: Details, Customer Signals, and Comments.</p>
+
+<h4>Details Tab</h4>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.9.1</td><td>Panel slides from right, 480px wide, with close button</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.9.2</td><td>Header: item title and Jira icon (if synced)</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.9.3</td><td>Three tabs: Details, Customer Signals, Comments</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.9.4</td><td>Core fields: Title, Function, Status, Priority, Assignee, Start/Due Date</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.9.5</td><td>Scoring fields: Impact, Confidence, Effort, ICE Score</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.9.6</td><td>Jira section: Jira Key, Sprint, Story Points, Epic, Parent</td><td><span class="p0">P0</span></td></tr>
+</tbody></table>
+
+<h4>Customer Signals Tab</h4>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.9.8</td><td>AI-generated summary paragraph</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.9.9</td><td>Impact estimates: Total Mentions, Unique Customers, Est. Revenue Impact</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.9.10</td><td>Top impacted companies as pill tags with "+N" overflow</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.9.11</td><td>Feedback cards: type badge, star rating, quote, author, date</td><td><span class="p0">P0</span></td></tr>
+</tbody></table>
+
+<h4>Comments Tab</h4>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.9.13</td><td>Threaded comment list with avatar, author, timestamp, text</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.9.14</td><td>"Add a comment" text area with submit button</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.9.15</td><td>@mentions support</td><td><span class="p2">P2</span></td></tr>
+</tbody></table>
+<span class="wf-ref">Screen 6 -- Record Detail Side Panel</span>
+</div>
+
+<!-- 4.10 -->
+<div class="feature-card" id="f410">
+<h3>4.10 Filter Panel</h3>
+<p class="desc">Sidebar panel with multi-field filtering.</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.10.1</td><td>Filter button opens/closes the panel</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.10.2</td><td>Filter by Status (checkboxes)</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.10.3</td><td>Filter by Priority (checkboxes)</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.10.4</td><td>Filter by Assignee</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.10.5</td><td>Filter by Jira Sync</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.10.6</td><td>Filter by ICE Score range</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.10.7</td><td>Filter by Company</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.10.8</td><td>Applied filters immediately update table</td><td><span class="p0">P0</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- 4.11 -->
+<div class="feature-card" id="f411">
+<h3>4.11 Ideas Backlog</h3>
+<p class="desc">Separate table view for pre-committed ideas under evaluation. All items have status "Ideas Backlog".</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.11.1</td><td>Accessible via "Ideas Backlog" in sidebar under "Plan"</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.11.2</td><td>Same table columns as Roadmap with enriched columns</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.11.3</td><td>"+ Add idea" button</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.11.4</td><td>Clicking an idea opens Record Detail Side Panel</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.11.5</td><td>Ability to promote idea to Roadmap</td><td><span class="p1">P1</span></td></tr>
+</tbody></table>
+<span class="wf-ref">Screen 8 -- Ideas Backlog</span>
+</div>
+
+<!-- 4.12 -->
+<div class="feature-card" id="f412">
+<h3>4.12 Market Signals Section</h3>
+<p class="desc">Competitive intelligence, market trends, and regulatory changes. Replicates the Market Signals view from the Product Intelligence Dashboard.</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.12.1</td><td>Accessible via "Market" under "Signals"</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.12.2</td><td>AI "Market Intelligence TL;DR" with severity indicators</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.12.3</td><td>Competitive Recommendations (numbered AI recommendations)</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.12.4</td><td>Competitive threat cards with details and screenshots</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.12.7</td><td>AI matches market signals against roadmap items</td><td><span class="p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- 4.13 -->
+<div class="feature-card" id="f413">
+<h3>4.13 Analytics Section</h3>
+<p class="desc">Product usage data, feature adoption metrics, and satisfaction scores. Replicates the Analytics view from the Product Intelligence Dashboard.</p>
+<table><thead><tr><th>Req ID</th><th>Requirement</th><th>Priority</th></tr></thead><tbody>
+<tr><td>4.13.1</td><td>Accessible via "Analytics" under "Signals"</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.13.2</td><td>AI "Weekly Pulse TL;DR" summary</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.13.3</td><td>MAU/WAU stat tiles with deltas</td><td><span class="p0">P0</span></td></tr>
+<tr><td>4.13.4</td><td>WAU trend charts (12 weeks) with segment breakdown</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.13.5</td><td>In-product feedback: CSAT scores, liked/lacked themes</td><td><span class="p1">P1</span></td></tr>
+<tr><td>4.13.6</td><td>AI recommendations based on analytics data</td><td><span class="p1">P1</span></td></tr>
+</tbody></table>
+</div>
+
+<!-- ═══ 5. AI INTELLIGENCE LAYER ═══ -->
+<h2 id="s5"><span class="num">5</span> AI Intelligence Layer</h2>
+
+<h3>5.1 Opportunity Spotter (V1 Scope)</h3>
+<table><thead><tr><th>Attribute</th><th>V1 Scope</th></tr></thead><tbody>
+<tr><td><strong>Function</strong></td><td>Clusters customer feedback from Miro Insights and matches against roadmap items</td></tr>
+<tr><td><strong>Primary signals</strong></td><td>Customer Voice (Miro Insights), Business Metrics</td></tr>
+<tr><td><strong>V1 outputs</strong></td><td>Enriched columns (# Mentions, ARR, Companies); Customer Signals tab; Pulse "Top Customer Insights"</td></tr>
+<tr><td><strong>Deferred to V2</strong></td><td>Automated opportunity cards with competitive context; proactive theme detection</td></tr>
+</tbody></table>
+
+<h3>5.2 Risk Predictor (V1 Scope)</h3>
+<table><thead><tr><th>Attribute</th><th>V1 Scope</th></tr></thead><tbody>
+<tr><td><strong>Function</strong></td><td>Analyzes Jira execution data to surface delivery risks</td></tr>
+<tr><td><strong>Primary signals</strong></td><td>Execution Reality (Jira -- velocity, blockers, scope)</td></tr>
+<tr><td><strong>V1 outputs</strong></td><td>Pulse "Execution Snapshot"; risk indicators on timeline; at-risk count in "Roadmap Health"</td></tr>
+<tr><td><strong>Deferred to V2</strong></td><td>Predictive delivery dates; root cause analysis; escalation to leadership</td></tr>
+</tbody></table>
+
+<h3>5.3 Cadence Automator (V1 Lite)</h3>
+<table><thead><tr><th>Attribute</th><th>V1 Scope</th></tr></thead><tbody>
+<tr><td><strong>Function</strong></td><td>Generates the daily/weekly Pulse summary content</td></tr>
+<tr><td><strong>V1 outputs</strong></td><td>Pulse Summary card; suggested actions</td></tr>
+<tr><td><strong>Deferred to V2</strong></td><td>Slack digests; monthly alignment reports; quarterly planning packages</td></tr>
+</tbody></table>
+
+<h3>Deferred to V2+</h3>
+<ul>
+  <li><strong>Alignment Monitor</strong>: Goal-to-initiative alignment, orphan detection, drift alerts</li>
+  <li><strong>Scenario Simulator</strong>: Multi-scenario modeling with cascading impact</li>
+  <li><strong>Full Cadence Automator</strong>: Automated reports and communications</li>
+  <li><strong>Progressive Trust Levels 3-4</strong>: AI-generated artifacts, delegated actions</li>
+</ul>
+
+<!-- ═══ 6. DATA & INTEGRATIONS ═══ -->
+<h2 id="s6"><span class="num">6</span> Data & Integrations</h2>
+
+<h3>6.1 Jira Two-Way Sync</h3>
+<table><thead><tr><th>Requirement</th><th>Details</th></tr></thead><tbody>
+<tr><td><strong>Sync scope</strong></td><td>Epics, stories, tasks from connected Jira project(s)</td></tr>
+<tr><td><strong>Direction</strong></td><td>Two-way: status changes in Miro reflect in Jira and vice versa</td></tr>
+<tr><td><strong>Fields from Jira</strong></td><td>Key, Status, Sprint, Story Points, Epic Link, Assignee, Summary, Description</td></tr>
+<tr><td><strong>Fields to Jira</strong></td><td>Status changes, priority updates</td></tr>
+<tr><td><strong>Frequency</strong></td><td>Real-time for status; polling every 5 minutes for other fields</td></tr>
+<tr><td><strong>Visual indicator</strong></td><td>Blue Jira icon badge on synced items in all views</td></tr>
+</tbody></table>
+
+<h3>6.2 Miro Insights Integration</h3>
+<table><thead><tr><th>Requirement</th><th>Details</th></tr></thead><tbody>
+<tr><td><strong>Data consumed</strong></td><td>Feedback themes, account mentions, ARR, quotes, sentiment</td></tr>
+<tr><td><strong>Enrichment</strong></td><td>Roadmap + Ideas Backlog items enriched automatically</td></tr>
+<tr><td><strong>Frequency</strong></td><td>Daily re-enrichment; real-time for high-priority signals</td></tr>
+<tr><td><strong>Display</strong></td><td>Enriched columns (read-only), Customer Signals tab, Pulse cards</td></tr>
+</tbody></table>
+
+<h3>6.3 Strategy Documents</h3>
+<table><thead><tr><th>Requirement</th><th>Details</th></tr></thead><tbody>
+<tr><td><strong>Formats</strong></td><td>Miro boards, Google Docs, Confluence pages (linked)</td></tr>
+<tr><td><strong>AI processing</strong></td><td>Extract goals, OKRs, strategic themes from linked docs</td></tr>
+</tbody></table>
+
+<h3>6.4 Analytics Tools</h3>
+<table><thead><tr><th>Requirement</th><th>Details</th></tr></thead><tbody>
+<tr><td><strong>Platforms</strong></td><td>Amplitude, Mixpanel, Snowflake (via API)</td></tr>
+<tr><td><strong>Data consumed</strong></td><td>Feature adoption, WAU/MAU, session data, retention, CSAT</td></tr>
+</tbody></table>
+
+<!-- ═══ 7. INFORMATION ARCHITECTURE ═══ -->
+<h2 id="s7"><span class="num">7</span> Information Architecture</h2>
+
+<h3>7.1 Space Structure</h3>
+<div class="tree">Product Roadmap Space
+├── Pulse (default landing)
+│   ├── TL;DR Summary
+│   ├── Competitive Threats
+│   ├── Customer Insights
+│   ├── Suggested Actions
+│   ├── Roadmap Health
+│   └── Execution Snapshot
+├── Plan
+│   ├── Roadmap
+│   │   ├── Table View (default)
+│   │   ├── Timeline View
+│   │   └── Kanban View
+│   └── Ideas Backlog
+│       └── Table View
+└── Signals
+    ├── Market
+    │   ├── Market TL;DR
+    │   ├── Competitive Threats
+    │   └── Feature Comparison
+    └── Analytics
+        ├── Analytics TL;DR
+        ├── Usage Stats
+        ├── Trend Charts
+        └── Feedback Themes</div>
+
+<h3>7.2 Data Model -- Roadmap Item</h3>
+<table><thead><tr><th>Field</th><th>Type</th><th>Source</th><th>Editable</th></tr></thead><tbody>
+<tr><td>Title</td><td>Text</td><td>Manual / Jira</td><td><span class="tag tag-green">Yes</span></td></tr>
+<tr><td>Description</td><td>Rich text</td><td>Manual / Jira</td><td><span class="tag tag-green">Yes</span></td></tr>
+<tr><td>Status</td><td>Enum</td><td>Manual / Jira</td><td><span class="tag tag-green">Yes</span></td></tr>
+<tr><td>Priority</td><td>Enum (High/Med/Low)</td><td>Manual</td><td><span class="tag tag-green">Yes</span></td></tr>
+<tr><td>Impact</td><td>Integer (1-10)</td><td>Manual</td><td><span class="tag tag-green">Yes</span></td></tr>
+<tr><td>Confidence</td><td>Decimal (0-1)</td><td>Manual</td><td><span class="tag tag-green">Yes</span></td></tr>
+<tr><td>Effort</td><td>Integer (1-10)</td><td>Manual</td><td><span class="tag tag-green">Yes</span></td></tr>
+<tr><td>ICE Score</td><td>Decimal</td><td>Computed</td><td><span class="tag tag-gray">Auto</span></td></tr>
+<tr><td>Jira Key</td><td>Text</td><td>Jira sync</td><td><span class="tag tag-red">No</span></td></tr>
+<tr><td>Sprint</td><td>Text</td><td>Jira sync</td><td><span class="tag tag-red">No</span></td></tr>
+<tr><td>Story Points</td><td>Integer</td><td>Jira sync</td><td><span class="tag tag-red">No</span></td></tr>
+<tr><td># Mentions</td><td>Integer</td><td>Miro Insights</td><td><span class="tag tag-orange">Enriched</span></td></tr>
+<tr><td>Est. Revenue</td><td>Currency</td><td>Miro Insights</td><td><span class="tag tag-orange">Enriched</span></td></tr>
+<tr><td>Companies</td><td>Tag list</td><td>Miro Insights</td><td><span class="tag tag-orange">Enriched</span></td></tr>
+<tr><td>Sentiment</td><td>Score + label</td><td>Miro Insights</td><td><span class="tag tag-orange">Enriched</span></td></tr>
+</tbody></table>
+
+<!-- ═══ 8. NON-FUNCTIONAL ═══ -->
+<h2 id="s8"><span class="num">8</span> Non-Functional Requirements</h2>
+
+<h3>Performance</h3>
+<table><thead><tr><th>Requirement</th><th>Target</th></tr></thead><tbody>
+<tr><td>Space initial load time</td><td>&lt; 3 seconds</td></tr>
+<tr><td>View switching</td><td>&lt; 500ms</td></tr>
+<tr><td>Side panel animation</td><td>&lt; 300ms</td></tr>
+<tr><td>Table scroll (200+ items)</td><td>60fps, no jank</td></tr>
+<tr><td>Jira sync latency</td><td>&lt; 30 seconds</td></tr>
+<tr><td>Insights enrichment</td><td>&lt; 24 hours; &lt; 1 hour for critical</td></tr>
+</tbody></table>
+
+<h3>Security & Privacy</h3>
+<table><thead><tr><th>Requirement</th><th>Details</th></tr></thead><tbody>
+<tr><td>Data access</td><td>Respect Miro Space permissions</td></tr>
+<tr><td>Jira access</td><td>Scoped to connected project(s) only</td></tr>
+<tr><td>AI data handling</td><td>No customer data used for model training</td></tr>
+<tr><td>Classification</td><td>Support Internal/Confidential/Public badges</td></tr>
+</tbody></table>
+
+<h3>Progressive Trust Model (V1)</h3>
+<p>Launches at <strong>Level 1 (Observer)</strong> and <strong>Level 2 (Advisor)</strong>:</p>
+<ul>
+  <li><strong>Level 1 -- Observer</strong>: AI monitors and surfaces alerts. User makes all decisions.</li>
+  <li><strong>Level 2 -- Advisor</strong>: AI provides recommendations with evidence. User approves or rejects.</li>
+</ul>
+<p>Levels 3-4 deferred to future versions.</p>
+
+<!-- ═══ 9. SUCCESS METRICS ═══ -->
+<h2 id="s9"><span class="num">9</span> Success Metrics</h2>
+
+<h3>Adoption</h3>
+<div class="metric-grid">
+  <div class="metric-card"><div class="target">500+</div><div class="name">Roadmaps created (90 days)</div></div>
+  <div class="metric-card"><div class="target">5+/space</div><div class="name">Weekly active users</div></div>
+  <div class="metric-card"><div class="target">70%+</div><div class="name">Jira connection rate</div></div>
+  <div class="metric-card"><div class="target">50%+</div><div class="name">Insights connection rate</div></div>
+</div>
+
+<h3>Engagement</h3>
+<div class="metric-grid">
+  <div class="metric-card"><div class="target">3+/week</div><div class="name">Pulse view visits per user</div></div>
+  <div class="metric-card"><div class="target">2+ views</div><div class="name">View switching per roadmap</div></div>
+  <div class="metric-card"><div class="target">10+/week</div><div class="name">Detail panel opens per user</div></div>
+  <div class="metric-card"><div class="target">15%+</div><div class="name">Ideas promoted within 30 days</div></div>
+</div>
+
+<h3>Satisfaction</h3>
+<div class="metric-grid">
+  <div class="metric-card"><div class="target">4.0+ / 5.0</div><div class="name">Roadmap CSAT (from 3.0)</div></div>
+  <div class="metric-card"><div class="target">80% reduction</div><div class="name">PM signal gathering time</div></div>
+  <div class="metric-card"><div class="target">80%+</div><div class="name">Decisions backed by evidence</div></div>
+  <div class="metric-card"><div class="target">+30 NPS</div><div class="name">Dynamic Roadmap NPS</div></div>
+</div>
+
+<h3>Business Impact</h3>
+<div class="metric-grid">
+  <div class="metric-card"><div class="target">&lt; 30%</div><div class="name">Frustration score (from 66%)</div></div>
+  <div class="metric-card"><div class="target">+20%</div><div class="name">Competitive win rate</div></div>
+  <div class="metric-card"><div class="target">$2M+</div><div class="name">Incremental ARR (Year 1)</div></div>
+</div>
+
+<!-- ═══ 10. PHASING ═══ -->
+<h2 id="s10"><span class="num">10</span> Phasing & Dependencies</h2>
+
+<h3>V1 Scope (This Document)</h3>
+<ul>
+  <li>Entry flow (create from Spaces)</li>
+  <li>AI creation dialog</li>
+  <li>Product Roadmap Space with sidebar navigation</li>
+  <li>Pulse view with AI intelligence</li>
+  <li>AI Sidekick onboarding</li>
+  <li>Roadmap table, timeline, kanban views</li>
+  <li>Record detail panel with customer signals</li>
+  <li>Ideas backlog</li>
+  <li>Market and Analytics signal sections</li>
+  <li>Jira two-way sync</li>
+  <li>Miro Insights enrichment</li>
+</ul>
+
+<h3>Deferred to V2</h3>
+<ul>
+  <li>Portfolio dashboard for leaders</li>
+  <li>Full AI agent suite (Alignment Monitor, Scenario Simulator)</li>
+  <li>Goal/OKR integration</li>
+  <li>Cross-team dependency intelligence</li>
+  <li>Auto-generated stakeholder views</li>
+  <li>Snapshot/scenario mode</li>
+  <li>Progressive trust Levels 3-4</li>
+  <li>Cadence Automator for Slack/email</li>
+</ul>
+
+<h3>Key Dependencies</h3>
+<table><thead><tr><th>Dependency</th><th>Owner</th><th>Status</th><th>Risk</th></tr></thead><tbody>
+<tr><td>Miro Insights x Tables enrichment GA</td><td>Lauren Brucato</td><td>V1 in progress</td><td><span class="sev-medium">Medium</span></td></tr>
+<tr><td>Jira two-way sync enhancement</td><td>Engineering</td><td>Exists, needs work</td><td><span class="tag tag-green">Low</span></td></tr>
+<tr><td>Miro Spaces architecture</td><td>Platform team</td><td>Exists</td><td><span class="tag tag-green">Low</span></td></tr>
+<tr><td>AI inference infrastructure</td><td>AI Platform</td><td>Exists (Sidekick)</td><td><span class="tag tag-green">Low</span></td></tr>
+<tr><td>Analytics data pipeline</td><td>Data Engineering</td><td>Needs development</td><td><span class="sev-medium">Medium</span></td></tr>
+</tbody></table>
+
+<!-- ═══ 11. OPEN QUESTIONS ═══ -->
+<h2 id="s11"><span class="num">11</span> Open Questions</h2>
+<table><thead><tr><th>#</th><th>Question</th><th>Impact</th><th>Owner</th></tr></thead><tbody>
+<tr><td>1</td><td>Should Jira sync support Azure DevOps in V1, or defer to V2?</td><td>Scope -- adds integration complexity</td><td>PM + Eng</td></tr>
+<tr><td>2</td><td>Max number of roadmap items in V1? (100? 500? 1000?)</td><td>Architecture -- rendering + enrichment costs</td><td>Engineering</td></tr>
+<tr><td>3</td><td>Handle Insights enrichment for items with no matching feedback?</td><td>UX -- show empty or hide?</td><td>PM + Design</td></tr>
+<tr><td>4</td><td>AI Sidekick: Claude or internal model?</td><td>Cost + quality tradeoff</td><td>AI Platform</td></tr>
+<tr><td>5</td><td>Pricing model? (Business plan? Enterprise? Add-on?)</td><td>GTM -- affects adoption targets</td><td>Product + Finance</td></tr>
+<tr><td>6</td><td>Conflicting Jira status vs. manual Miro status?</td><td>UX -- source of truth</td><td>PM + Eng</td></tr>
+<tr><td>7</td><td>Market Signals: live scraping or curated feeds?</td><td>Technical + legal</td><td>Legal + Eng</td></tr>
+<tr><td>8</td><td>Rollout strategy? (Beta? GA? Internal dogfooding?)</td><td>Go-to-market</td><td>PM + GTM</td></tr>
+<tr><td>9</td><td>How to measure AI accuracy for Pulse insights?</td><td>Quality -- false positives erode trust</td><td>PM + AI</td></tr>
+<tr><td>10</td><td>Ideas Backlog: support voting/upvoting from stakeholders?</td><td>Feature scope</td><td>PM</td></tr>
+</tbody></table>
+
+</div><!-- /main -->
+</div><!-- /page -->
+
+<script>
+// Highlight active TOC item on scroll
+const sections = document.querySelectorAll('h2[id], h3[id], .feature-card[id]');
+const tocItems = document.querySelectorAll('.toc-item');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+  tocItems.forEach(t => { t.classList.toggle('active', t.getAttribute('href') === '#' + current); });
+});
+</script>
+</body>
+</html>

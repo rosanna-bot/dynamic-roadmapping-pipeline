@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miro Dynamic Roadmap - Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: #f8f8f5; color: #1a1a2e; min-height: 100vh; overflow-x: hidden; }
+    
+    /* Header */
+    .header { background: #1a1a2e; color: white; display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
+    .header .logo { font-weight: 700; font-size: 20px; }
+    .header .spaces-link { color: #94a3b8; font-size: 14px; cursor: pointer; text-decoration: none; }
+    .header .spaces-link:hover { color: white; }
+    
+    /* Screens */
+    .screen { display: none; min-height: 100vh; padding-top: 52px; transition: opacity 0.3s ease; }
+    .screen.active { display: block; }
+    
+    /* Screen 1: Spaces Overview */
+    #screen-1 { padding: 72px 24px 24px; }
+    .spaces-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+    .space-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; transition: box-shadow 0.2s; }
+    .space-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+    .space-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .space-card p { font-size: 14px; color: #6b7280; }
+    .create-section { max-width: 1200px; margin: 0 auto 32px; position: relative; }
+    .btn-create { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-create:hover { background: #4338ca; }
+    .dropdown { display: none; position: absolute; top: 100%; left: 0; margin-top: 8px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); padding: 8px; min-width: 240px; z-index: 100; }
+    .dropdown.open { display: block; }
+    .dropdown-item { padding: 12px 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; font-size: 14px; }
+    .dropdown-item:hover { background: #f3f4f6; }
+    .dropdown-item.highlighted { background: #eef2ff; color: #4f46e5; font-weight: 600; }
+    .dropdown-item .sparkle { font-size: 18px; }
+    
+    /* Screen 2: Creation Dialog */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 2000; padding: 24px; }
+    .modal-overlay.hidden { display: none; }
+    .modal { background: white; border-radius: 16px; max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.25); }
+    .modal-header { padding: 24px 24px 16px; border-bottom: 1px solid #e5e7eb; }
+    .modal-header h2 { font-size: 20px; font-weight: 600; }
+    .modal-body { padding: 24px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: #374151; }
+    .form-group input, .form-group textarea { width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; font-family: inherit; }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; background: #f3f4f6; border-radius: 8px; font-size: 13px; border: 1px solid #e5e7eb; }
+    .badge .dismiss { cursor: pointer; color: #6b7280; margin-left: 4px; }
+    .badge .dismiss:hover { color: #dc2626; }
+    .collaborators { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+    .avatar { width: 32px; height: 32px; border-radius: 50%; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #6b7280; }
+    .avatar.add { background: #f3f4f6; color: #9ca3af; cursor: pointer; border: 2px dashed #d1d5db; }
+    .modal-footer { padding: 16px 24px 24px; }
+    .btn-primary { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; }
+    .btn-primary:hover { background: #4338ca; }
+    
+    /* Sidebar */
+    .sidebar { position: fixed; left: 0; top: 52px; width: 240px; height: calc(100vh - 52px); background: white; border-right: 1px solid #e5e7eb; z-index: 100; overflow-y: auto; }
+    .sidebar-nav { padding: 16px 0; }
+    .nav-section { margin-bottom: 24px; }
+    .nav-section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #9ca3af; padding: 0 20px 8px; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 20px; font-size: 14px; color: #374151; cursor: pointer; transition: background 0.2s; text-decoration: none; border: none; background: none; width: 100%; text-align: left; font-family: inherit; }
+    .nav-item:hover { background: #f3f4f6; color: #1a1a2e; }
+    .nav-item.active { background: #eef2ff; color: #4f46e5; font-weight: 600; }
+    .nav-item .badge-count { background: #4f46e5; color: white; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-left: auto; }
+    .nav-item .icon { width: 20px; text-align: center; }
+    
+    /* Main content area */
+    .main-content { margin-left: 240px; padding: 24px; min-height: calc(100vh - 52px); padding-top: 24px; }
+    
+    /* Breadcrumb */
+    .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; font-size: 14px; }
+    .breadcrumb a { color: #6b7280; text-decoration: none; }
+    .breadcrumb a:hover { color: #4f46e5; }
+    .breadcrumb span { color: #9ca3af; }
+    .breadcrumb .current { color: #1a1a2e; font-weight: 500; }
+    .breadcrumb .badge-internal { background: #e5e7eb; color: #6b7280; font-size: 11px; padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
+    
+    /* Cards */
+    .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 20px; }
+    .card-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: #374151; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+    .card-full { grid-column: 1 / -1; }
+    
+    /* Pulse summary items */
+    .pulse-item { padding: 12px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; display: flex; gap: 12px; }
+    .pulse-item:last-child { border-bottom: none; }
+    .pulse-item .icon { font-size: 18px; flex-shrink: 0; }
+    
+    /* Competitive threats */
+    .threat-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f3f4f6; }
+    .threat-item:last-child { border-bottom: none; }
+    .threat-item .name { font-weight: 600; }
+    .threat-item .desc { font-size: 13px; color: #6b7280; }
+    .threat-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+    .threat-tag.high { background: #fef2f2; color: #dc2626; }
+    .threat-tag.medium { background: #fffbeb; color: #b45309; }
+    
+    /* Customer insights */
+    .insight-row { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; }
+    .insight-row:last-child { border-bottom: none; }
+    .insight-row .topic { font-weight: 600; flex: 1; }
+    .insight-row .pct { color: #4f46e5; font-weight: 600; width: 50px; }
+    .insight-row .mentions { width: 80px; }
+    .insight-row .arr { width: 80px; }
+    .insight-row .trend { font-size: 12px; padding: 2px 6px; border-radius: 4px; }
+    .insight-row .trend.up { background: #dcfce7; color: #16a34a; }
+    .insight-row .trend.stable { background: #f3f4f6; color: #6b7280; }
+    
+    /* Suggested actions */
+    .action-item { padding: 8px 0; font-size: 14px; display: flex; gap: 8px; }
+    
+    /* Roadmap health */
+    .health-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+    .health-stat { display: flex; align-items: center; gap: 8px; }
+    .health-stat .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .health-stat .dot.progress { background: #2563eb; }
+    .health-stat .dot.todo { background: #6b7280; }
+    .health-stat .dot.done { background: #16a34a; }
+    .health-stat .dot.blocked { background: #dc2626; }
+    .health-donut { width: 80px; height: 80px; border-radius: 50%; background: conic-gradient(#2563eb 0 31%, #6b7280 31% 77%, #16a34a 77% 92%, #dc2626 92% 100%); margin-right: 20px; flex-shrink: 0; }
+    
+    /* Execution snapshot */
+    .exec-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+    .exec-stat { font-size: 14px; }
+    .exec-stat strong { color: #4f46e5; }
+    
+    /* Screen 3: AI Sidekick */
+    .ai-sidekick-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 500; padding: 24px; margin-left: 240px; top: 52px; }
+    .ai-sidekick-panel { background: white; border-radius: 16px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+    .ai-sidekick-header { background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%); color: white; padding: 24px; border-radius: 16px 16px 0 0; }
+    .ai-sidekick-header h3 { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .ai-sidekick-body { padding: 24px; }
+    .artifact-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid #e5e7eb; }
+    .artifact-item:last-child { border-bottom: none; }
+    .artifact-item .info h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .artifact-item .info p { font-size: 13px; color: #6b7280; }
+    .artifact-item .actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .btn-connect { background: #4f46e5; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; }
+    .btn-skip { background: transparent; color: #6b7280; border: 1px solid #d1d5db; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; }
+    
+    /* View switcher */
+    .view-switcher { display: flex; gap: 4px; margin-bottom: 20px; }
+    .view-tab { padding: 10px 20px; border: 1px solid #e5e7eb; background: white; border-radius: 8px; font-size: 14px; cursor: pointer; }
+    .view-tab:hover { background: #f9fafb; }
+    .view-tab.active { background: #4f46e5; color: white; border-color: #4f46e5; }
+    .toolbar { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; }
+    .btn-filter { padding: 8px 16px; border: 1px solid #d1d5db; background: white; border-radius: 8px; font-size: 14px; cursor: pointer; }
+    .search-bar { flex: 1; padding: 8px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; max-width: 300px; }
+    
+    /* Table */
+    .data-table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .data-table th, .data-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 13px; }
+    .data-table th { background: #f9fafb; font-weight: 600; color: #374151; }
+    .data-table th.sparkle { color: #ea580c; }
+    .data-table tr { cursor: pointer; transition: background 0.2s; }
+    .data-table tr:hover { background: #f9fafb; }
+    .data-table .num { width: 40px; }
+    .data-table .status { width: 100px; }
+    .status-pill { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 500; }
+    .status-pill.in-progress { background: #dbeafe; color: #2563eb; }
+    .status-pill.to-do { background: #f3f4f6; color: #6b7280; }
+    .status-pill.done { background: #dcfce7; color: #16a34a; }
+    .status-pill.blocked { background: #fef2f2; color: #dc2626; }
+    .priority-pill { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 500; }
+    .priority-pill.high { background: #fef2f2; color: #dc2626; }
+    .priority-pill.medium { background: #fffbeb; color: #b45309; }
+    .priority-pill.low { background: #dcfce7; color: #16a34a; }
+    .jira-icon { color: #2563eb; font-size: 14px; }
+    
+    /* Record Detail Panel */
+    .detail-panel { position: fixed; top: 0; right: 0; width: 480px; height: 100vh; background: white; box-shadow: -4px 0 24px rgba(0,0,0,0.15); z-index: 1500; overflow-y: auto; transform: translateX(100%); transition: transform 0.3s ease; }
+    .detail-panel.open { transform: translateX(0); }
+    .detail-panel-header { padding: 24px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: flex-start; }
+    .detail-panel-header h2 { font-size: 18px; font-weight: 600; }
+    .detail-panel-close { background: none; border: none; font-size: 24px; cursor: pointer; color: #6b7280; }
+    .detail-tabs { display: flex; gap: 4px; padding: 0 24px; border-bottom: 1px solid #e5e7eb; }
+    .detail-tab { padding: 12px 16px; font-size: 14px; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; color: #6b7280; }
+    .detail-tab.active { color: #4f46e5; font-weight: 600; border-bottom-color: #4f46e5; }
+    .detail-content { padding: 24px; }
+    .detail-field { margin-bottom: 16px; font-size: 14px; }
+    .detail-field strong { display: block; margin-bottom: 4px; color: #6b7280; font-weight: 500; }
+    .feedback-card { background: #f9fafb; border-radius: 8px; padding: 16px; margin-bottom: 12px; font-size: 13px; }
+    .feedback-card .source { font-weight: 600; margin-bottom: 4px; }
+    .feedback-card .stars { color: #f59e0b; margin-bottom: 8px; }
+    .comment-item { padding: 12px 0; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
+    .comment-item .author { font-weight: 600; margin-bottom: 4px; }
+    .comment-item .date { font-size: 12px; color: #9ca3af; }
+    .panel-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 1400; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .panel-backdrop.open { opacity: 1; pointer-events: auto; }
+    
+    /* Timeline */
+    .timeline-container { overflow-x: auto; background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .timeline-header { display: flex; margin-bottom: 20px; }
+    .timeline-labels { width: 280px; flex-shrink: 0; }
+    .timeline-months { display: flex; flex: 1; min-width: 600px; }
+    .timeline-month { flex: 1; text-align: center; font-size: 12px; font-weight: 600; color: #6b7280; }
+    .timeline-row { display: flex; align-items: center; margin-bottom: 12px; min-height: 36px; }
+    .timeline-row .label { width: 280px; flex-shrink: 0; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+    .timeline-row .bars { flex: 1; position: relative; min-width: 600px; height: 28px; }
+    .timeline-bar { position: absolute; height: 24px; top: 2px; border-radius: 4px; font-size: 11px; display: flex; align-items: center; padding: 0 8px; color: white; font-weight: 500; cursor: pointer; }
+    .timeline-bar.progress { background: #2563eb; }
+    .timeline-bar.todo { background: #6b7280; }
+    .timeline-bar.done { background: #16a34a; }
+    .timeline-bar.blocked { background: #dc2626; }
+    
+    /* Kanban */
+    .kanban-container { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; }
+    .kanban-column { flex: 0 0 280px; background: #f9fafb; border-radius: 12px; padding: 16px; min-height: 400px; }
+    .kanban-column h4 { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #374151; }
+    .kanban-column .count { background: #e5e7eb; color: #6b7280; font-size: 12px; padding: 2px 8px; border-radius: 10px; margin-left: 8px; }
+    .kanban-card { background: white; border-radius: 8px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: pointer; transition: box-shadow 0.2s; }
+    .kanban-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .kanban-card .title { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+    .kanban-card .meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; }
+    .kanban-card .ice-badge { background: #eef2ff; color: #4f46e5; padding: 2px 8px; border-radius: 4px; }
+    .kanban-card .company-pill { background: #f3f4f6; color: #6b7280; padding: 2px 8px; border-radius: 4px; }
+    
+    /* Filter panel */
+    .filter-panel { position: fixed; left: 240px; top: 52px; width: 320px; height: calc(100vh - 52px); background: white; box-shadow: 4px 0 24px rgba(0,0,0,0.1); z-index: 600; padding: 24px; overflow-y: auto; transform: translateX(-100%); transition: transform 0.3s; }
+    .filter-panel.open { transform: translateX(0); }
+    .filter-panel h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+    .filter-group { margin-bottom: 24px; }
+    .filter-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+    .filter-group .checkbox { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; cursor: pointer; font-size: 14px; }
+    .filter-group .checkbox input { width: 18px; height: 18px; }
+    .btn-apply { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 16px; }
+    .btn-clear { background: none; border: none; color: #6b7280; font-size: 13px; cursor: pointer; margin-top: 8px; }
+    
+    /* Stats tiles */
+    .stat-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .stat-tile { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .stat-tile .value { font-size: 24px; font-weight: 700; color: #1a1a2e; }
+    .stat-tile .change { font-size: 14px; color: #16a34a; }
+    .stat-tile .label { font-size: 13px; color: #6b7280; margin-top: 4px; }
+    
+    /* Chart */
+    .chart-container { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .chart-bars { display: flex; align-items: flex-end; gap: 4px; height: 120px; margin-top: 16px; }
+    .chart-bar { flex: 1; background: #4f46e5; border-radius: 4px 4px 0 0; min-width: 20px; }
+    .chart-labels { display: flex; gap: 4px; margin-top: 8px; font-size: 10px; color: #6b7280; }
+    .chart-labels span { flex: 1; text-align: center; min-width: 20px; }
+    
+    /* Ideas backlog */
+    .add-idea-btn { padding: 12px 24px; border: 2px dashed #d1d5db; background: #f9fafb; border-radius: 8px; color: #6b7280; font-size: 14px; cursor: pointer; width: 100%; margin-top: 16px; }
+    .add-idea-btn:hover { border-color: #4f46e5; color: #4f46e5; }
+    .ideas-row .promote-btn { opacity: 0; }
+    .ideas-row:hover .promote-btn { opacity: 1; }
+    .promote-btn { background: #4f46e5; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: opacity 0.2s; }
+    
+    /* Market/Analytics cards */
+    .tl-dr-item { padding: 12px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; }
+    .tl-dr-item:last-child { border-bottom: none; }
+    .recommendation-item { padding: 12px 0; font-size: 14px; display: flex; gap: 8px; }
+    .competitor-card { background: #f9fafb; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+    .competitor-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .competitor-card p { font-size: 13px; color: #6b7280; }
+    
+    /* Hide screens with sidebar when on screens 1-2 */
+    .with-sidebar .sidebar, .with-sidebar .main-content { display: none; }
+    .with-sidebar.active .sidebar, .with-sidebar.active .main-content { display: block; }
+    
+    .screen.with-sidebar .sidebar { display: block; position: fixed; }
+    .screen.with-sidebar .main-content { display: block; margin-left: 240px; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <span class="logo">miro</span>
+    <a href="#" class="spaces-link" onclick="showScreen(1); return false;">← Back to Spaces</a>
+  </header>
+
+  <!-- Screen 1: Spaces Overview -->
+  <div id="screen-1" class="screen active">
+    <div class="create-section">
+      <button class="btn-create" onclick="toggleDropdown()">+ Create new</button>
+      <div id="dropdown" class="dropdown">
+        <div class="dropdown-item">Blank board</div>
+        <div class="dropdown-item">Project</div>
+        <div class="dropdown-item">From template</div>
+        <div class="dropdown-item highlighted" onclick="showScreen(2)">
+          <span class="sparkle">✨</span> Product Roadmap
+        </div>
+      </div>
+    </div>
+    <div class="spaces-grid">
+      <div class="space-card">
+        <h3>Marketing Campaign</h3>
+        <p>Q1 2026 campaign planning</p>
+      </div>
+      <div class="space-card">
+        <h3>Q1 Sprint</h3>
+        <p>Engineering sprint backlog</p>
+      </div>
+      <div class="space-card">
+        <h3>Design System</h3>
+        <p>Component library roadmap</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 2: Creation Dialog -->
+  <div id="screen-2-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Create Product Roadmap</h2>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Roadmap name</label>
+          <input type="text" value="Agile Collaboration FY27" id="roadmap-name">
+        </div>
+        <div class="form-group">
+          <label>Tell us about what you want to build a roadmap for...</label>
+          <textarea id="roadmap-desc">Build a roadmap for our Agile Collaboration product area covering Timeline, Tables, Kanban views, and Jira integration improvements. Focus on enterprise customer needs and competitive positioning against Productboard and Aha!</textarea>
+        </div>
+        <div class="form-group">
+          <label>AI suggestions</label>
+          <div class="badges">
+            <span class="badge">📋 Jira: Agile-Board project <span class="dismiss">✓</span></span>
+            <span class="badge">📊 Miro Board: Strategy Pack FY27 <span class="dismiss">✓</span></span>
+            <span class="badge">💡 Miro Insights: Product Feedback <span class="dismiss">✓</span></span>
+            <span class="badge">📈 Snowflake: Usage Analytics <span class="dismiss">✓</span></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Add collaborators</label>
+          <div class="collaborators">
+            <div class="avatar">LB</div>
+            <div class="avatar">RK</div>
+            <div class="avatar">DG</div>
+            <div class="avatar add">+</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary" onclick="showScreen(3)">Create roadmap</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screens 3-12: With Sidebar -->
+  <div id="screens-with-sidebar">
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Overview</div>
+          <button class="nav-item active" onclick="showScreen(4)">
+            <span class="icon">📊</span> Pulse <span class="badge-count">3</span>
+          </button>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Plan</div>
+          <button class="nav-item" onclick="showScreen(5)">
+            <span class="icon">📋</span> Roadmap
+          </button>
+          <button class="nav-item" onclick="showScreen(9)">
+            <span class="icon">💡</span> Ideas Backlog
+          </button>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Signals</div>
+          <button class="nav-item" onclick="showScreen(10)">
+            <span class="icon">🌐</span> Market
+          </button>
+          <button class="nav-item" onclick="showScreen(11)">
+            <span class="icon">📈</span> Analytics
+          </button>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <!-- Screen 3: AI Sidekick (overlay on top of other content) -->
+      <div id="screen-3-overlay" class="ai-sidekick-overlay" style="display: none;">
+        <div class="ai-sidekick-panel">
+          <div class="ai-sidekick-header">
+            <h3>✨ Connect your artifacts</h3>
+          </div>
+          <div class="ai-sidekick-body">
+            <p style="margin-bottom: 20px;">I've analyzed your description and found these relevant sources to connect:</p>
+            <div class="artifact-item">
+              <div class="info">
+                <h4>Jira: Agile-Board</h4>
+                <p>47 epics, 312 stories across Timeline, Tables, and Kanban</p>
+              </div>
+              <div class="actions">
+                <button class="btn-connect">Connect</button>
+                <button class="btn-skip">Skip</button>
+              </div>
+            </div>
+            <div class="artifact-item">
+              <div class="info">
+                <h4>Strategy Pack FY27</h4>
+                <p>Strategic priorities and OKR alignment for Agile Collaboration</p>
+              </div>
+              <div class="actions">
+                <button class="btn-connect">Connect</button>
+                <button class="btn-skip">Skip</button>
+              </div>
+            </div>
+            <div class="artifact-item">
+              <div class="info">
+                <h4>Miro Insights: Customer Feedback</h4>
+                <p>2,847 feedback items from Gong, Salesforce, Zendesk</p>
+              </div>
+              <div class="actions">
+                <button class="btn-connect">Connect</button>
+                <button class="btn-skip">Skip</button>
+              </div>
+            </div>
+            <div class="artifact-item">
+              <div class="info">
+                <h4>Snowflake Analytics</h4>
+                <p>WAU/MAU metrics, feature adoption, retention data</p>
+              </div>
+              <div class="actions">
+                <button class="btn-connect">Connect</button>
+                <button class="btn-skip">Skip</button>
+              </div>
+            </div>
+            <button class="btn-primary" style="margin-top: 24px;" onclick="showScreen(4); hideAISidekick();">Connect & build roadmap</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 4: Pulse View (Populated) - DEFAULT -->
+      <div id="screen-4" class="screen active">
+        <div class="breadcrumb">
+          <a href="#" onclick="showScreen(1); return false;">miro</a>
+          <span>></span>
+          <a href="#" onclick="showScreen(4); return false;">Product Roadmap</a>
+          <span>></span>
+          <span class="current">Agile Collaboration FY27</span>
+          <span class="badge-internal">Internal</span>
+        </div>
+        <div class="card-grid">
+          <div class="card card-full">
+            <div class="card-title">Pulse Summary</div>
+            <div class="pulse-item">
+              <span class="icon">📊</span>
+              <span>Agile Collaboration WAU grew 5.9% WoW to 4.56M — Timeline adoption driving growth</span>
+            </div>
+            <div class="pulse-item">
+              <span class="icon">⚠️</span>
+              <span>'Grouping & hierarchy' remains #1 pain point with 200+ customer mentions this month</span>
+            </div>
+            <div class="pulse-item">
+              <span class="icon">🔴</span>
+              <span>Competitor alert: Productboard deprecating legacy ARR boards — 12 enterprise accounts evaluating alternatives</span>
+            </div>
+            <div class="pulse-item">
+              <span class="icon">🟢</span>
+              <span>Jira integration users show 4x active days vs non-integration users</span>
+            </div>
+            <div class="pulse-item">
+              <span class="icon">💡</span>
+              <span>3 enterprise accounts (E.ON, Ubisoft, PWC) requesting epic-level timeline views</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Competitive Threats</div>
+            <div class="threat-item">
+              <div>
+                <div class="name">Productboard</div>
+                <div class="desc">Deprecating legacy ARR boards</div>
+              </div>
+              <span class="threat-tag high">HIGH IMPACT</span>
+            </div>
+            <div class="threat-item">
+              <div>
+                <div class="name">Aha! Roadmaps</div>
+                <div class="desc">New portfolio planning features</div>
+              </div>
+              <span class="threat-tag medium">MEDIUM</span>
+            </div>
+            <div class="threat-item">
+              <div>
+                <div class="name">Jira Product Discovery</div>
+                <div class="desc">Expanding visual collaboration</div>
+              </div>
+              <span class="threat-tag medium">MEDIUM</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Top Customer Insights</div>
+            <div class="insight-row" style="font-weight: 600; color: #6b7280; font-size: 12px;">
+              <span class="topic">Topic</span>
+              <span class="pct">%</span>
+              <span class="mentions">Mentions</span>
+              <span class="arr">ARR</span>
+              <span class="trend">Trend</span>
+            </div>
+            <div class="insight-row">
+              <span class="topic">Feedback Integration Pain</span>
+              <span class="pct">38%</span>
+              <span class="mentions">847</span>
+              <span class="arr">$2.1M</span>
+              <span class="trend up">↑ trending</span>
+            </div>
+            <div class="insight-row">
+              <span class="topic">Manual Analysis Burden</span>
+              <span class="pct">32%</span>
+              <span class="mentions">712</span>
+              <span class="arr">$1.8M</span>
+              <span class="trend stable">→ stable</span>
+            </div>
+            <div class="insight-row">
+              <span class="topic">Clean Data for Prioritization</span>
+              <span class="pct">24%</span>
+              <span class="mentions">534</span>
+              <span class="arr">$1.2M</span>
+              <span class="trend up">↑ trending</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Suggested Actions</div>
+            <div class="action-item">🎯 Prioritize: Accelerate Insights × Tables integration to address feedback integration pain</div>
+            <div class="action-item">🔄 Re-evaluate: Consider Timeline grouping/hierarchy as P0 given 200+ mentions</div>
+            <div class="action-item">📞 Engage: Schedule E.ON, Ubisoft, PWC for epic-level timeline beta</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Roadmap Health</div>
+            <div style="display: flex; align-items: center; flex-wrap: wrap;">
+              <div class="health-donut" title="4 In Progress, 6 To Do, 2 Done, 1 Blocked"></div>
+              <div class="health-stats">
+                <div class="health-stat"><span class="dot progress"></span> 4 In Progress</div>
+                <div class="health-stat"><span class="dot todo"></span> 6 To Do</div>
+                <div class="health-stat"><span class="dot done"></span> 2 Done</div>
+                <div class="health-stat"><span class="dot blocked"></span> 1 Blocked</div>
+              </div>
+            </div>
+            <p style="margin-top: 12px; font-size: 14px; color: #6b7280;">13 total items</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Execution Snapshot</div>
+            <div class="exec-stats">
+              <div class="exec-stat">Sprint velocity: <strong>42 pts/sprint</strong> (↑ 8%)</div>
+              <div class="exec-stat">Active blockers: <strong>2</strong></div>
+              <div class="exec-stat">Next milestone: <strong>"Timeline Grouping v1"</strong> — Mar 15, 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 5: Roadmap Table -->
+      <div id="screen-5" class="screen">
+        <div class="breadcrumb">
+          <a href="#" onclick="showScreen(1); return false;">miro</a>
+          <span>></span>
+          <a href="#" onclick="showScreen(4); return false;">Product Roadmap</a>
+          <span>></span>
+          <span class="current">Agile Collaboration FY27</span>
+          <span class="badge-internal">Internal</span>
+        </div>
+        <div class="view-switcher">
+          <button class="view-tab active" onclick="showScreen(5)">Table</button>
+          <button class="view-tab" onclick="showScreen(7)">Timeline</button>
+          <button class="view-tab" onclick="showScreen(8)">Kanban</button>
+        </div>
+        <div class="toolbar">
+          <button class="btn-filter" onclick="toggleFilterPanel()">Filter</button>
+          <input type="text" class="search-bar" placeholder="Search...">
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="num">#</th>
+                <th>Title</th>
+                <th class="status">Status</th>
+                <th>Priority</th>
+                <th>Assignee</th>
+                <th>Impact</th>
+                <th>Conf</th>
+                <th>Effort</th>
+                <th>ICE</th>
+                <th class="sparkle">✨ Mentions</th>
+                <th class="sparkle">✨ Est. Revenue</th>
+                <th class="sparkle">✨ Companies</th>
+              </tr>
+            </thead>
+            <tbody id="roadmap-table-body">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Screen 6: Record Detail (panel overlay) -->
+      <div class="panel-backdrop" id="detail-backdrop" onclick="closeDetailPanel()"></div>
+      <div class="detail-panel" id="detail-panel">
+        <div class="detail-panel-header">
+          <h2>Insights-Driven Prioritization in Tables <span class="jira-icon">🔗</span></h2>
+          <button class="detail-panel-close" onclick="closeDetailPanel()">×</button>
+        </div>
+        <div class="detail-tabs">
+          <button class="detail-tab active" data-tab="details" onclick="switchDetailTab('details')">Details</button>
+          <button class="detail-tab" data-tab="signals" onclick="switchDetailTab('signals')">Customer Signals</button>
+          <button class="detail-tab" data-tab="comments" onclick="switchDetailTab('comments')">Comments</button>
+        </div>
+        <div class="detail-content">
+          <div id="tab-details">
+            <div class="detail-field"><strong>Function</strong> Agile Collaboration</div>
+            <div class="detail-field"><strong>Status</strong> In progress</div>
+            <div class="detail-field"><strong>Priority</strong> High</div>
+            <div class="detail-field"><strong>Assignee</strong> Lauren Brucato</div>
+            <div class="detail-field"><strong>Start</strong> Jan 15, 2026</div>
+            <div class="detail-field"><strong>Due</strong> Apr 30, 2026</div>
+            <div class="detail-field"><strong>ICE</strong> Impact 9, Confidence 0.8, Effort 7, ICE Score 10.3</div>
+            <div class="detail-field"><strong>Jira</strong> AGILE-1247 | Sprint 24.1 | 21 Story Points | Epic: Insights × Tables</div>
+          </div>
+          <div id="tab-signals" style="display: none;">
+            <div class="detail-field">
+              <strong>AI Summary</strong>
+              <p style="margin-top: 8px;">This initiative addresses the #1 customer pain point: integrating and synthesizing feedback from disparate sources. 38% of all analyzed customer feedback references this pain. Enterprise accounts including E.ON, Fidelity, and PWC have explicitly requested the ability to enrich roadmap items with customer evidence directly in planning tools.</p>
+            </div>
+            <div class="detail-field"><strong>Impact</strong> 847 Total Mentions | 23 Unique Customers | $2.1M Est. Revenue</div>
+            <div class="detail-field"><strong>Top companies</strong> E.ON, Fidelity, PWC, Keyloop, Ubisoft (+18 more)</div>
+            <div class="feedback-card">
+              <div class="source">Gong Call ⭐⭐⭐⭐⭐</div>
+              <p>"We see strong potential in using Miro's connected AI capabilities — interview sets, prompt preparation, insights extraction, conversion into feature backlogs" — Sarah Chen, E.ON — Jan 28, 2026</p>
+            </div>
+            <div class="feedback-card">
+              <div class="source">Salesforce Note ⭐⭐⭐⭐</div>
+              <p>"ProductBoard is deprecating the old ARR boards... we need to test this critically and look at competitive offerings like Miro Insights" — Mark Wilson, Fidelity — Jan 15, 2026</p>
+            </div>
+            <div class="feedback-card">
+              <div class="source">Support Ticket ⭐⭐⭐⭐</div>
+              <p>"Each product manager currently uses Miro independently... we lack shared visibility across products" — Julia Santos, PWC — Feb 2, 2026</p>
+            </div>
+          </div>
+          <div id="tab-comments" style="display: none;">
+            <div class="comment-item">
+              <div class="author">Lauren Brucato</div>
+              <div class="date">Feb 5</div>
+              <p>V1 of enrichment is in staging. Customer count and ARR columns working. Quote extraction needs another sprint.</p>
+            </div>
+            <div class="comment-item">
+              <div class="author">Rosanna Knottenbelt</div>
+              <div class="date">Feb 6</div>
+              <p>Can we prioritize the company pill display? Sales team is asking for this specifically for QBRs.</p>
+            </div>
+            <div class="comment-item">
+              <div class="author">Dana Griffin</div>
+              <div class="date">Feb 7</div>
+              <p>AI matching accuracy is at 87% — targeting 95% before GA. Main gap is in multi-product accounts.</p>
+            </div>
+            <textarea style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; margin-top: 16px; font-family: inherit; min-height: 80px;" placeholder="Add a comment..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 7: Timeline -->
+      <div id="screen-7" class="screen">
+        <div class="breadcrumb">
+          <a href="#" onclick="showScreen(1); return false;">miro</a>
+          <span>></span>
+          <a href="#" onclick="showScreen(4); return false;">Product Roadmap</a>
+          <span>></span>
+          <span class="current">Agile Collaboration FY27</span>
+          <span class="badge-internal">Internal</span>
+        </div>
+        <div class="view-switcher">
+          <button class="view-tab" onclick="showScreen(5)">Table</button>
+          <button class="view-tab active" onclick="showScreen(7)">Timeline</button>
+          <button class="view-tab" onclick="showScreen(8)">Kanban</button>
+        </div>
+        <div class="timeline-container" id="timeline-container">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- Screen 8: Kanban -->
+      <div id="screen-8" class="screen">
+        <div class="breadcrumb">
+          <a href="#" onclick="showScreen(1); return false;">miro</a>
+          <span>></span>
+          <a href="#" onclick="showScreen(4); return false;">Product Roadmap</a>
+          <span>></span>
+          <span class="current">Agile Collaboration FY27</span>
+          <span class="badge-internal">Internal</span>
+        </div>
+        <div class="view-switcher">
+          <button class="view-tab" onclick="showScreen(5)">Table</button>
+          <button class="view-tab" onclick="showScreen(7)">Timeline</button>
+          <button class="view-tab active" onclick="showScreen(8)">Kanban</button>
+        </div>
+        <div class="kanban-container" id="kanban-container">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- Screen 9: Ideas Backlog -->
+      <div id="screen-9" class="screen">
+        <div class="breadcrumb">
+          <a href="#" onclick="showScreen(1); return false;">miro</a>
+          <span>></span>
+          <a href="#" onclick="showScreen(4); return false;">Product Roadmap</a>
+          <span>></span>
+          <span class="current">Agile Collaboration FY27</span>
+          <span class="badge-internal">Internal</span>
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="num">#</th>
+                <th>Title</th>
+                <th class="status">Status</th>
+                <th>Priority</th>
+                <th>Assignee</th>
+                <th>Impact</th>
+                <th>Conf</th>
+                <th>Effort</th>
+                <th>ICE</th>
+                <th class="sparkle">✨ Mentions</th>
+                <th class="sparkle">✨ Est. Revenue</th>
+                <th class="sparkle">✨ Companies</th>
+                <th style="width: 140px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ideas-table-body">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+        <button class="add-idea-btn">+ Add idea</button>
+      </div>
+
+      <!-- Screen 10: Market Signals -->
+      <div id="screen-10" class="screen">
+        <div class="breadcrumb">
+          <a href="#" onclick="showScreen(1); return false;">miro</a>
+          <span>></span>
+          <a href="#" onclick="showScreen(4); return false;">Product Roadmap</a>
+          <span>></span>
+          <span class="current">Agile Collaboration FY27</span>
+          <span class="badge-internal">Internal</span>
+        </div>
+        <div class="card">
+          <div class="card-title">Market Intelligence TL;DR</div>
+          <div class="tl-dr-item">🔴 Productboard is deprecating legacy ARR boards. 12 enterprise accounts actively evaluating alternatives including Miro Insights. This represents a $3.2M ARR displacement opportunity.</div>
+          <div class="tl-dr-item">🟡 Aha! launched new portfolio planning features targeting enterprise product leaders. Their whiteboard capabilities remain 'very far from competitive with Miro' per customer feedback.</div>
+          <div class="tl-dr-item">🟡 Jira Product Discovery expanding visual collaboration. Deep DevOps integrations keep engineering teams anchored in Jira ecosystem. Limited threat to Miro's cross-functional positioning.</div>
+          <div class="tl-dr-item">🟢 60% of knowledge workers now have access to sanctioned AI tools. 85% of companies expect to customize autonomous agents within 12-18 months.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Competitive Recommendations</div>
+          <div class="recommendation-item">1. Accelerate Miro Insights positioning as Productboard replacement — window of opportunity is 3-6 months</div>
+          <div class="recommendation-item">2. Emphasize cross-functional collaboration advantage vs. Aha!'s expensive per-seat licensing model</div>
+          <div class="recommendation-item">3. Build AI context advantage — Miro's unified canvas context is unique vs. siloed competitor AI</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Competitor Cards</div>
+          <div class="competitor-card">
+            <h4>Productboard</h4>
+            <p>Deprecating ARR boards | Impact: HIGH</p>
+            <p>12 accounts at risk of churn from Productboard</p>
+          </div>
+          <div class="competitor-card">
+            <h4>Aha! Roadmaps</h4>
+            <p>New portfolio features | Impact: MEDIUM</p>
+            <p>Whiteboard 'super clunky' per customers</p>
+          </div>
+          <div class="competitor-card">
+            <h4>Jira Product Discovery</h4>
+            <p>Expanding visual collab | Impact: MEDIUM</p>
+            <p>Limited to Jira ecosystem</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 11: Analytics -->
+      <div id="screen-11" class="screen">
+        <div class="breadcrumb">
+          <a href="#" onclick="showScreen(1); return false;">miro</a>
+          <span>></span>
+          <a href="#" onclick="showScreen(4); return false;">Product Roadmap</a>
+          <span>></span>
+          <span class="current">Agile Collaboration FY27</span>
+          <span class="badge-internal">Internal</span>
+        </div>
+        <div class="card">
+          <div class="card-title">Weekly Pulse TL;DR</div>
+          <p>Overall Miro WAU grew 5.9% to 4.56M. Timeline adoption continues driving agile use case growth with 108K timelines created in January. Kanban engagement rate (9.1%) leads all agile formats.</p>
+        </div>
+        <div class="stat-tiles">
+          <div class="stat-tile">
+            <div class="value">4.56M</div>
+            <div class="change">+5.9% WoW</div>
+            <div class="label">WAU</div>
+          </div>
+          <div class="stat-tile">
+            <div class="value">11.55M</div>
+            <div class="change">+19.1% MoM</div>
+            <div class="label">MAU</div>
+          </div>
+          <div class="stat-tile">
+            <div class="value">1.35M</div>
+            <div class="change">+12.3%</div>
+            <div class="label">Roadmapping Users</div>
+          </div>
+          <div class="stat-tile">
+            <div class="value">108,253</div>
+            <div class="change">+32.1%</div>
+            <div class="label">Timeline Created (Jan)</div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="card-title">WAU Trend (12 weeks)</div>
+          <div class="chart-bars" id="wau-chart">
+            <!-- Filled by JS -->
+          </div>
+          <div class="chart-labels" id="wau-labels">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Feature Adoption</div>
+          <div class="insight-row">
+            <span class="topic">Tables</span>
+            <span>331,689 active (Jan)</span>
+            <span class="trend up">+6% MoM</span>
+          </div>
+          <div class="insight-row">
+            <span class="topic">Timeline</span>
+            <span>108,253 active (Jan)</span>
+            <span class="trend up">+32% MoM</span>
+          </div>
+          <div class="insight-row">
+            <span class="topic">Kanban</span>
+            <span>84,090 active (Jan)</span>
+            <span class="trend up">+39% MoM</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">In-Product Feedback</div>
+          <p>CSAT: 3.0/5.0 (median)</p>
+          <p style="margin-top: 8px;">Top liked: "Integration with Miro makes planning centralized"</p>
+          <p style="margin-top: 8px;">Top lacked: "Grouping & hierarchy options" (200+ mentions)</p>
+        </div>
+        <div class="card">
+          <div class="card-title">AI Recommendations</div>
+          <div class="recommendation-item">1. Timeline growth (+32%) suggests strong product-market fit — invest in addressing top pain point (grouping)</div>
+          <div class="recommendation-item">2. Kanban engagement rate (9.1%) outperforms Table (5.3%) and Timeline (5.4%) — explore Kanban-first workflows</div>
+          <div class="recommendation-item">3. Holiday dip recovery was faster than previous year — indicates improved stickiness</div>
+        </div>
+      </div>
+
+      <!-- Screen 12: Filter Panel -->
+      <div class="filter-panel" id="filter-panel">
+        <h3>Filters</h3>
+        <div class="filter-group">
+          <label>Status</label>
+          <label class="checkbox"><input type="checkbox" checked> To do</label>
+          <label class="checkbox"><input type="checkbox" checked> In progress</label>
+          <label class="checkbox"><input type="checkbox" checked> Done</label>
+          <label class="checkbox"><input type="checkbox"> Blocked</label>
+        </div>
+        <div class="filter-group">
+          <label>Priority</label>
+          <label class="checkbox"><input type="checkbox" checked> High</label>
+          <label class="checkbox"><input type="checkbox" checked> Medium</label>
+          <label class="checkbox"><input type="checkbox"> Low</label>
+        </div>
+        <div class="filter-group">
+          <label>Assignee</label>
+          <select style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <option>All</option>
+            <option>Lauren B.</option>
+            <option>Rosanna K.</option>
+            <option>Dana G.</option>
+            <option>Engineering</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Jira Sync</label>
+          <label class="checkbox"><input type="checkbox" checked> Synced</label>
+          <label class="checkbox"><input type="checkbox" checked> Not synced</label>
+        </div>
+        <div class="filter-group">
+          <label>ICE Score range</label>
+          <input type="range" min="0" max="25" value="25" style="width: 100%;">
+          <span style="font-size: 12px;">0 - 25</span>
+        </div>
+        <div class="filter-group">
+          <label>Company</label>
+          <input type="text" placeholder="Search..." style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px;">
+        </div>
+        <button class="btn-apply" onclick="closeFilterPanel()">Apply filters</button>
+        <button class="btn-clear" onclick="closeFilterPanel()">Clear all</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const ROADMAP_DATA = [
+      { num: 1, title: "Insights-Driven Prioritization in Tables", status: "In progress", priority: "High", assignee: "Lauren B.", impact: 9, conf: 0.8, effort: 7, ice: 10.3, mentions: 847, revenue: "$2.1M", companies: "E.ON, Fidelity, PWC", jira: true },
+      { num: 2, title: "Timeline Grouping & Hierarchy", status: "In progress", priority: "High", assignee: "Rosanna K.", impact: 9, conf: 0.9, effort: 6, ice: 13.5, mentions: 234, revenue: "$1.4M", companies: "Ubisoft, Keyloop", jira: true },
+      { num: 3, title: "Timeline + Kanban View Unification", status: "In progress", priority: "High", assignee: "Rosanna K.", impact: 8, conf: 0.7, effort: 5, ice: 11.2, mentions: 189, revenue: "$980K", companies: "E.ON, Fidelity", jira: true },
+      { num: 4, title: "Customer Evidence Enrichment", status: "In progress", priority: "High", assignee: "Lauren B.", impact: 8, conf: 0.8, effort: 6, ice: 10.7, mentions: 712, revenue: "$1.8M", companies: "PWC, Ubisoft, Keyloop", jira: true },
+      { num: 5, title: "Jira Two-Way Sync Enhancement", status: "To do", priority: "High", assignee: "Engineering", impact: 9, conf: 0.9, effort: 4, ice: 20.3, mentions: 156, revenue: "$1.2M", companies: "E.ON, Fidelity", jira: true },
+      { num: 6, title: "AI Signal Dashboard (Pulse)", status: "To do", priority: "High", assignee: "Dana G.", impact: 8, conf: 0.6, effort: 8, ice: 6.0, mentions: 98, revenue: "$850K", companies: "PWC", jira: false },
+      { num: 7, title: "Smart Timeline with Live Jira Data", status: "To do", priority: "Medium", assignee: "Rosanna K.", impact: 7, conf: 0.7, effort: 7, ice: 7.0, mentions: 134, revenue: "$720K", companies: "Keyloop, E.ON", jira: true },
+      { num: 8, title: "Snapshot/Scenario Planning Mode", status: "Blocked", priority: "Medium", assignee: "Vanessa L.", impact: 7, conf: 0.5, effort: 8, ice: 4.4, mentions: 67, revenue: "$540K", companies: "Fidelity", jira: false },
+      { num: 9, title: "Stakeholder-Adaptive View Generation", status: "To do", priority: "Medium", assignee: "Dana G.", impact: 6, conf: 0.5, effort: 7, ice: 4.3, mentions: 89, revenue: "$620K", companies: "PWC, Ubisoft", jira: false },
+      { num: 10, title: "Portfolio Dashboard for Leaders", status: "To do", priority: "Low", assignee: "Robert K.", impact: 8, conf: 0.4, effort: 9, ice: 3.6, mentions: 45, revenue: "$1.1M", companies: "E.ON", jira: false },
+      { num: 11, title: "Cross-Team Dependency Intelligence", status: "To do", priority: "Low", assignee: "Engineering", impact: 7, conf: 0.4, effort: 8, ice: 3.5, mentions: 34, revenue: "$480K", companies: "Fidelity", jira: false },
+      { num: 12, title: "Strategy-to-Execution Traceability", status: "Done", priority: "High", assignee: "Robert K.", impact: 9, conf: 0.9, effort: 5, ice: 16.2, mentions: 178, revenue: "$1.5M", companies: "E.ON, PWC", jira: true },
+      { num: 13, title: "Roadmap Strategy Sidekick", status: "Done", priority: "Medium", assignee: "Dana G.", impact: 7, conf: 0.8, effort: 4, ice: 14.0, mentions: 56, revenue: "$390K", companies: "Ubisoft", jira: false }
+    ];
+
+    const IDEAS_DATA = [
+      { num: 1, title: "Mobile Roadmap Editing", status: "Ideas Backlog", priority: "Medium", assignee: "—", impact: 6, conf: 0.4, effort: 5, ice: 4.8, mentions: 45, revenue: "$320K", companies: "Ubisoft", jira: false },
+      { num: 2, title: "Slack Pulse Digest Integration", status: "Ideas Backlog", priority: "Low", assignee: "—", impact: 5, conf: 0.5, effort: 3, ice: 8.3, mentions: 89, revenue: "$540K", companies: "E.ON, PWC", jira: false },
+      { num: 3, title: "OKR Goal Tracking & Alignment", status: "Ideas Backlog", priority: "High", assignee: "—", impact: 8, conf: 0.3, effort: 9, ice: 2.7, mentions: 67, revenue: "$890K", companies: "Fidelity", jira: false },
+      { num: 4, title: "Automated Quarterly Planning Package", status: "Ideas Backlog", priority: "Medium", assignee: "—", impact: 6, conf: 0.4, effort: 7, ice: 3.4, mentions: 34, revenue: "$280K", companies: "Keyloop", jira: false },
+      { num: 5, title: "Custom Scoring Frameworks", status: "Ideas Backlog", priority: "Low", assignee: "—", impact: 4, conf: 0.3, effort: 4, ice: 3.0, mentions: 23, revenue: "$180K", companies: "PWC", jira: false },
+      { num: 6, title: "Azure DevOps Integration", status: "Ideas Backlog", priority: "High", assignee: "—", impact: 7, conf: 0.5, effort: 8, ice: 4.4, mentions: 112, revenue: "$1.1M", companies: "E.ON, Fidelity", jira: false }
+    ];
+
+    const WAU_DATA = [4.51, 4.63, 4.48, 4.09, 2.28, 1.78, 3.79, 4.45, 4.50, 4.53, 4.56, 2.01];
+    const WAU_LABELS = ["Nov 23", "Nov 30", "Dec 7", "Dec 14", "Dec 21", "Dec 28", "Jan 4", "Jan 11", "Jan 18", "Jan 25", "Feb 1", "Feb 8"];
+
+    const statusClass = { "In progress": "in-progress", "To do": "to-do", "Done": "done", "Blocked": "blocked", "Ideas Backlog": "to-do" };
+    const priorityClass = { "High": "high", "Medium": "medium", "Low": "low" };
+
+    function renderRoadmapTable() {
+      const tbody = document.getElementById('roadmap-table-body');
+      if (!tbody) return;
+      tbody.innerHTML = ROADMAP_DATA.map(r => `
+        <tr onclick="openDetailPanel()">
+          <td class="num">${r.num}</td>
+          <td>${r.jira ? '<span class="jira-icon">🔗</span> ' : ''}${r.title}</td>
+          <td><span class="status-pill ${statusClass[r.status]}">${r.status}</span></td>
+          <td><span class="priority-pill ${priorityClass[r.priority]}">${r.priority}</span></td>
+          <td>${r.assignee}</td>
+          <td>${r.impact}</td>
+          <td>${r.conf}</td>
+          <td>${r.effort}</td>
+          <td>${r.ice}</td>
+          <td>${r.mentions}</td>
+          <td>${r.revenue}</td>
+          <td>${r.companies}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderIdeasTable() {
+      const tbody = document.getElementById('ideas-table-body');
+      if (!tbody) return;
+      tbody.innerHTML = IDEAS_DATA.map(r => `
+        <tr class="ideas-row">
+          <td class="num">${r.num}</td>
+          <td>${r.title}</td>
+          <td><span class="status-pill ${statusClass[r.status]}">${r.status}</span></td>
+          <td><span class="priority-pill ${priorityClass[r.priority]}">${r.priority}</span></td>
+          <td>${r.assignee}</td>
+          <td>${r.impact}</td>
+          <td>${r.conf}</td>
+          <td>${r.effort}</td>
+          <td>${r.ice}</td>
+          <td>${r.mentions}</td>
+          <td>${r.revenue}</td>
+          <td>${r.companies}</td>
+          <td><button class="promote-btn" onclick="event.stopPropagation(); showScreen(5);">Promote to Roadmap</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderTimeline() {
+      const container = document.getElementById('timeline-container');
+      if (!container) return;
+      const monthWidth = 80;
+      const totalWidth = 6 * monthWidth;
+      let html = `
+        <div class="timeline-header">
+          <div class="timeline-labels"><strong>Item</strong></div>
+          <div class="timeline-months" style="width: ${totalWidth}px;">
+            <div class="timeline-month" style="width: ${monthWidth}px;">Jan 2026</div>
+            <div class="timeline-month" style="width: ${monthWidth}px;">Feb</div>
+            <div class="timeline-month" style="width: ${monthWidth}px;">Mar</div>
+            <div class="timeline-month" style="width: ${monthWidth}px;">Apr</div>
+            <div class="timeline-month" style="width: ${monthWidth}px;">May</div>
+            <div class="timeline-month" style="width: ${monthWidth}px;">Jun</div>
+          </div>
+        </div>
+      `;
+      const startMonths = [0, 0, 0, 0, 1, 2, 1, 2, 2, 3, 3, 0, 0];
+      const durations = [3, 2, 2, 3, 1, 1, 2, 2, 2, 2, 2, 1, 1];
+      const atRisk = [8];
+      ROADMAP_DATA.forEach((r, i) => {
+        const left = (startMonths[i] || 0) * monthWidth;
+        const width = Math.max((durations[i] || 1) * monthWidth - 4, 40);
+        const warning = atRisk.includes(i + 1) ? ' ⚠️' : '';
+        html += `
+          <div class="timeline-row">
+            <div class="label">${r.jira ? '🔗 ' : ''}${r.title}</div>
+            <div class="bars" style="width: ${totalWidth}px;">
+              <div class="timeline-bar ${statusClass[r.status]}" style="left: ${left}px; width: ${width}px; min-width: 60px;" onclick="openDetailPanel()">ICE ${r.ice}${warning}</div>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function renderKanban() {
+      const container = document.getElementById('kanban-container');
+      if (!container) return;
+      const cols = { "To do": [], "In progress": [], "Done": [], "Blocked": [] };
+      ROADMAP_DATA.forEach(r => {
+        if (cols[r.status]) cols[r.status].push(r);
+      });
+      const colsOrder = ["To do", "In progress", "Done", "Blocked"];
+      container.innerHTML = colsOrder.map(col => `
+        <div class="kanban-column">
+          <h4>${col} <span class="count">${cols[col].length}</span></h4>
+          ${cols[col].map(c => `
+            <div class="kanban-card" onclick="openDetailPanel()">
+              <div class="title">${c.jira ? '🔗 ' : ''}${c.title}</div>
+              <div class="meta">
+                <span class="ice-badge">ICE ${c.ice}</span>
+                <span class="priority-pill ${priorityClass[c.priority]}">${c.priority}</span>
+                ${c.companies.split(', ').slice(0,2).map(co => `<span class="company-pill">${co}</span>`).join('')}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `).join('');
+    }
+
+    function renderWauChart() {
+      const maxVal = Math.max(...WAU_DATA);
+      const chart = document.getElementById('wau-chart');
+      const labels = document.getElementById('wau-labels');
+      if (!chart || !labels) return;
+      chart.innerHTML = WAU_DATA.map((v, i) => `<div class="chart-bar" style="height: ${(v / maxVal) * 100}%"></div>`).join('');
+      labels.innerHTML = WAU_LABELS.map(l => `<span>${l}</span>`).join('');
+    }
+
+    function toggleDropdown() {
+      document.getElementById('dropdown').classList.toggle('open');
+    }
+
+    function showScreen(screenId) {
+      document.querySelectorAll('#screens-with-sidebar .screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      
+      if (screenId === 1) {
+        document.getElementById('screen-1').classList.add('active');
+        document.getElementById('screens-with-sidebar').style.display = 'none';
+        document.getElementById('screen-2-modal').classList.add('hidden');
+      } else if (screenId === 2) {
+        document.getElementById('screen-1').classList.add('active');
+        document.getElementById('screens-with-sidebar').style.display = 'none';
+        document.getElementById('screen-2-modal').classList.remove('hidden');
+        document.getElementById('dropdown').classList.remove('open');
+      } else {
+        document.getElementById('screens-with-sidebar').style.display = 'block';
+        document.getElementById('screen-1').classList.remove('active');
+        document.getElementById('screen-2-modal').classList.add('hidden');
+        document.getElementById(`screen-${screenId}`).classList.add('active');
+        
+        if (screenId === 3) {
+          document.getElementById('screen-3-overlay').style.display = 'flex';
+          document.getElementById('screen-4').classList.add('active');
+          document.querySelectorAll('.nav-item')[0].classList.add('active');
+        } else {
+          document.getElementById('screen-3-overlay').style.display = 'none';
+          const navMap = { 4: 0, 5: 1, 7: 1, 8: 1, 9: 2, 10: 3, 11: 4 };
+          const idx = navMap[screenId];
+          if (idx !== undefined) document.querySelectorAll('.nav-item')[idx].classList.add('active');
+        }
+      }
+    }
+
+    function hideAISidekick() {
+      document.getElementById('screen-3-overlay').style.display = 'none';
+    }
+
+    function openDetailPanel() {
+      document.getElementById('detail-panel').classList.add('open');
+      document.getElementById('detail-backdrop').classList.add('open');
+    }
+
+    function closeDetailPanel() {
+      document.getElementById('detail-panel').classList.remove('open');
+      document.getElementById('detail-backdrop').classList.remove('open');
+    }
+
+    function switchDetailTab(tab) {
+      document.querySelectorAll('.detail-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.tab === tab);
+      });
+      document.getElementById('tab-details').style.display = tab === 'details' ? 'block' : 'none';
+      document.getElementById('tab-signals').style.display = tab === 'signals' ? 'block' : 'none';
+      document.getElementById('tab-comments').style.display = tab === 'comments' ? 'block' : 'none';
+    }
+
+    function toggleFilterPanel() {
+      document.getElementById('filter-panel').classList.toggle('open');
+    }
+
+    function closeFilterPanel() {
+      document.getElementById('filter-panel').classList.remove('open');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.create-section') && !e.target.closest('.dropdown-item')) {
+        document.getElementById('dropdown').classList.remove('open');
+      }
+    });
+
+    // Initial load: Show Screen 1 (Spaces Overview) as entry point
+    document.addEventListener('DOMContentLoaded', () => {
+      renderRoadmapTable();
+      renderIdeasTable();
+      renderTimeline();
+      renderKanban();
+      renderWauChart();
+      showScreen(1);
+    });
+  </script>
+</body>
+</html>

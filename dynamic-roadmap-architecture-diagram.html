@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Roadmap V1 — Solution Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f8f5;
+    --white: #ffffff;
+    --text: #1a1a2e;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --border: #e5e5e0;
+    --accent: #4f46e5;
+    --accent-light: #6366f1;
+    --accent-bg: #eef2ff;
+    --yellow: #ffd02f;
+    --yellow-dark: #e6b800;
+    --yellow-bg: #fffbeb;
+    --green: #16a34a;
+    --green-bg: #dcfce7;
+    --green-light: #bbf7d0;
+    --blue: #2563eb;
+    --blue-bg: #eff6ff;
+    --blue-light: #bfdbfe;
+    --purple: #7c3aed;
+    --purple-bg: #f5f3ff;
+    --purple-light: #ddd6fe;
+    --orange: #ea580c;
+    --orange-bg: #fff7ed;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --cyan: #0891b2;
+    --cyan-bg: #ecfeff;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+    --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 40px 48px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 14px;
+    background: var(--accent-bg);
+    border: 1px solid var(--purple-light);
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .header p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* Section Labels */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .section-label .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ── FLOW SECTION ── */
+  .flow-section {
+    margin-bottom: 40px;
+  }
+  .flow-section .section-label { color: var(--yellow-dark); }
+  .flow-section .section-label .dot { background: var(--yellow); }
+
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 20px 28px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .flow-step {
+    flex: 1;
+    text-align: center;
+    padding: 16px 12px;
+    position: relative;
+  }
+  .flow-step-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin: 0 auto 10px;
+  }
+  .flow-step h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .flow-step p {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  .flow-arrow {
+    flex-shrink: 0;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 18px;
+  }
+  .flow-arrow svg {
+    width: 28px;
+    height: 28px;
+    color: var(--accent);
+    opacity: 0.5;
+  }
+
+  /* ── MAIN ARCHITECTURE GRID ── */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: 260px 1fr 300px;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  /* Card styles */
+  .arch-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 20px;
+  }
+  .arch-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .arch-card h3 .icon { font-size: 16px; }
+
+  /* Data sources column */
+  .data-sources .section-label { color: var(--blue); }
+  .data-sources .section-label .dot { background: var(--blue); }
+
+  .source-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--blue-bg);
+    border: 1px solid var(--blue-light);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    transition: transform 0.15s;
+  }
+  .source-item:hover { transform: translateX(3px); }
+  .source-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    border: 1px solid var(--blue-light);
+  }
+  .source-item h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .source-item p {
+    font-size: 10px;
+    color: var(--text-secondary);
+    line-height: 1.3;
+  }
+
+  /* Connector arrows */
+  .connector-label {
+    text-align: center;
+    padding: 8px 0;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .connector-label svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Center: Space layout */
+  .space-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .space-layout .section-label { color: var(--accent); }
+  .space-layout .section-label .dot { background: var(--accent); }
+
+  .space-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .space-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d2b55 100%);
+    color: #fff;
+  }
+  .space-header .miro-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--yellow);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .space-header h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0;
+  }
+  .space-header .badge {
+    margin-left: auto;
+    padding: 2px 10px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .space-body {
+    display: flex;
+    min-height: 320px;
+  }
+
+  .space-sidebar {
+    width: 160px;
+    background: var(--yellow);
+    padding: 16px 0;
+    flex-shrink: 0;
+  }
+  .space-sidebar-section {
+    padding: 0 12px;
+    margin-bottom: 14px;
+  }
+  .space-sidebar-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: rgba(26,26,46,0.45);
+    padding: 0 8px;
+    margin-bottom: 4px;
+  }
+  .space-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: default;
+  }
+  .space-nav-item.active {
+    background: rgba(26,26,46,0.12);
+    font-weight: 600;
+  }
+  .space-nav-item .nav-icon {
+    font-size: 13px;
+    width: 18px;
+    text-align: center;
+  }
+  .space-nav-item .badge-sm {
+    margin-left: auto;
+    background: var(--text);
+    color: var(--yellow);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 8px;
+    min-width: 16px;
+    text-align: center;
+  }
+
+  .space-content {
+    flex: 1;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 10px;
+    align-content: start;
+  }
+
+  .content-card {
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .content-card.full-width {
+    grid-column: 1 / -1;
+  }
+  .content-card h5 {
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .content-card p {
+    font-size: 10px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  .content-card .view-badges {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+  .view-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 600;
+    border: 1px solid;
+  }
+  .view-badge.table { background: var(--accent-bg); color: var(--accent); border-color: var(--purple-light); }
+  .view-badge.timeline { background: var(--blue-bg); color: var(--blue); border-color: var(--blue-light); }
+  .view-badge.kanban { background: var(--green-bg); color: var(--green); border-color: var(--green-light); }
+  .view-badge.enriched { background: var(--orange-bg); color: var(--orange); border-color: #fed7aa; }
+
+  /* Right column: AI + Outputs */
+  .ai-outputs .section-label { color: var(--purple); }
+  .ai-outputs .section-label .dot { background: var(--purple); }
+
+  .ai-card {
+    background: linear-gradient(135deg, var(--purple-bg) 0%, var(--white) 100%);
+    border: 1px solid var(--purple-light);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+  .ai-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--purple);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .ai-behavior {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    background: var(--white);
+    border: 1px solid var(--purple-light);
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .ai-behavior .emoji { font-size: 14px; width: 20px; text-align: center; }
+  .ai-behavior .name { font-weight: 600; color: var(--text); }
+  .ai-behavior .desc {
+    font-size: 10px;
+    color: var(--text-secondary);
+    margin-left: auto;
+  }
+
+  .sidekick-card {
+    background: linear-gradient(135deg, #f0fdf4 0%, var(--white) 100%);
+    border: 1px solid var(--green-light);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .sidekick-card h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .sidekick-step {
+    display: flex;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 11px;
+    color: var(--text-secondary);
+    align-items: flex-start;
+  }
+  .sidekick-step .num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--green);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .output-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .output-card h3 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .output-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 11px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+  }
+  .output-item:last-child { border-bottom: none; }
+  .output-item .icon { font-size: 14px; width: 20px; text-align: center; }
+
+  /* ── SIGNAL LAYER ── */
+  .signal-section {
+    margin-top: 16px;
+  }
+  .signal-section .section-label { color: var(--cyan); }
+  .signal-section .section-label .dot { background: var(--cyan); }
+
+  .signal-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .signal-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .signal-card .icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin: 0 auto 10px;
+  }
+  .signal-card h4 {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .signal-card p {
+    font-size: 10px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  .signal-card .sources {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    justify-content: center;
+  }
+  .signal-card .src-tag {
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 600;
+    background: var(--bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+
+  /* Flow connector between signal layer and arch grid */
+  .flow-connector-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 0;
+    color: var(--accent);
+    opacity: 0.5;
+  }
+  .flow-connector-vertical svg {
+    width: 24px;
+    height: 24px;
+  }
+  .flow-connector-vertical span {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── DATA MODEL SECTION ── */
+  .data-model-section {
+    margin-top: 40px;
+  }
+  .data-model-section .section-label { color: var(--orange); }
+  .data-model-section .section-label .dot { background: var(--orange); }
+
+  .data-model-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .dm-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 18px;
+    box-shadow: var(--shadow);
+  }
+  .dm-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dm-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    font-size: 11px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .dm-field:last-child { border-bottom: none; }
+  .dm-field .key {
+    font-weight: 600;
+    color: var(--text);
+    min-width: 100px;
+  }
+  .dm-field .val {
+    color: var(--text-secondary);
+  }
+  .dm-field .type-tag {
+    margin-left: auto;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 600;
+  }
+  .type-tag.core { background: var(--accent-bg); color: var(--accent); }
+  .type-tag.enriched { background: var(--orange-bg); color: var(--orange); }
+  .type-tag.jira { background: var(--blue-bg); color: var(--blue); }
+  .type-tag.computed { background: var(--green-bg); color: var(--green); }
+
+  /* Legend */
+  .legend {
+    margin-top: 32px;
+    padding: 16px 20px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    box-shadow: var(--shadow);
+  }
+  .legend-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-badge">
+      <span>&#10023;</span>
+      Solution Architecture
+    </div>
+    <h1>Dynamic Roadmap V1</h1>
+    <p>AI-first roadmapping system that connects Jira backlog, company strategy, market signals, and customer insights into a living, evidence-driven product roadmap.</p>
+  </div>
+
+  <!-- ═══ USER ENTRY FLOW ═══ -->
+  <div class="flow-section">
+    <div class="section-label">
+      <span class="dot"></span>
+      User Entry Flow
+    </div>
+    <div class="flow-row">
+      <div class="flow-step">
+        <div class="flow-step-icon" style="background: var(--yellow-bg); border: 1px solid var(--yellow);">
+          &#127968;
+        </div>
+        <h4>Miro Home</h4>
+        <p>Spaces overview with boards, projects, and team content</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-icon" style="background: var(--accent-bg); border: 1px solid var(--purple-light);">
+          &#10133;
+        </div>
+        <h4>+ Create New</h4>
+        <p>Select "Product Roadmap" from the creation menu</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-icon" style="background: var(--purple-bg); border: 1px solid var(--purple-light);">
+          &#10023;
+        </div>
+        <h4>AI Creation Dialog</h4>
+        <p>Name your roadmap + describe what you're building via AI chat interface</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-icon" style="background: var(--green-bg); border: 1px solid var(--green-light);">
+          &#128187;
+        </div>
+        <h4>AI Sidekick Onboarding</h4>
+        <p>Connect Jira, strategy docs, boards, and analytics tools</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-icon" style="background: linear-gradient(135deg, var(--yellow-bg), var(--accent-bg)); border: 1px solid var(--yellow);">
+          &#128640;
+        </div>
+        <h4>Product Roadmap Space</h4>
+        <p>Land on Pulse view with AI-populated insights and roadmap</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MAIN ARCHITECTURE ═══ -->
+  <div class="arch-grid">
+
+    <!-- LEFT: Data Sources -->
+    <div class="data-sources">
+      <div class="section-label">
+        <span class="dot"></span>
+        Connected Data Sources
+      </div>
+
+      <div class="source-item">
+        <div class="source-icon">&#9881;</div>
+        <div>
+          <h4>Jira / Azure DevOps</h4>
+          <p>Two-way sync: epics, stories, sprints, velocity, blockers</p>
+        </div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-icon">&#128196;</div>
+        <div>
+          <h4>Strategy Documents</h4>
+          <p>OKRs, goals, company strategy decks, initiative definitions</p>
+        </div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-icon">&#128203;</div>
+        <div>
+          <h4>Miro Boards</h4>
+          <p>Research boards, workshop outputs, journey maps, brainstorms</p>
+        </div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-icon">&#128200;</div>
+        <div>
+          <h4>Analytics Tools</h4>
+          <p>Amplitude, Mixpanel, Snowflake: usage, adoption, retention</p>
+        </div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-icon">&#128172;</div>
+        <div>
+          <h4>Miro Insights</h4>
+          <p>Gong calls, Salesforce, Zendesk, NPS, app reviews, surveys</p>
+        </div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-icon">&#127760;</div>
+        <div>
+          <h4>Market Intelligence</h4>
+          <p>Competitor tracking, analyst reports, news feeds, regulatory</p>
+        </div>
+      </div>
+
+      <div class="connector-label" style="margin-top: 12px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        FEEDS INTO AI LAYER
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="7 17 12 12 17 17"/><line x1="12" y1="12" x2="12" y2="5"/></svg>
+      </div>
+    </div>
+
+    <!-- CENTER: Product Roadmap Space -->
+    <div class="space-layout">
+      <div class="section-label">
+        <span class="dot"></span>
+        Product Roadmap Space
+      </div>
+
+      <div class="space-card">
+        <div class="space-header">
+          <div class="miro-icon">M</div>
+          <h3>Product Roadmap</h3>
+          <div class="badge">DYNAMIC</div>
+        </div>
+        <div class="space-body">
+          <!-- Sidebar -->
+          <div class="space-sidebar">
+            <div class="space-sidebar-section">
+              <div class="space-nav-item active">
+                <span class="nav-icon">&#10023;</span>
+                Pulse
+                <span class="badge-sm">3</span>
+              </div>
+            </div>
+            <div class="space-sidebar-section">
+              <div class="space-sidebar-label">Plan</div>
+              <div class="space-nav-item">
+                <span class="nav-icon">&#128203;</span>
+                Roadmap
+              </div>
+              <div class="space-nav-item">
+                <span class="nav-icon">&#128161;</span>
+                Ideas Backlog
+              </div>
+            </div>
+            <div class="space-sidebar-section">
+              <div class="space-sidebar-label">Signals</div>
+              <div class="space-nav-item">
+                <span class="nav-icon">&#127760;</span>
+                Market
+                <span class="badge-sm">14</span>
+              </div>
+              <div class="space-nav-item">
+                <span class="nav-icon">&#128200;</span>
+                Analytics
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Content Area -->
+          <div class="space-content">
+            <div class="content-card full-width">
+              <h5>&#10023; Pulse — AI-Curated Insights Overview</h5>
+              <p>Need-to-know intelligence: competitive threats, usage data changes, customer insight summaries, and suggested actions. Refreshed daily by AI agents.</p>
+            </div>
+
+            <div class="content-card">
+              <h5>&#128203; Roadmap</h5>
+              <p>Full roadmap with Jira-synced items, ICE scoring, and enriched customer data columns.</p>
+              <div class="view-badges">
+                <span class="view-badge table">Table</span>
+                <span class="view-badge timeline">Timeline</span>
+                <span class="view-badge kanban">Kanban</span>
+              </div>
+            </div>
+
+            <div class="content-card">
+              <h5>&#128161; Ideas Backlog</h5>
+              <p>Pre-committed ideas with same structure as roadmap but status "Ideas Backlog".</p>
+              <div class="view-badges">
+                <span class="view-badge table">Table</span>
+                <span class="view-badge enriched">Enriched</span>
+              </div>
+            </div>
+
+            <div class="content-card">
+              <h5>&#127760; Market Signals</h5>
+              <p>Competitor launches, market trends, regulatory changes. AI relevance-matched to roadmap.</p>
+            </div>
+
+            <div class="content-card">
+              <h5>&#128200; Analytics</h5>
+              <p>Product usage, feature adoption, WAU/MAU, CSAT, retention by feature and segment.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table data model mini -->
+      <div class="arch-card" style="padding: 14px 18px;">
+        <h3 style="font-size: 12px; margin-bottom: 10px;"><span class="icon">&#128451;</span> Roadmap Table Schema</h3>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <span class="view-badge table">Item Name</span>
+          <span class="view-badge table">Description</span>
+          <span class="view-badge table">Status</span>
+          <span class="view-badge timeline">Start Date</span>
+          <span class="view-badge timeline">Due Date</span>
+          <span class="view-badge kanban">Impact</span>
+          <span class="view-badge kanban">Confidence</span>
+          <span class="view-badge kanban">Effort</span>
+          <span style="padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 600; background: #fef9c3; color: #a16207; border: 1px solid #fde68a;">ICE Score</span>
+          <span class="view-badge enriched">ARR</span>
+          <span class="view-badge enriched"># Companies</span>
+          <span class="view-badge enriched">Company Names</span>
+          <span style="padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 600; background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-light);">Jira Sync</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: AI Layer + Outputs -->
+    <div class="ai-outputs">
+      <div class="section-label">
+        <span class="dot"></span>
+        AI Intelligence Layer & Outputs
+      </div>
+
+      <!-- AI Sidekick -->
+      <div class="sidekick-card">
+        <h3>&#129302; AI Sidekick — Onboarding</h3>
+        <div class="sidekick-step">
+          <span class="num">1</span>
+          <span>Opens full-screen on first visit. Suggests artifacts to connect based on roadmap description.</span>
+        </div>
+        <div class="sidekick-step">
+          <span class="num">2</span>
+          <span>User confirms/rejects: Jira project, strategy docs, Miro boards, analytics tools.</span>
+        </div>
+        <div class="sidekick-step">
+          <span class="num">3</span>
+          <span>AI ingests connected sources and starts populating Pulse, Roadmap, and Signals.</span>
+        </div>
+        <div class="sidekick-step">
+          <span class="num">4</span>
+          <span>Sidekick remains available as conversational copilot for ongoing roadmap refinement.</span>
+        </div>
+      </div>
+
+      <!-- AI Agents -->
+      <div class="ai-card">
+        <h3>&#10023; AI Agent Behaviors</h3>
+        <div class="ai-behavior">
+          <span class="emoji">&#128269;</span>
+          <span class="name">Alignment Monitor</span>
+          <span class="desc">Goals ↔ work</span>
+        </div>
+        <div class="ai-behavior">
+          <span class="emoji">&#9888;</span>
+          <span class="name">Risk Predictor</span>
+          <span class="desc">Delivery risks</span>
+        </div>
+        <div class="ai-behavior">
+          <span class="emoji">&#128161;</span>
+          <span class="name">Opportunity Spotter</span>
+          <span class="desc">Customer gaps</span>
+        </div>
+        <div class="ai-behavior">
+          <span class="emoji">&#127922;</span>
+          <span class="name">Scenario Simulator</span>
+          <span class="desc">What-if analysis</span>
+        </div>
+        <div class="ai-behavior">
+          <span class="emoji">&#128197;</span>
+          <span class="name">Cadence Automator</span>
+          <span class="desc">Auto-reports</span>
+        </div>
+      </div>
+
+      <!-- Output Views -->
+      <div class="output-card">
+        <h3>&#128065; Output Views & Interactions</h3>
+        <div class="output-item">
+          <span class="icon">&#10023;</span>
+          <span><strong>Pulse</strong> — AI-curated daily intelligence feed</span>
+        </div>
+        <div class="output-item">
+          <span class="icon">&#128451;</span>
+          <span><strong>Table</strong> — Full roadmap with enriched columns</span>
+        </div>
+        <div class="output-item">
+          <span class="icon">&#128197;</span>
+          <span><strong>Timeline</strong> — Gantt view with risk indicators</span>
+        </div>
+        <div class="output-item">
+          <span class="icon">&#128203;</span>
+          <span><strong>Kanban</strong> — Board view by status</span>
+        </div>
+        <div class="output-item">
+          <span class="icon">&#128196;</span>
+          <span><strong>Record Detail</strong> — Details / Signals / Comments</span>
+        </div>
+        <div class="output-item">
+          <span class="icon">&#128295;</span>
+          <span><strong>Filter Panel</strong> — Multi-field filtering sidebar</span>
+        </div>
+        <div class="output-item">
+          <span class="icon">&#127760;</span>
+          <span><strong>Market</strong> — Competitive intelligence feed</span>
+        </div>
+        <div class="output-item">
+          <span class="icon">&#128200;</span>
+          <span><strong>Analytics</strong> — Usage & adoption dashboards</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ SIGNAL SOURCES ═══ -->
+  <div class="flow-connector-vertical">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+    <span>SIGNALS FLOW UP INTO AI LAYER</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+  </div>
+
+  <div class="signal-section">
+    <div class="section-label">
+      <span class="dot"></span>
+      Five Signal Sources
+    </div>
+    <div class="signal-grid">
+      <div class="signal-card">
+        <div class="icon-wrap" style="background: var(--purple-bg); border: 1px solid var(--purple-light);">&#128172;</div>
+        <h4>Customer Voice</h4>
+        <p>Feedback themes, sentiment shifts, demand trends, segment patterns</p>
+        <div class="sources">
+          <span class="src-tag">Gong</span>
+          <span class="src-tag">Salesforce</span>
+          <span class="src-tag">Zendesk</span>
+          <span class="src-tag">NPS</span>
+          <span class="src-tag">Reviews</span>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="icon-wrap" style="background: var(--blue-bg); border: 1px solid var(--blue-light);">&#9881;</div>
+        <h4>Execution Reality</h4>
+        <p>Velocity trends, epic forecasts, blocker patterns, capacity</p>
+        <div class="sources">
+          <span class="src-tag">Jira</span>
+          <span class="src-tag">Azure DevOps</span>
+          <span class="src-tag">GitHub</span>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="icon-wrap" style="background: var(--orange-bg); border: 1px solid #fed7aa;">&#127760;</div>
+        <h4>Market Context</h4>
+        <p>Competitor launches, trends, regulatory changes, disruptions</p>
+        <div class="sources">
+          <span class="src-tag">News</span>
+          <span class="src-tag">Analysts</span>
+          <span class="src-tag">Tracking</span>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="icon-wrap" style="background: var(--green-bg); border: 1px solid var(--green-light);">&#128200;</div>
+        <h4>Business Metrics</h4>
+        <p>Feature adoption, retention, churn risk, revenue impact</p>
+        <div class="sources">
+          <span class="src-tag">Amplitude</span>
+          <span class="src-tag">Mixpanel</span>
+          <span class="src-tag">Revenue</span>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="icon-wrap" style="background: var(--yellow-bg); border: 1px solid var(--yellow);">&#127919;</div>
+        <h4>Strategy Artifacts</h4>
+        <p>OKR alignment, goal coverage, drift detection, priority hierarchy</p>
+        <div class="sources">
+          <span class="src-tag">OKRs</span>
+          <span class="src-tag">Goals</span>
+          <span class="src-tag">Strategy</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DATA MODEL ═══ -->
+  <div class="data-model-section">
+    <div class="section-label">
+      <span class="dot"></span>
+      Record Data Model — Roadmap Item
+    </div>
+    <div class="data-model-grid">
+      <div class="dm-card">
+        <h4>&#128196; Core Fields</h4>
+        <div class="dm-field"><span class="key">Item Name</span><span class="val">Text</span><span class="type-tag core">Core</span></div>
+        <div class="dm-field"><span class="key">Description</span><span class="val">Rich text</span><span class="type-tag core">Core</span></div>
+        <div class="dm-field"><span class="key">Status</span><span class="val">Enum: To do, In progress, Done, Ideas Backlog</span><span class="type-tag core">Core</span></div>
+        <div class="dm-field"><span class="key">Start Date</span><span class="val">Date</span><span class="type-tag core">Core</span></div>
+        <div class="dm-field"><span class="key">Due Date</span><span class="val">Date</span><span class="type-tag core">Core</span></div>
+        <div class="dm-field"><span class="key">Assignee</span><span class="val">User reference</span><span class="type-tag core">Core</span></div>
+        <div class="dm-field"><span class="key">Function</span><span class="val">Tag</span><span class="type-tag core">Core</span></div>
+      </div>
+      <div class="dm-card">
+        <h4>&#128170; Scoring & Jira</h4>
+        <div class="dm-field"><span class="key">Impact</span><span class="val">1-10 scale</span><span class="type-tag core">Core</span></div>
+        <div class="dm-field"><span class="key">Confidence</span><span class="val">0-1 decimal</span><span class="type-tag core">Core</span></div>
+        <div class="dm-field"><span class="key">Effort</span><span class="val">1-10 scale</span><span class="type-tag core">Core</span></div>
+        <div class="dm-field"><span class="key">ICE Score</span><span class="val">Impact x Confidence x Effort</span><span class="type-tag computed">Computed</span></div>
+        <div class="dm-field"><span class="key">Jira Key</span><span class="val">e.g. PROJ-123</span><span class="type-tag jira">Jira</span></div>
+        <div class="dm-field"><span class="key">Sprint</span><span class="val">From Jira sync</span><span class="type-tag jira">Jira</span></div>
+        <div class="dm-field"><span class="key">Story Points</span><span class="val">From Jira sync</span><span class="type-tag jira">Jira</span></div>
+      </div>
+      <div class="dm-card">
+        <h4>&#10023; Enriched (AI / Insights)</h4>
+        <div class="dm-field"><span class="key">ARR Impact</span><span class="val">Currency</span><span class="type-tag enriched">Enriched</span></div>
+        <div class="dm-field"><span class="key"># Companies</span><span class="val">Count</span><span class="type-tag enriched">Enriched</span></div>
+        <div class="dm-field"><span class="key">Company Names</span><span class="val">Tag list</span><span class="type-tag enriched">Enriched</span></div>
+        <div class="dm-field"><span class="key"># Mentions</span><span class="val">Count</span><span class="type-tag enriched">Enriched</span></div>
+        <div class="dm-field"><span class="key">Sentiment</span><span class="val">Score + label</span><span class="type-tag enriched">Enriched</span></div>
+        <div class="dm-field"><span class="key">Demand Trend</span><span class="val">Growing / Stable / Declining</span><span class="type-tag enriched">Enriched</span></div>
+        <div class="dm-field"><span class="key">Customer Quotes</span><span class="val">Top 3-5 excerpts</span><span class="type-tag enriched">Enriched</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <span class="legend-title">Legend</span>
+    <div class="legend-item"><span class="legend-dot" style="background: var(--yellow);"></span> Entry / Navigation</div>
+    <div class="legend-item"><span class="legend-dot" style="background: var(--blue);"></span> Data Sources</div>
+    <div class="legend-item"><span class="legend-dot" style="background: var(--purple);"></span> AI Intelligence</div>
+    <div class="legend-item"><span class="legend-dot" style="background: var(--green);"></span> AI Sidekick</div>
+    <div class="legend-item"><span class="legend-dot" style="background: var(--cyan);"></span> Signal Sources</div>
+    <div class="legend-item"><span class="legend-dot" style="background: var(--orange);"></span> Data Model</div>
+    <div class="legend-item"><span class="legend-dot" style="background: var(--accent-bg); border: 1px solid var(--accent);"></span> Core Field</div>
+    <div class="legend-item"><span class="legend-dot" style="background: var(--orange-bg); border: 1px solid var(--orange);"></span> Enriched Field</div>
+    <div class="legend-item"><span class="legend-dot" style="background: var(--blue-bg); border: 1px solid var(--blue);"></span> Jira Synced</div>
+  </div>
+
+</div>
+
+</body>
+</html>

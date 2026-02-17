@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data-Backed Evidence: Why Miro Should Prioritise Roadmapping</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f8f8f5;--white:#fff;--text:#1a1a2e;--text2:#6b7280;--text3:#9ca3af;
+  --border:#e5e7eb;--accent:#4f46e5;--accent2:#6366f1;--accent-bg:#eef2ff;
+  --green:#16a34a;--green-bg:#dcfce7;--green-t:#15803d;
+  --yellow:#ca8a04;--yellow-bg:#fef9c3;--yellow-t:#a16207;
+  --red:#dc2626;--red-bg:#fef2f2;--red-t:#b91c1c;
+  --orange:#ea580c;--orange-bg:#fff7ed;--orange-t:#c2410c;
+  --blue:#2563eb;--blue-bg:#eff6ff;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;--purple-light:#ddd6fe;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',-apple-system,sans-serif;font-size:15px;line-height:1.7;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;padding:40px 56px 80px;max-width:960px;margin:0 auto;}
+h1{font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px;}
+h2{font-size:22px;font-weight:700;letter-spacing:-0.3px;margin-top:48px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:10px;}
+h2 .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:var(--accent);color:#fff;font-size:14px;font-weight:700;flex-shrink:0;}
+h3{font-size:17px;font-weight:700;margin-top:28px;margin-bottom:10px;color:var(--text);}
+h4{font-size:14px;font-weight:600;margin-top:20px;margin-bottom:8px;color:var(--text);}
+p{margin-bottom:12px;color:var(--text2);}
+strong{color:var(--text);}
+ul,ol{margin:0 0 16px 20px;color:var(--text2);}
+li{margin-bottom:6px;}
+hr{border:none;border-top:1px solid var(--border);margin:32px 0;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+.callout{background:var(--accent-bg);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:16px;font-size:14px;color:var(--text);}
+.callout.warning{background:var(--orange-bg);border-left-color:var(--orange);}
+.callout.success{background:var(--green-bg);border-left-color:var(--green);}
+.callout.danger{background:var(--red-bg);border-left-color:var(--red);}
+.callout .label{font-weight:700;margin-bottom:4px;}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:20px;}
+thead th{text-align:left;padding:8px 12px;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.3px;background:var(--bg);border-bottom:2px solid var(--border);white-space:nowrap;}
+tbody td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top;}
+tbody tr:hover{background:#fafbfc;}
+td:first-child{font-weight:500;color:var(--text);}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px;}
+.metric-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;}
+.metric-card .target{font-size:22px;font-weight:700;color:var(--accent);}
+.metric-card .name{font-size:11px;color:var(--text2);margin-top:2px;}
+.tag{display:inline-block;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600;}
+.tag-accent{background:var(--accent-bg);color:var(--accent);}
+.tag-green{background:var(--green-bg);color:var(--green-t);}
+.tag-red{background:var(--red-bg);color:var(--red-t);}
+.tag-orange{background:var(--orange-bg);color:var(--orange-t);}
+.tag-gray{background:#f3f4f6;color:var(--text2);}
+.source-link{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;background:var(--purple-bg);color:var(--purple);margin-top:4px;text-decoration:none;}
+.source-link:hover{text-decoration:none;background:var(--purple-light);}
+.quote{background:var(--white);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px;color:var(--text2);font-style:italic;}
+.quote .attr{font-style:normal;font-weight:600;color:var(--text);font-size:11px;margin-top:4px;}
+.evidence-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.evidence-card h3{margin-top:0;}
+.sev-critical{display:inline-block;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--red-bg);color:var(--red-t);}
+.sev-high{display:inline-block;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--orange-bg);color:var(--orange-t);}
+</style>
+</head>
+<body>
+
+<h1>Why Miro Should Prioritise Building a Roadmap Solution</h1>
+<p style="font-size:17px;color:var(--text2);margin-bottom:4px;">Data-Backed Evidence Brief</p>
+<div style="display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap;">
+  <span class="tag tag-accent">Roadmapping Investment Case</span>
+  <span class="tag tag-gray">February 2026</span>
+  <span class="tag tag-red">Internal Only</span>
+</div>
+
+<div class="callout success">
+  <div class="label">TL;DR</div>
+  Data from the active sales pipeline, customer feedback, and website signals all converge on the same conclusion: <strong>there is validated, quantified demand for a Miro roadmapping solution</strong>. At least 21 customers ($3.3M existing ARR) have explicitly requested it, >$1.6M in immediate pipeline is attached to it, 60% of Miro users already use the product for roadmapping (with the highest frustration score of any use case), and the roadmapping template/landing pages are consistently among the highest-traffic content on miro.com.
+</div>
+
+<!-- ═══ 1. ACTIVE SALES PIPELINE ═══ -->
+<h2 id="pipeline"><span class="num">1</span> Active Sales Pipeline</h2>
+
+<div class="evidence-card">
+<h3>1.1 Validated Immediate Pipeline: >$1.6M</h3>
+<p>The Insights-Driven Roadmapping kickoff document identifies <strong>>$1.6M in validated, immediate pipeline</strong> between expansion deals and the Insights play, directly tied to roadmapping capabilities.</p>
+
+<div class="metric-grid">
+  <div class="metric-card"><div class="target">>$1.6M</div><div class="name">Validated immediate pipeline (expansion + Insights)</div></div>
+  <div class="metric-card"><div class="target">21</div><div class="name">Customers explicitly requesting roadmapping</div></div>
+  <div class="metric-card"><div class="target">$3.3M</div><div class="name">Existing ARR from those 21 customers</div></div>
+  <div class="metric-card"><div class="target">~$4M</div><div class="name">Total est. ARR (incl. est. for unlisted)</div></div>
+</div>
+
+<p>Breakdown of the pipeline impact estimate:</p>
+<table>
+  <thead><tr><th>Component</th><th>Value</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Net new ARR from Insights</strong></td><td>$850K</td><td>New customers buying Insights for roadmapping</td></tr>
+    <tr><td><strong>Est. expansion ARR from Roadmapping</strong></td><td>$800K</td><td>Upsell/expansion from existing accounts</td></tr>
+    <tr><td><strong>Total Impact (Conservative)</strong></td><td>>$1.6M</td><td>Conservative estimate</td></tr>
+  </tbody>
+</table>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVGKHY_h0=" target="_blank">Source: Kickoff: Insights-Driven Roadmapping (Lauren Brucato)</a>
+</div>
+
+<div class="evidence-card">
+<h3>1.2 Broader Miro Insights Pipeline (which Roadmapping feeds into)</h3>
+<p>The overall Miro Insights sales pipeline -- which roadmapping is a core use case for -- shows significant active opportunity value:</p>
+
+<table>
+  <thead><tr><th>Pipeline Stage</th><th>ARR</th><th># Opportunities</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Stage 1 &mdash; Discovery</strong></td><td>$566,971</td><td>27</td></tr>
+    <tr><td><strong>Stage 2 &mdash; Gathering Requirements</strong></td><td>$675,460</td><td>31</td></tr>
+    <tr><td><strong>Stage 3 &mdash; Evaluation</strong></td><td>$169,921</td><td>5</td></tr>
+    <tr><td><strong>Total Forecasted ARR</strong></td><td><strong>$1,700,299</strong></td><td></td></tr>
+  </tbody>
+</table>
+<p>Average Forecasted ACV: <strong>$17.5K</strong></p>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVJskQ0HI=" target="_blank">Source: Five Fits Monetizable Solutions (Mike Pilawski)</a>
+<br>
+<a class="source-link" href="https://miro.com/app/board/uXjVGRwqFKw=" target="_blank">Source: 4-step GTM Operating Model (Madeline Stotlemyer)</a>
+</div>
+
+<div class="evidence-card">
+<h3>1.3 Pipeline Growth Trajectory</h3>
+<p>The Insights pipeline has seen strong growth momentum:</p>
+<ul>
+  <li><strong>Pipeline grew from &lt;$100K to $1.5M ARR</strong></li>
+  <li><strong>70% of active pipeline ($1.13M)</strong> are multi-product deals (Jan 2026)</li>
+  <li><strong>30% of active pipeline ($400K)</strong> are B2C (Jan 2026) -- a new, rapidly growing segment</li>
+  <li>B2C and multi-product data support drove <strong>30% B2C and 70% multiproduct pipeline composition</strong>, and growing</li>
+</ul>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVIuicX1U=" target="_blank">Source: FY26 Miro Insights Roadmap (Lauren Brucato)</a>
+</div>
+
+<div class="evidence-card">
+<h3>1.4 New Product Pipeline Dashboard (HT)</h3>
+<p>The centralised New Product Dashboard (Feb 2026) tracks open HT opportunities across all new products:</p>
+<table>
+  <thead><tr><th>Metric</th><th>Latest Value</th><th>Trend</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Open HT Opportunities ($) S2+</strong></td><td>$2.9M &ndash; $3.7M</td><td>Ranged over past weeks</td></tr>
+    <tr><td><strong>Open HT Opportunities (#) S2+</strong></td><td>159 &ndash; 176</td><td>Stable / growing</td></tr>
+    <tr><td><strong>Avg Forecasted HT ARR</strong></td><td>$17K &ndash; $22K</td><td>Healthy ACV</td></tr>
+    <tr><td><strong>Quoted Pipeline (from Jan 20)</strong></td><td>$1.2M+</td><td>Growing rapidly (was $500K on Dec 9)</td></tr>
+    <tr><td><strong>Quoted Opps (#) (from Jan 20)</strong></td><td>49</td><td>Up from 7 on Dec 9</td></tr>
+  </tbody>
+</table>
+<p><em>Note: Roadmaps is tracked as a standalone product line with its own Gong mentions and website page visit KPIs in this dashboard, confirming its strategic importance.</em></p>
+
+<a class="source-link" href="https://docs.google.com/spreadsheets/d/1X-9moY4gEfcehlnZ5q0PFze2PbXHRjCWTmAn_u_ApfI" target="_blank">Source: New Product Dashboard, 2026 (Lasse Faurby Christensen)</a>
+</div>
+
+<div class="evidence-card">
+<h3>1.5 Roadmapping Named in POC / Sales Conversations</h3>
+<p>The POC Pipeline and Sales Cheat Sheet explicitly call out roadmapping as a core sales motion:</p>
+<ul>
+  <li>"<strong>AI-powered Roadmapping and prioritization</strong>" listed as one of the core use cases in the Sales Cheat Sheet for qualifying and guiding prospects</li>
+  <li>"<strong>Backlog Enrichment &amp; Prioritization</strong>" &mdash; automatically link customer insights to existing backlog items &mdash; is the #1 listed use case</li>
+  <li>Active POC customers include Ninety, Lightspeed, SMS Assist, Inteligems, Greenway, PVCase, TractorZoom, Clockwork, Ataccama, Rydoo &amp; Temporal Technologies &mdash; many specifically evaluating roadmapping</li>
+</ul>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVJgv3FOY=" target="_blank">Source: POCs Pipeline (Insights - Kanban) (Nadav Weizmann)</a>
+<br>
+<a class="source-link" href="https://miro.com/app/board/uXjVJhJlX7o=" target="_blank">Source: Key Initiative Weekly Slack Update (Lauren Brucato)</a>
+</div>
+
+
+<!-- ═══ 2. CUSTOMER REQUESTS ═══ -->
+<h2 id="customers"><span class="num">2</span> Customer Requests & Feedback</h2>
+
+<div class="evidence-card">
+<h3>2.1 Quantified Customer Demand: 21 Customers, $3.3M ARR</h3>
+<p>A rigorous analysis of recent feedback (last ~90 days) for explicit pains around product roadmapping / backlog management identified:</p>
+
+<div class="metric-grid">
+  <div class="metric-card"><div class="target">21</div><div class="name">Customers with explicit roadmapping needs</div></div>
+  <div class="metric-card"><div class="target">$3,337,938</div><div class="name">Combined ARR of those customers</div></div>
+  <div class="metric-card"><div class="target">~$4M</div><div class="name">Total est. ARR (incl. $0 ARR accounts)</div></div>
+</div>
+
+<p>Methodology: <em>"I filtered recent feedback (last ~90 days) for explicit pains around product roadmapping / backlog management, poor fit of tools like Aha/Productboard/Jira PD, or lack of any good solution; then I pulled ARR for those customers and summarized their core pain plus one direct quote."</em></p>
+
+<div class="callout warning">
+  <div class="label">Scope Creep Risk Validates Demand</div>
+  The kickoff document itself warns: "With 21 customers already asking for roadmapping, there will be pressure to add 'just one more thing' to close deals. We need discipline to hold the V1 line." -- This risk itself confirms the demand is real and urgent.
+</div>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVGKHY_h0=" target="_blank">Source: Kickoff: Insights-Driven Roadmapping (Lauren Brucato)</a>
+</div>
+
+<div class="evidence-card">
+<h3>2.2 Highest Frustration Score Across All Agile Use Cases</h3>
+<p>Internal research shows that roadmapping is the most painful use case for existing Miro users:</p>
+
+<div class="metric-grid">
+  <div class="metric-card"><div class="target">60%</div><div class="name">Of Miro customers already use it for roadmapping</div></div>
+  <div class="metric-card"><div class="target">Only 34%</div><div class="name">Are "very satisfied" with roadmapping experience</div></div>
+  <div class="metric-card"><div class="target">66%</div><div class="name">Frustration score (highest of any agile use case)</div></div>
+  <div class="metric-card"><div class="target">$2.7M</div><div class="name">ARR from customers saying roadmapping is "not good enough"</div></div>
+</div>
+
+<div class="callout danger">
+  <div class="label">Churn / Competitive Risk</div>
+  $2.7M ARR in customers are explicitly telling Miro that its roadmapping capabilities are not good enough. These are at-risk accounts that could churn or shift budget to competitors.
+</div>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVGK1Sk-U=" target="_blank">Source: Dynamic Roadmapping - Versions (Rosanna Knottenbelt)</a>
+</div>
+
+<div class="evidence-card">
+<h3>2.3 Direct Customer Quotes &mdash; Tool Consolidation Demand</h3>
+<p>Gong call analysis reveals customers actively seeking to consolidate roadmapping into Miro:</p>
+
+<div class="quote">"We've been using Smartsheet for two years really successfully... this pricing model... makes it pretty much a non-starter..." <div class="attr">-- Gensler</div></div>
+<div class="quote">"We're actually looking for more project management tools... we use MS Project currently, but he wouldn't want to use that either." <div class="attr">-- Tracker</div></div>
+<div class="quote">"My target for this year was condensing our tech stack... we're using a lot of tools double or triple or quadruple. So I just consolidate all our project management tools from Asana, Airtable, Trello, Google Sheets, you name it..." <div class="attr">-- AIHR Academy</div></div>
+<div class="quote">"We're using Asana right now... Asana for us just is not developing a timeline... you can't put durations... It's frustrating." <div class="attr">-- Spanco</div></div>
+<div class="quote">"So we can see how many clients are impacted by X, Y, or Z, and then how many opportunities potentially... could we have new revenue potential here with all of these other requests... give us more insight to push for that work to help drive our roadmaps..." <div class="attr">-- Customer (from Insights analysis)</div></div>
+
+<p>Additional patterns from Gong call analysis:</p>
+<ul>
+  <li><strong>Customers using Monday.com</strong> for roadmap/kanban/reporting explicitly say they'd like to move that into Miro to save Monday licenses, if Miro had comparable visualization/reporting</li>
+  <li><strong>Several teams</strong> mention Miro being "sufficient" compared with heavy Jira roadmaps for planning/tracking, particularly for business stakeholders</li>
+  <li><strong>Many want roadmaps</strong> that roll up epics/initiatives and show dependencies across teams (currently done in Monday/Asana/Jira Advanced Roadmaps)</li>
+</ul>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVGK1Sk-U=" target="_blank">Source: Dynamic Roadmapping - Versions (Rosanna Knottenbelt)</a>
+</div>
+
+<div class="evidence-card">
+<h3>2.4 Feature Request Database &mdash; Roadmapping-Specific Requests</h3>
+<p>The Enterprise Feature Requests Database (Salesforce) contains specific roadmapping-related requests from high-ARR customers:</p>
+
+<table>
+  <thead><tr><th>Request</th><th>Customer</th><th>ARR</th><th>Date</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Custom Quarters on Tables</strong> &mdash; "Most customers have a different fiscal year... Ability to customize quarters will help teams use tables for roadmapping and planning"</td><td>CHS</td><td>$53K</td><td>Oct 2025</td></tr>
+    <tr><td><strong>Milestones for specific sections/groupings</strong> &mdash; "Milestones in roadmaps reflect across the entire table and can't be specified to a specific grouping"</td><td>CHS</td><td>$53K</td><td>Oct 2025</td></tr>
+    <tr><td><strong>Calculated parent dates on timelines</strong> &mdash; "No way to render a single, colored summary bar at the parent level that auto-rolls up the earliest start to latest end of sub-items in timeline view"</td><td>Ford Motor Company</td><td>$2.7M</td><td>Feb 2026</td></tr>
+  </tbody>
+</table>
+
+<a class="source-link" href="https://docs.google.com/spreadsheets/d/1nsKxL-mpKduOkT2zy_dAR8KqHk_Ryg-gA_SaL07Q5Tc" target="_blank">Source: Feature Requests Database (Google Sheet)</a>
+<br>
+<a class="source-link" href="https://miro.atlassian.net/wiki/spaces/CUS/pages/4159013040" target="_blank">Source: Product Feature Requests for Enterprise Customers (Confluence)</a>
+</div>
+
+<div class="evidence-card">
+<h3>2.5 Competitive Displacement Opportunity</h3>
+<p>Multiple signals indicate competitors are vulnerable and customers are actively seeking alternatives:</p>
+
+<ul>
+  <li><strong>Productboard is deprecating legacy ARR boards</strong> &mdash; customers are actively evaluating alternatives including Miro Insights</li>
+  <li><strong>Aha!</strong> is described as "roadmap-centric but rigid and siloed, not decision-oriented" &mdash; Miro can differentiate</li>
+  <li>The product roadmap software market is projected to reach <strong>$2.5 billion by 2031</strong></li>
+  <li>The broader addressable market for roadmapping and portfolio management is <strong>$1B+</strong></li>
+  <li><strong>No competitor combines</strong> visual collaboration, two-way Jira integration, AI-powered customer insights, and infinite canvas flexibility</li>
+</ul>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVGazBPYU=" target="_blank">Source: Strat Pack H1FY27 Vision &rarr; Plan (Rosanna Knottenbelt)</a>
+<br>
+<a class="source-link" href="https://miro.com/app/board/uXjVJgddvtU=" target="_blank">Source: Weekly Tracker: Strategy and Execution Products (Vitaly Selkin)</a>
+</div>
+
+
+<!-- ═══ 3. WEBSITE TRAFFIC ═══ -->
+<h2 id="website"><span class="num">3</span> Website Traffic &amp; Demand Signals</h2>
+
+<div class="evidence-card">
+<h3>3.1 Roadmapping Landing Pages &mdash; High Traffic Indicator</h3>
+<p>Multiple internal sources confirm that roadmapping content is among the highest-traffic content on miro.com:</p>
+
+<ul>
+  <li>Miro maintains <strong>two dedicated roadmapping landing pages</strong>:
+    <ul>
+      <li><a href="https://miro.com/products/roadmaps/" target="_blank">miro.com/products/roadmaps/</a> &mdash; the new product landing page for Miro Roadmaps</li>
+      <li><a href="https://miro.com/roadmapping/" target="_blank">miro.com/roadmapping/</a> &mdash; the free roadmap tool / SEO landing page</li>
+    </ul>
+  </li>
+  <li>In the AI Template Content & Product Reviews board, <strong>"Roadmap Planning" is repeatedly flagged as a high-traffic template category</strong>: "We have super high traffic on a lot of our common use cases" with Roadmap Planning listed alongside the top templates</li>
+  <li>The New Product Dashboard (2026) <strong>tracks "Website page visits" for Roadmaps as a standalone KPI</strong> alongside Gong mentions &mdash; confirming it is treated as a strategically important product line</li>
+  <li>The Canvas25 Website LP planning board specifically references roadmapping as a key customer journey: <em>"head of product ops navigating to the product acceleration solution page and converting with a demo request for 'Miro roadmaps'"</em></li>
+</ul>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVJRmfv2w=" target="_blank">Source: AI Template Content | Product Reviews (Laura Seach)</a>
+<br>
+<a class="source-link" href="https://docs.google.com/spreadsheets/d/1X-9moY4gEfcehlnZ5q0PFze2PbXHRjCWTmAn_u_ApfI" target="_blank">Source: New Product Dashboard, 2026 (Lasse Faurby Christensen)</a>
+<br>
+<a class="source-link" href="https://miro.com/app/board/uXjVJG1yI4Q=" target="_blank">Source: Solution Review: Canvas '25 LP (Julia Sotelo)</a>
+</div>
+
+<div class="evidence-card">
+<h3>3.2 Benchmarking: Prototyping LP Traffic as a Proxy</h3>
+<p>While precise roadmapping LP traffic figures require access to the Looker/analytics dashboard, we can benchmark against the Prototyping LP, which has detailed analytics available:</p>
+
+<table>
+  <thead><tr><th>Metric (Prototyping LP)</th><th>Value</th><th>Implication for Roadmapping</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Page traffic</strong></td><td>~16K Anonymous + ~5.5K Registered visitors</td><td>Roadmapping templates are flagged as comparable or higher traffic</td></tr>
+    <tr><td><strong>Weekly average</strong></td><td>~2.6K distinct users</td><td>&mdash;</td></tr>
+    <tr><td><strong>Trial starts (from page)</strong></td><td>168 orgs (direct), 93 orgs (influenced)</td><td>Roadmapping LP should drive similar or higher conversion given existing user base</td></tr>
+    <tr><td><strong>Booked Sales Meetings</strong></td><td>19 (directly attributed)</td><td>&mdash;</td></tr>
+    <tr><td><strong>Attributed pipeline</strong></td><td>$380K S4 pipeline, $9.3M forecasted</td><td>Demonstrates the pipeline potential of product LPs</td></tr>
+  </tbody>
+</table>
+
+<p><em>Note: Roadmapping templates are called out as "super high traffic" in the same documents where prototyping is benchmarked. Given that 60% of Miro users already use the product for roadmapping, it is reasonable to expect comparable or higher engagement with roadmapping-specific content.</em></p>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVGe3Pwxs=" target="_blank">Source: Prototyping Marketing Analytics (Henrique Koller)</a>
+</div>
+
+<div class="evidence-card">
+<h3>3.3 Template &amp; Content Traffic Signals</h3>
+<p>The content strategy boards consistently categorise roadmapping as a "hero use case" with high organic traffic:</p>
+<ul>
+  <li><strong>"Roadmap Planning"</strong> is listed as a hero use case for Canvas 25 website launch alongside PDLC content</li>
+  <li><strong>"Roadmapping blueprint"</strong> is featured as a key template in the content strategy</li>
+  <li><strong>"Roadmap Strategist Sidekick"</strong> is featured as a hero AI capability across multiple pages</li>
+  <li>The Miro Academy has a dedicated course: <strong>"Create with AI: Roadmapping"</strong></li>
+  <li>The <a href="https://miro.com/products/roadmaps/" target="_blank">Miro Roadmaps product page</a> is positioned with both a "Try basic Roadmaps" CTA and a "Book advanced Roadmaps demo" CTA, indicating a multi-tier monetisation strategy is already in motion</li>
+</ul>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVJRmfv2w=" target="_blank">Source: AI Template Content | Product Reviews (Laura Seach)</a>
+<br>
+<a class="source-link" href="https://miro.com/app/board/uXjVJSGse-A=" target="_blank">Source: Canvas25: Website LPs Content and Asset Planning (Elzanne Wentzel)</a>
+</div>
+
+<div class="evidence-card">
+<h3>3.4 Pending Data: Exact Traffic Numbers</h3>
+<div class="callout warning">
+  <div class="label">Action Needed</div>
+  The exact roadmapping LP traffic figures are available in the <a href="https://miro.looker.com/dashboards/6033" target="_blank">Looker New Product Dashboard</a> and the GTMM Landing Page Analytics dashboard, but were referenced as a data point that "the roadmaps page on our website was the most visited after [another product page]." This specific data point should be pulled from the Looker dashboard to complete this evidence package.
+</div>
+<a class="source-link" href="https://miro.slack.com/archives/C09V910MEPK/p1770659083558279" target="_blank">Source: Slack thread (Rosanna Knottenbelt &amp; Vitaly Selkin, Feb 9 2026)</a>
+</div>
+
+
+<!-- ═══ 4. STRATEGIC ALIGNMENT ═══ -->
+<h2 id="strategic"><span class="num">4</span> Strategic Alignment &amp; Market Context</h2>
+
+<div class="evidence-card">
+<h3>4.1 Market Opportunity</h3>
+<table>
+  <thead><tr><th>Data Point</th><th>Value</th><th>Source</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Addressable market (roadmapping + portfolio mgmt)</strong></td><td>$1B+</td><td><a href="https://miro.com/app/board/uXjVGK1Sk-U=" target="_blank">Dynamic Roadmapping PRD</a></td></tr>
+    <tr><td><strong>Product roadmap software market (projected 2031)</strong></td><td>$2.5B</td><td><a href="https://miro.com/app/board/uXjVGazBPYU=" target="_blank">Strat Pack H1FY27</a> (via Verified Market Research)</td></tr>
+    <tr><td><strong>Productboard disruption</strong></td><td>Deprecating legacy boards</td><td><a href="https://miro.com/app/board/uXjVGK1Sk-U=" target="_blank">Dynamic Roadmapping PRD</a></td></tr>
+    <tr><td><strong>Target Year 1 Incremental ARR</strong></td><td>$2M+</td><td><a href="https://miro.com/app/board/uXjVGK1Sk-U=" target="_blank">Dynamic Roadmapping PRD</a></td></tr>
+    <tr><td><strong>Insights Product Pipeline target (FY27)</strong></td><td>>$10M ARR</td><td><a href="https://miro.com/app/board/uXjVGWUm_Jc=" target="_blank">FY27 Insights Vision & Strategy</a></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="evidence-card">
+<h3>4.2 Strategic Fit &mdash; The "Pillar 2" of Strategy &amp; Execution</h3>
+<p>Roadmapping is explicitly named as <strong>Pillar 2</strong> of the Strategy &amp; Execution product vision:</p>
+<ul>
+  <li><strong>Pillar 2: Roadmap Management</strong> &mdash; "Flexible roadmap views (timeline, swimlane, outcome-based)"</li>
+  <li>The full chain is: <strong>Strategy &rarr; Goals &rarr; Roadmaps &rarr; Projects &rarr; Tasks</strong></li>
+  <li>"Tasks &rarr; Roadmaps: You cannot have an accurate roadmap without reliably structured tasks that track progress and timelines"</li>
+  <li>"No team ships in isolation; every roadmap item must map to the same end-to-end project journey"</li>
+</ul>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVJgddvtU=" target="_blank">Source: Weekly Tracker: Strategy and Execution Products (Vitaly Selkin)</a>
+<br>
+<a class="source-link" href="https://miro.com/app/board/uXjVGazBPYU=" target="_blank">Source: Strat Pack H1FY27 Vision &rarr; Plan (Rosanna Knottenbelt)</a>
+</div>
+
+<div class="evidence-card">
+<h3>4.3 Competitive Window</h3>
+<p>Multiple sources flag this as a time-sensitive opportunity:</p>
+<div class="quote">"This is a rare moment where market need, technology capability, and company strategy align -- and the companies that move now will define the category for the next decade." <div class="attr">-- Kickoff: Insights-Driven Roadmapping</div></div>
+<div class="quote">"Miro has a once-in-a-generation opportunity to reinvent roadmapping around real customer understanding, not just planning mechanics." <div class="attr">-- Kickoff: Insights-Driven Roadmapping</div></div>
+<div class="quote">"We have a narrow window to leapfrog slow incumbents like Aha and define a new category." <div class="attr">-- Kickoff: Insights-Driven Roadmapping</div></div>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVGKHY_h0=" target="_blank">Source: Kickoff: Insights-Driven Roadmapping (Lauren Brucato)</a>
+</div>
+
+<div class="evidence-card">
+<h3>4.4 GTM Readiness &mdash; Go-to-Market Motion in Place</h3>
+<p>The GTM strategy for roadmapping is already planned and partially operational:</p>
+<ul>
+  <li><strong>Build high-intent sales pipeline</strong>: Use data heuristics (board content, templates, pasted integration links) to target high-fit organisations via structured CSM plays</li>
+  <li><strong>Build upgrade pressure from end users</strong>: Nudge existing users of boards/experiences for goals, roadmaps and projects with contextual triggers, upsells, and paywalls</li>
+  <li>The Canvas 25 website launch has <strong>dedicated roadmapping landing pages, blueprints, and Sidekick experiences</strong> ready</li>
+  <li>Sales enablement: the POC pipeline has <strong>sales cheat sheets and qualification guides</strong> that already include roadmapping as a core use case</li>
+</ul>
+
+<a class="source-link" href="https://miro.com/app/board/uXjVJiEOXK0=" target="_blank">Source: (WIP) Solution Review Prep — Strategy Pack (Robert Kortenoeven)</a>
+<br>
+<a class="source-link" href="https://miro.com/app/board/uXjVGWUm_Jc=" target="_blank">Source: FY27 Insights Vision & Strategy (Lauren Brucato)</a>
+</div>
+
+
+<!-- ═══ SUMMARY ═══ -->
+<h2 id="summary"><span class="num">5</span> Summary of Evidence</h2>
+
+<table>
+  <thead><tr><th>Evidence Category</th><th>Key Data Point</th><th>Signal Strength</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Pipeline &mdash; Direct</strong></td><td>>$1.6M validated, immediate pipeline tied to roadmapping</td><td><span class="sev-critical">Very Strong</span></td></tr>
+    <tr><td><strong>Pipeline &mdash; Broader</strong></td><td>$1.7M total Insights forecasted ARR (roadmapping is a core use case)</td><td><span class="sev-critical">Very Strong</span></td></tr>
+    <tr><td><strong>Pipeline &mdash; Growth</strong></td><td>Pipeline grew from &lt;$100K to $1.5M in recent quarters</td><td><span class="sev-high">Strong</span></td></tr>
+    <tr><td><strong>Customers &mdash; Explicit Demand</strong></td><td>21 customers ($3.3M ARR) explicitly requesting roadmapping</td><td><span class="sev-critical">Very Strong</span></td></tr>
+    <tr><td><strong>Customers &mdash; Frustration</strong></td><td>66% frustration score &mdash; highest across all agile use cases</td><td><span class="sev-critical">Very Strong</span></td></tr>
+    <tr><td><strong>Customers &mdash; At-Risk ARR</strong></td><td>$2.7M ARR explicitly saying roadmapping is "not good enough"</td><td><span class="sev-critical">Very Strong</span></td></tr>
+    <tr><td><strong>Customers &mdash; Usage</strong></td><td>60% of Miro customers already use Miro for roadmapping</td><td><span class="sev-critical">Very Strong</span></td></tr>
+    <tr><td><strong>Website &mdash; Templates</strong></td><td>Roadmap Planning templates flagged as "super high traffic"</td><td><span class="sev-high">Strong</span></td></tr>
+    <tr><td><strong>Website &mdash; LP Strategy</strong></td><td>Dedicated product LP with tiered CTAs; tracked as strategic KPI</td><td><span class="sev-high">Strong</span></td></tr>
+    <tr><td><strong>Market &mdash; TAM</strong></td><td>$1B+ addressable; $2.5B projected market by 2031</td><td><span class="sev-high">Strong</span></td></tr>
+    <tr><td><strong>Competitive &mdash; Disruption</strong></td><td>Productboard deprecating; Aha! is rigid; AI creates new category window</td><td><span class="sev-high">Strong</span></td></tr>
+    <tr><td><strong>Strategic &mdash; Alignment</strong></td><td>Pillar 2 of Strategy & Execution; connects Goals &rarr; Roadmaps &rarr; Projects</td><td><span class="sev-critical">Very Strong</span></td></tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h3>Sources Index</h3>
+<p style="font-size:12px;color:var(--text3);margin-bottom:8px;">All sources are internal Miro documents. Links require Miro workspace access.</p>
+<ol style="font-size:12px;color:var(--text2);">
+  <li><a href="https://miro.com/app/board/uXjVGKHY_h0=" target="_blank">Kickoff: Insights-Driven Roadmapping</a> &mdash; Lauren Brucato, Feb 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVGK1Sk-U=" target="_blank">Dynamic Roadmapping - Versions</a> &mdash; Rosanna Knottenbelt, Feb 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVJskQ0HI=" target="_blank">Five Fits Monetizable Solutions</a> &mdash; Mike Pilawski, Jan 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVGRwqFKw=" target="_blank">4-step GTM Operating Model</a> &mdash; Madeline Stotlemyer, Feb 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVIuicX1U=" target="_blank">FY26 Miro Insights Roadmap</a> &mdash; Lauren Brucato, Jan 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVGazBPYU=" target="_blank">Strat Pack H1FY27 Vision &rarr; Plan</a> &mdash; Rosanna Knottenbelt, Jan 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVJgddvtU=" target="_blank">Weekly Tracker: Strategy and Execution Products</a> &mdash; Vitaly Selkin, Feb 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVGWUm_Jc=" target="_blank">FY27 Insights Vision & Strategy</a> &mdash; Lauren Brucato, Feb 2026</li>
+  <li><a href="https://docs.google.com/spreadsheets/d/1X-9moY4gEfcehlnZ5q0PFze2PbXHRjCWTmAn_u_ApfI" target="_blank">New Product Dashboard, 2026</a> &mdash; Lasse Faurby Christensen, Feb 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVJgv3FOY=" target="_blank">POCs Pipeline (Insights - Kanban)</a> &mdash; Nadav Weizmann, Feb 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVJhJlX7o=" target="_blank">Key Initiative Weekly Slack Update</a> &mdash; Lauren Brucato, Feb 2026</li>
+  <li><a href="https://docs.google.com/spreadsheets/d/1nsKxL-mpKduOkT2zy_dAR8KqHk_Ryg-gA_SaL07Q5Tc" target="_blank">Feature Requests Database</a> &mdash; Google Sheets</li>
+  <li><a href="https://miro.atlassian.net/wiki/spaces/CUS/pages/4159013040" target="_blank">Product Feature Requests for Enterprise Customers</a> &mdash; Confluence</li>
+  <li><a href="https://miro.com/app/board/uXjVJiEOXK0=" target="_blank">(WIP) Solution Review Prep — Strategy Pack</a> &mdash; Robert Kortenoeven, Feb 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVJRmfv2w=" target="_blank">AI Template Content | Product Reviews</a> &mdash; Laura Seach, Jan 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVJSGse-A=" target="_blank">Canvas25: Website LPs Content and Asset Planning</a> &mdash; Elzanne Wentzel, Feb 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVJG1yI4Q=" target="_blank">Solution Review: Canvas '25 LP</a> &mdash; Julia Sotelo, Dec 2025</li>
+  <li><a href="https://miro.com/app/board/uXjVGe3Pwxs=" target="_blank">Prototyping Marketing Analytics</a> &mdash; Henrique Koller, Feb 2026</li>
+  <li><a href="https://miro.com/app/board/uXjVJeT24TQ=" target="_blank">Initiative Brief: Insights in Data Tables, Boards, Timelines</a> &mdash; Lauren Brucato, Dec 2025</li>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Leader Journey Map — AADHYA Persona</title>
+<style>
+  :root {
+    --bg: #0f111a;
+    --surface: #1a1d2e;
+    --surface-hover: #222640;
+    --border: #2a2e45;
+    --text: #e2e4f0;
+    --text-muted: #8b8fa8;
+    --accent: #6c63ff;
+    --accent-light: #8b83ff;
+    --pain-red: #ff6b6b;
+    --pain-bg: rgba(255, 107, 107, 0.08);
+    --pain-border: rgba(255, 107, 107, 0.25);
+    --future-green: #4ecdc4;
+    --future-bg: rgba(78, 205, 196, 0.08);
+    --future-border: rgba(78, 205, 196, 0.25);
+    --ai-purple: #a78bfa;
+    --ai-bg: rgba(167, 139, 250, 0.08);
+    --emotion-orange: #fbbf24;
+    --metric-blue: #60a5fa;
+    --quote-bg: rgba(108, 99, 255, 0.06);
+    --phase-colors: #6c63ff, #4ecdc4, #f7b731, #ff6b6b, #a78bfa, #60a5fa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header */
+  .hero {
+    position: relative;
+    padding: 80px 40px 60px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 50% 80%, rgba(108, 99, 255, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 20%, rgba(78, 205, 196, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(108, 99, 255, 0.12);
+    border: 1px solid rgba(108, 99, 255, 0.3);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-light);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    position: relative;
+    background: linear-gradient(135deg, #fff 0%, #c4c1f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-date {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    opacity: 0.7;
+    position: relative;
+  }
+
+  /* Persona Card */
+  .persona-section {
+    max-width: 1100px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+  }
+  .persona-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .persona-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--future-green), var(--ai-purple));
+  }
+  .persona-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .avatar-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--ai-purple) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -1px;
+  }
+  .persona-name {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .persona-role {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.5;
+  }
+  .persona-details h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .persona-goal {
+    font-size: 17px;
+    line-height: 1.65;
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+  .persona-context {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  .traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .trait {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(108, 99, 255, 0.08);
+    border: 1px solid rgba(108, 99, 255, 0.2);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--accent-light);
+    font-weight: 500;
+  }
+
+  /* Journey Timeline */
+  .journey-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .section-header h2 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+  .section-header p {
+    color: var(--text-muted);
+    font-size: 16px;
+  }
+
+  /* Phase Navigation */
+  .phase-nav {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    padding: 0 16px;
+  }
+  .phase-nav-btn {
+    padding: 10px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: inherit;
+  }
+  .phase-nav-btn:hover {
+    background: var(--surface-hover);
+    color: var(--text);
+    border-color: var(--accent);
+  }
+  .phase-nav-btn.active {
+    background: rgba(108, 99, 255, 0.15);
+    border-color: var(--accent);
+    color: var(--accent-light);
+  }
+  .phase-nav-btn .phase-num {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    font-size: 11px;
+    line-height: 20px;
+    text-align: center;
+    margin-right: 6px;
+  }
+
+  /* Phase Cards */
+  .phase-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .phase-card:hover {
+    border-color: rgba(108, 99, 255, 0.3);
+  }
+
+  .phase-header {
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+  }
+  .phase-number {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+  }
+  .phase-1 .phase-number { background: linear-gradient(135deg, #6c63ff, #8b83ff); }
+  .phase-2 .phase-number { background: linear-gradient(135deg, #4ecdc4, #6ee7de); }
+  .phase-3 .phase-number { background: linear-gradient(135deg, #f7b731, #fdd85d); }
+  .phase-4 .phase-number { background: linear-gradient(135deg, #ff6b6b, #ff8e8e); }
+  .phase-5 .phase-number { background: linear-gradient(135deg, #a78bfa, #c4b5fd); }
+  .phase-6 .phase-number { background: linear-gradient(135deg, #60a5fa, #93c5fd); }
+
+  .phase-title-group { flex: 1; }
+  .phase-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .phase-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .phase-emotion {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+    color: var(--emotion-orange);
+    flex-shrink: 0;
+  }
+  .phase-toggle {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+  .phase-card.open .phase-toggle { transform: rotate(180deg); }
+  .phase-toggle svg { width: 16px; height: 16px; color: var(--text-muted); }
+
+  .phase-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .phase-card.open .phase-body {
+    max-height: 2000px;
+  }
+  .phase-content {
+    padding: 0 36px 36px;
+  }
+
+  /* Current / Future columns */
+  .state-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 8px;
+  }
+  .state-card {
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+  }
+  .state-card.current {
+    background: var(--pain-bg);
+    border: 1px solid var(--pain-border);
+  }
+  .state-card.future {
+    background: var(--future-bg);
+    border: 1px solid var(--future-border);
+  }
+  .state-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 16px;
+    padding: 4px 12px;
+    border-radius: 6px;
+  }
+  .state-card.current .state-label {
+    color: var(--pain-red);
+    background: rgba(255, 107, 107, 0.12);
+  }
+  .state-card.future .state-label {
+    color: var(--future-green);
+    background: rgba(78, 205, 196, 0.12);
+  }
+
+  .state-row {
+    margin-bottom: 14px;
+  }
+  .state-row:last-child { margin-bottom: 0; }
+  .state-row-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .state-row-value {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .state-card.current .state-row-value.pain-text {
+    color: #ffa0a0;
+  }
+
+  /* AI Role highlight */
+  .ai-role {
+    background: var(--ai-bg);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 4px;
+  }
+  .ai-role-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--ai-purple);
+    margin-bottom: 8px;
+  }
+  .ai-role-label svg { width: 14px; height: 14px; }
+  .ai-role p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #c8bcf8;
+  }
+
+  /* Quote */
+  .quote-block {
+    background: var(--quote-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin: 20px 0 0;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+
+  /* Impact badge */
+  .impact-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    background: rgba(78, 205, 196, 0.1);
+    border: 1px solid rgba(78, 205, 196, 0.25);
+    color: var(--future-green);
+    margin-top: 8px;
+  }
+
+  /* Summary Section */
+  .summary-section {
+    max-width: 1100px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .summary-card:nth-child(1)::before { background: #6c63ff; }
+  .summary-card:nth-child(2)::before { background: #4ecdc4; }
+  .summary-card:nth-child(3)::before { background: #f7b731; }
+  .summary-card:nth-child(4)::before { background: #ff6b6b; }
+  .summary-card:nth-child(5)::before { background: #a78bfa; }
+  .summary-card:nth-child(6)::before { background: #60a5fa; }
+  .summary-card:hover {
+    border-color: rgba(108, 99, 255, 0.3);
+    transform: translateY(-2px);
+  }
+  .summary-phase {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .summary-pain {
+    font-size: 14px;
+    color: var(--pain-red);
+    margin-bottom: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .summary-arrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .summary-arrow svg { color: var(--text-muted); flex-shrink: 0; }
+  .summary-vision {
+    font-size: 14px;
+    color: var(--future-green);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .summary-metric {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--metric-blue);
+    font-weight: 600;
+  }
+
+  /* Pain Points */
+  .pain-points-section {
+    max-width: 1100px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+  }
+  .pain-points-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .pain-point-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: all 0.25s ease;
+  }
+  .pain-point-card:hover {
+    border-color: var(--pain-border);
+    background: rgba(255, 107, 107, 0.03);
+  }
+  .pain-point-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255, 107, 107, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--pain-red);
+    flex-shrink: 0;
+  }
+  .pain-point-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .pain-point-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .persona-card { grid-template-columns: 1fr; text-align: center; }
+    .persona-avatar { align-items: center; }
+    .traits { justify-content: center; }
+    .state-grid { grid-template-columns: 1fr; }
+    .summary-grid { grid-template-columns: 1fr; }
+    .pain-points-grid { grid-template-columns: 1fr; }
+    .phase-header { padding: 20px 24px; }
+    .phase-content { padding: 0 24px 28px; }
+    .phase-emotion { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    Dynamic Roadmapping Product
+  </div>
+  <h1>Product Leader<br>Customer Journey Map</h1>
+  <p>AADHYA Persona &mdash; Current-state pains and future-state dynamic roadmap vision across 6 key phases</p>
+  <div class="hero-date">February 2026</div>
+</header>
+
+<!-- Persona -->
+<section class="persona-section">
+  <div class="persona-card">
+    <div class="persona-avatar">
+      <div class="avatar-circle">A</div>
+      <div class="persona-name">AADHYA</div>
+      <div class="persona-role">VP of Product /<br>Head of Product /<br>Director of PM</div>
+    </div>
+    <div class="persona-details">
+      <h3>Goal</h3>
+      <p class="persona-goal">Align a portfolio of products with company strategy, ensure teams are building the right things, and make fast portfolio-level decisions grounded in evidence rather than opinion.</p>
+      <p class="persona-context">AADHYA manages a portfolio of 3&ndash;8 product areas, each owned by a Product Manager. She reports to the CPO or CEO and is accountable for ensuring the product organization delivers on company strategy. Her daily work involves balancing strategic direction-setting with tactical unblocking, stakeholder alignment, and cross-team coordination.</p>
+      <h3 style="margin-top: 20px;">Key Characteristics</h3>
+      <div class="traits" style="margin-top: 12px;">
+        <span class="trait">Portfolio-level visibility</span>
+        <span class="trait">Strategic theme focus</span>
+        <span class="trait">Executive &amp; PM interactions</span>
+        <span class="trait">Strategy execution metrics</span>
+        <span class="trait">Time is scarcest resource</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Journey Phases -->
+<section class="journey-section">
+  <div class="section-header">
+    <h2>Journey Phases</h2>
+    <p>Click each phase to explore current-state pains and the dynamic roadmap future vision</p>
+  </div>
+
+  <nav class="phase-nav" id="phaseNav">
+    <button class="phase-nav-btn active" data-phase="1"><span class="phase-num">1</span>Strategy</button>
+    <button class="phase-nav-btn" data-phase="2"><span class="phase-num">2</span>Portfolio</button>
+    <button class="phase-nav-btn" data-phase="3"><span class="phase-num">3</span>Decisions</button>
+    <button class="phase-nav-btn" data-phase="4"><span class="phase-num">4</span>Alignment</button>
+    <button class="phase-nav-btn" data-phase="5"><span class="phase-num">5</span>Tracking</button>
+    <button class="phase-nav-btn" data-phase="6"><span class="phase-num">6</span>Pivots</button>
+  </nav>
+
+  <!-- Phase 1 -->
+  <div class="phase-card phase-1 open" data-phase="1">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-number">1</div>
+      <div class="phase-title-group">
+        <div class="phase-title">Strategy Definition</div>
+        <div class="phase-subtitle">Translating company vision into product strategy and OKRs</div>
+      </div>
+      <div class="phase-emotion">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        Frustrated
+      </div>
+      <div class="phase-toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-content">
+        <div class="state-grid">
+          <div class="state-card current">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Current State
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Activities</div>
+              <div class="state-row-value">Translates company vision into product strategy; defines OKRs; creates strategic planning documents</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Tools Used</div>
+              <div class="state-row-value">Google Slides, spreadsheets, Aha!, Notion &mdash; disconnected from execution tools</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Key Pain</div>
+              <div class="state-row-value pain-text">Strategy and goals live in static documents with no live connection to what teams are actually building. Strategic intent gets lost in translation &mdash; teams interpret goals differently without a shared, connected system.</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Workarounds</div>
+              <div class="state-row-value">Manual check-ins with each PM to verify alignment; separate &ldquo;strategy on a page&rdquo; decks maintained alongside execution tools</div>
+            </div>
+          </div>
+          <div class="state-card future">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Future Vision
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Experience</div>
+              <div class="state-row-value">Goals and OKRs defined directly in Miro, linked to portfolios and initiatives at every level</div>
+            </div>
+            <div class="ai-role">
+              <div class="ai-role-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22"/><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93"/><circle cx="12" cy="6" r="1"/></svg>
+                AI Role
+              </div>
+              <p>Validates alignment in real-time, flagging when proposed work doesn't connect to active strategic objectives. Proactively alerts: <em>&ldquo;Initiative X has no connection to any active Q2 goal &mdash; consider re-evaluating or creating a new goal.&rdquo;</em></p>
+            </div>
+            <div class="state-row" style="margin-top: 14px;">
+              <div class="state-row-label">Key Benefit</div>
+              <div class="state-row-value">Strategy becomes a living, connected artifact &mdash; not a static document. Changes propagate automatically and alignment is continuously verified.</div>
+            </div>
+            <div class="impact-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              100% of initiatives linked to goals
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase-card phase-2" data-phase="2">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-number">2</div>
+      <div class="phase-title-group">
+        <div class="phase-title">Portfolio Oversight</div>
+        <div class="phase-subtitle">Reviewing all product areas and allocating resources across initiatives</div>
+      </div>
+      <div class="phase-emotion">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        Overwhelmed
+      </div>
+      <div class="phase-toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-content">
+        <div class="state-grid">
+          <div class="state-card current">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Current State
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Activities</div>
+              <div class="state-row-value">Reviews status of all product areas; identifies cross-team overlaps and gaps; allocates resources across initiatives</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Tools Used</div>
+              <div class="state-row-value">Individual Miro boards per PM, Jira dashboards, manual aggregation in spreadsheets</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Key Pain</div>
+              <div class="state-row-value pain-text">No shared visibility across products and teams. Each PM uses tools independently. Leaders must manually aggregate views across disparate boards, tools, and spreadsheets to form a portfolio picture.</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Workarounds</div>
+              <div class="state-row-value">Asks each PM to submit a weekly status update; manually creates a portfolio spreadsheet; uses Slack to chase updates</div>
+            </div>
+          </div>
+          <div class="state-card future">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Future Vision
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Experience</div>
+              <div class="state-row-value">Unified portfolio view in Miro Spaces showing all product roadmaps with health signals, goal alignment scores, and delivery status. One-click drill-down from portfolio to individual roadmap to epic.</div>
+            </div>
+            <div class="ai-role">
+              <div class="ai-role-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22"/><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93"/><circle cx="12" cy="6" r="1"/></svg>
+                AI Role
+              </div>
+              <p>Aggregates health signals across teams and surfaces anomalies: <em>&ldquo;Team Alpha's roadmap coverage of Goal 3 dropped from 40% to 15% after last week's re-prioritization.&rdquo;</em></p>
+            </div>
+            <div class="state-row" style="margin-top: 14px;">
+              <div class="state-row-label">Key Benefit</div>
+              <div class="state-row-value">Single pane of glass for the entire product portfolio &mdash; always current, always complete</div>
+            </div>
+            <div class="impact-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              Saves 3&ndash;5 hrs/week; 0 manual aggregation
+            </div>
+          </div>
+        </div>
+        <div class="quote-block">&ldquo;Each product manager currently uses Miro independently&hellip; we lack shared visibility across products and teams, which is why the Miro portfolio functionality looks promising.&rdquo;</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase-card phase-3" data-phase="3">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-number">3</div>
+      <div class="phase-title-group">
+        <div class="phase-title">Decision Making</div>
+        <div class="phase-subtitle">Prioritization calls, resource conflicts, and initiative scoping</div>
+      </div>
+      <div class="phase-emotion">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        Conflicted
+      </div>
+      <div class="phase-toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-content">
+        <div class="state-grid">
+          <div class="state-card current">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Current State
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Activities</div>
+              <div class="state-row-value">Makes prioritization calls across product areas; resolves resource conflicts; approves or redirects initiative scope</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Tools Used</div>
+              <div class="state-row-value">Meetings, Slack debates, spreadsheet-based prioritization frameworks</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Key Pain</div>
+              <div class="state-row-value pain-text">Leadership over-involvement in tactical decisions; last-minute scope changes driven by opinions (HiPPO dynamics) rather than evidence. This undermines roadmap integrity and erodes team trust.</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Workarounds</div>
+              <div class="state-row-value">Holds extra 1:1s with PMs; requests ad-hoc analysis; defaults to the loudest voice in the room when data isn't available</div>
+            </div>
+          </div>
+          <div class="state-card future">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Future Vision
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Experience</div>
+              <div class="state-row-value">Evidence-based decision support surfaced proactively. Leaders see customer evidence, execution reality, and strategic alignment for every initiative they're evaluating.</div>
+            </div>
+            <div class="ai-role">
+              <div class="ai-role-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22"/><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93"/><circle cx="12" cy="6" r="1"/></svg>
+                AI Role
+              </div>
+              <p>Proactively surfaces decision-ready intelligence: <em>&ldquo;Customer churn signal in Segment X aligns with Initiative Y &mdash; recommend re-prioritizing. Here's the evidence: 8 accounts, $1.2M ARR, 23 feedback items in last 60 days.&rdquo;</em></p>
+            </div>
+            <div class="state-row" style="margin-top: 14px;">
+              <div class="state-row-label">Key Benefit</div>
+              <div class="state-row-value">Decisions are faster, more defensible, and grounded in evidence &mdash; reducing HiPPO dynamics and increasing team trust</div>
+            </div>
+            <div class="impact-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              50%+ reduction in decision cycle time
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase-card phase-4" data-phase="4">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-number">4</div>
+      <div class="phase-title-group">
+        <div class="phase-title">Stakeholder Alignment</div>
+        <div class="phase-subtitle">Customizing roadmap views for board, executives, sales, and engineering</div>
+      </div>
+      <div class="phase-emotion">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        Exhausted
+      </div>
+      <div class="phase-toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-content">
+        <div class="state-grid">
+          <div class="state-card current">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Current State
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Activities</div>
+              <div class="state-row-value">Prepares roadmap views for board meetings, executive reviews, sales kick-offs, engineering planning; responds to ad-hoc requests</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Tools Used</div>
+              <div class="state-row-value">PowerPoint/Google Slides, manually curated Miro boards, email updates</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Key Pain</div>
+              <div class="state-row-value pain-text">Teams spend hours manually customizing roadmap views for different stakeholders. Each audience needs a different level of detail and framing. Risk of version drift between different presentation layers.</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Workarounds</div>
+              <div class="state-row-value">Maintains 3&ndash;4 separate roadmap versions; dedicates a PM's time to &ldquo;roadmap communications&rdquo;; manually reconciles when versions drift</div>
+            </div>
+          </div>
+          <div class="state-card future">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Future Vision
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Experience</div>
+              <div class="state-row-value">Auto-generated views for every audience &mdash; executive summary, team detail, customer-facing &mdash; all derived from one underlying data source. Each view updates automatically.</div>
+            </div>
+            <div class="ai-role">
+              <div class="ai-role-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22"/><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93"/><circle cx="12" cy="6" r="1"/></svg>
+                AI Role
+              </div>
+              <p>Generates audience-appropriate summaries: <em>&ldquo;For tomorrow's board meeting, here's a 3-slide summary of Q1 progress, top risks, and key decisions needed.&rdquo;</em></p>
+            </div>
+            <div class="state-row" style="margin-top: 14px;">
+              <div class="state-row-label">Key Benefit</div>
+              <div class="state-row-value">Eliminates manual view creation; ensures all stakeholders see consistent, current information; recovers hours of leader time</div>
+            </div>
+            <div class="impact-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              Saves 5&ndash;10 hrs/month; 0 version drift
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 5 -->
+  <div class="phase-card phase-5" data-phase="5">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-number">5</div>
+      <div class="phase-title-group">
+        <div class="phase-title">Progress Tracking</div>
+        <div class="phase-subtitle">Tracking execution across teams and reporting status to leadership</div>
+      </div>
+      <div class="phase-emotion">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        Anxious
+      </div>
+      <div class="phase-toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-content">
+        <div class="state-grid">
+          <div class="state-card current">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Current State
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Activities</div>
+              <div class="state-row-value">Tracks execution progress across teams; identifies delays and blockers; reports status to executive leadership</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Tools Used</div>
+              <div class="state-row-value">Jira dashboards (per team), manual status reports from PMs, spreadsheet trackers</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Key Pain</div>
+              <div class="state-row-value pain-text">Cannot understand if execution is on track. Relies on manual status reports from individual PMs. Information is always stale by the time it reaches leadership &mdash; surprises emerge too late to course-correct.</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Workarounds</div>
+              <div class="state-row-value">Requires PMs to send weekly written updates; joins team standups to get direct information; creates escalation protocols for late-breaking issues</div>
+            </div>
+          </div>
+          <div class="state-card future">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Future Vision
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Experience</div>
+              <div class="state-row-value">Real-time delivery signals from Jira/Azure DevOps feed directly into the portfolio dashboard. Status is always current, always accurate.</div>
+            </div>
+            <div class="ai-role">
+              <div class="ai-role-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22"/><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93"/><circle cx="12" cy="6" r="1"/></svg>
+                AI Role
+              </div>
+              <p>Flags risks and delays proactively: <em>&ldquo;Team Alpha's velocity dropped 25% over the last 3 sprints &mdash; Q2 deliverable for Initiative X is at risk. Recommended action: scope reduction or timeline adjustment.&rdquo;</em></p>
+            </div>
+            <div class="state-row" style="margin-top: 14px;">
+              <div class="state-row-label">Key Benefit</div>
+              <div class="state-row-value">Leaders see execution reality in real-time; risks are surfaced before they become crises; no more manual status aggregation</div>
+            </div>
+            <div class="impact-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              Eliminates 2&ndash;3 hrs/week of status gathering
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 6 -->
+  <div class="phase-card phase-6" data-phase="6">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-number">6</div>
+      <div class="phase-title-group">
+        <div class="phase-title">Strategy Pivots</div>
+        <div class="phase-subtitle">Responding to market changes and cascading strategy adjustments across teams</div>
+      </div>
+      <div class="phase-emotion">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        Stressed
+      </div>
+      <div class="phase-toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-content">
+        <div class="state-grid">
+          <div class="state-card current">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Current State
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Activities</div>
+              <div class="state-row-value">Responds to market changes, executive mandates, or customer crises by adjusting product strategy; cascades changes across teams</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Tools Used</div>
+              <div class="state-row-value">Ad-hoc meetings, updated slide decks, Slack communications, manual Jira re-planning</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Key Pain</div>
+              <div class="state-row-value pain-text">Shifting product strategy requires cascading changes across multiple tools and teams. Impact analysis is manual and incomplete. Leaders can't see downstream effects of strategic pivots.</div>
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Workarounds</div>
+              <div class="state-row-value">Holds war-room sessions to manually trace impact; asks each PM to assess impact independently; accepts that some downstream effects will be missed</div>
+            </div>
+          </div>
+          <div class="state-card future">
+            <div class="state-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Future Vision
+            </div>
+            <div class="state-row">
+              <div class="state-row-label">Experience</div>
+              <div class="state-row-value">Before committing to a pivot, leaders can simulate the impact across the portfolio. The system shows cascading effects on timelines, dependencies, customer commitments, and team capacity.</div>
+            </div>
+            <div class="ai-role">
+              <div class="ai-role-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22"/><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93"/><circle cx="12" cy="6" r="1"/></svg>
+                AI Role
+              </div>
+              <p>Simulates strategy changes: <em>&ldquo;Shifting 30% of resources from Area A to Area B would: delay Initiatives X and Y by 6 weeks, affect 12 customer commitments ($3.2M ARR), but accelerate Goal 3 coverage by 40%.&rdquo;</em> Auto-proposes roadmap adjustments with trade-off analysis.</p>
+            </div>
+            <div class="state-row" style="margin-top: 14px;">
+              <div class="state-row-label">Key Benefit</div>
+              <div class="state-row-value">Pivots become data-driven decisions with full visibility into consequences; reduces risk of unintended downstream effects</div>
+            </div>
+            <div class="impact-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              Pivot time: weeks &rarr; days; full blast radius visibility
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Summary -->
+<section class="summary-section">
+  <div class="section-header">
+    <h2>Pain-to-Vision Transformation</h2>
+    <p>From today's frustrations to tomorrow's dynamic roadmapping experience</p>
+  </div>
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-phase">Phase 1 &mdash; Strategy Definition</div>
+      <div class="summary-pain">Strategy disconnected from execution</div>
+      <div class="summary-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="summary-vision">Living, connected strategy in Miro</div>
+      <div class="summary-metric">100% of initiatives linked to goals</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-phase">Phase 2 &mdash; Portfolio Oversight</div>
+      <div class="summary-pain">No shared visibility across teams</div>
+      <div class="summary-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="summary-vision">Unified portfolio view in Spaces</div>
+      <div class="summary-metric">Single source of truth; 0 manual aggregation</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-phase">Phase 3 &mdash; Decision Making</div>
+      <div class="summary-pain">Opinion-driven, not evidence-based</div>
+      <div class="summary-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="summary-vision">AI-surfaced evidence for every decision</div>
+      <div class="summary-metric">50%+ reduction in decision cycle time</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-phase">Phase 4 &mdash; Stakeholder Alignment</div>
+      <div class="summary-pain">Hours on manual view customization</div>
+      <div class="summary-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="summary-vision">Auto-generated audience-specific views</div>
+      <div class="summary-metric">5&ndash;10 hrs/month recovered</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-phase">Phase 5 &mdash; Progress Tracking</div>
+      <div class="summary-pain">Stale, manual status reports</div>
+      <div class="summary-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="summary-vision">Real-time delivery signals from Jira</div>
+      <div class="summary-metric">100% current status; proactive risk alerts</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-phase">Phase 6 &mdash; Strategy Pivots</div>
+      <div class="summary-pain">Can't see downstream impact</div>
+      <div class="summary-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="summary-vision">AI-simulated impact analysis</div>
+      <div class="summary-metric">Full blast radius visibility before committing</div>
+    </div>
+  </div>
+</section>
+
+<!-- Pain Points -->
+<section class="pain-points-section">
+  <div class="section-header">
+    <h2>Cross-Phase Pain Points</h2>
+    <p>The structural challenges that cut across the entire Product Leader journey</p>
+  </div>
+  <div class="pain-points-grid">
+    <div class="pain-point-card">
+      <div class="pain-point-num">1</div>
+      <div>
+        <div class="pain-point-title">Shifting Product Strategy</div>
+        <div class="pain-point-desc">Leadership over-involvement, last-minute scope changes driven by opinions rather than evidence</div>
+      </div>
+    </div>
+    <div class="pain-point-card">
+      <div class="pain-point-num">2</div>
+      <div>
+        <div class="pain-point-title">Inability to Delegate Effectively</div>
+        <div class="pain-point-desc">Struggle to empower product leaders to own pace, problem-solve, and communicate without escalation</div>
+      </div>
+    </div>
+    <div class="pain-point-card">
+      <div class="pain-point-num">3</div>
+      <div>
+        <div class="pain-point-title">Poor Cross-Functional Alignment</div>
+        <div class="pain-point-desc">Miscommunication, delays, and constant context-switching between product, engineering, and design</div>
+      </div>
+    </div>
+    <div class="pain-point-card">
+      <div class="pain-point-num">4</div>
+      <div>
+        <div class="pain-point-title">Manual View Customization</div>
+        <div class="pain-point-desc">Teams must manually customize roadmap views for different stakeholders (executives need strategy, engineers need details)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Dynamic Roadmapping Product &middot; Product Leader Journey Map &middot; February 2026
+</footer>
+
+<script>
+  function togglePhase(headerEl) {
+    const card = headerEl.closest('.phase-card');
+    card.classList.toggle('open');
+  }
+
+  // Phase nav buttons
+  document.querySelectorAll('.phase-nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const phase = btn.dataset.phase;
+      const card = document.querySelector(`.phase-card[data-phase="${phase}"]`);
+      if (!card) return;
+
+      // Open the card
+      if (!card.classList.contains('open')) {
+        card.classList.add('open');
+      }
+
+      // Scroll into view
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Update active nav
+      document.querySelectorAll('.phase-nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Update nav on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const phase = entry.target.dataset.phase;
+        document.querySelectorAll('.phase-nav-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.phase === phase);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.phase-card').forEach(card => observer.observe(card));
+</script>
+
+</body>
+</html>
