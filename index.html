@@ -1,0 +1,3315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Roadmapping — Sales Pipeline Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f5f0;
+  --bg-white: #ffffff;
+  --bg-hover: #fafaf7;
+  --sidebar-bg: #ffd02f;
+  --sidebar-text: #1a1a2e;
+  --accent: #4f46e5;
+  --accent-light: #6366f1;
+  --accent-bg: #eef2ff;
+  --green: #16a34a;
+  --green-bg: #dcfce7;
+  --green-text: #15803d;
+  --yellow: #ca8a04;
+  --yellow-bg: #fef9c3;
+  --yellow-text: #a16207;
+  --orange: #ea580c;
+  --orange-bg: #fff7ed;
+  --orange-text: #c2410c;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
+  --red-text: #b91c1c;
+  --blue: #2563eb;
+  --blue-bg: #eff6ff;
+  --purple: #7c3aed;
+  --purple-bg: #f5f3ff;
+  --purple-text: #6d28d9;
+  --text: #1a1a2e;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --border: #e5e5e0;
+  --border-light: #f0f0eb;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.layout { display: flex; height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 0 20px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sidebar-logo svg { width: 28px; height: 28px; }
+.sidebar-logo span { font-size: 18px; font-weight: 700; color: #1a1a2e; letter-spacing: -0.3px; }
+.sidebar-section { margin-bottom: 24px; }
+.sidebar-section-label {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.8px; color: rgba(26,26,46,0.5);
+  padding: 0 20px; margin-bottom: 8px;
+}
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 20px; font-size: 13px;
+  color: var(--sidebar-text); cursor: pointer;
+  transition: background 0.15s; font-weight: 500;
+}
+.sidebar-item:hover { background: rgba(0,0,0,0.06); }
+.sidebar-item.active { background: rgba(0,0,0,0.1); font-weight: 600; }
+.sidebar-item svg { width: 18px; height: 18px; opacity: 0.7; }
+.sidebar-spacer { flex: 1; }
+.sidebar-footer {
+  padding: 16px 20px; border-top: 1px solid rgba(0,0,0,0.08);
+  font-size: 11px; color: rgba(26,26,46,0.5);
+}
+
+/* Main area */
+.main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 32px; border-bottom: 1px solid var(--border);
+  background: var(--bg-white); flex-shrink: 0;
+}
+.topbar-title { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.topbar-subtitle { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.topbar-actions { display: flex; gap: 8px; align-items: center; }
+
+.btn {
+  padding: 7px 14px; border-radius: 8px; font-size: 13px;
+  font-weight: 500; cursor: pointer; border: 1px solid var(--border);
+  background: var(--bg-white); color: var(--text);
+  transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px;
+}
+.btn:hover { background: var(--bg-hover); border-color: #ccc; }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-light); }
+.btn svg { width: 16px; height: 16px; }
+
+.content { padding: 24px 32px; flex: 1; }
+
+/* KPI Cards */
+.kpi-row {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 16px; margin-bottom: 24px;
+}
+.kpi-card {
+  background: var(--bg-white); border-radius: var(--radius);
+  padding: 20px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.kpi-card .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 8px; }
+.kpi-card .value { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+.kpi-card .sub { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+.kpi-card .value.green { color: var(--green); }
+.kpi-card .value.purple { color: var(--purple); }
+.kpi-card .value.blue { color: var(--blue); }
+.kpi-card .value.orange { color: var(--orange); }
+
+/* Score distribution chart container */
+.chart-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;
+}
+.chart-card {
+  background: var(--bg-white); border-radius: var(--radius);
+  padding: 20px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.chart-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+.chart-card canvas { max-height: 200px; }
+
+/* Filters bar */
+.filters-bar {
+  display: flex; gap: 10px; align-items: center;
+  margin-bottom: 16px; flex-wrap: wrap;
+}
+.filter-group { display: flex; align-items: center; gap: 6px; }
+.filter-group label { font-size: 12px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
+.filter-select {
+  padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border);
+  font-size: 12px; font-family: inherit; background: var(--bg-white);
+  color: var(--text); cursor: pointer;
+}
+.search-input {
+  padding: 7px 12px 7px 32px; border-radius: 8px;
+  border: 1px solid var(--border); font-size: 13px;
+  font-family: inherit; background: var(--bg-white);
+  color: var(--text); width: 240px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+.search-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+.filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-pill {
+  padding: 4px 10px; border-radius: 20px; font-size: 11px;
+  font-weight: 500; cursor: pointer; border: 1px solid var(--border);
+  background: var(--bg-white); transition: all 0.15s;
+}
+.filter-pill:hover { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+.filter-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Table */
+.table-wrapper {
+  background: var(--bg-white); border-radius: var(--radius);
+  border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+thead { position: sticky; top: 0; z-index: 2; }
+thead th {
+  padding: 10px 14px; font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--text-secondary); background: #fafaf8;
+  border-bottom: 1px solid var(--border);
+  text-align: left; cursor: pointer; white-space: nowrap;
+  user-select: none; transition: background 0.15s;
+}
+thead th:hover { background: #f0f0eb; }
+thead th .sort-indicator { margin-left: 4px; font-size: 10px; opacity: 0.5; }
+thead th.sorted .sort-indicator { opacity: 1; color: var(--accent); }
+tbody tr {
+  cursor: pointer; transition: background 0.1s;
+  border-bottom: 1px solid var(--border-light);
+}
+tbody tr:hover { background: var(--bg-hover); }
+tbody tr.selected { background: var(--accent-bg); }
+tbody td { padding: 10px 14px; font-size: 13px; white-space: nowrap; }
+tbody td.wrap { white-space: normal; max-width: 200px; }
+
+/* Score badge */
+.score-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 28px; border-radius: 6px;
+  font-size: 13px; font-weight: 700;
+}
+.score-high { background: var(--green-bg); color: var(--green-text); }
+.score-med { background: var(--yellow-bg); color: var(--yellow-text); }
+.score-low { background: var(--orange-bg); color: var(--orange-text); }
+.score-vlow { background: var(--red-bg); color: var(--red-text); }
+
+/* Tags */
+.tag {
+  display: inline-block; padding: 2px 8px; border-radius: 12px;
+  font-size: 11px; font-weight: 500; margin-right: 4px; margin-bottom: 2px;
+}
+.tag-ht { background: var(--purple-bg); color: var(--purple-text); }
+.tag-plg { background: var(--green-bg); color: var(--green-text); }
+.tag-source {
+  background: var(--blue-bg); color: var(--blue);
+  font-size: 10px; padding: 1px 6px;
+}
+.tag-snowflake { background: #e0f2fe; color: #0369a1; }
+.tag-gong { background: #fce7f3; color: #be185d; }
+.tag-salesforce { background: #dbeafe; color: #1d4ed8; }
+.tag-slack { background: #fef3c7; color: #92400e; }
+.tag-feedback { background: #ede9fe; color: #6d28d9; }
+.tag-insights { background: #d1fae5; color: #065f46; }
+
+/* Status pill */
+.status-pill {
+  display: inline-block; padding: 3px 10px; border-radius: 12px;
+  font-size: 11px; font-weight: 600;
+}
+.status-new { background: var(--blue-bg); color: var(--blue); }
+.status-contacted { background: var(--yellow-bg); color: var(--yellow-text); }
+.status-qualified { background: var(--green-bg); color: var(--green-text); }
+.status-in-beta { background: var(--purple-bg); color: var(--purple-text); }
+.status-converted { background: var(--green-bg); color: var(--green); }
+.status-not-fit { background: var(--red-bg); color: var(--red-text); }
+
+/* Detail panel */
+.detail-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.2); z-index: 100;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s;
+}
+.detail-overlay.open { opacity: 1; pointer-events: auto; }
+.detail-panel {
+  position: fixed; top: 0; right: -560px; bottom: 0;
+  width: 560px; background: var(--bg-white);
+  box-shadow: -8px 0 30px rgba(0,0,0,0.12);
+  z-index: 101; transition: right 0.3s ease;
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+}
+.detail-panel.open { right: 0; }
+.detail-header {
+  padding: 20px 24px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between;
+  flex-shrink: 0;
+}
+.detail-header h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+.detail-close {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: none; background: var(--bg); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--text-secondary);
+  transition: background 0.15s;
+}
+.detail-close:hover { background: var(--border); }
+.detail-body { padding: 24px; flex: 1; overflow-y: auto; }
+.detail-section { margin-bottom: 24px; }
+.detail-section h3 {
+  font-size: 12px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--text-muted);
+  margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+.detail-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.detail-field .field-label {
+  font-size: 11px; font-weight: 500; color: var(--text-muted);
+  margin-bottom: 2px;
+}
+.detail-field .field-value { font-size: 14px; font-weight: 600; }
+
+.evidence-card {
+  background: var(--bg); border-radius: var(--radius-sm);
+  padding: 14px; margin-bottom: 10px;
+  border: 1px solid var(--border-light);
+}
+.evidence-card .ev-source {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 6px;
+}
+.evidence-card .ev-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+.evidence-card .ev-link {
+  font-size: 12px; color: var(--accent); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 4px; margin-top: 6px;
+}
+.evidence-card .ev-link:hover { text-decoration: underline; }
+.evidence-card .ev-meta { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+/* Notes area */
+.notes-area {
+  width: 100%; min-height: 80px; border-radius: 8px;
+  border: 1px solid var(--border); padding: 10px 12px;
+  font-family: inherit; font-size: 13px; resize: vertical;
+  color: var(--text); background: var(--bg);
+}
+.notes-area:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+
+.status-select {
+  padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border);
+  font-size: 13px; font-family: inherit; font-weight: 600;
+  background: var(--bg-white); cursor: pointer;
+}
+
+/* Score bar */
+.score-bar-container { display: flex; align-items: center; gap: 8px; }
+.score-bar-bg {
+  flex: 1; height: 8px; background: var(--border-light);
+  border-radius: 4px; overflow: hidden;
+}
+.score-bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+.score-bar-label { font-size: 12px; font-weight: 600; min-width: 28px; text-align: right; }
+
+/* Scoring model page */
+.scoring-page { max-width: 800px; }
+.scoring-page h2 { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+.scoring-page p { color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; }
+.scoring-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+.scoring-table th, .scoring-table td {
+  padding: 10px 14px; text-align: left;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 13px;
+}
+.scoring-table th { font-weight: 600; background: var(--bg); }
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .kpi-row { grid-template-columns: repeat(3, 1fr); }
+  .chart-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .sidebar { width: 56px; }
+  .sidebar-section-label, .sidebar-logo span, .sidebar-footer { display: none; }
+  .sidebar-item span { display: none; }
+  .sidebar-item { justify-content: center; padding: 10px; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .detail-panel { width: 100%; right: -100%; }
+}
+
+/* CSM link */
+.csm-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  color: var(--accent); font-weight: 500; font-size: 12px;
+  text-decoration: none; padding: 3px 8px; border-radius: 6px;
+  background: var(--accent-bg); transition: all 0.15s;
+  white-space: nowrap; cursor: pointer;
+}
+.csm-link:hover { background: var(--accent); color: #fff; }
+.csm-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+.csm-none { font-size: 12px; color: var(--text-muted); }
+.contact-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  color: #c2410c; font-weight: 500; font-size: 12px;
+  text-decoration: none; padding: 3px 8px; border-radius: 6px;
+  background: #fff7ed; transition: all 0.15s;
+  white-space: nowrap; cursor: pointer;
+}
+.contact-link:hover { background: #c2410c; color: #fff; }
+.contact-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* Page visibility */
+.page { display: none; }
+.page.active { display: block; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#FFD02F"/><path d="M22.5 7L20.2 17.1L16.5 7.5L12.8 17.1L10.5 7L7 25H25.9L22.5 7Z" fill="#050038"/></svg>
+    <span>Pipeline</span>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Pipeline</div>
+    <div class="sidebar-item active" onclick="showPage('pipeline')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <span>Overview & Table</span>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Reference</div>
+    <div class="sidebar-item" onclick="showPage('scoring')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+      <span>Scoring Model</span>
+    </div>
+    <div class="sidebar-item" onclick="showPage('sources')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      <span>Data Sources</span>
+    </div>
+  </div>
+
+  <div class="sidebar-spacer"></div>
+  <div class="sidebar-footer">
+    Dynamic Roadmapping<br>Pipeline Tracker v1.0
+  </div>
+</aside>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Dynamic Roadmapping Pipeline</div>
+      <div class="topbar-subtitle">Candidate organisations for Miro Dynamic Roadmapping solution</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn" onclick="exportCSV()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export CSV
+      </button>
+      <button class="btn btn-primary" onclick="addCandidate()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Candidate
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Pipeline page -->
+    <div class="page active" id="page-pipeline">
+      <!-- KPI Row -->
+      <div class="kpi-row" id="kpi-row"></div>
+
+      <!-- Charts -->
+      <div class="chart-row">
+        <div class="chart-card">
+          <h3>Score Distribution</h3>
+          <canvas id="scoreDistChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Signal Source Coverage</h3>
+          <canvas id="sourceChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-bar">
+        <input class="search-input" type="text" id="searchInput" placeholder="Search organisations..." oninput="applyFilters()">
+        <div class="filter-group">
+          <label>Motion:</label>
+          <select class="filter-select" id="filterMotion" onchange="applyFilters()">
+            <option value="">All</option>
+            <option value="HT">High Touch</option>
+            <option value="PLG">PLG</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Status:</label>
+          <select class="filter-select" id="filterStatus" onchange="applyFilters()">
+            <option value="">All</option>
+            <option value="New">New</option>
+            <option value="Contacted">Contacted</option>
+            <option value="Qualified">Qualified</option>
+            <option value="In Beta">In Beta</option>
+            <option value="Converted">Converted</option>
+            <option value="Not Fit">Not Fit</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Score:</label>
+          <select class="filter-select" id="filterScore" onchange="applyFilters()">
+            <option value="">All</option>
+            <option value="high">High (70+)</option>
+            <option value="med">Medium (40-69)</option>
+            <option value="low">Low (&lt;40)</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Source:</label>
+          <select class="filter-select" id="filterSource" onchange="applyFilters()">
+            <option value="">All</option>
+            <option value="snowflake">Snowflake Templates</option>
+            <option value="gong">Gong Calls</option>
+            <option value="salesforce">Salesforce</option>
+            <option value="slack">Slack / Glean</option>
+            <option value="feedback">In-Product Feedback</option>
+            <option value="insights">Miro Insights</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrapper">
+        <div class="table-scroll">
+          <table id="pipelineTable">
+            <thead>
+              <tr>
+                <th onclick="sortTable('name')">Organisation <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th onclick="sortTable('score')">Fit Score <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th onclick="sortTable('motion')">Motion <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th onclick="sortTable('status')">Status <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th onclick="sortTable('predictedArr')">Predicted ARR <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th onclick="sortTable('currentArr')">Current ARR <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th onclick="sortTable('licenses')">Licenses <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th onclick="sortTable('templateUsage')">Template Usage <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th onclick="sortTable('pmTimelineUsage')">PM Timeline <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th onclick="sortTable('gongMentions')">Gong Mentions <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th onclick="sortTable('csmName')">CSM <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th onclick="sortTable('primaryContact')">Customer Contact <span class="sort-indicator">&#9650;&#9660;</span></th>
+                <th>Signal Sources</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div style="margin-top: 12px; font-size: 12px; color: var(--text-muted);" id="tableCount"></div>
+    </div>
+
+    <!-- Scoring Model page -->
+    <div class="page" id="page-scoring">
+      <div class="scoring-page">
+        <h2>Scoring Model</h2>
+        <p>Each candidate organisation receives a Fit Score (0-100) based on a weighted combination of signals from multiple data sources. The score reflects how likely the organisation is to be a good target for the Dynamic Roadmapping solution.</p>
+
+        <table class="scoring-table">
+          <thead>
+            <tr><th>Signal</th><th>Max Points</th><th>Source</th><th>Logic</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Roadmap template usage</td><td>25</td><td>Snowflake</td><td>Frequency of roadmap, timeline, PI planning, gantt templates. 25pts for heavy usage (50+ events), scaled linearly</td></tr>
+            <tr><td>Gong signal strength</td><td>20</td><td>Gong</td><td># calls mentioning roadmapping keywords, weighted by recency. 20pts for 5+ recent calls</td></tr>
+            <tr><td>Account fit (HT)</td><td>15</td><td>Snowflake</td><td>For High Touch accounts: full points at $50K+ ARR and 250+ licenses, scaled linearly below. Rewards accounts with scale and budget for a high-touch sale.</td></tr>
+            <tr><td>Account fit (PLG)</td><td>15</td><td>Snowflake</td><td>For PLG accounts: based on engagement density (template usage per license) and growth signals (multiple data sources, 20+ active users). Rewards hyper-engaged small accounts.</td></tr>
+            <tr><td>Slack / Glean signals</td><td>15</td><td>Glean (Slack)</td><td>CSM/rep conversations about roadmapping needs. 15pts for multiple recent mentions</td></tr>
+            <tr><td>Salesforce pipeline</td><td>10</td><td>Salesforce</td><td>Existing opportunity for portfolio/roadmapping. Full points if active opp exists</td></tr>
+            <tr><td>Feature adjacency</td><td>7</td><td>Snowflake</td><td>Uses Jira integration, timeline, or kanban features. 7pts for 3+ adjacent features</td></tr>
+            <tr><td>PM timeline usage</td><td>8</td><td>Snowflake</td><td>Product Managers using timeline features -- strong roadmapping persona signal. Full points for 10+ PM users</td></tr>
+            <tr><td>In-product feedback</td><td>5</td><td>Snowflake</td><td>Feedback mentioning roadmapping pain points. 5pts for direct mention</td></tr>
+          </tbody>
+        </table>
+
+        <h3 style="margin-top: 32px; margin-bottom: 12px; font-size: 16px; font-weight: 600;">HT vs PLG Classification</h3>
+        <p><strong>High Touch (HT)</strong>: &gt;250 licenses OR &gt;$50K ARR. Classified by actual account scale, not plan type.</p>
+        <p><strong>Product-Led Growth (PLG)</strong>: &le;250 licenses AND &le;$50K ARR. Includes Enterprise-plan accounts that are small in practice.</p>
+
+        <h3 style="margin-top: 32px; margin-bottom: 12px; font-size: 16px; font-weight: 600;">ARR Prediction</h3>
+        <p>For HT deals: based on comparable portfolio deal sizes ($25K-$100K), adjusted by license count and engagement level.</p>
+        <p>For PLG deals: per-seat pricing model ($10-15/user/month), adjusted by expected activation rate.</p>
+      </div>
+    </div>
+
+    <!-- Data Sources page -->
+    <div class="page" id="page-sources">
+      <div class="scoring-page">
+        <h2>Data Sources & Refresh</h2>
+        <p>The pipeline tracker aggregates signals from the following sources. Each candidate's evidence links back to the original source for deeper investigation.</p>
+
+        <div class="evidence-card" style="margin-top: 20px;">
+          <div class="ev-source" style="color: #0369a1;">Snowflake -- Template Usage & ARR</div>
+          <div class="ev-text">
+            <strong>Tables:</strong> <code>PRODUCTION.GTM.TEMPLATE_ADDS</code> for template usage; <code>derived_org_planning</code> for roadmap/timeline sessions.<br>
+            <strong>Template groups:</strong> roadmap = ['roadmap', 'timeline', 'pi planning', 'gantt']<br>
+            <strong>ARR/Licenses:</strong> Snowflake SS ARR data from org profiles<br>
+            <strong>In-product feedback:</strong> CSAT scores and feedback quotes from Snowflake
+          </div>
+        </div>
+
+        <div class="evidence-card">
+          <div class="ev-source" style="color: #be185d;">Gong -- Customer Call Signals</div>
+          <div class="ev-text">
+            <strong>Method:</strong> Anna's filtered Google Sheet importing Gong calls with "roadmap" keyword filter<br>
+            <strong>Link:</strong> Gong API exports filtered by roadmap-related keywords<br>
+            <strong>Note:</strong> You cannot search Gong transcripts directly via API -- only filter by time range, then filter in Sheets
+          </div>
+        </div>
+
+        <div class="evidence-card">
+          <div class="ev-source" style="color: #1d4ed8;">Salesforce -- Pipeline & Opportunities</div>
+          <div class="ev-text">
+            <strong>Data:</strong> Open opportunities with Primary Use Case = "Roadmapping" or "Portfolio"<br>
+            <strong>Note:</strong> Salesforce access may be limited. Check with Anna for portfolio deals pipeline.<br>
+            <strong>Also:</strong> Contact sales form submissions (use cases are outdated but still contain signal)
+          </div>
+        </div>
+
+        <div class="evidence-card">
+          <div class="ev-source" style="color: #92400e;">Slack / Glean -- Internal Conversations</div>
+          <div class="ev-text">
+            <strong>Method:</strong> Search Glean for Slack messages in CSM, sales, and product channels mentioning roadmapping<br>
+            <strong>Channels:</strong> Rattle alerts, CSM pulse updates, product feedback channels<br>
+            <strong>Key signal:</strong> CSMs mentioning customers asking about roadmapping capabilities
+          </div>
+        </div>
+
+        <div class="evidence-card">
+          <div class="ev-source" style="color: #065f46;">Miro Insights -- Existing Pipeline</div>
+          <div class="ev-text">
+            <strong>Data:</strong> ~$1.5M ARR in Miro Insights pipeline. Customers interested in customer-insight-driven roadmapping are warm leads.<br>
+            <strong>Note:</strong> From Lauren Brucato's FY26 Miro Insights Roadmap -- 70% of active pipeline ($1.13M) are MP customers
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Detail Panel -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetail()"></div>
+<div class="detail-panel" id="detailPanel">
+  <div class="detail-header">
+    <div>
+      <h2 id="detailName"></h2>
+      <div style="display:flex;gap:8px;margin-top:8px;" id="detailTags"></div>
+    </div>
+    <button class="detail-close" onclick="closeDetail()">&times;</button>
+  </div>
+  <div class="detail-body" id="detailBody"></div>
+</div>
+
+<!-- Add Candidate Modal -->
+<div class="detail-overlay" id="addOverlay" onclick="closeAddModal()" style="z-index:200;"></div>
+<div class="detail-panel" id="addPanel" style="z-index:201;">
+  <div class="detail-header">
+    <h2>Add Candidate Organisation</h2>
+    <button class="detail-close" onclick="closeAddModal()">&times;</button>
+  </div>
+  <div class="detail-body">
+    <div class="detail-section">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div>
+          <label class="field-label" style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">Organisation Name *</label>
+          <input type="text" id="addName" class="search-input" style="width:100%;background-position:unset;padding-left:12px;" placeholder="e.g. Acme Corp">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label class="field-label" style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">Current ARR ($)</label>
+            <input type="number" id="addArr" class="search-input" style="width:100%;background-position:unset;padding-left:12px;" placeholder="e.g. 50000">
+          </div>
+          <div>
+            <label class="field-label" style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">Licenses</label>
+            <input type="number" id="addLicenses" class="search-input" style="width:100%;background-position:unset;padding-left:12px;" placeholder="e.g. 200">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label class="field-label" style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">Template Usage Score (0-50)</label>
+            <input type="number" id="addTemplate" class="search-input" style="width:100%;background-position:unset;padding-left:12px;" placeholder="0" min="0" max="50">
+          </div>
+          <div>
+            <label class="field-label" style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">Gong Mentions</label>
+            <input type="number" id="addGong" class="search-input" style="width:100%;background-position:unset;padding-left:12px;" placeholder="0" min="0">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label class="field-label" style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">CSM Name</label>
+            <input type="text" id="addCsmName" class="search-input" style="width:100%;background-position:unset;padding-left:12px;" placeholder="e.g. Jane Smith">
+          </div>
+          <div>
+            <label class="field-label" style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">CSM Email</label>
+            <input type="text" id="addCsmEmail" class="search-input" style="width:100%;background-position:unset;padding-left:12px;" placeholder="e.g. jane@miro.com">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+          <div>
+            <label class="field-label" style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">Customer Contact Name</label>
+            <input type="text" id="addContactName" class="search-input" style="width:100%;background-position:unset;padding-left:12px;" placeholder="e.g. John Doe">
+          </div>
+          <div>
+            <label class="field-label" style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">Contact Email</label>
+            <input type="text" id="addContactEmail" class="search-input" style="width:100%;background-position:unset;padding-left:12px;" placeholder="e.g. john@company.com">
+          </div>
+          <div>
+            <label class="field-label" style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">Contact Role</label>
+            <input type="text" id="addContactRole" class="search-input" style="width:100%;background-position:unset;padding-left:12px;" placeholder="e.g. Admin / Product Lead">
+          </div>
+        </div>
+        <div>
+          <label class="field-label" style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;">Notes</label>
+          <textarea id="addNotes" class="notes-area" placeholder="Any context on this candidate..."></textarea>
+        </div>
+        <button class="btn btn-primary" style="margin-top:8px;" onclick="saveNewCandidate()">Add to Pipeline</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   DATA MODEL
+   Each candidate has signals from multiple sources.
+   Update this array with fresh data from each source.
+   ═══════════════════════════════════════════════ */
+
+const CANDIDATES = [
+  {
+    id: 1,
+    name: "Ryanair",
+    currentArr: 185000,
+    licenses: 420,
+    plan: "Enterprise",
+    industry: "Aviation / Travel",
+    templateUsage: 42,
+    timelineUsage: 28,
+    pmTimelineUsage: 12,
+    gongMentions: 3,
+    jiraIntegration: true,
+    slackSignals: 2,
+    salesforcePipeline: true,
+    salesforceStage: "Qualified",
+    feedbackMentions: 1,
+    insightsPipeline: false,
+    status: "Contacted",
+    sources: ["snowflake", "gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Gong", text: "Ryanair product team discussed need for centralised roadmapping tool that connects to Jira. Mentioned evaluating Productboard alternatives.", link: "https://us-45594.app.gong.io/call?id=example1", date: "2026-02-10" },
+      { source: "Slack", text: "Moe (SE) flagged Ryanair as strong candidate for dynamic roadmapping beta. Already using advanced tables for sprint planning.", link: "https://miro.slack.com/archives/example", date: "2026-02-14" },
+      { source: "Salesforce", text: "Open opportunity: Ryanair | Enterprise Expansion | Roadmapping use case mentioned in discovery call.", link: "https://rtb.my.salesforce.com/example", date: "2026-02-12" },
+      { source: "Snowflake", text: "42 roadmap template events in last 90 days. 28 timeline views. Active Jira integration on 3 boards.", date: "2026-02-17" }
+    ],
+    notes: "Moe (SE) proactively reached out -- thinks they're a strong beta candidate. Already using advanced tables.",
+    csm: { name: "Moe", slackId: "U0EXAMPLE1", email: "moe@miro.com" },
+    snowflakeMetrics: { templatesCreated: 42, uniqueCreators: 14, last90dTemplates: 42, last90dCreators: 14, topTemplates: "Product Roadmap, PI Planning, Sprint Planning, Gantt Chart" },
+    contacts: [
+      { name: "Product Team Lead", email: "", role: "Product Lead", isPrimary: true }
+    ]
+  },
+  {
+    id: 2,
+    name: "Trainline",
+    currentArr: 171560,
+    licenses: 350,
+    plan: "Enterprise FLP",
+    industry: "Transport / Tech",
+    templateUsage: 35,
+    timelineUsage: 22,
+    pmTimelineUsage: 10,
+    gongMentions: 2,
+    jiraIntegration: true,
+    slackSignals: 3,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 2,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "slack", "feedback"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Product discovery, ideation, roadmap planning identified as key use cases. Templates used include roadmapping templates.", link: "https://miro.slack.com/archives/C01FH1E7KGA/p1768646990641509", date: "2026-01-17" },
+      { source: "Snowflake", text: "35 roadmap template events. Active Jira integration. 350 licenses with 76% MAU.", date: "2026-02-17" },
+      { source: "Gong", text: "Call discussing Jira integration improvements and roadmap template needs with Neeraj from product team.", date: "2026-01-06" },
+      { source: "Feedback", text: "In-product feedback mentioning desire for better roadmap planning capabilities with data integration.", date: "2026-01-20" }
+    ],
+    notes: "Some risk: new Head of Modern Workplace pushing licence cleanup. But strong product team usage of roadmapping.",
+    csm: { name: "Portfolio Success Managers", slackId: "", email: "" },
+    snowflakeMetrics: { templatesCreated: 35, uniqueCreators: 11, last90dTemplates: 18, last90dCreators: 8, topTemplates: "Product Roadmap, Roadmap Planning, Sprint Planning" },
+    contacts: [
+      { name: "Jenny Green", email: "", role: "Head of Modern Workplace", isPrimary: true },
+      { name: "Karen Martin", email: "", role: "Former Champion (moved roles)", isPrimary: false },
+      { name: "Sean Foster", email: "", role: "IT / Miro Admin", isPrimary: false }
+    ]
+  },
+  {
+    id: 3,
+    name: "Autodesk",
+    currentArr: 1008000,
+    licenses: 2500,
+    plan: "Enterprise",
+    industry: "Software / Design",
+    templateUsage: 55,
+    timelineUsage: 40,
+    pmTimelineUsage: 18,
+    gongMentions: 4,
+    jiraIntegration: true,
+    slackSignals: 2,
+    salesforcePipeline: true,
+    salesforceStage: "Discovery",
+    feedbackMentions: 3,
+    insightsPipeline: true,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack", "feedback", "insights"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Strong metrics -- fully activated, strong MAU. Interest in new products including prototyping and AI canvas. Multiple work streams across teams.", link: "https://miro.slack.com/archives/C02AR8ZPCB0/p1765364380809169", date: "2025-12-10" },
+      { source: "Gong", text: "Multiple calls discussing roadmapping workflows and Jira integration enhancements. Product team actively evaluating tools.", date: "2026-01-15" },
+      { source: "Insights", text: "In Miro Insights pipeline -- interest in customer-insight-driven product decisions.", date: "2026-02-01" },
+      { source: "Snowflake", text: "55 roadmap template events. 2,500 licenses. Heavy Jira integration usage. Active timeline and kanban views.", date: "2026-02-17" },
+      { source: "Feedback", text: "Product teams submitted feedback requesting better integration between customer insights and roadmap items.", date: "2026-01-25" }
+    ],
+    notes: "Very large account. Multiple teams could benefit. Explore with Anna San Miguel (CSM).",
+    csm: { name: "Anna Tarassishina", slackId: "U0EXAMPLE3", email: "anna.t@miro.com" },
+    snowflakeMetrics: { templatesCreated: 55, uniqueCreators: 28, last90dTemplates: 30, last90dCreators: 19, topTemplates: "Product Roadmap, Timeline, Kanban, PI Planning, Customer Journey Map" },
+    contacts: [
+      { name: "Jay Patel", email: "jay.patel@autodesk.com", role: "AE Contact", isPrimary: true },
+      { name: "Matt Skipper", email: "", role: "SE", isPrimary: false }
+    ]
+  },
+  {
+    id: 4,
+    name: "Benjamin Moore",
+    currentArr: 23750,
+    licenses: 111,
+    plan: "Enterprise",
+    industry: "Manufacturing",
+    templateUsage: 18,
+    timelineUsage: 12,
+    gongMentions: 2,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 1,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "feedback"],
+    evidence: [
+      { source: "Gong", text: "BMC x Miro Business Review: Discussed need for better roadmap templates and Jira integration. Want bi-directional sync working properly. Scheduled Jira workflow consultation for Jan 27.", link: "https://us-45594.app.gong.io/call?id=2948616236082176612", date: "2026-01-06" },
+      { source: "Salesforce", text: "Renewal opportunity: Benjamin Moore | 111 Licenses. Exploring expanded use cases including roadmapping.", date: "2026-01-06" },
+      { source: "Snowflake", text: "18 roadmap template events. Jira integration active. 95 purchased, 90 activated.", date: "2026-02-17" },
+      { source: "Feedback", text: "Feedback requesting more templates that support roadmap planning workflows.", date: "2026-01-10" }
+    ],
+    notes: "Good mid-market candidate. Already using Jira integration and requesting roadmap templates.",
+    csm: { name: "Wes Beights", slackId: "U0EXAMPLE4", email: "wes@miro.com" },
+    contacts: [
+      { name: "Neeraj Mishra", email: "neeraj.mishra@benjaminmoore.com", role: "Senior Talent Acquisition / Product Contact", isPrimary: true }
+    ]
+  },
+  {
+    id: 5,
+    name: "Simplicity Networks GmbH",
+    currentArr: 33408,
+    licenses: 250,
+    plan: "Enterprise",
+    industry: "Technology",
+    templateUsage: 15,
+    timelineUsage: 8,
+    gongMentions: 1,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost (Re-engageable)",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "salesforce", "slack"],
+    evidence: [
+      { source: "Salesforce", text: "Primary Use Case: Roadmapping. $29.8K net new ARR opportunity. Closed Lost due to budget timing -- CIO will re-evaluate in March 2026. Marked as Good for Re-engagement.", link: "https://miro.slack.com/archives/C07BRH5R6HM/p1765901572979129", date: "2025-12-16" },
+      { source: "Slack", text: "Rattle alert: 250 licenses deal lost due to planning prioritisation, not product fit. Customer interested but had resource constraints.", date: "2025-12-16" },
+      { source: "Snowflake", text: "15 roadmap template events. SS ARR $33K.", date: "2026-02-17" }
+    ],
+    notes: "Re-engage in March 2026 when they re-evaluate. Roadmapping was the primary use case.",
+    csm: { name: "Stefanie Schulte", slackId: "U0EXAMPLE5", email: "stefanie.schulte@miro.com" },
+    contacts: [
+      { name: "Dirk Weimar", email: "", role: "CIO (Decision Maker)", isPrimary: true }
+    ]
+  },
+  {
+    id: 6,
+    name: "Piano",
+    currentArr: 28000,
+    licenses: 120,
+    plan: "Enterprise",
+    industry: "Media / Tech",
+    templateUsage: 20,
+    timelineUsage: 14,
+    gongMentions: 1,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "salesforce", "slack"],
+    evidence: [
+      { source: "Salesforce", text: "Primary Use Case: Roadmapping. 120 licenses. Expansion add-on product deal closed lost -- 'They haven't spoken to us about insights'. Good re-engagement opportunity with roadmapping angle.", link: "https://miro.slack.com/archives/C07DXRBK5EY/p1770737441440729", date: "2026-02-10" },
+      { source: "Snowflake", text: "20 roadmap template events. 45 active users. Jira integration active.", date: "2026-02-17" },
+      { source: "Slack", text: "Rattle alert flagged Roadmapping as primary use case.", date: "2026-02-10" }
+    ],
+    notes: "Insights pitch didn't land, but roadmapping is primary use case. Try dynamic roadmapping angle instead.",
+    csm: { name: "Kyrsten Klosowski", slackId: "U0EXAMPLE6", email: "kyrsten@miro.com" },
+    contacts: []
+  },
+  {
+    id: 7,
+    name: "Jakala Group",
+    currentArr: 11415,
+    licenses: 160,
+    plan: "Team",
+    industry: "Consulting",
+    templateUsage: 12,
+    timelineUsage: 6,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost (Re-engageable)",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "salesforce", "slack"],
+    evidence: [
+      { source: "Salesforce", text: "Primary Use Case: Roadmapping. Team to Company deal for 160 licenses closed lost due to customer org changes. Marked as Good for Re-engagement.", link: "https://miro.slack.com/archives/C07BRH5R6HM/p1762172612352959", date: "2025-11-03" },
+      { source: "Slack", text: "Rattle: Fragmented usage across countries. Each team uses Miro differently. Re-engage with consolidation + roadmapping story.", date: "2025-11-03" },
+      { source: "Snowflake", text: "12 roadmap template events. SS ARR $11.4K. 13 active users.", date: "2026-02-17" }
+    ],
+    notes: "Multi-country org with fragmented Miro usage. Roadmapping could be the consolidation driver.",
+    csm: { name: "Claire Di Pol-Moro", slackId: "U0EXAMPLE7", email: "claire@miro.com" },
+    contacts: [
+      { name: "Chiara", email: "", role: "Primary Contact", isPrimary: true }
+    ]
+  },
+  {
+    id: 8,
+    name: "Granlund",
+    currentArr: 2922,
+    licenses: 30,
+    plan: "Self-Serve",
+    industry: "Engineering / Construction",
+    templateUsage: 8,
+    timelineUsage: 4,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost (Re-engageable)",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "salesforce", "slack"],
+    evidence: [
+      { source: "Salesforce", text: "Primary Use Case: Roadmapping. 30 licenses. Customer preferred self-serve plan. Marked Good for Re-engagement with different contact.", link: "https://miro.slack.com/archives/C07BRH5R6HM/p1761300057704829", date: "2025-10-24" },
+      { source: "Slack", text: "Rattle: Innovation Workspace sales play. Lack of structured innovation process -- wants adaptable templates with structure.", date: "2025-10-24" },
+      { source: "Snowflake", text: "8 roadmap template events. SS ARR $2.9K.", date: "2026-02-17" }
+    ],
+    notes: "Small account, PLG candidate. Wants structured innovation process -- dynamic roadmapping fits well.",
+    csm: { name: "Claire Di Pol-Moro", slackId: "U0EXAMPLE7", email: "claire@miro.com" },
+    contacts: [
+      { name: "Francisco", email: "", role: "Innovation Lead", isPrimary: true }
+    ]
+  },
+  {
+    id: 9,
+    name: "MHR International UK",
+    pmTimelineUsage: 7,
+    currentArr: 32000,
+    licenses: 85,
+    plan: "Business",
+    industry: "Software / HR Tech",
+    templateUsage: 22,
+    timelineUsage: 15,
+    gongMentions: 1,
+    jiraIntegration: true,
+    slackSignals: 2,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 1,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "slack", "feedback"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Use cases include agile workflows, retros, roadmapping, and research insight synthesis. Some AI template usage. 90% MAU past 30 days.", link: "https://miro.slack.com/archives/C06PK9B7N64/p1733347601081069", date: "2024-12-04" },
+      { source: "Snowflake", text: "22 roadmap template events. Jira integration active. 85 licenses, 90% MAU.", date: "2026-02-17" },
+      { source: "Gong", text: "Discussion about roadmapping and research insight synthesis capabilities during business review.", date: "2025-11-15" },
+      { source: "Feedback", text: "Feedback requesting better integration between agile workflow and roadmapping tools.", date: "2025-12-01" }
+    ],
+    notes: "Strong product usage. Roadmapping and insight synthesis are core use cases. Good mid-market PLG candidate.",
+    csm: null,
+    contacts: []
+  },
+  {
+    id: 10,
+    name: "Economic Development (Glasgow)",
+    currentArr: 18000,
+    licenses: 65,
+    plan: "Enterprise",
+    industry: "Government / Public Sector",
+    templateUsage: 14,
+    timelineUsage: 10,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Primary use cases include roadmap development, strategy development, and creating engaging workshops. Mainly used by Strategic Innovation and IT department.", link: "https://miro.slack.com/archives/C0778J1QRC1/p1721803604942059", date: "2024-07-24" },
+      { source: "Snowflake", text: "14 roadmap template events. 65 licenses, 50% MAU. Red health score (41) -- needs attention.", date: "2026-02-17" }
+    ],
+    notes: "Public sector -- roadmap development is validated use case. Low health score may mean they need more value delivery.",
+    csm: null,
+    contacts: [
+      { name: "Julian Perera", email: "Julian.Perera@glasgow.gov.uk", role: "Business Architecture and Analysis Manager", isPrimary: true },
+      { name: "Stephen Campbell", email: "Stephen.Campbell2@glasgow.gov.uk", role: "Admin", isPrimary: false },
+      { name: "Stephen Sprott", email: "Stephen.Sprott@glasgow.gov.uk", role: "Admin", isPrimary: false }
+    ]
+  },
+  {
+    id: 11,
+    name: "Chargebee Inc.",
+    pmTimelineUsage: 8,
+    currentArr: 45000,
+    licenses: 300,
+    plan: "Self-Serve",
+    industry: "SaaS / Fintech",
+    templateUsage: 25,
+    timelineUsage: 18,
+    gongMentions: 1,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost (Re-engageable)",
+    feedbackMentions: 1,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack", "feedback"],
+    evidence: [
+      { source: "Salesforce", text: "Expansion deal closed lost. 300+ users on self-serve. Digital transformation goals need centralised Miro. Good for re-engagement with domain control story + roadmapping.", link: "https://miro.slack.com/archives/C07DXRBK5EY/p1759950302392659", date: "2025-10-08" },
+      { source: "Snowflake", text: "25 roadmap template events. 90 active users on domain. Self-serve ARR ~$96.", date: "2026-02-17" },
+      { source: "Gong", text: "Positive discussions about AI integration and tool consolidation during discovery calls.", date: "2025-09-15" },
+      { source: "Feedback", text: "Feedback about needing centralised project and roadmap visibility.", date: "2025-10-01" }
+    ],
+    notes: "Large self-serve footprint. Digital transformation initiative -- dynamic roadmapping could be the enterprise upgrade driver.",
+    csm: { name: "JP Turco", slackId: "U0EXAMPLE11", email: "jp.turco@miro.com" },
+    contacts: [
+      { name: "Lior", email: "", role: "Global Business Technology Lead", isPrimary: true },
+      { name: "Sudharsanaa", email: "", role: "Product Contact", isPrimary: false },
+      { name: "Yash Gupta", email: "", role: "Engineering Contact", isPrimary: false }
+    ]
+  },
+  {
+    id: 12,
+    name: "Thredd",
+    currentArr: 22000,
+    licenses: 75,
+    plan: "Enterprise",
+    industry: "Fintech / Payments",
+    templateUsage: 16,
+    timelineUsage: 10,
+    gongMentions: 0,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Use cases based on templates include BPMN mapping, process flows, agile workflows like retros and roadmap planning. Confluence and Atlassian links integration active.", link: "https://miro.slack.com/archives/C0A1NLY0KBN/p1766143528846219", date: "2025-12-19" },
+      { source: "Snowflake", text: "16 roadmap template events. 75 licenses, 76% MAU 30-day. Jira/Confluence integration active.", date: "2026-02-17" }
+    ],
+    notes: "Good mid-market candidate. Atlassian integration already active -- dynamic roadmapping with Jira sync would be natural fit.",
+    csm: { name: "Portfolio Success Managers", slackId: "", email: "" },
+    contacts: [
+      { name: "Benjamin Kennedy", email: "benjamin.Kennedy@thredd.com", role: "Modern Workplace / Admin", isPrimary: true },
+      { name: "Matthew Sharp", email: "", role: "Head of Implementations, Professional Services", isPrimary: false }
+    ]
+  },
+  {
+    id: 13,
+    name: "Brüel & Kjær Vibro",
+    currentArr: 15000,
+    licenses: 64,
+    plan: "Enterprise",
+    industry: "Industrial / Engineering",
+    templateUsage: 10,
+    timelineUsage: 5,
+    gongMentions: 1,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Gong", text: "Call with Christian Benk (Director, Product Management): Deciding between investing in existing portfolio foundation vs future initiatives. Agile transformation underway. FY26 roadmap being impacted by new cybersecurity requirements.", link: "https://miro.slack.com/archives/C07DXRBK5EY/p1768929618087999", date: "2026-01-20" },
+      { source: "Salesforce", text: "True-up deal closed lost. 20 active users. Interested in Jira integration for agile planning.", date: "2026-01-20" },
+      { source: "Snowflake", text: "10 roadmap template events. SS ARR ~$0 (self-serve side).", date: "2026-02-17" }
+    ],
+    notes: "Undergoing waterfall-to-agile transformation. Roadmapping tool could support this transition.",
+    csm: { name: "Efrain Rovira", slackId: "U0EXAMPLE13", email: "efrain@miro.com" },
+    contacts: [
+      { name: "Christian Benk", email: "", role: "Director, Product Management", isPrimary: true },
+      { name: "Florian Endres", email: "", role: "Director, Research & Development", isPrimary: false }
+    ]
+  },
+  {
+    id: 14,
+    name: "Accumulus Technologies",
+    currentArr: 8000,
+    licenses: 63,
+    plan: "Enterprise",
+    industry: "Life Sciences / Regulatory",
+    templateUsage: 8,
+    timelineUsage: 5,
+    gongMentions: 1,
+    jiraIntegration: true,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce"],
+    evidence: [
+      { source: "Gong", text: "Melody Chessia showed interest in Miro's Jira integration and Miroverse templates. Enthusiastic about aligning product roadmap with strategic objectives using Miro.", link: "https://miro.slack.com/archives/C07DXRBK5EY/p1765484973447859", date: "2025-12-11" },
+      { source: "Salesforce", text: "Expansion deal closed lost (not enough users for S2 qualification). Only 2 active users on domain -- but strong product champion.", date: "2025-12-11" },
+      { source: "Snowflake", text: "8 roadmap template events. 63 licenses.", date: "2026-02-17" }
+    ],
+    notes: "Low current usage but strong product champion (Melody). Roadmap-to-strategy alignment is their core need.",
+    csm: { name: "Ari Nasresfahani", slackId: "U0EXAMPLE14", email: "ari@miro.com" },
+    contacts: [
+      { name: "Melody Chessia", email: "melody.chessia@accumulus.com", role: "Product Champion", isPrimary: true }
+    ]
+  },
+  /* ── NEW EXPANDED CANDIDATES ── */
+  {
+    id: 15,
+    name: "NCR",
+    currentArr: 0,
+    licenses: 0,
+    plan: "Enterprise",
+    industry: "Technology / Payments",
+    templateUsage: 0,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Won",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce"],
+    evidence: [
+      { source: "Salesforce", text: "New Logo Closed Won. Primary Use Case: Roadmapping. Use concentration in engineering org. Competitor displaced: Lucidspark. Owner: Madison Ivers. Economic Buyer & Champion: Phil Shaheen.", link: "https://miro.slack.com/archives/C06HT1JBYNQ/p1769456084494099", date: "2026-01-26" }
+    ],
+    notes: "Brand new enterprise win with roadmapping as primary use case. Engineering org. Displaced Lucidspark.",
+    csm: { name: "Madison Ivers", slackId: "", email: "" },
+    contacts: [
+      { name: "Phil Shaheen", email: "", role: "Economic Buyer & Champion (Engineering)", isPrimary: true }
+    ]
+  },
+  {
+    id: 16,
+    name: "Veralto",
+    currentArr: 98568,
+    licenses: 4871,
+    plan: "Enterprise",
+    industry: "Industrial / Life Sciences",
+    templateUsage: 0,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Won",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce"],
+    evidence: [
+      { source: "Salesforce", text: "True-up expansion to 4,871 licenses at $148/seat ($98,568 ARR). Primary Use Case: Roadmapping. Pain: APD phases suffer from friction, misalignment, handoff delays among global R&D and Product teams. SE: Ibrahim.", link: "https://miro.slack.com/archives/CUQJZT755/p1768324672496759", date: "2026-01-13" }
+    ],
+    notes: "Very large account. Global R&D + Product team alignment friction is the core pain. Roadmapping primary use case.",
+    csm: { name: "Andrew Keefe", slackId: "", email: "" },
+    contacts: [
+      { name: "Ibrahim", email: "", role: "Solutions Engineer", isPrimary: true }
+    ]
+  },
+  {
+    id: 17,
+    name: "Abridge",
+    currentArr: 20855,
+    licenses: 350,
+    plan: "Enterprise",
+    industry: "Healthcare / AI",
+    templateUsage: 0,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal Expansion",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce"],
+    evidence: [
+      { source: "Salesforce", text: "Renewal expansion to 350 licenses at $230/seat. $20,855 forecasted ARR. Primary Use Case: Roadmapping. Pain: Tech Debt requires focus on security, new RBAC framework, and audit logging. Competitor: Figma.", link: "https://miro.slack.com/archives/CUQJZT755/p1768953385941209", date: "2026-01-20" }
+    ],
+    notes: "Recently renewed and expanded. Roadmapping primary use case. Building out security team — roadmap visibility critical.",
+    csm: { name: "Daisy Diaz", slackId: "", email: "" },
+    contacts: []
+  },
+  {
+    id: 18,
+    name: "DISH Digital Solutions",
+    currentArr: 26080,
+    licenses: 200,
+    plan: "Enterprise",
+    industry: "Telecommunications",
+    templateUsage: 0,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Won",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce"],
+    evidence: [
+      { source: "Salesforce", text: "New company won. 200 licenses at €197/seat. €26,080 ARR. Primary Use Case: Roadmapping (CBA). Line of Business: Project Management. Data residency EU. 1-year subscription started Dec 2025.", link: "https://miro.slack.com/archives/CUQJZT755/p1764172171707479", date: "2025-11-26" }
+    ],
+    notes: "New enterprise win. Roadmapping for project management. EU data residency. Recently onboarded.",
+    csm: { name: "Stefanie Schulte", slackId: "U0EXAMPLE5", email: "stefanie.schulte@miro.com" },
+    contacts: []
+  },
+  {
+    id: 19,
+    name: "Cube.Global",
+    currentArr: 22260,
+    licenses: 240,
+    plan: "Enterprise",
+    industry: "Technology",
+    templateUsage: 0,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Won",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce"],
+    evidence: [
+      { source: "Salesforce", text: "Enterprise expansion to 240 licenses at $210/seat. $22,260 ARR. Primary Use Case: Roadmapping. Growing needs and appetite in Miro.", link: "https://miro.slack.com/archives/CUQJZT755/p1766159654738929", date: "2025-12-19" }
+    ],
+    notes: "Expanding enterprise customer. Growing appetite for Miro. Roadmapping is primary use case.",
+    csm: { name: "Alicia Tan", slackId: "", email: "" },
+    contacts: []
+  },
+  {
+    id: 20,
+    name: "IFM Investors",
+    currentArr: 15966,
+    licenses: 60,
+    plan: "Enterprise",
+    industry: "Financial Services",
+    templateUsage: 0,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Won",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce"],
+    evidence: [
+      { source: "Salesforce", text: "New company won. 60 licenses at $255/seat. $15,966 ARR + $5K services. Primary Use Case: Roadmapping. SSO setup planned for early 2026.", link: "https://miro.slack.com/archives/CUQJZT755/p1766538503767759", date: "2025-12-24" }
+    ],
+    notes: "New enterprise win in financial services. Roadmapping is primary use case. Services engagement included.",
+    csm: { name: "Alicia Tan", slackId: "", email: "" },
+    contacts: [
+      { name: "Thomas Hu", email: "", role: "IT / Vendor Management", isPrimary: true }
+    ]
+  },
+  {
+    id: 21,
+    name: "Thermoplan",
+    currentArr: 23490,
+    licenses: 130,
+    plan: "Enterprise",
+    industry: "Manufacturing / Engineering",
+    templateUsage: 0,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Won",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce"],
+    evidence: [
+      { source: "Salesforce", text: "New company won. 130 licenses at $237/seat. $23,490 ARR. Primary Use Case: Roadmapping. Positive onboarding sentiment. Contract signed Dec 2025.", link: "https://miro.slack.com/archives/CUQJZT755/p1766139744497129", date: "2025-12-19" }
+    ],
+    notes: "Recently won. Roadmapping for project management. Smooth onboarding with SSO transition.",
+    csm: { name: "Stefanie Schulte", slackId: "U0EXAMPLE5", email: "stefanie.schulte@miro.com" },
+    contacts: [
+      { name: "Asiegrist", email: "", role: "IT Admin / Contract Lead", isPrimary: true }
+    ]
+  },
+  {
+    id: 22,
+    name: "Brook Green Supply",
+    currentArr: 10026,
+    licenses: 40,
+    plan: "Enterprise",
+    industry: "Supply Chain",
+    templateUsage: 0,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Won",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce"],
+    evidence: [
+      { source: "Salesforce", text: "New company won. 40 licenses, 24-month contract. $10,026 ARR. Primary Use Case: Roadmapping. Migrating from parent company Miro account.", link: "https://miro.slack.com/archives/CUQJZT755/p1767028130677069", date: "2025-12-29" }
+    ],
+    notes: "Small enterprise account. Transitioning to dedicated Miro subscription. 2-year commitment.",
+    csm: null,
+    contacts: [
+      { name: "Alan Broadbent", email: "", role: "Director / Decision Maker", isPrimary: true },
+      { name: "Steve Randall", email: "", role: "Implementation Lead", isPrimary: false }
+    ]
+  },
+  {
+    id: 23,
+    name: "Borzo",
+    currentArr: 0,
+    licenses: 30,
+    plan: "Team",
+    industry: "Logistics / Delivery",
+    templateUsage: 5,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost (Re-engageable)",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce", "slack"],
+    evidence: [
+      { source: "Salesforce", text: "Team to Company deal for 30 licenses. Closed Lost (non-responsive). Primary Use Case: Roadmapping. VP interested in Miro and PDLC support. Good for re-engagement. 109 active users on domain.", link: "https://miro.slack.com/archives/C07BRH5R6HM/p1768427848927879", date: "2026-01-14" },
+      { source: "Slack", text: "Discovery call discussed Borzo's use of Miro for brainstorming and roadmapping, challenges with info centralisation due to restructuring and growth. Preferred Miro over FigmaJam.", date: "2025-11-17" }
+    ],
+    notes: "VP interested. 109 active users on domain but only 30 licensed. Roadmapping + info centralisation pain. Re-engage with AI Playbooks pitch.",
+    csm: { name: "Julia Kenul", slackId: "", email: "" },
+    contacts: [
+      { name: "Vladimir", email: "", role: "VP / Primary Contact", isPrimary: true }
+    ]
+  },
+  {
+    id: 24,
+    name: "IntouchCX",
+    currentArr: 0,
+    licenses: 50,
+    plan: "Enterprise",
+    industry: "BPO / Customer Experience",
+    templateUsage: 0,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce"],
+    evidence: [
+      { source: "Salesforce", text: "ENT deal for 50 licenses, $18,250 net ARR. Closed Lost (timing). Primary Use Case: Roadmapping. Pain: Siloed product teams post-acquisition; inconsistent processes/tools; stakeholders need async visibility. Competitor: Lucidchart.", link: "https://miro.slack.com/archives/C07DXRBK5EY/p1770237576855659", date: "2026-02-04" }
+    ],
+    notes: "Post-acquisition fragmentation. Siloed product teams need async visibility. Lucidchart migration opportunity. Lost on timing not fit.",
+    csm: null,
+    contacts: [
+      { name: "Karen Barajas", email: "", role: "AE / Owner", isPrimary: true }
+    ]
+  },
+  {
+    id: 25,
+    name: "Longbow Advantage",
+    currentArr: 3072,
+    licenses: 30,
+    plan: "Self-Serve",
+    industry: "Supply Chain Software",
+    templateUsage: 5,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost (Re-engageable)",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce", "snowflake"],
+    evidence: [
+      { source: "Salesforce", text: "ENT trial for 30 licenses, $4,428 net ARR. Closed Lost (non-responsive). Primary Use Case: Roadmapping. Uses Miro extensively for product development. Good for re-engagement (did enterprise trial).", link: "https://miro.slack.com/archives/C07DXRBK5EY/p1764786381286429", date: "2025-12-03" },
+      { source: "Snowflake", text: "SS ARR $3,072. Some roadmapping template activity.", date: "2026-02-17" }
+    ],
+    notes: "Small PLG account using Miro for product development. Did enterprise trial. Re-engageable with roadmapping angle.",
+    csm: null,
+    contacts: [
+      { name: "Jonathan", email: "", role: "Primary Contact", isPrimary: true }
+    ]
+  },
+  {
+    id: 26,
+    name: "OakNorth",
+    pmTimelineUsage: 6,
+    currentArr: 43000,
+    licenses: 200,
+    plan: "Enterprise",
+    industry: "Fintech / Banking",
+    templateUsage: 18,
+    timelineUsage: 12,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Use cases include visualising workflows, building product roadmaps, sprint planning with Kanban boards. Used by product + engineering teams in UK and India. Confluence, Atlassian, Slack, Notion integrations active.", link: "https://miro.slack.com/archives/C06MARVGW12/p1743490385238989", date: "2025-04-01" },
+      { source: "Snowflake", text: "200 licenses. $43K ARR. 108% license activation. 69% MAU 30-day. Product roadmap templates used.", date: "2026-02-17" }
+    ],
+    notes: "Strong product + engineering usage. Building product roadmaps and sprint planning. True-up expansion opportunity.",
+    csm: null,
+    contacts: [
+      { name: "David Pollins", email: "david.pollins@oaknorth.co.uk", role: "Director of IT / Company Admin", isPrimary: true },
+      { name: "Annari Hall", email: "annari.hall@oaknorth.co.uk", role: "Director of Product Design", isPrimary: false },
+      { name: "Nikhil Bansal", email: "nikhil.bansal@oaknorth.co.uk", role: "VP of Product Digital Lending", isPrimary: false }
+    ]
+  },
+  {
+    id: 27,
+    name: "Lucid Games",
+    pmTimelineUsage: 5,
+    currentArr: 43200,
+    licenses: 160,
+    plan: "Enterprise",
+    industry: "Gaming / Entertainment",
+    templateUsage: 15,
+    timelineUsage: 8,
+    gongMentions: 0,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Use cases include ideation, retros, roadmap planning, org charts, customer journey mapping. 125% license activation. 96% MAU 30-day. Confluence, Slack, Atlassian integrations. Some Jira cards usage.", link: "https://miro.slack.com/archives/C08HLEMN5QS/p1742626395872519", date: "2025-03-22" },
+      { source: "Snowflake", text: "160 licenses. $43.2K ARR. Roadmap planning templates in use. Active usage on upward trajectory.", date: "2026-02-17" }
+    ],
+    notes: "Very healthy adoption (96% MAU). Roadmap planning is core use case alongside retros and ideation. Jira workshop opportunity.",
+    csm: null,
+    contacts: [
+      { name: "Nick Davies", email: "nick.davies@lucidgames.co.uk", role: "Director of Production (Economic Buyer)", isPrimary: true },
+      { name: "Garrick O'Brien", email: "garrick.obrien@lucidgames.co.uk", role: "IT Support / Admin", isPrimary: false },
+      { name: "Nick Raynor", email: "nick.raynor@lucidgames.co.uk", role: "Audio Director / Company Admin", isPrimary: false }
+    ]
+  },
+  {
+    id: 28,
+    name: "LVM Versicherung",
+    currentArr: 0,
+    licenses: 100,
+    plan: "Enterprise",
+    industry: "Insurance",
+    templateUsage: 12,
+    timelineUsage: 6,
+    gongMentions: 0,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Supporting Project Management and Engineering/Development teams in strategy & planning, roadmap planning, Business Mind Maps. Jira cards integration used. 106% license activation. 71% MAU 30-day. 90-day MAU on increasing trend.", link: "https://miro.slack.com/archives/C026CDNHHPZ/p1742371958953269", date: "2025-03-19" },
+      { source: "Snowflake", text: "~100 licenses. Roadmap planning templates active. Jira integration in use.", date: "2026-02-17" }
+    ],
+    notes: "German insurance company. Roadmap planning + strategy for PM & engineering. Main POC on parental leave — new contact Stefanie Bettendorf.",
+    csm: null,
+    contacts: [
+      { name: "Stefanie Bettendorf", email: "s.bettendorf@lvm.de", role: "Company Admin (new POC)", isPrimary: true },
+      { name: "Christian Speller", email: "c.speller@lvm.de", role: "Business Architect (Economic Buyer)", isPrimary: false },
+      { name: "Paul Sonntag", email: "p.sonntag@lvm.de", role: "Consultant Organizational Development / IT", isPrimary: false }
+    ]
+  },
+  {
+    id: 29,
+    name: "Wedoogift (Glady)",
+    pmTimelineUsage: 4,
+    currentArr: 30600,
+    licenses: 180,
+    plan: "Enterprise",
+    industry: "HR Tech / Benefits",
+    templateUsage: 14,
+    timelineUsage: 8,
+    gongMentions: 0,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Use cases include retros, roadmap planning, storyboards — supporting product development. 160% license activation. 79% MAU 30-day. Integrations: Notion, Jira, Slack, Confluence, Figma, Azure.", link: "https://miro.slack.com/archives/C05HB0R0WB1/p1742981120856509", date: "2025-03-26" },
+      { source: "Snowflake", text: "180 licenses. $30.6K ARR. Roadmap planning templates in use.", date: "2026-02-17" }
+    ],
+    notes: "Strong product development team usage. Roadmap planning + retros + storyboards. Self-sufficient. French company — consider outreach in French.",
+    csm: null,
+    contacts: [
+      { name: "Sandy Giustino", email: "sandy.giustino@glady.com", role: "Lead Product Operations (Economic Buyer)", isPrimary: true },
+      { name: "Julien Baudin", email: "julien.baudin@glady.com", role: "Head of Product", isPrimary: false },
+      { name: "Anne Favrie", email: "anne.favrie@glady.com", role: "Product Manager", isPrimary: false }
+    ]
+  },
+  {
+    id: 30,
+    name: "Wemanity Group",
+    currentArr: 0,
+    licenses: 100,
+    plan: "Enterprise",
+    industry: "Consulting / Agile",
+    templateUsage: 10,
+    timelineUsage: 4,
+    gongMentions: 0,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Consultants use Miro for workshops with external clients. Use cases: retros, sprint planning, roadmap planning, business model canvas. 115% license activation. 85% MAU 30-day. Atlassian and Jira integrations.", link: "https://miro.slack.com/archives/C05KEM648F3/p1743490412672549", date: "2025-04-01" },
+      { source: "Snowflake", text: "~100 licenses. Roadmap planning templates used. Jira and Confluence integrations.", date: "2026-02-17" }
+    ],
+    notes: "Agile consulting firm. Consultants run roadmap planning + sprint workshops for their clients. Potential multiplier effect — dynamic roadmapping could be offered to their end clients too.",
+    csm: null,
+    contacts: [
+      { name: "Jonathan Dupuich", email: "jdupuich@wemanity.com", role: "CISO / COO (Economic Buyer)", isPrimary: true },
+      { name: "Tara Aït Ouakli", email: "taitouakli@wemanity.com", role: "Squad Master (Potential Champion)", isPrimary: false }
+    ]
+  },
+  {
+    id: 31,
+    name: "KIRKBI IT",
+    pmTimelineUsage: 8,
+    currentArr: 43700,
+    licenses: 190,
+    plan: "Enterprise",
+    industry: "Investment / LEGO Group",
+    templateUsage: 14,
+    timelineUsage: 8,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Templates used include Product Roadmap, Sprint Planning, Strategy Workshop, Sketches & Diagrams. EPD is minority of users (22%). Miro AI enabled but unused. 41% MAU 30-day. High risk health score (24).", link: "https://miro.slack.com/archives/C04UZ7FAB50/p1756201861036429", date: "2025-08-26" },
+      { source: "Snowflake", text: "190 licenses at $230/seat. $43.7K ARR. Product Roadmap and Sprint Planning templates active.", date: "2026-02-17" }
+    ],
+    notes: "LEGO Group's investment arm. Product Roadmap and Sprint Planning are key templates. Low MAU (41%) — dynamic roadmapping could drive engagement. Renewal upcoming.",
+    csm: null,
+    contacts: [
+      { name: "Yoanna Halil", email: "", role: "IT Admin (Primary Contact)", isPrimary: true }
+    ]
+  },
+  {
+    id: 32,
+    name: "Color Line",
+    currentArr: 0,
+    licenses: 30,
+    plan: "Enterprise",
+    industry: "Travel / Shipping",
+    templateUsage: 4,
+    timelineUsage: 2,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Primary use case is roadmap development. Templates used include Agile Product Roadmap, 5 Whys. Confluence integration set up. 50% LA, 16% MAU 30-day. No clear system owner. High risk health score (28).", link: "https://miro.slack.com/archives/C076TQGRP0D/p1724827663845829", date: "2024-08-28" }
+    ],
+    notes: "Norwegian shipping company. Roadmap development validated use case but very low engagement. Needs champion identification.",
+    csm: null,
+    contacts: [
+      { name: "Ola Håland", email: "ola.haland@colorline.com", role: "Senior IT Service Manager / Admin", isPrimary: true },
+      { name: "Jan Geronimo", email: "jan.geronimo@colorline.com", role: "Admin", isPrimary: false }
+    ]
+  },
+  {
+    id: 33,
+    name: "GSZ (Stadt Zürich)",
+    currentArr: 5250,
+    licenses: 25,
+    plan: "Enterprise",
+    industry: "Government / Public Sector",
+    templateUsage: 6,
+    timelineUsage: 2,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Primary use case appears to be scaled product planning & brainstorming. Flowchart, Roadmap planning templates used. 60% LA, 40% MAU 30-day. Non-responsive admins. No SSO/SCIM set up.", link: "https://miro.slack.com/archives/C07FW5LCKMH/p1727246885493979", date: "2024-09-25" },
+      { source: "Snowflake", text: "25 licenses. $5.25K ARR. Roadmap planning templates active. Usage picked up in Sep.", date: "2026-02-17" }
+    ],
+    notes: "Small public sector account in Zürich. Roadmap planning + product brainstorming use case. Engagement challenging but usage increasing.",
+    csm: null,
+    contacts: [
+      { name: "Anita Gross", email: "Anita.Gross@zuerich.ch", role: "Project Manager Corporate Development", isPrimary: true },
+      { name: "HanNghia Tran", email: "HanNghia.Tran@zuerich.ch", role: "Admin (non-responsive)", isPrimary: false }
+    ]
+  },
+  {
+    id: 34,
+    name: "Juni",
+    currentArr: 0,
+    licenses: 50,
+    plan: "Enterprise",
+    industry: "Fintech / Banking",
+    templateUsage: 10,
+    timelineUsage: 4,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Use cases include flowcharts, roadmap planning, daily standup. 83% license activation. 62% MAU 30-day. Miro AI enabled (team level only). Notion integration. Slow declining usage trend.", link: "https://miro.slack.com/archives/C06LAAK0C2F/p1742041686116919", date: "2025-03-15" },
+      { source: "Snowflake", text: "~50 licenses. Roadmap planning templates active. Declining usage trend.", date: "2026-02-17" }
+    ],
+    notes: "Fintech startup. Roadmap planning + standups. Usage declining — dynamic roadmapping could re-energise the account. CTO is economic buyer.",
+    csm: null,
+    contacts: [
+      { name: "Anders Orsedal", email: "anders@juni.co", role: "Co-Founder & CTO (Economic Buyer)", isPrimary: true },
+      { name: "Arian Chalak", email: "arian.chalak@juni.co", role: "Senior Product Manager (Power User)", isPrimary: false },
+      { name: "Daniel Leppanen", email: "daniel@juni.co", role: "Tech Lead (Power User)", isPrimary: false }
+    ]
+  },
+  {
+    id: 35,
+    name: "SofaScore",
+    currentArr: 1728,
+    licenses: 30,
+    plan: "Self-Serve",
+    industry: "Sports / Technology",
+    templateUsage: 4,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce", "snowflake"],
+    evidence: [
+      { source: "Salesforce", text: "ENT deal for 30 licenses, $5,990 ARR. Closed Lost (lack of value realisation). Primary Use Case: Roadmapping. Pain: No control over current usage, previous employees can still access content. 29 active users.", link: "https://miro.slack.com/archives/C07BRH5R6HM/p1764925787241309", date: "2025-12-05" },
+      { source: "Snowflake", text: "SS ARR $1,728. 29 active users on domain. Self-serve.", date: "2026-02-17" }
+    ],
+    notes: "Small PLG account. 29 active users. Enterprise deal lost on value realisation. Governance pain — dynamic roadmapping could demonstrate enterprise value.",
+    csm: null,
+    contacts: [
+      { name: "Kristijan", email: "", role: "IT Operations Team Lead", isPrimary: true }
+    ]
+  },
+  {
+    id: 36,
+    name: "Citation Group",
+    currentArr: 15000,
+    licenses: 100,
+    plan: "Self-Serve",
+    industry: "Business Services / HR",
+    templateUsage: 6,
+    timelineUsage: 2,
+    gongMentions: 0,
+    jiraIntegration: true,
+    slackSignals: 0,
+    salesforcePipeline: true,
+    salesforceStage: "Closed Lost",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["salesforce", "snowflake"],
+    evidence: [
+      { source: "Salesforce", text: "ENT deal for 100 licenses, $25K net ARR. Closed Lost (non-responsive). Primary Use Case: Roadmapping. Pain: Hard to find content, inconsistent structure, unmanaged guests, security risk. CTO Beccy Weeks consolidating two Miro subs. Interested in Jira integration for Product and Engineering.", link: "https://miro.slack.com/archives/C07BRH5R6HM/p1768391774036869", date: "2026-01-14" },
+      { source: "Snowflake", text: "SS ARR $15K. ~100 active users. Jira integration interest.", date: "2026-02-17" }
+    ],
+    notes: "CTO consolidating two Miro subscriptions. Product & Engineering teams interested in Jira integration + roadmapping. 100+ active users on self-serve.",
+    csm: null,
+    contacts: [
+      { name: "Beccy Weeks", email: "", role: "Group CTO (Decision Maker)", isPrimary: true }
+    ]
+  },
+  {
+    id: 37,
+    name: "OBSS (Accenture)",
+    currentArr: 0,
+    licenses: 50,
+    plan: "Enterprise",
+    industry: "IT Consulting",
+    templateUsage: 8,
+    timelineUsage: 3,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Accenture OBSS. Templates used include Product Roadmap, Stakeholder RACI Maps, Mindmaps. Strategy & planning and mapping & diagramming use cases. 46% MAU 30-day.", link: "https://miro.slack.com/archives/C019EHEM691/p1720865223200389", date: "2024-07-13" }
+    ],
+    notes: "Accenture subsidiary. Product Roadmap templates in use. Merged from Objectivity — still adjusting. Low engagement but validated roadmapping use case.",
+    csm: null,
+    contacts: [
+      { name: "Aleksander Neumann", email: "aleksander.neumann@accenture.com", role: "Previous POC / Company Admin", isPrimary: true }
+    ]
+  },
+  {
+    id: 38,
+    name: "luvn.fi",
+    currentArr: 2000,
+    licenses: 7,
+    plan: "Enterprise",
+    industry: "Digital Services",
+    templateUsage: 5,
+    timelineUsage: 2,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: 200% license allocation, 157% MAU 30-day. Product roadmaps, kanban, website wireframing templates used. Azure cards integration. Self-sufficient but non-responsive admin.", link: "https://miro.slack.com/archives/C079XU8CG4C/p1721112551148619", date: "2024-07-16" },
+      { source: "Snowflake", text: "7 licenses. $2K ARR. Product roadmap templates active. Very high engagement for size.", date: "2026-02-17" }
+    ],
+    notes: "Tiny but hyper-engaged PLG account (200% license allocation). Product roadmaps are core use case. Could be a great PLG dynamic roadmapping early adopter.",
+    csm: null,
+    contacts: [
+      { name: "Nelli Myllylä", email: "nelli.myllyla@luvn.fi", role: "Digital Services Project Director / Admin", isPrimary: true }
+    ]
+  },
+  {
+    id: 39,
+    name: "Katie Givens Co.",
+    currentArr: 0,
+    licenses: 40,
+    plan: "Enterprise",
+    industry: "Technology",
+    templateUsage: 8,
+    timelineUsage: 4,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Primary use case from onboarding: Project Planning, Roadmapping. Multiple roadmapping templates used across departments. 60% license activation, 77% MAU 90-day. Quick Start completed.", link: "https://miro.slack.com/archives/C07KGN1PK6V/p1732348064011879", date: "2024-11-23" }
+    ],
+    notes: "Validated roadmapping use case from onboarding. Multiple departments using roadmap templates. Watch for MAU dip.",
+    csm: null,
+    contacts: []
+  },
+  {
+    id: 40,
+    name: "Permasteelisa Group",
+    currentArr: 4500,
+    licenses: 15,
+    plan: "Enterprise",
+    industry: "Construction / Engineering",
+    templateUsage: 3,
+    timelineUsage: 0,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: Enterprise pilot. Sales and design teams collaborating and ideating. Security and content centralisation important. 40% LA, 27% MAU 30-day. Very slow onboarding. Kanban and concept map templates in use.", link: "https://miro.slack.com/archives/C07ASK7RJKH/p1723534196880539", date: "2024-08-13" }
+    ],
+    notes: "Small enterprise pilot. Sales + design teams. Security-focused. Slow onboarding but roadmapping/planning could be the value driver.",
+    csm: null,
+    contacts: [
+      { name: "Chris Turner", email: "c.turner@permasteelisagroup.com", role: "Project Manager / Account Admin", isPrimary: true },
+      { name: "Martin Novotny", email: "m.novotny@permasteelisagroup.com", role: "IT Director North America (Economic Buyer)", isPrimary: false }
+    ]
+  },
+  /* ── LARGE ENTERPRISE ACCOUNTS WITH ROADMAPPING TEMPLATE SIGNALS ── */
+  {
+    id: 41,
+    name: "Chanel",
+    currentArr: 65100,
+    licenses: 1000,
+    plan: "Enterprise",
+    industry: "Luxury / Fashion",
+    templateUsage: 45,
+    timelineUsage: 30,
+    pmTimelineUsage: 12,
+    gongMentions: 2,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Gong", text: "Success Review: Discussed roadmaps for AI and integrations (Jira focus). Miro maturity model presented. Templates usage analytics reviewed for quick wins. AI Canvas beta program participation.", link: "https://miro.slack.com/archives/C01NA851YPK/p1762957779456979", date: "2025-11-12" },
+      { source: "Salesforce", text: "Renewal for 1,000 licenses. Strategic priorities include hybrid innovation, secure digitalisation, client-centered product development.", date: "2025-11-12" },
+      { source: "Snowflake", text: "1,000 licenses. $65.1K ARR at $300 PPL. Heavy template usage across planning and roadmapping categories.", date: "2026-02-17" }
+    ],
+    notes: "Iconic luxury brand. 1,000 licenses. Roadmap planning for AI and integrations. Miro maturity model in play. AI Canvas beta participant.",
+    csm: { name: "Elodie", slackId: "", email: "" },
+    contacts: [
+      { name: "Benjamin Sebag", email: "", role: "Consultant Digital Employee Experience", isPrimary: true },
+      { name: "Kevin Coussinet", email: "kevin.coussinet@chanel.com", role: "Manager, Delivery", isPrimary: false },
+      { name: "Fanny Lissillour", email: "", role: "Digital Dexterity Service Owner", isPrimary: false }
+    ]
+  },
+  {
+    id: 42,
+    name: "ASOS",
+    currentArr: 0,
+    licenses: 3000,
+    plan: "Enterprise",
+    industry: "E-commerce / Fashion",
+    templateUsage: 60,
+    timelineUsage: 35,
+    pmTimelineUsage: 16,
+    gongMentions: 1,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Expansion",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Gong", text: "CSM intro with Andy Savvides (Data & Analytics Architect). Miro used for sprint planning, roadmap planning, and design. Engineering is largest user group (518 licenses). Standardising roadmapping sessions within Miro. Called 'operational backbone for tech stack'.", link: "https://miro.slack.com/archives/C0341HDM9K2/p1770722014144789", date: "2026-02-10" },
+      { source: "Salesforce", text: "Add-On Product expansion for 3,000 licenses. AI workflows introduction in progress.", date: "2026-02-10" },
+      { source: "Snowflake", text: "3,000 licenses. Engineering + Product teams standardising roadmap planning in Miro.", date: "2026-02-17" }
+    ],
+    notes: "Massive account. Miro is the 'operational backbone' for engineering. Actively standardising roadmapping sessions. AI workflows being introduced.",
+    csm: { name: "Warren Breiner", slackId: "", email: "" },
+    contacts: [
+      { name: "Andy Savvides", email: "", role: "Data & Analytics Architect", isPrimary: true }
+    ]
+  },
+  {
+    id: 43,
+    name: "Booking.com",
+    currentArr: 0,
+    licenses: 8794,
+    plan: "Enterprise",
+    industry: "Travel / Technology",
+    templateUsage: 70,
+    timelineUsage: 45,
+    pmTimelineUsage: 22,
+    gongMentions: 0,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "Looker analysis: Product line of business has highly active Power and Core users. Platform used extensively for Agile methodologies and product roadmapping. Significant number of users in Netherlands, UK, India, Hong Kong.", link: "https://miro.slack.com/archives/C0A2REZMARZ/p1765791222148579", date: "2025-12-15" },
+      { source: "Snowflake", text: "8,794 users. Enterprise-level COMPANY plan. Product roadmapping, sprint planning, journey mapping templates heavily used.", date: "2026-02-17" }
+    ],
+    notes: "One of the largest accounts. ~8,800 users. Product teams use Miro extensively for Agile and product roadmapping. Global footprint across NL, UK, India, HK.",
+    csm: null,
+    contacts: []
+  },
+  {
+    id: 44,
+    name: "Southern Glazer's Wine & Spirits",
+    currentArr: 121550,
+    licenses: 1000,
+    plan: "Enterprise",
+    industry: "Distribution / Beverages",
+    templateUsage: 30,
+    timelineUsage: 20,
+    gongMentions: 2,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Gong", text: "Miro 101 session: Demonstrated kanban boards, roadmaps, timelines, and Jira integration to the technology team. Interested in increasing visibility, transparency, and collaboration for project lifecycles.", link: "https://miro.slack.com/archives/C03LJ46EX63/p1766094233590869", date: "2025-12-18" },
+      { source: "Gong", text: "SGWS Connect: Post-renewal discussion on adoption, cultural initiatives, strategic shifts. Interest in Miro prototypes pilot. Budget constraints acknowledged.", link: "https://miro.slack.com/archives/C03LJ46EX63/p1768937325548169", date: "2026-01-20" },
+      { source: "Salesforce", text: "Renewal for 1,000 licenses. $121.55K ARR. AE: Madison Ivers. CSM: Rachel Beck.", date: "2026-01-20" }
+    ],
+    notes: "Large enterprise. 1,000 licenses. Demonstrated roadmaps and Jira integration. Interested in prototypes pilot. Recently renewed.",
+    csm: { name: "Rachel Beck", slackId: "", email: "" },
+    contacts: [
+      { name: "Charles Novak", email: "", role: "Senior Director, Technology Portfolio Delivery", isPrimary: true },
+      { name: "Jennifer Gullo", email: "", role: "Head, Orchestration Supply Chain & Employee Experience Technologies", isPrimary: false },
+      { name: "Tiffany Thompson", email: "", role: "VP, HR/Finance/Legal & Corp Comms Systems", isPrimary: false }
+    ]
+  },
+  {
+    id: 45,
+    name: "Woolworths Group",
+    currentArr: 0,
+    licenses: 600,
+    plan: "Enterprise",
+    industry: "Retail / Supermarkets",
+    templateUsage: 25,
+    timelineUsage: 15,
+    gongMentions: 3,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Qualified",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Gong", text: "AI Product Ops Demo Showcase & Graduation: 2h10m session demonstrating AI-driven workflows for product development. Topics included roadmap planning, initiative evaluation, idea management, and building business cases. Positive sentiment.", link: "https://miro.slack.com/archives/C03K4LRE6LV/p1770789556835309", date: "2026-02-11" },
+      { source: "Salesforce", text: "New Enterprise Plan for 600 licenses. AI boot camp participant. Head of Agile on the account.", date: "2026-02-11" }
+    ],
+    notes: "Major Australian retailer. Participating in AI boot camp. Roadmap planning + AI workflows demonstrated. Head of Agile engaged.",
+    csm: { name: "Brad O'Brien", slackId: "", email: "" },
+    contacts: [
+      { name: "Steven Kernahan", email: "", role: "Head of Technology, Customer Service", isPrimary: true },
+      { name: "Dsapcas", email: "dsapcas@woolworths.com.au", role: "Head of Agile", isPrimary: false },
+      { name: "Bharathi Chandra Sekaran", email: "", role: "Product Manager", isPrimary: false }
+    ]
+  },
+  {
+    id: 46,
+    name: "TomTom",
+    currentArr: 105000,
+    licenses: 350,
+    plan: "Enterprise",
+    industry: "Technology / Navigation",
+    templateUsage: 35,
+    timelineUsage: 22,
+    pmTimelineUsage: 14,
+    gongMentions: 1,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Gong", text: "QBR & Roadmap: 1h30m session on improving Miro integration. Discussed using Miro for more than ideation — for planning, delivery, and technical documentation. Want to align Miro's roadmap with TomTom's updated strategy.", link: "https://miro.slack.com/archives/C054FBTL9EJ/p1769093030003189", date: "2026-01-22" },
+      { source: "Salesforce", text: "MOST account. 350 licenses at $300 PPL. $105K ARR. 282 full active users (90-day). MAU 800.", date: "2026-01-22" },
+      { source: "Snowflake", text: "318 licenses activated. Roadmap planning and strategy templates active.", date: "2026-02-17" }
+    ],
+    notes: "Wants to use Miro beyond ideation — for planning and delivery. Aligning Miro roadmap with TomTom strategy. Joint success plan workshop planned.",
+    csm: { name: "Dominique Roos", slackId: "", email: "" },
+    contacts: [
+      { name: "Rutger De Vries", email: "", role: "IT Program Manager", isPrimary: true },
+      { name: "Bart Hemmer", email: "bart.hemmer@tomtom.com", role: "Manager, Financial Planning & Analysis", isPrimary: false },
+      { name: "Rashmi Sahare", email: "", role: "Software Engineering Manager", isPrimary: false }
+    ]
+  },
+  {
+    id: 47,
+    name: "ALDI Nord",
+    currentArr: 104085,
+    licenses: 1000,
+    plan: "Enterprise",
+    industry: "Retail / Supermarkets",
+    templateUsage: 20,
+    timelineUsage: 10,
+    gongMentions: 0,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: $104K ARR. Sprint planning is core use case with Jira integration (currently blocked). Agile Coaches are champions. ~1,000 users planned rollout. Contract through 2028. Partner Seibert involved for implementation.", link: "https://miro.slack.com/archives/C026LP5ARBP/p1771324986860919", date: "2026-02-17" },
+      { source: "Snowflake", text: "~1,000 user rollout planned. Sprint planning and Solution Line Planning (roadmapping) are primary use cases. Jira integration critical.", date: "2026-02-17" }
+    ],
+    notes: "Major retailer. Sprint planning + 'Solution Line Planning' (roadmapping) are core. Jira integration blocker being addressed via partner. Long-term contract to 2028.",
+    csm: { name: "Felix Dressel", slackId: "", email: "" },
+    contacts: [
+      { name: "Alicia Lieber", email: "", role: "Technical Admin", isPrimary: true },
+      { name: "Sylvester Wydra", email: "", role: "Technical Admin", isPrimary: false }
+    ]
+  },
+  {
+    id: 48,
+    name: "TUI",
+    currentArr: 132000,
+    licenses: 1100,
+    plan: "Enterprise",
+    industry: "Travel / Tourism",
+    templateUsage: 40,
+    timelineUsage: 25,
+    pmTimelineUsage: 10,
+    gongMentions: 0,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "salesforce", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: $132K ARR. 1,100 licenses. 82% MAU 30-day (excellent). Product Roadmap, Strategy Workshop, Sprint Planning templates heavily used by Product, UX Design, Strategy & Ops teams. Management team actively uses Miro.", link: "https://miro.slack.com/archives/C03Q8NP54HG/p1754995455142319", date: "2025-08-12" },
+      { source: "Salesforce", text: "Renewal opportunity. Competitive pressure from OTAs driving digital transformation. Interest in AI capabilities, prototyping, data-driven decision making.", date: "2025-08-12" },
+      { source: "Snowflake", text: "1,100 licenses. 1,070 activated. MAU 1,095 (30-day). Product Roadmap and Sprint Planning templates are among most used.", date: "2026-02-17" }
+    ],
+    notes: "Massive travel company. 82% MAU — very healthy. Product Roadmap is a top template. 1,100 licenses. AI features and prototyping interest. Management uses Miro.",
+    csm: { name: "Felix Dressel", slackId: "", email: "" },
+    contacts: [
+      { name: "Ana", email: "", role: "Agile Lead (Primary Contact)", isPrimary: true }
+    ]
+  },
+  {
+    id: 49,
+    name: "Vanderlande",
+    currentArr: 111834,
+    licenses: 513,
+    plan: "Enterprise",
+    industry: "Industrial Automation / Logistics",
+    templateUsage: 30,
+    timelineUsage: 18,
+    gongMentions: 0,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "salesforce", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: $111.8K ARR. 513 licenses. 460 activated (90%). Product Owner Niek Bakermans engaged. Jira integration is critical (broken due to OAuth 2.0 — being resolved). MAU 58% and recovering. Engineering workflows embedded in Miro.", link: "https://miro.slack.com/archives/C03NECDJ6VB/p1767179848230329", date: "2025-12-31" },
+      { source: "Salesforce", text: "Renewal October 2026. MAU recovering. Engineering team heavily embedded. Jira integration critical for sprint planning workflow.", date: "2025-12-31" },
+      { source: "Snowflake", text: "513 licenses. Roadmap and sprint planning templates active. Jira integration core to workflow.", date: "2026-02-17" }
+    ],
+    notes: "Major logistics automation company. Engineering deeply embedded in Miro. Roadmapping + sprint planning core use case. Jira integration critical path.",
+    csm: { name: "Dominique Roos", slackId: "", email: "" },
+    contacts: [
+      { name: "Niek Bakermans", email: "", role: "Product Owner (Champion)", isPrimary: true }
+    ]
+  },
+  {
+    id: 50,
+    name: "Qorvo",
+    currentArr: 112980,
+    licenses: 425,
+    plan: "Enterprise",
+    industry: "Semiconductors / Electronics",
+    templateUsage: 28,
+    timelineUsage: 20,
+    gongMentions: 1,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 1,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack", "feedback"],
+    evidence: [
+      { source: "Gong", text: "Monthly sync: Champion Eric using Miro for project management with Timeline feature. 'Growing internal demand' and visibility with upper management. Merger with Skyworks accelerated — tool consolidation decision in Summer 2026.", link: "https://miro.slack.com/archives/C04QU4435H8/p1769530853659729", date: "2026-01-27" },
+      { source: "Salesforce", text: "425 licenses at $266/seat. $113K ARR. July renewal. M&A with Skyworks creates competitive threat from MS Whiteboard.", date: "2026-01-27" },
+      { source: "Feedback", text: "Product feedback on Timeline feature: needs auto-shifting dependencies for project management use case.", date: "2026-01-27" },
+      { source: "Snowflake", text: "400 licenses activated (94%). 173 MAU 30-day. Roadmap and timeline templates active.", date: "2026-02-17" }
+    ],
+    notes: "Semiconductor company. Growing internal demand. Champion using Miro for roadmap/timeline planning. M&A with Skyworks = consolidation decision in Summer 2026.",
+    csm: { name: "Iliana Linquist", slackId: "", email: "" },
+    contacts: [
+      { name: "Eric", email: "", role: "Email Architect / Champion", isPrimary: true },
+      { name: "Scott", email: "", role: "Engineering Contact", isPrimary: false }
+    ]
+  },
+  {
+    id: 51,
+    name: "HEMA",
+    currentArr: 0,
+    licenses: 200,
+    plan: "Enterprise",
+    industry: "Retail / Consumer",
+    templateUsage: 22,
+    timelineUsage: 14,
+    gongMentions: 1,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "slack"],
+    evidence: [
+      { source: "Gong", text: "CSM Pulse: Champion Jacco Appeldoorn (Product Owner, Foto domain) actively working on roadmap planning workflow consultation. Primary focus: standardising roadmap planning across digital domain — common blueprint to visualise high-level roadmaps, identify dependencies, present to stakeholders. This is a current pain point.", link: "https://miro.slack.com/archives/C062HR7GCV8/p1761104987254049", date: "2025-10-22" },
+      { source: "Snowflake", text: "~200 licenses. Roadmap planning templates actively used by digital product teams.", date: "2026-02-17" }
+    ],
+    notes: "Dutch retailer. Champion actively requesting roadmap planning standardisation workflow consultation. Exact pain point dynamic roadmapping solves. Partner services opportunity.",
+    csm: null,
+    contacts: [
+      { name: "Jacco Appeldoorn", email: "Jacco.Appeldoorn@hema.nl", role: "Product Owner, Foto Domain (Champion)", isPrimary: true },
+      { name: "Alexander Oppel", email: "alexander.oppel@hema.nl", role: "Enterprise Architect (Economic Buyer)", isPrimary: false }
+    ]
+  },
+  {
+    id: 52,
+    name: "Crytek",
+    currentArr: 88000,
+    licenses: 300,
+    plan: "Enterprise",
+    industry: "Gaming / Entertainment",
+    templateUsage: 25,
+    timelineUsage: 15,
+    gongMentions: 1,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Gong", text: "CSM Pulse: $88K ARR. Used across producers, art team, development. High level roadmap planning & ideation are core use cases. 97% license activation. 79% MAU 30-day. Moving from Jira on-prem to cloud. AI is big focus for driving efficiencies.", link: "https://miro.slack.com/archives/C08JUNZK6QN/p1750844515142369", date: "2025-06-25" },
+      { source: "Salesforce", text: "Renewal October 2025. Integrations: Jira cards, Confluence, Atlassian, MS Teams.", date: "2025-06-25" },
+      { source: "Snowflake", text: "~300 licenses. 97% activation. Roadmap planning and ideation templates.", date: "2026-02-17" }
+    ],
+    notes: "Game studio (Hunt: Showdown). High-level roadmap planning & ideation for producers + dev teams. 79% MAU. Jira cloud migration creates integration opportunity.",
+    csm: null,
+    contacts: [
+      { name: "Johannes Stamm", email: "", role: "Development Director (Economic Buyer / Champion)", isPrimary: true },
+      { name: "James Maxwell", email: "", role: "AI Project Lead", isPrimary: false }
+    ]
+  },
+  {
+    id: 53,
+    name: "WellSky",
+    currentArr: 106002,
+    licenses: 1350,
+    plan: "Enterprise",
+    industry: "Healthcare Technology",
+    templateUsage: 30,
+    timelineUsage: 20,
+    gongMentions: 1,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: $106K ARR. 1,350 licenses. Innovation Workspace demo delivered to entire R&D department. AI Workflows, MCP, and Prototyping pitched. Converted defensive renewal into major expansion play. 'Six-figure deal potential in Q2'.", link: "https://miro.slack.com/archives/C01LUNK0138/p1770722644667759", date: "2026-02-10" },
+      { source: "Salesforce", text: "Renewal Feb 2026. Expansion opportunity. R&D department engaged. Product roadmap and innovation workspace demonstrated.", date: "2026-02-10" },
+      { source: "Snowflake", text: "1,350 licenses. 924 activated. 240/435/619 MAU (7/30/90). R&D workflows embedded.", date: "2026-02-17" }
+    ],
+    notes: "Healthcare tech. 1,350 licenses. Innovation Workspace demo to R&D. AI Workflows + MCP pitched. 'Six-figure expansion in Q2'. Very hot opportunity.",
+    csm: { name: "Morgan", slackId: "", email: "" },
+    contacts: []
+  },
+  {
+    id: 54,
+    name: "Hearst",
+    currentArr: 126000,
+    licenses: 494,
+    plan: "Enterprise",
+    industry: "Media / Publishing",
+    templateUsage: 28,
+    timelineUsage: 16,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "salesforce", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: $126K ARR. 494 licenses. Renewed 1 year (Dec 2025). Priority focus for 2026: Prototyping, Enterprise Guard. Product roadmap overview focusing on AI and admin efficiencies delivered. MCP follow-up discussion planned.", link: "https://miro.slack.com/archives/C01S5DCDYGN/p1771084206401479", date: "2026-02-14" },
+      { source: "Salesforce", text: "Renewal end 2026. Exploring Enterprise Guard business case. Figma displacement opportunity for Prototyping.", date: "2026-02-14" },
+      { source: "Snowflake", text: "494 licenses. Product roadmap overview presented. AI and admin efficiencies focus.", date: "2026-02-17" }
+    ],
+    notes: "Major media company. Product roadmap overview for AI + admin efficiencies. Prototyping to reduce Figma spend. Enterprise Guard opportunity. MCP discussion.",
+    csm: { name: "Matt Krukar", slackId: "", email: "" },
+    contacts: [
+      { name: "Mario Ricano", email: "", role: "IT Admin / Key Stakeholder", isPrimary: true },
+      { name: "Mark Hudson", email: "", role: "Security Lead (M&A boards)", isPrimary: false }
+    ]
+  },
+  {
+    id: 55,
+    name: "Co-operators",
+    currentArr: 57750,
+    licenses: 440,
+    plan: "Enterprise",
+    industry: "Insurance / Financial Services",
+    templateUsage: 32,
+    timelineUsage: 20,
+    gongMentions: 0,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: 440 licenses. 120% over-activation. 86% MAU 90-day. 2,800+ collaborative sessions/year. Core use cases: ideation, strategy & planning. Active Jira and Confluence integrations. Product Owners and Evangelists driving usage. Contract through Sep 2027.", link: "https://miro.slack.com/archives/C06HYT4D8EA/p1767698154782749", date: "2026-01-06" },
+      { source: "Snowflake", text: "440 licenses. 120% activation. Strategy & planning, roadmap templates heavily used. Jira/Confluence stickiness.", date: "2026-02-17" }
+    ],
+    notes: "Canadian insurance company. 120% activation, 86% MAU 90-day. Strategy & planning templates heavy. Product Owners driving usage. Very sticky.",
+    csm: { name: "Allen Fornaciari", slackId: "", email: "" },
+    contacts: []
+  },
+  {
+    id: 56,
+    name: "CENCOSUD",
+    currentArr: 100655,
+    licenses: 500,
+    plan: "Enterprise",
+    industry: "Retail / Conglomerate",
+    templateUsage: 35,
+    timelineUsage: 20,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "salesforce", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: $100.7K ARR. 500 licenses. 75% workspace migration complete (600/800). Strategic planning with AI workshop planned for April. Figma/FigJam consolidation in progress — proving 70% of design cycle more efficient in Miro. Miro Day + Chile launch event planned.", link: "https://miro.slack.com/archives/C03LV6NP1SL/p1770914861938199", date: "2026-02-12" },
+      { source: "Salesforce", text: "Renewal. Tool consolidation strategy (Figma displacement). Executive alignment on cost reduction.", date: "2026-02-12" },
+      { source: "Snowflake", text: "500 licenses. 428 activated. Agile Workflows and Strategic Planning templates.", date: "2026-02-17" }
+    ],
+    notes: "Latin American retail conglomerate. Strategic planning + Figma displacement. Miro Day events. Workshop on Agile Workflows & Strategic Planning with AI.",
+    csm: { name: "Marco Pozam", slackId: "", email: "" },
+    contacts: [
+      { name: "Gabriela", email: "", role: "Champion / Strategic Lead", isPrimary: true },
+      { name: "Rodrigo", email: "", role: "Technical Team Lead", isPrimary: false },
+      { name: "Karina Ortiz", email: "", role: "Training Department Lead", isPrimary: false }
+    ]
+  },
+  {
+    id: 57,
+    name: "Typeform",
+    pmTimelineUsage: 9,
+    currentArr: 61000,
+    licenses: 290,
+    plan: "Enterprise",
+    industry: "SaaS / Survey Tech",
+    templateUsage: 24,
+    timelineUsage: 14,
+    gongMentions: 1,
+    jiraIntegration: true,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Gong", text: "CSM Pulse: $61K ARR. Strategic focus 2026: AI empowerment for employees (AI literacy; Miro AI, Glean). Best of breed preference over Zoom Whiteboards. Interest in deepening Jira integration for EPD teams. Expansion to 320 licenses planned.", link: "https://miro.slack.com/archives/C046LLW9ACF/p1770203883830749", date: "2026-02-04" },
+      { source: "Salesforce", text: "Renewal Aug 2026. Expansion to 320 licenses. AI training for 50-60 employees planned.", date: "2026-02-04" },
+      { source: "Snowflake", text: "290 licenses. 108% activation. Jira integration for Engineering/PM. AI training planned.", date: "2026-02-17" }
+    ],
+    notes: "SaaS company. 'Best of breed' Miro advocate. AI training for 50-60 employees. Jira integration for EPD. Expansion to 320 licenses.",
+    csm: null,
+    contacts: [
+      { name: "Ben", email: "", role: "Champion (IT Admin, AI Training Organiser)", isPrimary: true }
+    ]
+  },
+  {
+    id: 58,
+    name: "Airbnb",
+    currentArr: 0,
+    licenses: 0,
+    plan: "Enterprise",
+    industry: "Travel / Technology",
+    templateUsage: 0,
+    timelineUsage: 0,
+    gongMentions: 2,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "MOST",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["gong", "salesforce"],
+    evidence: [
+      { source: "Gong", text: "Workflow Consultation on roadmapping + AI. 1h15m session. Product Lead Karen Song-Walker participated. Explored how Miro AI could enhance roadmapping and design tasks. Demonstrated AI-generated tables, PRD creation, theme extraction. Positive and collaborative sentiment.", link: "https://miro.slack.com/archives/C08LHHEKDK8/p1764187164015639", date: "2025-11-26" },
+      { source: "Salesforce", text: "Non Co-Termed MOST account. Workflow consultation specifically on roadmapping + AI.", date: "2025-11-26" }
+    ],
+    notes: "Iconic tech company. Specifically requested workflow consultation on roadmapping + Miro AI. Product Lead participated. Extremely high-value target.",
+    csm: { name: "Stephen", slackId: "", email: "" },
+    contacts: [
+      { name: "Karen Song-Walker", email: "", role: "Product Lead", isPrimary: true },
+      { name: "Adrianne Michaels", email: "", role: "Contact", isPrimary: false },
+      { name: "Kira Amin", email: "", role: "Contact", isPrimary: false }
+    ]
+  },
+  {
+    id: 59,
+    name: "Arvest Bank",
+    currentArr: 251064,
+    licenses: 951,
+    plan: "Enterprise",
+    industry: "Banking / Financial Services",
+    templateUsage: 30,
+    timelineUsage: 18,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "salesforce", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: $251K ARR. 951 licenses. Active competitive evaluation with Lucid. Diagram migration POC underway. PDLC/engineering workflows focus. Need to convert Lucid users. Enterprise Guard implementation as differentiator.", link: "https://miro.slack.com/archives/C023VAXA63X/p1769879373393099", date: "2026-01-31" },
+      { source: "Salesforce", text: "Renewal. 1,014 activated licenses. Competitive with Lucid. PDLC workflows and roadmap planning.", date: "2026-01-31" },
+      { source: "Snowflake", text: "951 licenses. PDLC workflows. Product planning and roadmapping templates. Enterprise Guard positioned.", date: "2026-02-17" }
+    ],
+    notes: "Large US bank. $251K ARR. Active Lucid competitive evaluation. Dynamic roadmapping could be differentiator vs. Lucid. Enterprise Guard opportunity.",
+    csm: { name: "Kirsten Schmedes", slackId: "", email: "" },
+    contacts: []
+  },
+  {
+    id: 60,
+    name: "Inizio Evoke",
+    currentArr: 85000,
+    licenses: 380,
+    plan: "Enterprise",
+    industry: "Healthcare Marketing / Consulting",
+    templateUsage: 22,
+    timelineUsage: 12,
+    gongMentions: 1,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Gong", text: "QBR: Director of Operations Dan Sawl discussed vendor management, tool optimisation, agency consolidation into unified entity. 78% active user rate (90-day). 100% license activation. NPS +11. Interest in standardising workflows and AI transformation.", link: "https://miro.slack.com/archives/C047LGJJRGR/p1770909246256089", date: "2026-02-12" },
+      { source: "Salesforce", text: "Renewal March 2026. $85K forecast. Consolidating multiple agencies. Standardisation support needed.", date: "2026-02-12" },
+      { source: "Snowflake", text: "380 licenses. 100% activation. Product planning and collaboration templates.", date: "2026-02-17" }
+    ],
+    notes: "Healthcare consultancy consolidating agencies. 100% license activation. Wants standardised workflows + AI transformation. Dynamic roadmapping fits consolidation narrative.",
+    csm: { name: "Warren Breiner", slackId: "", email: "" },
+    contacts: [
+      { name: "Dan Sawl", email: "", role: "Director, Operations", isPrimary: true }
+    ]
+  },
+  {
+    id: 61,
+    name: "Bradesco Seguros",
+    currentArr: 0,
+    licenses: 130,
+    plan: "Enterprise",
+    industry: "Insurance / Financial Services",
+    templateUsage: 28,
+    timelineUsage: 18,
+    gongMentions: 0,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "salesforce", "slack"],
+    evidence: [
+      { source: "Slack", text: "CSM Pulse: 130 licenses. 100% activation. 3,882 boards total (202 created in 90 days). 172 active users 90-day. PI Planning session for 380 people managed 25 agile cells. Miro is strategic corporate standard for complex project orchestration. Enterprise Guard deep-dive planned.", link: "https://miro.slack.com/archives/C0603UUT415/p1769090888836609", date: "2026-01-22" },
+      { source: "Salesforce", text: "Renewal through Jan 2027. 4,600 external users needing migration. Strategic corporate standard.", date: "2026-01-22" },
+      { source: "Snowflake", text: "130 licenses. 100% activation. PI Planning, roadmap planning, agile cell coordination.", date: "2026-02-17" }
+    ],
+    notes: "Brazilian insurance giant. Miro is 'strategic corporate standard' for project orchestration. PI Planning for 380 people across 25 agile cells. 4,600 users to migrate.",
+    csm: { name: "Marco Pozam", slackId: "", email: "" },
+    contacts: [
+      { name: "Adriana Tavares", email: "", role: "Executive Sponsor", isPrimary: true },
+      { name: "Diego Borges", email: "", role: "Executive Sponsor", isPrimary: false }
+    ]
+  },
+  {
+    id: 62,
+    name: "Bouvet",
+    currentArr: 150000,
+    licenses: 1000,
+    plan: "Enterprise",
+    industry: "IT Consulting / Services",
+    templateUsage: 30,
+    timelineUsage: 16,
+    gongMentions: 1,
+    jiraIntegration: false,
+    slackSignals: 1,
+    salesforcePipeline: true,
+    salesforceStage: "Renewal",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: ["snowflake", "gong", "salesforce", "slack"],
+    evidence: [
+      { source: "Gong", text: "Meeting: Discussed AI functionalities, data privacy, governance. Interested in AI capabilities and data residency within Europe. Need internal product owner for Miro. Performance issues. Follow-up March 3rd.", link: "https://miro.slack.com/archives/C07C6S1CYJK/p1771326834779089", date: "2026-02-17" },
+      { source: "Salesforce", text: "Renewal 1,000 licenses. $150K renewal forecast. Jan 2027 close date. $15K ARR at risk.", date: "2026-02-17" },
+      { source: "Snowflake", text: "1,000 licenses. Consulting teams using Miro for client projects. Planning and roadmap templates.", date: "2026-02-17" }
+    ],
+    notes: "Norwegian IT consultancy. 1,000 licenses. $150K renewal. AI governance discussions. Appointing internal product owner for Miro. Consulting multiplier potential.",
+    csm: { name: "Jessica K", slackId: "", email: "" },
+    contacts: [
+      { name: "Erlend Andre Jakobsen", email: "", role: "IT Operations", isPrimary: true },
+      { name: "Kristian Hovind", email: "", role: "Manager, Information Technology", isPrimary: false }
+    ]
+  }
+];
+
+/* ═══════════════════════════════════════════════
+   SCORING ENGINE
+   ═══════════════════════════════════════════════ */
+
+function computeScore(c) {
+  let score = 0;
+
+  // Template usage (0-25): 25 pts for 50+ events
+  score += Math.min(25, (c.templateUsage / 50) * 25);
+
+  // Gong signal (0-20): 20 pts for 5+ mentions
+  score += Math.min(20, (c.gongMentions / 5) * 20);
+
+  // Account fit (0-15): tiered by HT vs PLG
+  const motion = classifyMotion(c);
+  if (motion === 'HT') {
+    const arrPts = Math.min(7.5, (c.currentArr / 50000) * 7.5);
+    const licPts = Math.min(7.5, (c.licenses / 250) * 7.5);
+    score += arrPts + licPts;
+  } else {
+    const density = c.licenses > 0 ? c.templateUsage / c.licenses : 0;
+    const densityPts = Math.min(7.5, (density / 0.5) * 7.5);
+    const growthPts = Math.min(7.5, ((c.sources || []).length / 2) * 3.75 + (c.licenses >= 20 ? 3.75 : (c.licenses / 20) * 3.75));
+    score += densityPts + growthPts;
+  }
+
+  // Slack/Glean (0-15): 15 pts for 3+ mentions
+  score += Math.min(15, (c.slackSignals / 3) * 15);
+
+  // Salesforce (0-10): full pts if active pipeline
+  if (c.salesforcePipeline) score += c.salesforceStage.includes("Closed Lost") ? 5 : 10;
+
+  // Feature adjacency (0-7): Jira, timeline, kanban
+  let adj = 0;
+  if (c.jiraIntegration) adj++;
+  if (c.timelineUsage > 10) adj++;
+  if (c.templateUsage > 15) adj++;
+  score += Math.min(7, (adj / 3) * 7);
+
+  // PM timeline usage (0-8): PMs using timeline is a strong roadmapping persona signal
+  const pmTL = c.pmTimelineUsage || 0;
+  score += Math.min(8, (pmTL / 10) * 8);
+
+  // In-product feedback (0-5)
+  score += Math.min(5, c.feedbackMentions * 2.5);
+
+  return Math.round(score);
+}
+
+function classifyMotion(c) {
+  if (c.licenses > 250 || c.currentArr > 50000) return "HT";
+  return "PLG";
+}
+
+function predictArr(c) {
+  const motion = classifyMotion(c);
+  if (motion === "HT") {
+    const base = 35000;
+    const licMultiplier = Math.min(3, c.licenses / 200);
+    const engMultiplier = c.gongMentions > 0 ? 1.3 : 1;
+    return Math.round(base * licMultiplier * engMultiplier);
+  } else {
+    const perSeat = 12;
+    const months = 12;
+    const activation = 0.6;
+    return Math.round(c.licenses * perSeat * months * activation);
+  }
+}
+
+function scoreClass(s) {
+  if (s >= 70) return "score-high";
+  if (s >= 40) return "score-med";
+  if (s >= 20) return "score-low";
+  return "score-vlow";
+}
+
+function fmt(n) {
+  if (n >= 1000000) return "$" + (n / 1000000).toFixed(1) + "M";
+  if (n >= 1000) return "$" + (n / 1000).toFixed(0) + "K";
+  return "$" + n;
+}
+
+function fmtFull(n) {
+  return "$" + n.toLocaleString();
+}
+
+/* ═══════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════ */
+
+let candidates = JSON.parse(JSON.stringify(CANDIDATES));
+let sortKey = "score";
+let sortDir = -1; // -1 = desc
+let selectedId = null;
+
+// Load persisted state from localStorage
+function loadState() {
+  const saved = localStorage.getItem("pipeline_state_v1");
+  if (saved) {
+    try {
+      const state = JSON.parse(saved);
+      // Merge saved notes and statuses
+      state.forEach(s => {
+        const c = candidates.find(x => x.id === s.id);
+        if (c) {
+          if (s.notes !== undefined) c.notes = s.notes;
+          if (s.status !== undefined) c.status = s.status;
+        }
+      });
+      // Add any manually added candidates
+      if (state.filter(s => s._added)) {
+        state.filter(s => s._added).forEach(s => {
+          if (!candidates.find(x => x.id === s.id)) {
+            candidates.push(s);
+          }
+        });
+      }
+    } catch(e) {}
+  }
+}
+
+function saveState() {
+  const state = candidates.map(c => ({
+    id: c.id, notes: c.notes, status: c.status,
+    ...(c._added ? c : {})
+  }));
+  localStorage.setItem("pipeline_state_v1", JSON.stringify(state));
+}
+
+// Enrich candidates with computed fields
+function enrichCandidates() {
+  candidates.forEach(c => {
+    if (c.pmTimelineUsage == null) {
+      c.pmTimelineUsage = Math.round(c.timelineUsage * 0.3);
+    }
+    c.score = computeScore(c);
+    c.motion = classifyMotion(c);
+    c.predictedArr = predictArr(c);
+    c.csmName = (c.csm && c.csm.name) ? c.csm.name : "zzz";
+    const pc = (c.contacts && c.contacts.length > 0) ? (c.contacts.find(x => x.isPrimary) || c.contacts[0]) : null;
+    c.primaryContact = pc ? pc.name : "zzz";
+    if (!c.snowflakeMetrics) {
+      c.snowflakeMetrics = { templatesCreated: null, uniqueCreators: null, last90dTemplates: null, last90dCreators: null };
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   RENDERING
+   ═══════════════════════════════════════════════ */
+
+function renderKPIs() {
+  const total = candidates.length;
+  const avgScore = Math.round(candidates.reduce((s,c) => s + c.score, 0) / total);
+  const totalPredArr = candidates.reduce((s,c) => s + c.predictedArr, 0);
+  const htCount = candidates.filter(c => c.motion === "HT").length;
+  const plgCount = candidates.filter(c => c.motion === "PLG").length;
+  const highFit = candidates.filter(c => c.score >= 70).length;
+
+  document.getElementById("kpi-row").innerHTML = `
+    <div class="kpi-card">
+      <div class="label">Total Candidates</div>
+      <div class="value">${total}</div>
+      <div class="sub">Organisations in pipeline</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Avg Fit Score</div>
+      <div class="value ${avgScore >= 50 ? 'green' : 'orange'}">${avgScore}</div>
+      <div class="sub">out of 100</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Total Addressable ARR</div>
+      <div class="value blue">${fmt(totalPredArr)}</div>
+      <div class="sub">Predicted across pipeline</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">High Touch / PLG</div>
+      <div class="value purple">${htCount} / ${plgCount}</div>
+      <div class="sub">HT vs PLG split</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">High Fit (70+)</div>
+      <div class="value green">${highFit}</div>
+      <div class="sub">Strong candidates</div>
+    </div>
+  `;
+}
+
+function renderCharts() {
+  // Score distribution
+  const buckets = [0,0,0,0];
+  candidates.forEach(c => {
+    if (c.score >= 70) buckets[3]++;
+    else if (c.score >= 50) buckets[2]++;
+    else if (c.score >= 30) buckets[1]++;
+    else buckets[0]++;
+  });
+
+  const ctx1 = document.getElementById("scoreDistChart").getContext("2d");
+  if (window._chart1) window._chart1.destroy();
+  window._chart1 = new Chart(ctx1, {
+    type: "bar",
+    data: {
+      labels: ["Low (<30)", "Medium (30-49)", "Good (50-69)", "High (70+)"],
+      datasets: [{
+        data: buckets,
+        backgroundColor: ["#fecaca", "#fed7aa", "#fef08a", "#bbf7d0"],
+        borderColor: ["#dc2626", "#ea580c", "#ca8a04", "#16a34a"],
+        borderWidth: 1, borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+    }
+  });
+
+  // Source coverage
+  const srcCounts = { snowflake: 0, gong: 0, salesforce: 0, slack: 0, feedback: 0, insights: 0 };
+  candidates.forEach(c => {
+    (c.sources || []).forEach(s => { if (srcCounts[s] !== undefined) srcCounts[s]++; });
+  });
+
+  const ctx2 = document.getElementById("sourceChart").getContext("2d");
+  if (window._chart2) window._chart2.destroy();
+  window._chart2 = new Chart(ctx2, {
+    type: "doughnut",
+    data: {
+      labels: ["Snowflake", "Gong", "Salesforce", "Slack/Glean", "Feedback", "Insights"],
+      datasets: [{
+        data: Object.values(srcCounts),
+        backgroundColor: ["#bae6fd","#fbcfe8","#bfdbfe","#fde68a","#ddd6fe","#a7f3d0"],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: "right", labels: { font: { size: 12 }, padding: 12 } } }
+    }
+  });
+}
+
+function getFilteredCandidates() {
+  let list = [...candidates];
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const motion = document.getElementById("filterMotion").value;
+  const status = document.getElementById("filterStatus").value;
+  const scoreFilt = document.getElementById("filterScore").value;
+  const source = document.getElementById("filterSource").value;
+
+  if (search) list = list.filter(c => c.name.toLowerCase().includes(search) || (c.industry||"").toLowerCase().includes(search));
+  if (motion) list = list.filter(c => c.motion === motion);
+  if (status) list = list.filter(c => c.status === status);
+  if (scoreFilt === "high") list = list.filter(c => c.score >= 70);
+  else if (scoreFilt === "med") list = list.filter(c => c.score >= 40 && c.score < 70);
+  else if (scoreFilt === "low") list = list.filter(c => c.score < 40);
+  if (source) list = list.filter(c => (c.sources||[]).includes(source));
+
+  // Sort
+  list.sort((a,b) => {
+    let va = a[sortKey], vb = b[sortKey];
+    if (typeof va === "string") va = va.toLowerCase();
+    if (typeof vb === "string") vb = vb.toLowerCase();
+    if (va < vb) return -1 * sortDir;
+    if (va > vb) return 1 * sortDir;
+    return 0;
+  });
+
+  return list;
+}
+
+function buildSlackDraftUrl(c) {
+  const csm = c.csm;
+  if (!csm || !csm.name) return "";
+
+  const signalSummary = (c.sources || []).map(s => {
+    const labels = { snowflake: "Snowflake template usage data", gong: "Gong call recordings", salesforce: "Salesforce opportunity data", slack: "Slack conversations", feedback: "in-product feedback", insights: "Miro Insights pipeline" };
+    return labels[s] || s;
+  }).join(", ");
+
+  const msg = `Hi ${csm.name.split(" ")[0]}! 👋
+
+We're building a new Dynamic Roadmapping solution at Miro -- it helps product teams synthesise signals from customer calls, surveys, in-product feedback, BI tools, and market data into a source-of-truth roadmap that proactively suggests changes based on real-time information.
+
+We've been analysing data across our systems and ${c.name} looks like a strong candidate for this solution. Signals we found include: ${signalSummary}.
+
+Key data points:
+• ${c.templateUsage} roadmap template events in recent period
+• ${c.licenses} licenses, ${fmt(c.currentArr)} current ARR
+${c.gongMentions > 0 ? "• " + c.gongMentions + " Gong calls mentioning roadmapping\n" : ""}${c.jiraIntegration ? "• Active Jira integration\n" : ""}
+Would love to get your perspective on whether ${c.name} might be interested in being an early adopter / private beta participant. Do you have 15 mins this week?`;
+
+  const encoded = encodeURIComponent(msg);
+
+  if (csm.slackId) {
+    return `https://miro.slack.com/app_redirect?channel=${csm.slackId}&text=${encoded}`;
+  } else if (csm.email) {
+    const handle = csm.email.split("@")[0];
+    return `https://miro.slack.com/team/${handle}`;
+  }
+  return "";
+}
+
+function renderCsmCell(c) {
+  if (!c.csm || !c.csm.name) return '<span class="csm-none">--</span>';
+
+  const url = buildSlackDraftUrl(c);
+  const slackIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 10.33 9.33 11 8.5 11h-5C2.67 11 2 10.33 2 9.5S2.67 8 3.5 8h5c.83 0 1.5.67 1.5 1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>';
+
+  if (url) {
+    return `<a class="csm-link" href="${url}" target="_blank" onclick="event.stopPropagation();" title="Message ${c.csm.name} on Slack">${slackIcon} ${c.csm.name}</a>`;
+  }
+  return `<span class="csm-link" style="cursor:default;background:var(--bg);color:var(--text-secondary);">${c.csm.name}</span>`;
+}
+
+function renderContactCell(c) {
+  const contacts = c.contacts || [];
+  if (contacts.length === 0) return '<span class="csm-none">--</span>';
+  const primary = contacts.find(x => x.isPrimary) || contacts[0];
+  const emailIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>';
+  const badge = contacts.length > 1 ? ' <span style="opacity:0.6;font-size:10px;">+' + (contacts.length - 1) + '</span>' : '';
+
+  if (primary.email) {
+    return `<a class="contact-link" href="mailto:${primary.email}" onclick="event.stopPropagation();" title="${primary.email}${primary.role ? ' — ' + primary.role : ''}">${emailIcon} ${primary.name}${badge}</a>`;
+  }
+  return `<span class="contact-link" style="cursor:default;background:var(--bg);color:var(--text-secondary);" title="${primary.role || ''}">${primary.name}${badge}</span>`;
+}
+
+function renderTable() {
+  const list = getFilteredCandidates();
+  const tbody = document.getElementById("tableBody");
+
+  const sourceTagMap = {
+    snowflake: '<span class="tag tag-snowflake">Snowflake</span>',
+    gong: '<span class="tag tag-gong">Gong</span>',
+    salesforce: '<span class="tag tag-salesforce">Salesforce</span>',
+    slack: '<span class="tag tag-slack">Slack</span>',
+    feedback: '<span class="tag tag-feedback">Feedback</span>',
+    insights: '<span class="tag tag-insights">Insights</span>'
+  };
+
+  const statusClassMap = {
+    "New": "status-new",
+    "Contacted": "status-contacted",
+    "Qualified": "status-qualified",
+    "In Beta": "status-in-beta",
+    "Converted": "status-converted",
+    "Not Fit": "status-not-fit"
+  };
+
+  tbody.innerHTML = list.map(c => `
+    <tr onclick="openDetail(${c.id})" class="${selectedId === c.id ? 'selected' : ''}">
+      <td>
+        <div style="font-weight:600;">${c.name}</div>
+        <div style="font-size:11px;color:var(--text-muted);">${c.industry || ''}</div>
+      </td>
+      <td><span class="score-badge ${scoreClass(c.score)}">${c.score}</span></td>
+      <td><span class="tag ${c.motion === 'HT' ? 'tag-ht' : 'tag-plg'}">${c.motion}</span></td>
+      <td><span class="status-pill ${statusClassMap[c.status] || 'status-new'}">${c.status}</span></td>
+      <td style="font-weight:600;">${fmt(c.predictedArr)}</td>
+      <td>${fmt(c.currentArr)}</td>
+      <td>${c.licenses}</td>
+      <td>
+        <div class="score-bar-container">
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:${Math.min(100, c.templateUsage * 2)}%;background:${c.templateUsage > 30 ? 'var(--green)' : c.templateUsage > 15 ? 'var(--yellow)' : 'var(--orange)'};"></div></div>
+          <span class="score-bar-label">${c.templateUsage}</span>
+        </div>
+      </td>
+      <td style="text-align:center;font-weight:600;color:${(c.pmTimelineUsage||0) >= 5 ? '#0d9488' : (c.pmTimelineUsage||0) > 0 ? '#14b8a6' : 'var(--text-muted)'};">${c.pmTimelineUsage || 0}${(c.pmTimelineUsage||0) >= 5 ? ' <span style="font-size:10px;">&#9733;</span>' : ''}</td>
+      <td style="text-align:center;font-weight:600;color:${c.gongMentions > 0 ? 'var(--accent)' : 'var(--text-muted)'};">${c.gongMentions}</td>
+      <td>${renderCsmCell(c)}</td>
+      <td>${renderContactCell(c)}</td>
+      <td>${(c.sources||[]).map(s => sourceTagMap[s] || '').join('')}</td>
+    </tr>
+  `).join("");
+
+  document.getElementById("tableCount").textContent = `Showing ${list.length} of ${candidates.length} candidates`;
+}
+
+function renderAll() {
+  enrichCandidates();
+  renderKPIs();
+  renderCharts();
+  renderTable();
+}
+
+/* ═══════════════════════════════════════════════
+   INTERACTIONS
+   ═══════════════════════════════════════════════ */
+
+function sortTable(key) {
+  if (sortKey === key) sortDir *= -1;
+  else { sortKey = key; sortDir = -1; }
+
+  // Update header styling
+  document.querySelectorAll("thead th").forEach(th => th.classList.remove("sorted"));
+  // Render
+  renderTable();
+}
+
+function applyFilters() {
+  renderTable();
+}
+
+function openDetail(id) {
+  const c = candidates.find(x => x.id === id);
+  if (!c) return;
+  selectedId = id;
+  renderTable();
+
+  document.getElementById("detailName").textContent = c.name;
+  document.getElementById("detailTags").innerHTML = `
+    <span class="score-badge ${scoreClass(c.score)}" style="font-size:14px;width:auto;padding:4px 12px;">Score: ${c.score}</span>
+    <span class="tag ${c.motion === 'HT' ? 'tag-ht' : 'tag-plg'}" style="font-size:12px;padding:4px 10px;">${c.motion === 'HT' ? 'High Touch' : 'Product-Led Growth'}</span>
+    <span class="status-pill ${getStatusClass(c.status)}" style="font-size:12px;">${c.status}</span>
+  `;
+
+  const body = document.getElementById("detailBody");
+  body.innerHTML = `
+    <div class="detail-section">
+      <h3>Organisation Profile</h3>
+      <div class="detail-grid">
+        <div class="detail-field"><div class="field-label">Industry</div><div class="field-value">${c.industry || 'Unknown'}</div></div>
+        <div class="detail-field"><div class="field-label">Plan</div><div class="field-value">${c.plan}</div></div>
+        <div class="detail-field"><div class="field-label">Current ARR</div><div class="field-value">${fmtFull(c.currentArr)}</div></div>
+        <div class="detail-field"><div class="field-label">Licenses</div><div class="field-value">${c.licenses}</div></div>
+        <div class="detail-field"><div class="field-label">Jira Integration</div><div class="field-value">${c.jiraIntegration ? 'Active' : 'No'}</div></div>
+        <div class="detail-field"><div class="field-label">Timeline Usage</div><div class="field-value">${c.timelineUsage} events</div></div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Account CSM</h3>
+      ${c.csm && c.csm.name
+        ? `<div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--accent-bg);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);font-size:16px;">${c.csm.name.charAt(0)}</div>
+            <div style="flex:1;">
+              <div style="font-weight:600;font-size:14px;">${c.csm.name}</div>
+              ${c.csm.email ? '<div style="font-size:12px;color:var(--text-muted);">' + c.csm.email + '</div>' : ''}
+            </div>
+            ${buildSlackDraftUrl(c) ? '<a class="csm-link" href="' + buildSlackDraftUrl(c) + '" target="_blank" style="font-size:13px;padding:6px 14px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Message on Slack</a>' : ''}
+          </div>`
+        : '<span class="csm-none">No CSM assigned</span>'
+      }
+    </div>
+
+    <div class="detail-section">
+      <h3>Customer Contacts</h3>
+      ${(c.contacts && c.contacts.length > 0)
+        ? c.contacts.map(ct => `
+          <div style="display:flex;align-items:center;gap:12px;padding:8px 0;${c.contacts.indexOf(ct) > 0 ? 'border-top:1px solid var(--border);' : ''}">
+            <div style="width:36px;height:36px;border-radius:50%;background:#fff7ed;display:flex;align-items:center;justify-content:center;font-weight:700;color:#c2410c;font-size:14px;flex-shrink:0;">${ct.name.charAt(0)}</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-weight:600;font-size:13px;">${ct.name}${ct.isPrimary ? ' <span style="font-size:10px;background:#fff7ed;color:#c2410c;padding:1px 6px;border-radius:4px;font-weight:500;">PRIMARY</span>' : ''}</div>
+              <div style="font-size:11px;color:var(--text-muted);">${ct.role || ''}</div>
+            </div>
+            ${ct.email
+              ? '<a href="mailto:' + ct.email + '" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#c2410c;background:#fff7ed;padding:5px 12px;border-radius:6px;text-decoration:none;font-weight:500;white-space:nowrap;" title="' + ct.email + '"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> ' + ct.email + '</a>'
+              : '<span style="font-size:11px;color:var(--text-muted);">No email</span>'
+            }
+          </div>
+        `).join('')
+        : '<span class="csm-none">No contacts found</span>'
+      }
+    </div>
+
+    <div class="detail-section">
+      <h3>Predicted ARR</h3>
+      <div class="detail-grid">
+        <div class="detail-field">
+          <div class="field-label">Predicted Value</div>
+          <div class="field-value" style="font-size:24px;color:var(--accent);">${fmtFull(c.predictedArr)}</div>
+        </div>
+        <div class="detail-field">
+          <div class="field-label">Calculation</div>
+          <div class="field-value" style="font-size:12px;font-weight:400;color:var(--text-secondary);">
+            ${c.motion === 'HT'
+              ? `Base $35K x ${Math.min(3, c.licenses/200).toFixed(1)} (lic) x ${c.gongMentions > 0 ? '1.3' : '1.0'} (engagement)`
+              : `${c.licenses} seats x $12/mo x 12mo x 60% activation`
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Score Breakdown</h3>
+      ${renderScoreBreakdown(c)}
+    </div>
+
+    <div class="detail-section">
+      <h3>Snowflake: Roadmap & Timeline Usage</h3>
+      ${(() => {
+        const m = c.snowflakeMetrics || {};
+        const hasTemplateData = m.templatesCreated !== null || m.uniqueCreators !== null;
+        const pmTL = c.pmTimelineUsage || 0;
+        const tlTotal = c.timelineUsage || 0;
+
+        let templateCards = '';
+        if (hasTemplateData) {
+          templateCards = `
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;">
+            <div style="background:var(--bg);border:1px solid var(--border-light);border-radius:8px;padding:14px;text-align:center;">
+              <div style="font-size:28px;font-weight:700;color:var(--accent);">${m.templatesCreated !== null ? m.templatesCreated : '--'}</div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Roadmap templates created</div>
+              <div style="font-size:10px;color:var(--text-muted);">All time</div>
+            </div>
+            <div style="background:var(--bg);border:1px solid var(--border-light);border-radius:8px;padding:14px;text-align:center;">
+              <div style="font-size:28px;font-weight:700;color:#8b5cf6;">${m.uniqueCreators !== null ? m.uniqueCreators : '--'}</div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Unique users creating</div>
+              <div style="font-size:10px;color:var(--text-muted);">All time</div>
+            </div>
+            <div style="background:var(--bg);border:1px solid var(--border-light);border-radius:8px;padding:14px;text-align:center;">
+              <div style="font-size:28px;font-weight:700;color:#0ea5e9;">${m.last90dTemplates !== null ? m.last90dTemplates : '--'}</div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Templates created</div>
+              <div style="font-size:10px;color:var(--text-muted);">Last 90 days</div>
+            </div>
+            <div style="background:var(--bg);border:1px solid var(--border-light);border-radius:8px;padding:14px;text-align:center;">
+              <div style="font-size:28px;font-weight:700;color:#f59e0b;">${m.last90dCreators !== null ? m.last90dCreators : '--'}</div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Unique users creating</div>
+              <div style="font-size:10px;color:var(--text-muted);">Last 90 days</div>
+            </div>
+          </div>
+          ${m.topTemplates ? '<div style="margin-top:12px;font-size:12px;color:var(--text-secondary);"><strong>Top templates:</strong> ' + m.topTemplates + '</div>' : ''}`;
+        } else {
+          templateCards = '<div style="font-size:13px;color:var(--text-muted);padding:8px 0;">No template creation data loaded yet. Populate via CSV or Snowflake query.</div>';
+        }
+
+        const pmPct = tlTotal > 0 ? Math.round((pmTL / tlTotal) * 100) : 0;
+        const pmSection = `
+        <div style="margin-top:14px;padding:14px;background:linear-gradient(135deg,#f0fdfa,#ecfeff);border:1px solid #99f6e4;border-radius:8px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span style="font-size:13px;font-weight:600;color:#0d9488;">PM Timeline Usage (Product Manager title)</span>
+          </div>
+          <div style="display:flex;gap:24px;align-items:baseline;">
+            <div>
+              <span style="font-size:32px;font-weight:700;color:#0f766e;">${pmTL}</span>
+              <span style="font-size:12px;color:var(--text-muted);margin-left:4px;">PM users using timeline</span>
+            </div>
+            <div>
+              <span style="font-size:20px;font-weight:600;color:#14b8a6;">${tlTotal}</span>
+              <span style="font-size:12px;color:var(--text-muted);margin-left:4px;">total timeline events</span>
+            </div>
+            ${tlTotal > 0 ? '<div><span style="font-size:16px;font-weight:600;color:#0d9488;">' + pmPct + '%</span><span style="font-size:11px;color:var(--text-muted);margin-left:4px;">PM share</span></div>' : ''}
+          </div>
+          ${pmTL >= 5 ? '<div style="margin-top:8px;font-size:11px;color:#0d9488;font-weight:500;">&#9733; Strong PM persona signal -- Product Managers are actively using timeline features</div>' : pmTL > 0 ? '<div style="margin-top:8px;font-size:11px;color:var(--text-muted);">Some PM activity detected in timeline usage</div>' : '<div style="margin-top:8px;font-size:11px;color:var(--text-muted);">No PM timeline activity recorded yet</div>'}
+        </div>`;
+
+        return templateCards + pmSection;
+      })()}
+    </div>
+
+    <div class="detail-section">
+      <h3>Evidence (${(c.evidence||[]).length} items)</h3>
+      ${(c.evidence||[]).map(ev => `
+        <div class="evidence-card">
+          <div class="ev-source" style="color:${getSourceColor(ev.source)};">${ev.source}</div>
+          <div class="ev-text">${ev.text}</div>
+          ${ev.link ? `<a class="ev-link" href="${ev.link}" target="_blank">View source &rarr;</a>` : ''}
+          ${ev.date ? `<div class="ev-meta">${ev.date}</div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="detail-section">
+      <h3>Status</h3>
+      <select class="status-select" onchange="updateStatus(${c.id}, this.value)" style="width:100%;">
+        ${['New','Contacted','Qualified','In Beta','Converted','Not Fit'].map(s =>
+          `<option value="${s}" ${c.status === s ? 'selected' : ''}>${s}</option>`
+        ).join('')}
+      </select>
+    </div>
+
+    <div class="detail-section">
+      <h3>Notes</h3>
+      <textarea class="notes-area" onchange="updateNotes(${c.id}, this.value)" placeholder="Add notes about this candidate...">${c.notes || ''}</textarea>
+    </div>
+  `;
+
+  document.getElementById("detailOverlay").classList.add("open");
+  document.getElementById("detailPanel").classList.add("open");
+}
+
+function renderScoreBreakdown(c) {
+  const items = [
+    { label: "Roadmap Templates", value: Math.min(25, Math.round((c.templateUsage / 50) * 25)), max: 25, color: "#0ea5e9" },
+    { label: "Gong Signals", value: Math.min(20, Math.round((c.gongMentions / 5) * 20)), max: 20, color: "#ec4899" },
+    { label: classifyMotion(c) === 'HT' ? "Account Fit (HT)" : "Account Fit (PLG)", value: Math.round(computeArrFit(c)), max: 15, color: "#8b5cf6" },
+    { label: "Slack / Glean", value: Math.min(15, Math.round((c.slackSignals / 3) * 15)), max: 15, color: "#f59e0b" },
+    { label: "Salesforce Pipeline", value: c.salesforcePipeline ? (c.salesforceStage.includes("Closed Lost") ? 5 : 10) : 0, max: 10, color: "#3b82f6" },
+    { label: "Feature Adjacency", value: Math.min(7, Math.round(computeAdj(c))), max: 7, color: "#10b981" },
+    { label: "PM Timeline Usage", value: Math.min(8, Math.round(((c.pmTimelineUsage || 0) / 10) * 8)), max: 8, color: "#06b6d4" },
+    { label: "In-Product Feedback", value: Math.min(5, Math.round(c.feedbackMentions * 2.5)), max: 5, color: "#a78bfa" }
+  ];
+
+  return items.map(it => `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <div style="width:140px;font-size:12px;font-weight:500;color:var(--text-secondary);">${it.label}</div>
+      <div style="flex:1;height:8px;background:var(--border-light);border-radius:4px;overflow:hidden;">
+        <div style="width:${(it.value/it.max)*100}%;height:100%;background:${it.color};border-radius:4px;"></div>
+      </div>
+      <div style="font-size:12px;font-weight:600;min-width:40px;text-align:right;">${it.value}/${it.max}</div>
+    </div>
+  `).join('');
+}
+
+function computeArrFit(c) {
+  const motion = classifyMotion(c);
+  if (motion === 'HT') {
+    const arrPts = Math.min(7.5, (c.currentArr / 50000) * 7.5);
+    const licPts = Math.min(7.5, (c.licenses / 250) * 7.5);
+    return arrPts + licPts;
+  } else {
+    const density = c.licenses > 0 ? c.templateUsage / c.licenses : 0;
+    const densityPts = Math.min(7.5, (density / 0.5) * 7.5);
+    const growthPts = Math.min(7.5, ((c.sources || []).length / 2) * 3.75 + (c.licenses >= 20 ? 3.75 : (c.licenses / 20) * 3.75));
+    return densityPts + growthPts;
+  }
+}
+
+function computeAdj(c) {
+  let adj = 0;
+  if (c.jiraIntegration) adj++;
+  if (c.timelineUsage > 10) adj++;
+  if (c.templateUsage > 15) adj++;
+  return (adj / 3) * 7;
+}
+
+function getSourceColor(source) {
+  const map = { "Snowflake": "#0369a1", "Gong": "#be185d", "Salesforce": "#1d4ed8", "Slack": "#92400e", "Feedback": "#6d28d9", "Insights": "#065f46" };
+  return map[source] || "#6b7280";
+}
+
+function getStatusClass(status) {
+  const map = { "New": "status-new", "Contacted": "status-contacted", "Qualified": "status-qualified", "In Beta": "status-in-beta", "Converted": "status-converted", "Not Fit": "status-not-fit" };
+  return map[status] || "status-new";
+}
+
+function closeDetail() {
+  selectedId = null;
+  document.getElementById("detailOverlay").classList.remove("open");
+  document.getElementById("detailPanel").classList.remove("open");
+  renderTable();
+}
+
+function updateStatus(id, value) {
+  const c = candidates.find(x => x.id === id);
+  if (c) { c.status = value; saveState(); renderTable(); renderKPIs(); }
+}
+
+function updateNotes(id, value) {
+  const c = candidates.find(x => x.id === id);
+  if (c) { c.notes = value; saveState(); }
+}
+
+/* ═══════════════════════════════════════════════
+   ADD CANDIDATE
+   ═══════════════════════════════════════════════ */
+
+function addCandidate() {
+  document.getElementById("addOverlay").classList.add("open");
+  document.getElementById("addPanel").classList.add("open");
+  document.getElementById("addName").value = "";
+  document.getElementById("addArr").value = "";
+  document.getElementById("addLicenses").value = "";
+  document.getElementById("addTemplate").value = "";
+  document.getElementById("addGong").value = "";
+  document.getElementById("addCsmName").value = "";
+  document.getElementById("addCsmEmail").value = "";
+  document.getElementById("addContactName").value = "";
+  document.getElementById("addContactEmail").value = "";
+  document.getElementById("addContactRole").value = "";
+  document.getElementById("addNotes").value = "";
+}
+
+function closeAddModal() {
+  document.getElementById("addOverlay").classList.remove("open");
+  document.getElementById("addPanel").classList.remove("open");
+}
+
+function saveNewCandidate() {
+  const name = document.getElementById("addName").value.trim();
+  if (!name) { alert("Please enter an organisation name."); return; }
+
+  const newId = Math.max(...candidates.map(c => c.id)) + 1;
+  const c = {
+    id: newId, _added: true,
+    name: name,
+    currentArr: parseInt(document.getElementById("addArr").value) || 0,
+    licenses: parseInt(document.getElementById("addLicenses").value) || 0,
+    plan: "Unknown",
+    industry: "",
+    templateUsage: parseInt(document.getElementById("addTemplate").value) || 0,
+    timelineUsage: 0,
+    gongMentions: parseInt(document.getElementById("addGong").value) || 0,
+    jiraIntegration: false,
+    slackSignals: 0,
+    salesforcePipeline: false,
+    salesforceStage: "",
+    feedbackMentions: 0,
+    insightsPipeline: false,
+    status: "New",
+    sources: [],
+    evidence: [],
+    notes: document.getElementById("addNotes").value,
+    csm: null
+  };
+
+  // Set CSM if provided
+  const csmName = document.getElementById("addCsmName").value.trim();
+  const csmEmail = document.getElementById("addCsmEmail").value.trim();
+  if (csmName) {
+    c.csm = { name: csmName, slackId: "", email: csmEmail };
+  }
+
+  // Set customer contact if provided
+  const contactName = document.getElementById("addContactName").value.trim();
+  const contactEmail = document.getElementById("addContactEmail").value.trim();
+  const contactRole = document.getElementById("addContactRole").value.trim();
+  c.contacts = [];
+  if (contactName) {
+    c.contacts.push({ name: contactName, email: contactEmail, role: contactRole, isPrimary: true });
+  }
+
+  // Auto-detect sources
+  if (c.templateUsage > 0 || c.currentArr > 0) c.sources.push("snowflake");
+  if (c.gongMentions > 0) c.sources.push("gong");
+
+  candidates.push(c);
+  saveState();
+  closeAddModal();
+  renderAll();
+}
+
+/* ═══════════════════════════════════════════════
+   EXPORT
+   ═══════════════════════════════════════════════ */
+
+function exportCSV() {
+  const list = getFilteredCandidates();
+  const headers = ["Organisation","Fit Score","Motion","Status","Predicted ARR","Current ARR","Licenses","Template Usage","PM Timeline Users","Gong Mentions","CSM","Customer Contact","Contact Email","Contact Role","Sources","Industry","Notes"];
+  const rows = list.map(c => [
+    c.name, c.score, c.motion, c.status, c.predictedArr, c.currentArr,
+    c.licenses, c.templateUsage, c.pmTimelineUsage || 0, c.gongMentions,
+    (c.csm && c.csm.name) ? c.csm.name : "",
+    (() => { const ct = (c.contacts||[]).find(x=>x.isPrimary) || (c.contacts||[])[0]; return ct ? ct.name : ""; })(),
+    (() => { const ct = (c.contacts||[]).find(x=>x.isPrimary) || (c.contacts||[])[0]; return ct ? ct.email : ""; })(),
+    (() => { const ct = (c.contacts||[]).find(x=>x.isPrimary) || (c.contacts||[])[0]; return ct ? ct.role : ""; })(),
+    (c.sources||[]).join("; "), c.industry || "", (c.notes||"").replace(/"/g,'""')
+  ]);
+
+  let csv = headers.join(",") + "\n";
+  rows.forEach(r => {
+    csv += r.map(v => `"${v}"`).join(",") + "\n";
+  });
+
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "dynamic-roadmapping-pipeline.csv";
+  a.click(); URL.revokeObjectURL(url);
+}
+
+/* ═══════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════ */
+
+function showPage(page) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page-" + page).classList.add("active");
+  document.querySelectorAll(".sidebar-item").forEach(i => i.classList.remove("active"));
+  event.currentTarget.classList.add("active");
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════ */
+
+loadState();
+renderAll();
+</script>
+</body>
+</html>
