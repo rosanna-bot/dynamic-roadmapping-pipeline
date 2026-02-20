@@ -749,6 +749,10 @@
 <!-- BRIEFING -->
 <div id="briefing" class="screen active">
   <div class="briefing-wrap">
+    <div class="callout callout-info" style="margin-bottom:var(--space-400); font-size:12px; max-width:720px; margin-left:auto; margin-right:auto;">
+      <div class="callout-icon" style="font-size:14px;">ℹ️</div>
+      <div><strong>UX concept prototype.</strong> All data shown is placeholder — items labelled [Example] represent where real data from connected sources (customer calls, analytics, strategy docs, competitor tracking) would appear.</div>
+    </div>
     <div class="screen-header">
       <div class="screen-title">Zone 1: The Briefing</div>
       <div class="screen-desc">3–7 finite evidence cards using MDS Tag, Button, Callout, and Slider components. Confidence communicated via Tag variants (danger/warning/primary).</div>
@@ -794,27 +798,27 @@
         <span></span>
         <span class="tag tag-danger-subtle">High confidence</span>
       </div>
-      <div class="ec-headline">Jira custom fields demand surged +65% this quarter</div>
+      <div class="ec-headline">[Example] Feature request demand surged this quarter</div>
       <div class="signal-grid">
         <div class="signal-item">
           <div class="signal-dot voc"></div>
-          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>43 mentions</strong> · 12 accounts · $2.1M ARR</div></div>
+          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>N mentions</strong> · N accounts · $N ARR</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot usage"></div>
-          <div><div class="signal-type">Usage</div><div class="signal-text">Jira users have <strong>4x engagement</strong></div></div>
+          <div><div class="signal-type">Usage</div><div class="signal-text">Connected users have <strong>higher engagement</strong></div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot strategy"></div>
-          <div><div class="signal-type">Strategy</div><div class="signal-text">Maps to <strong>O1: Win R&D ($82M)</strong></div></div>
+          <div><div class="signal-type">Strategy</div><div class="signal-text">Maps to <strong>OKR: [Key Result]</strong></div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot market"></div>
-          <div><div class="signal-type">Market</div><div class="signal-text"><strong>Asana</strong> shipped this GA Oct 2025</div></div>
+          <div><div class="signal-type">Market</div><div class="signal-text"><strong>Competitor</strong> shipped this recently</div></div>
         </div>
       </div>
       <div class="ec-interpretation">
-        <span class="arrow">▸</span> Time-sensitive — competitor gap is closing. Demand accelerating while the window for differentiation narrows.
+        <span class="arrow">▸</span> ✦ Cross-signal pattern: demand accelerating while the window for differentiation narrows.
       </div>
       <div class="ec-actions">
         <button class="btn btn-sm btn-primary">Investigate</button>
@@ -829,7 +833,7 @@
         <span></span>
         <span class="tag tag-warning-subtle">Medium confidence</span>
       </div>
-      <div class="ec-headline">Feature adoption dropped below 5% threshold — silent abandonment</div>
+      <div class="ec-headline">[Example] Feature adoption below threshold — silent abandonment detected</div>
       <div class="signal-grid">
         <div class="signal-item">
           <div class="signal-dot empty"></div>
@@ -837,11 +841,11 @@
         </div>
         <div class="signal-item">
           <div class="signal-dot usage"></div>
-          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>8.2% → 4.7%</strong> over 6 weeks</div></div>
+          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>Declining adoption</strong> over recent weeks</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot strategy"></div>
-          <div><div class="signal-type">Strategy</div><div class="signal-text">Supports <strong>O2: Drive Adoption</strong></div></div>
+          <div><div class="signal-type">Strategy</div><div class="signal-text">Supports <strong>OKR: [Adoption target]</strong></div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot empty"></div>
@@ -849,7 +853,7 @@
         </div>
       </div>
       <div class="ec-interpretation">
-        <span class="arrow">▸</span> Usage declining without complaints — users may be silently abandoning rather than requesting improvements.
+        <span class="arrow">▸</span> ✦ Anomaly: usage declining without complaints — users silently abandoning rather than requesting improvements.
       </div>
       <div class="ec-actions">
         <button class="btn btn-sm btn-secondary">View evidence</button>
@@ -864,11 +868,11 @@
         <span></span>
         <span class="tag tag-primary-subtle">New signal</span>
       </div>
-      <div class="ec-headline">3 enterprise accounts mentioned "portfolio view" — wasn't in your top 20</div>
+      <div class="ec-headline">[Example] Enterprise accounts raised a new topic — wasn't in your top 20</div>
       <div class="signal-grid">
         <div class="signal-item">
           <div class="signal-dot voc"></div>
-          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>3 accounts</strong> · $890K combined ARR</div></div>
+          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>N accounts</strong> · $N combined ARR</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot empty"></div>
@@ -921,68 +925,68 @@
         </div>
         <div class="kcard ai-border" onclick="openPanel('portfolio-view',this)" style="cursor:pointer">
           <div class="ai-label">✦ AI suggested</div>
-          <div class="kcard-top"><div class="kcard-title">Portfolio view for leaders</div><span class="tag tag-primary-subtle">New</span></div>
+          <div class="kcard-top"><div class="kcard-title">[Example] New emerging signal</div><span class="tag tag-primary-subtle">New</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot off" style="background:var(--background-success-prominent)"></div><div class="kcard-dot off" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>3 accounts · $890K</span></div>
+          <div class="kcard-meta"><span>N accounts · $N ARR</span></div>
         </div>
         <div class="kcard ai-border" onclick="openPanel('ai-table-setup',this)" style="cursor:pointer">
           <div class="ai-label">✦ AI suggested</div>
-          <div class="kcard-top"><div class="kcard-title">AI-assisted table setup</div><span class="tag tag-warning-subtle">Med</span></div>
+          <div class="kcard-top"><div class="kcard-title">[Example] AI-assisted setup</div><span class="tag tag-warning-subtle">Med</span></div>
           <div class="kcard-dots"><div class="kcard-dot off" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>53% deletion rate signal</span><span class="kcard-score">RICE: 64</span></div>
+          <div class="kcard-meta"><span>Usage anomaly detected</span><span class="kcard-score">RICE: ––</span></div>
         </div>
         <div class="kcard ai-border" onclick="openPanel('silent-abandonment',this)" style="cursor:pointer">
           <div class="ai-label">✦ Anomaly detected</div>
-          <div class="kcard-top"><div class="kcard-title">Feature Y silent abandonment</div><span class="tag tag-warning-subtle">Med</span></div>
+          <div class="kcard-top"><div class="kcard-title">[Example] Silent abandonment</div><span class="tag tag-warning-subtle">Med</span></div>
           <div class="kcard-dots"><div class="kcard-dot off" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>Adoption: 8.2% → 4.7%</span></div>
+          <div class="kcard-meta"><span>Adoption declining</span>
         </div>
       </div>
 
       <div class="kanban-col" style="border-top:2px solid var(--background-warning-prominent)">
         <div class="col-head"><div><div class="col-title" style="color:var(--text-warning)">Triage</div><div class="col-sub">Under review</div></div><div class="col-count">2</div></div>
         <div class="kcard" onclick="openPanel('jira-custom-fields',this)" style="cursor:pointer">
-          <div class="kcard-top"><div class="kcard-title">Jira custom fields</div><span class="tag tag-danger-subtle">High</span></div>
+          <div class="kcard-top"><div class="kcard-title">[Example] High-evidence feature</div><span class="tag tag-danger-subtle">High</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot on" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>43 mentions · $2.1M</span><span class="kcard-score">RICE: 91</span></div>
+          <div class="kcard-meta"><span>N mentions · $N ARR</span><span class="kcard-score">RICE: ––</span></div>
         </div>
         <div class="kcard" onclick="openPanel('kanban-deps',this)" style="cursor:pointer">
-          <div class="kcard-top"><div class="kcard-title">Kanban dependencies</div><span class="tag tag-warning-subtle">Med</span></div>
+          <div class="kcard-top"><div class="kcard-title">[Example] Dependency feature</div><span class="tag tag-warning-subtle">Med</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot off" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>PayPal requested</span><span class="kcard-score">RICE: 58</span></div>
+          <div class="kcard-meta"><span>Enterprise requested</span><span class="kcard-score">RICE: ––</span></div>
         </div>
       </div>
 
       <div class="kanban-col" style="border-top:2px solid var(--background-danger-prominent)">
         <div class="col-head"><div><div class="col-title" style="color:var(--text-danger)">Now</div><div class="col-sub">In progress</div></div><div class="col-count">2</div></div>
         <div class="kcard" onclick="openPanel('performance-at-scale',this)" style="cursor:pointer">
-          <div class="kcard-top"><div class="kcard-title">Performance at scale</div><span class="tag tag-danger-subtle">High</span></div>
+          <div class="kcard-top"><div class="kcard-title">[Example] Performance item</div><span class="tag tag-danger-subtle">High</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>ZEISS blocker</span><span class="kcard-score">RICE: 88</span></div>
+          <div class="kcard-meta"><span>Enterprise blocker</span><span class="kcard-score">RICE: ––</span></div>
         </div>
         <div class="kcard" onclick="openPanel('convert-rows-jira',this)" style="cursor:pointer">
-          <div class="kcard-top"><div class="kcard-title">Convert rows → Jira tickets</div><span class="tag tag-danger-subtle">High</span></div>
+          <div class="kcard-top"><div class="kcard-title">[Example] Integration feature</div><span class="tag tag-danger-subtle">High</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot on" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>Q1 confirmed build</span><span class="kcard-score">RICE: 95</span></div>
+          <div class="kcard-meta"><span>Confirmed build</span><span class="kcard-score">RICE: ––</span></div>
         </div>
       </div>
 
       <div class="kanban-col" style="border-top:2px solid var(--background-success-prominent)">
         <div class="col-head"><div><div class="col-title" style="color:var(--text-success)">Next</div><div class="col-sub">Planned</div></div><div class="col-count">3</div></div>
         <div class="kcard" onclick="openPanel('enriched-backlog',this)" style="cursor:pointer">
-          <div class="kcard-top"><div class="kcard-title">Enriched backlog (Insights × Tables)</div><span class="tag tag-danger-subtle">High</span></div>
+          <div class="kcard-top"><div class="kcard-title">[Example] Evidence-enriched feature</div><span class="tag tag-danger-subtle">High</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot off" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot on" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>Productboard migration</span><span class="kcard-score">RICE: 82</span></div>
+          <div class="kcard-meta"><span>Competitor migration opp.</span><span class="kcard-score">RICE: ––</span></div>
         </div>
         <div class="kcard" onclick="openPanel('views-parity',this)" style="cursor:pointer">
-          <div class="kcard-top"><div class="kcard-title">Views parity (Timeline/Kanban)</div><span class="tag tag-warning-subtle">Med</span></div>
+          <div class="kcard-top"><div class="kcard-title">[Example] Usability parity</div><span class="tag tag-warning-subtle">Med</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>FY27 Q1 planning</span><span class="kcard-score">RICE: 71</span></div>
+          <div class="kcard-meta"><span>Quarterly planning</span><span class="kcard-score">RICE: ––</span></div>
         </div>
         <div class="kcard" onclick="openPanel('ai-signal-synthesis',this)" style="cursor:pointer">
-          <div class="kcard-top"><div class="kcard-title">AI signal synthesis (feasibility)</div><span class="tag tag-warning-subtle">Med</span></div>
+          <div class="kcard-top"><div class="kcard-title">[Example] AI synthesis feasibility</div><span class="tag tag-warning-subtle">Med</span></div>
           <div class="kcard-dots"><div class="kcard-dot off" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot off" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot on" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>Leapfrog bet</span><span class="kcard-score">RICE: 67</span></div>
+          <div class="kcard-meta"><span>Leapfrog bet</span><span class="kcard-score">RICE: ––</span></div>
         </div>
       </div>
     </div>
@@ -1002,14 +1006,14 @@
         <div class="pcb-score">72%</div>
         <div class="pcb-detail">
           <div class="pcb-label">Plan confidence</div>
-          <div class="pcb-sub">5 of 7 items have strong evidence · 2 still validating</div>
+          <div class="pcb-sub">N of N items have strong evidence · N still validating</div>
         </div>
         <div class="pcb-progress"><div class="pcb-progress-fill" style="width:72%"></div></div>
       </div>
       <div class="pcb-right">
         <div class="callout callout-warning" style="padding:var(--space-200) var(--space-300); font-size:12px;">
           <div class="callout-icon" style="font-size:13px;">⚠️</div>
-          <div><strong>AI Signal Synthesis</strong> still validating</div>
+          <div><strong>[Example] Initiative 3</strong> still validating</div>
         </div>
         <button class="btn btn-sm btn-primary" onclick="openPlanSidekick()" style="gap:var(--space-150);">✦ Suggested actions</button>
       </div>
@@ -1020,16 +1024,16 @@
         <div class="tl-label-col">Initiative</div>
         <div class="tl-quarters"><div class="tl-q current">Q1 FY27</div><div class="tl-q">Q2 FY27</div><div class="tl-q">Q3 FY27</div></div>
       </div>
-      <div class="tl-section-head">O1: Win R&D — $82M Bookings <span class="tag tag-primary-subtle">Track A</span></div>
-      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip strong"></div>Enriched Backlog</div><div class="tl-bars"><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
-      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip strong"></div>Jira Bi-directional</div><div class="tl-bars"><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
-      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip validating"></div>AI Signal Synthesis</div><div class="tl-bars"><div class="tl-cell"></div><div class="tl-cell"><div class="bar warning"></div></div><div class="tl-cell"><div class="bar warning"></div></div><div class="tl-cell"><div class="bar warning"></div></div><div class="tl-cell"><div class="bar warning"></div></div><div class="tl-cell"><div class="bar warning"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
-      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip moderate"></div>Roadmapping Space UX</div><div class="tl-bars"><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
+      <div class="tl-section-head">[Example] OKR 1: Key Result A <span class="tag tag-primary-subtle">Track A</span></div>
+      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip strong"></div>[Example] Initiative 1</div><div class="tl-bars"><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
+      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip strong"></div>[Example] Initiative 2</div><div class="tl-bars"><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
+      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip validating"></div>[Example] Initiative 3</div><div class="tl-bars"><div class="tl-cell"></div><div class="tl-cell"><div class="bar warning"></div></div><div class="tl-cell"><div class="bar warning"></div></div><div class="tl-cell"><div class="bar warning"></div></div><div class="tl-cell"><div class="bar warning"></div></div><div class="tl-cell"><div class="bar warning"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
+      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip moderate"></div>[Example] Initiative 4</div><div class="tl-bars"><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
 
-      <div class="tl-section-head">O2: Drive Adoption — 60%+ MAU/Paid <span class="tag tag-success-subtle">Track B</span></div>
-      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip strong"></div>Performance at Scale</div><div class="tl-bars"><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
-      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip strong"></div>First Experience + AI</div><div class="tl-bars"><div class="tl-cell"></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
-      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip moderate"></div>Views Parity + Kanban</div><div class="tl-bars"><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
+      <div class="tl-section-head">[Example] OKR 2: Key Result B <span class="tag tag-success-subtle">Track B</span></div>
+      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip strong"></div>[Example] Initiative 5</div><div class="tl-bars"><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
+      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip strong"></div>[Example] Initiative 6</div><div class="tl-bars"><div class="tl-cell"></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
+      <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip moderate"></div>[Example] Initiative 7</div><div class="tl-bars"><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
     </div>
   </div>
 </div>
@@ -1046,39 +1050,39 @@
       <div class="dimmed"><div class="dimmed-box"></div><div class="dimmed-box"></div><div class="dimmed-box"></div></div>
       <div class="spot-panel">
         <div class="spot-head">
-          <div><span class="tag tag-danger-subtle" style="margin-bottom:var(--space-200); display:inline-flex;">High confidence</span><div class="spot-title">Jira Custom Fields</div></div>
+          <div><span class="tag tag-danger-subtle" style="margin-bottom:var(--space-200); display:inline-flex;">High confidence</span><div class="spot-title">[Example] Feature Under Investigation</div></div>
           <div class="spot-close">✕</div>
         </div>
         <div class="evidence-grid">
           <div class="ep">
             <h4><div class="signal-dot voc" style="margin-top:0"></div> Voice of Customer</h4>
-            <div class="ep-stat">43 <span style="font-size:13px; font-weight:400; color:var(--text-secondary)">mentions</span></div>
-            <div class="ep-sub">12 accounts · $2.1M ARR · +65% vs last quarter</div>
-            <div class="quote">"Every time I show agile teams the table/timeline widget, they ask about custom Jira fields."<div class="quote-attr">— Dave Ross, Solutions Consultant</div></div>
-            <div class="quote">"We'd switch to Aha! if this isn't on your H1 roadmap."<div class="quote-attr">— ZEISS, Product Operations Lead</div></div>
+            <div class="ep-stat">N <span style="font-size:13px; font-weight:400; color:var(--text-secondary)">mentions</span></div>
+            <div class="ep-sub">N accounts · $N ARR · trending up vs last quarter</div>
+            <div class="quote">"[Example customer quote from a Gong call expressing urgency for this feature.]"<div class="quote-attr">— [Account], [Role]</div></div>
+            <div class="quote">"[Example customer quote indicating competitive threat if not prioritised.]"<div class="quote-attr">— [Account], [Role]</div></div>
           </div>
           <div class="ep">
             <h4><div class="signal-dot usage" style="margin-top:0"></div> Usage Data</h4>
-            <div class="ep-stat">4x <span style="font-size:13px; font-weight:400; color:var(--text-secondary)">engagement</span></div>
-            <div class="ep-sub">Jira-connected users vs non-connected</div>
+            <div class="ep-stat">Nx <span style="font-size:13px; font-weight:400; color:var(--text-secondary)">engagement</span></div>
+            <div class="ep-sub">Connected users vs baseline</div>
             <div class="mini-chart">
               <div class="chart-bar up" style="height:18%"></div><div class="chart-bar up" style="height:24%"></div><div class="chart-bar up" style="height:28%"></div><div class="chart-bar up" style="height:34%"></div><div class="chart-bar up" style="height:42%"></div><div class="chart-bar up" style="height:48%"></div><div class="chart-bar up" style="height:56%"></div><div class="chart-bar up" style="height:64%"></div><div class="chart-bar up" style="height:72%"></div><div class="chart-bar up" style="height:80%"></div><div class="chart-bar up" style="height:88%"></div><div class="chart-bar up" style="height:96%"></div>
             </div>
-            <div style="font-size:11px; color:var(--text-tertiary)">Active days/month: Jira users vs baseline (12-month trend)</div>
+            <div style="font-size:11px; color:var(--text-tertiary)">Active days/month: connected vs baseline (12-month trend)</div>
           </div>
           <div class="ep">
             <h4><div class="signal-dot strategy" style="margin-top:0"></div> Strategy Alignment</h4>
-            <div class="okr-item"><span style="color:var(--text-success)">●</span> <strong>O1: Win R&D</strong> — $82M HT bookings</div>
-            <div class="okr-item"><span style="color:var(--text-success)">●</span> <strong>O2: Adoption</strong> — 60%+ MAU/Paid</div>
-            <div class="okr-item"><span style="color:var(--text-tertiary)">○</span> <span style="color:var(--text-tertiary)">O3: Flywheel — indirect</span></div>
-            <div class="okr-item"><span style="color:var(--text-tertiary)">○</span> <span style="color:var(--text-tertiary)">O4: Next Horizon — not primary</span></div>
-            <div style="margin-top:var(--space-300); font-size:12px; color:var(--text-secondary); line-height:1.5;">Direct tie to $82M through enterprise deal enablement.</div>
+            <div class="okr-item"><span style="color:var(--text-success)">●</span> <strong>[Example] OKR 1</strong> — Key Result A</div>
+            <div class="okr-item"><span style="color:var(--text-success)">●</span> <strong>[Example] OKR 2</strong> — Key Result B</div>
+            <div class="okr-item"><span style="color:var(--text-tertiary)">○</span> <span style="color:var(--text-tertiary)">[Example] OKR 3 — indirect</span></div>
+            <div class="okr-item"><span style="color:var(--text-tertiary)">○</span> <span style="color:var(--text-tertiary)">[Example] OKR 4 — not primary</span></div>
+            <div style="margin-top:var(--space-300); font-size:12px; color:var(--text-secondary); line-height:1.5;">Direct tie to key business targets through enterprise deal enablement.</div>
           </div>
           <div class="ep">
             <h4><div class="signal-dot market" style="margin-top:0"></div> Market Context</h4>
-            <div class="comp-row"><div class="comp-logo">As</div><div style="flex:1"><div class="comp-name">Asana</div><div style="font-size:11px; color:var(--text-tertiary)">Custom fields — Oct 2025</div></div><span class="tag tag-danger-subtle">GA</span></div>
-            <div class="comp-row"><div class="comp-logo">Mo</div><div style="flex:1"><div class="comp-name">Monday.com</div><div style="font-size:11px; color:var(--text-tertiary)">Jira integration — Jan 2026</div></div><span class="tag tag-warning-subtle">Beta</span></div>
-            <div class="comp-row"><div class="comp-logo">Li</div><div style="flex:1"><div class="comp-name">Linear</div><div style="font-size:11px; color:var(--text-tertiary)">Native fields, no Jira sync</div></div><span class="tag tag-neutral">N/A</span></div>
+            <div class="comp-row"><div class="comp-logo">C1</div><div style="flex:1"><div class="comp-name">[Competitor 1]</div><div style="font-size:11px; color:var(--text-tertiary)">Shipped this feature recently</div></div><span class="tag tag-danger-subtle">GA</span></div>
+            <div class="comp-row"><div class="comp-logo">C2</div><div style="flex:1"><div class="comp-name">[Competitor 2]</div><div style="font-size:11px; color:var(--text-tertiary)">In beta for this feature</div></div><span class="tag tag-warning-subtle">Beta</span></div>
+            <div class="comp-row"><div class="comp-logo">C3</div><div style="flex:1"><div class="comp-name">[Competitor 3]</div><div style="font-size:11px; color:var(--text-tertiary)">No equivalent feature</div></div><span class="tag tag-neutral">N/A</span></div>
           </div>
         </div>
         <div class="spot-actions">
@@ -1097,7 +1101,7 @@
           <div class="sp-ai-icon">✦</div>
           <div>
             <div style="font-size:14px; font-weight:700;">Sidekick</div>
-            <div style="font-size:11px; color:var(--text-tertiary);">Investigating Jira Custom Fields</div>
+            <div style="font-size:11px; color:var(--text-tertiary);">Investigating [Example Feature]</div>
           </div>
         </div>
       </div>
@@ -1105,7 +1109,7 @@
       <div class="ssk-body" id="sskBody">
         <div class="sp-ai-msg">
           <div class="sp-ai-avatar">✦</div>
-          <div class="sp-ai-text">I've loaded all evidence for <strong>Jira Custom Fields</strong>. What would you like to explore?</div>
+          <div class="sp-ai-text">I've loaded all evidence for <strong>[Example Feature]</strong>. What would you like to explore?</div>
         </div>
 
         <div class="ssk-explore-section">
@@ -1116,31 +1120,31 @@
                 <div class="signal-dot voc" style="margin-top:0"></div>
                 <div class="ssk-sig-label">Voice of Customer</div>
               </div>
-              <div class="ssk-sig-stat">43 mentions</div>
-              <div class="ssk-sig-sub">12 accounts · $2.1M ARR</div>
+              <div class="ssk-sig-stat">N mentions</div>
+              <div class="ssk-sig-sub">N accounts · $N ARR</div>
             </div>
             <div class="ssk-signal-card" onclick="spotSignal('usage', this)">
               <div class="ssk-sig-top">
                 <div class="signal-dot usage" style="margin-top:0"></div>
                 <div class="ssk-sig-label">Usage Data</div>
               </div>
-              <div class="ssk-sig-stat">4x engagement</div>
-              <div class="ssk-sig-sub">Jira vs non-Jira users</div>
+              <div class="ssk-sig-stat">Nx engagement</div>
+              <div class="ssk-sig-sub">Connected vs baseline users</div>
             </div>
             <div class="ssk-signal-card" onclick="spotSignal('strategy', this)">
               <div class="ssk-sig-top">
                 <div class="signal-dot strategy" style="margin-top:0"></div>
                 <div class="ssk-sig-label">Strategy</div>
               </div>
-              <div class="ssk-sig-stat">O1 + O2</div>
-              <div class="ssk-sig-sub">$82M bookings target</div>
+              <div class="ssk-sig-stat">OKR 1 + 2</div>
+              <div class="ssk-sig-sub">Key business targets</div>
             </div>
             <div class="ssk-signal-card" onclick="spotSignal('market', this)">
               <div class="ssk-sig-top">
                 <div class="signal-dot market" style="margin-top:0"></div>
                 <div class="ssk-sig-label">Market</div>
               </div>
-              <div class="ssk-sig-stat">2 of 5</div>
+              <div class="ssk-sig-stat">N of N</div>
               <div class="ssk-sig-sub">competitors shipped</div>
             </div>
           </div>
@@ -1152,9 +1156,9 @@
             <button class="ssk-quick-btn" onclick="spotQuick('Show me the strongest customer quotes', this)">Strongest customer quotes</button>
             <button class="ssk-quick-btn" onclick="spotQuick('Which accounts have the highest churn risk?', this)">Accounts with churn risk</button>
             <button class="ssk-quick-btn" onclick="spotQuick('What would happen if we delay this by a quarter?', this)">Impact of delaying a quarter</button>
-            <button class="ssk-quick-btn" onclick="spotQuick('Compare our approach to Asana\\'s implementation', this)">Compare to Asana</button>
+            <button class="ssk-quick-btn" onclick="spotQuick('Compare our approach to competitors', this)">Compare to competitors</button>
             <button class="ssk-quick-btn" onclick="spotQuick('What is the effort estimate from engineering?', this)">Engineering effort estimate</button>
-            <button class="ssk-quick-btn" onclick="spotQuick('Show Gong calls mentioning this topic', this)">Related Gong calls</button>
+            <button class="ssk-quick-btn" onclick="spotQuick('Show related customer calls', this)">Related customer calls</button>
           </div>
         </div>
 
@@ -1186,16 +1190,16 @@
               <span class="tag tag-danger-subtle">High confidence</span>
               <span style="font-size:11px; color:var(--text-tertiary)">Click to flip →</span>
             </div>
-            <div style="font-size:18px; font-weight:700; margin:var(--space-400) 0 var(--space-200);">Jira custom fields demand surged +65%</div>
-            <div style="font-size:13px; color:var(--text-secondary); line-height:1.55; margin-bottom:var(--space-500);">43 mentions across 12 accounts ($2.1M ARR). Jira-connected users have 4x engagement. Maps to O1 ($82M bookings). Asana shipped this GA in Oct 2025.</div>
+            <div style="font-size:18px; font-weight:700; margin:var(--space-400) 0 var(--space-200);">[Example] Feature request demand surged</div>
+            <div style="font-size:13px; color:var(--text-secondary); line-height:1.55; margin-bottom:var(--space-500);">N mentions across N accounts ($N ARR). Connected users have higher engagement. Maps to key business OKRs. Competitor shipped this recently.</div>
             <div class="ec-interpretation" style="margin:0 0 var(--space-500);">
-              <span class="arrow">▸</span> Time-sensitive — competitor gap closing while demand accelerates.
+              <span class="arrow">▸</span> ✦ Cross-signal pattern: competitor gap closing while demand accelerates.
             </div>
             <div class="stat-row">
-              <div class="stat-box"><div class="stat-label">RICE</div><div class="stat-value">91</div></div>
+              <div class="stat-box"><div class="stat-label">RICE</div><div class="stat-value">––</div></div>
               <div class="stat-box"><div class="stat-label">Signals</div><div class="stat-value brand">4/4</div></div>
-              <div class="stat-box"><div class="stat-label">ARR</div><div class="stat-value">$2.1M</div></div>
-              <div class="stat-box"><div class="stat-label">Trend</div><div class="stat-value success">↑ 65%</div></div>
+              <div class="stat-box"><div class="stat-label">ARR</div><div class="stat-value">$N</div></div>
+              <div class="stat-box"><div class="stat-label">Trend</div><div class="stat-value success">↑</div></div>
             </div>
           </div>
         </div>
@@ -1206,10 +1210,10 @@
               <span style="font-size:11px; color:var(--text-tertiary)">Click to flip back →</span>
             </div>
             <div class="back-grid">
-              <div class="back-cell"><h5><div class="signal-dot voc" style="margin-top:0"></div> Voice of Customer</h5><div class="bc-stat">43</div><p>mentions · 12 accounts<br>$2.1M combined ARR<br>+65% vs last quarter<br><em>"We'd switch to Aha!"</em> — ZEISS</p></div>
-              <div class="back-cell"><h5><div class="signal-dot usage" style="margin-top:0"></div> Usage Data</h5><div class="bc-stat">4x</div><p>engagement multiplier<br>Active days: 12.4 vs 3.1<br>Retention: 52% vs 35%<br>Strongest driver found</p></div>
-              <div class="back-cell"><h5><div class="signal-dot strategy" style="margin-top:0"></div> Strategy</h5><div class="bc-stat">O1+O2</div><p>$82M bookings target<br>Enterprise deal enabler<br>"The demo talking point"<br>Also supports adoption</p></div>
-              <div class="back-cell"><h5><div class="signal-dot market" style="margin-top:0"></div> Market</h5><div class="bc-stat">2/5</div><p>competitors shipped<br>Asana: GA Oct 2025<br>Monday: Beta Jan 2026<br>Window: 6–12 months</p></div>
+              <div class="back-cell"><h5><div class="signal-dot voc" style="margin-top:0"></div> Voice of Customer</h5><div class="bc-stat">N</div><p>mentions · N accounts<br>$N combined ARR<br>trending up vs last quarter<br><em>"[Example customer quote]"</em></p></div>
+              <div class="back-cell"><h5><div class="signal-dot usage" style="margin-top:0"></div> Usage Data</h5><div class="bc-stat">Nx</div><p>engagement multiplier<br>Connected vs baseline<br>Higher retention<br>Strongest driver found</p></div>
+              <div class="back-cell"><h5><div class="signal-dot strategy" style="margin-top:0"></div> Strategy</h5><div class="bc-stat">OKR 1+2</div><p>Key business target<br>Enterprise deal enabler<br>Demo talking point<br>Also supports adoption</p></div>
+              <div class="back-cell"><h5><div class="signal-dot market" style="margin-top:0"></div> Market</h5><div class="bc-stat">N/N</div><p>competitors shipped<br>[Competitor 1]: GA<br>[Competitor 2]: Beta<br>Window: closing</p></div>
             </div>
           </div>
         </div>
@@ -1241,7 +1245,7 @@
         <div class="phase-sub">"Here's what the data says"</div>
         <span class="tag tag-primary-subtle" style="margin-bottom:var(--space-300); display:inline-flex;">AI: Analyst</span>
         <div class="phase-desc">Evidence cards appear in the Briefing. Only facts — no interpretation. PM can verify every claim.</div>
-        <div class="phase-ex"><div class="phase-ex-label">Example</div><div class="phase-ex-text">"43 customers mentioned Jira custom fields this quarter. Here are the top quotes and ARR breakdown."</div></div>
+        <div class="phase-ex"><div class="phase-ex-label">Example</div><div class="phase-ex-text">"N customers mentioned [feature] this quarter. Here are the top quotes and ARR breakdown."</div></div>
       </div>
       <div class="phase p3">
         <div class="phase-num">Phase 3</div>
@@ -1285,151 +1289,148 @@
 <script>
 const CARD_DATA = {
   'jira-custom-fields': {
-    title: 'Jira Custom Fields',
+    title: '[Example] High-Evidence Feature Request',
     tag: 'tag-danger-subtle', tagText: 'High confidence',
-    meta: '43 mentions · 12 accounts · $2.1M ARR · RICE: 91',
+    meta: 'N mentions · N accounts · $N ARR',
     signals: {voc:true, usage:true, strategy:true, market:true},
     quotes: [
-      { text: 'Every time I show agile teams the table/timeline widget, they ask about custom Jira fields. Every single time.', source: 'Dave Ross, Solutions Consultant', type: 'Internal', channel: 'Gong call' },
-      { text: "We'd switch to Aha! if custom fields aren't on your H1 roadmap. This is a dealbreaker for our team.", source: 'ZEISS, Product Operations Lead', type: 'Enterprise', channel: 'Gong call', arr: '$420K' },
-      { text: 'I get questions EVERY TIME I show agile teams the table/timeline widget about whether we support custom Jira fields.', source: 'Dave Ross', type: 'Internal', channel: 'Slack' },
-      { text: 'The inability to pull custom Jira fields into timeline views is the #1 reason our DevOps teams won\'t adopt Miro for planning.', source: 'LEGO, Engineering Manager', type: 'Enterprise', channel: 'Gong call', arr: '$680K' },
-      { text: "We need Fix Version, Components, and Team fields from Jira. Without those, the table is just a pretty spreadsheet.", source: 'PayPal, Senior PM', type: 'Enterprise', channel: 'Gong call', arr: '$310K' },
-      { text: 'Accelerating the upstream is a major demo talking point — Jira custom fields is what closes enterprise deals.', source: 'Amanda Biacchi Eloy, Sales', type: 'Internal', channel: 'Slack' },
-      { text: "Can we PLEASE get custom Jira fields? I've had 3 prospects this week ask for it.", source: 'Alicia Tan, SE', type: 'Internal', channel: 'Slack #product-feedback' },
+      { text: '[Example] Internal sales teams consistently hearing this request in demos and customer calls.', source: '[Role], [Team]', type: 'Internal', channel: 'Customer call' },
+      { text: '[Example] Customer expressing urgency: this is a dealbreaker for their team and they are evaluating competitors.', source: '[Account], [Role]', type: 'Enterprise', channel: 'Customer call' },
+      { text: '[Example] Engineering teams at customer orgs cite this gap as the #1 reason they resist adopting the product for planning.', source: '[Account], [Role]', type: 'Enterprise', channel: 'Customer call' },
+      { text: '[Example] Customer needs specific field types that aren\'t currently supported — without them, the tool feels incomplete.', source: '[Account], [Role]', type: 'Enterprise', channel: 'Customer call' },
     ],
     usage: [
-      { label: 'Jira-connected user engagement', value: '4x', detail: '12.4 active days/month vs 3.1 baseline', pct: 80, color: 'var(--background-success-prominent)' },
-      { label: 'Jira-connected user retention', value: '52%', detail: 'vs 35% for non-connected users', pct: 52, color: 'var(--background-success-prominent)' },
-      { label: 'Custom field requests in feedback', value: '+65%', detail: 'Quarter-over-quarter increase', pct: 65, color: 'var(--background-danger-prominent)' },
+      { label: 'Connected user engagement', value: 'Nx', detail: 'Higher active days/month vs baseline', pct: 80, color: 'var(--background-success-prominent)' },
+      { label: 'Connected user retention', value: 'N%', detail: 'vs lower for non-connected users', pct: 52, color: 'var(--background-success-prominent)' },
+      { label: 'Feature requests trending', value: '↑', detail: 'Quarter-over-quarter increase', pct: 65, color: 'var(--background-danger-prominent)' },
     ],
-    strategy: ['O1: Win R&D — $82M HT bookings (direct)', 'O2: Drive Adoption — 60%+ MAU/Paid (direct)'],
-    market: ['Asana: Custom fields in timeline — GA Oct 2025', 'Monday.com: Deep Jira integration — Beta Jan 2026', 'Linear: Native fields only, no Jira sync'],
+    strategy: ['[Example] OKR 1 — Key business target (direct)', '[Example] OKR 2 — Adoption target (direct)'],
+    market: ['[Competitor 1]: Shipped this feature — GA', '[Competitor 2]: Similar feature — Beta', '[Competitor 3]: No equivalent feature'],
   },
   'silent-abandonment': {
-    title: 'Feature Y Silent Abandonment',
+    title: '[Example] Silent Abandonment Detected',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
-    meta: 'Adoption: 8.2% → 4.7% over 6 weeks · No customer complaints',
+    meta: 'Adoption declining over recent weeks · No customer complaints',
     signals: {voc:false, usage:true, strategy:true, market:false},
     quotes: [
-      { text: 'No direct customer feedback about this feature decline — which is the worrying part. Users aren\'t complaining, they\'re just leaving.', source: 'Analytics observation', type: 'Internal', channel: 'Usage data' },
+      { text: '[Example] No direct customer feedback about this decline — which is the worrying part. Users aren\'t complaining, they\'re just leaving.', source: 'Analytics observation', type: 'Internal', channel: 'Usage data' },
     ],
     usage: [
-      { label: 'Feature adoption rate', value: '4.7%', detail: 'Down from 8.2% six weeks ago', pct: 47, color: 'var(--background-danger-prominent)' },
-      { label: 'Users who adopted → retained', value: '68%', detail: 'High retention IF they adopt — activation is the issue', pct: 68, color: 'var(--background-success-prominent)' },
+      { label: 'Feature adoption rate', value: '↓', detail: 'Declining over recent weeks', pct: 47, color: 'var(--background-danger-prominent)' },
+      { label: 'Users who adopted → retained', value: 'N%', detail: 'High retention IF they adopt — activation is the issue', pct: 68, color: 'var(--background-success-prominent)' },
     ],
-    strategy: ['O2: Drive Adoption — 60%+ MAU/Paid (supports)'],
+    strategy: ['[Example] OKR: Adoption target (supports)'],
     market: [],
   },
   'portfolio-view': {
-    title: 'Portfolio View for Leaders',
+    title: '[Example] New Emerging Signal',
     tag: 'tag-primary-subtle', tagText: 'New signal',
-    meta: '3 accounts · $890K combined ARR · Emerging',
+    meta: 'N accounts · $N combined ARR · Emerging',
     signals: {voc:true, usage:false, strategy:false, market:false},
     quotes: [
-      { text: 'I need a single view that shows me all 12 product roadmaps and their health status. Right now I use a spreadsheet.', source: 'Nemetschek, VP Product', type: 'Enterprise', channel: 'Gong call', arr: '$340K' },
-      { text: 'Portfolio visibility is the reason we\'re evaluating Aha! Roadmaps. If Miro could do this natively, we\'d stay.', source: 'WPP, Head of Product Ops', type: 'Enterprise', channel: 'Gong call', arr: '$290K' },
-      { text: 'Our leadership team wants a roll-up view across all teams. Right now everyone has their own board and nothing connects.', source: 'Reece Group, PM Lead', type: 'Enterprise', channel: 'Gong call', arr: '$260K' },
+      { text: '[Example] Customer needs a single view across all product roadmaps with health status. Currently using spreadsheets.', source: '[Account], [Role]', type: 'Enterprise', channel: 'Customer call' },
+      { text: '[Example] Customer evaluating competitors specifically because of this gap. Would stay if the product supported it natively.', source: '[Account], [Role]', type: 'Enterprise', channel: 'Customer call' },
+      { text: '[Example] Leadership wants a roll-up view across all teams — currently everything is siloed.', source: '[Account], [Role]', type: 'Enterprise', channel: 'Customer call' },
     ],
     usage: [],
     strategy: [],
     market: [],
   },
   'performance-at-scale': {
-    title: 'Performance at Scale',
+    title: '[Example] Performance at Scale',
     tag: 'tag-danger-subtle', tagText: 'High confidence',
-    meta: 'ZEISS blocker · 100+ record tables freeze · RICE: 88',
+    meta: 'Enterprise blocker · Large datasets causing issues',
     signals: {voc:true, usage:true, strategy:true, market:false},
     quotes: [
-      { text: 'We hit the performance limits with about 150 items. The table froze completely during our quarterly planning session.', source: 'ZEISS, Product Operations', type: 'Enterprise', channel: 'Gong call', arr: '$420K' },
-      { text: 'Tables with 100+ records take 30+ seconds to load. For SPM use cases with 2,000 items, this is a non-starter.', source: 'Performance FY26 board', type: 'Internal', channel: 'Internal analysis' },
+      { text: '[Example] Customer hit performance limits during a quarterly planning session — the tool froze completely.', source: '[Account], [Role]', type: 'Enterprise', channel: 'Customer call' },
+      { text: '[Example] Internal analysis shows large record sets cause unacceptable load times — a non-starter for enterprise use cases.', source: 'Internal analysis', type: 'Internal', channel: 'Internal analysis' },
     ],
     usage: [
-      { label: 'Tables 100+ records load time', value: '30s+', detail: 'Target: <3s', pct: 95, color: 'var(--background-danger-prominent)' },
-      { label: 'Timeline 500 records (week view)', value: '8s', detail: 'Target: <5s', pct: 60, color: 'var(--background-warning-prominent)' },
+      { label: 'Large dataset load time', value: 'Slow', detail: 'Above target threshold', pct: 95, color: 'var(--background-danger-prominent)' },
+      { label: 'Complex view load time', value: 'Slow', detail: 'Above target threshold', pct: 60, color: 'var(--background-warning-prominent)' },
     ],
-    strategy: ['O1: Win R&D — $82M bookings (hard blocker)', 'O2: Drive Adoption — enterprise churn risk'],
+    strategy: ['[Example] OKR 1 — Hard blocker for enterprise deals', '[Example] OKR 2 — Enterprise churn risk'],
     market: [],
   },
   'convert-rows-jira': {
-    title: 'Convert Rows → Jira Tickets',
+    title: '[Example] Integration Feature',
     tag: 'tag-danger-subtle', tagText: 'High confidence',
-    meta: 'Q1 confirmed build · Sales asking constantly · RICE: 95',
+    meta: 'Confirmed build · Sales requesting consistently',
     signals: {voc:true, usage:true, strategy:true, market:true},
     quotes: [
-      { text: 'The ability to convert table rows to Jira tickets would change everything for how teams plan in Miro.', source: 'Amanda Biacchi Eloy, Sales', type: 'Internal', channel: 'Slack' },
-      { text: 'My teams brainstorm in Miro then manually copy everything to Jira. It takes hours. If I could push rows to Jira directly — that\'s the killer feature.', source: 'LEGO, Agile Coach', type: 'Enterprise', channel: 'Gong call', arr: '$680K' },
+      { text: '[Example] Internal sales team says this would change how teams plan — a killer feature.', source: '[Role], [Team]', type: 'Internal', channel: 'Internal feedback' },
+      { text: '[Example] Customer teams brainstorm in one tool then manually copy to another — this integration would save hours.', source: '[Account], [Role]', type: 'Enterprise', channel: 'Customer call' },
     ],
     usage: [
-      { label: 'Jira-connected engagement multiplier', value: '4x', detail: 'Active days/month vs non-connected', pct: 80, color: 'var(--background-success-prominent)' },
+      { label: 'Connected user engagement', value: 'Nx', detail: 'Active days/month vs non-connected', pct: 80, color: 'var(--background-success-prominent)' },
     ],
-    strategy: ['O1: Win R&D — enterprise deal enabler', 'O2: Drive Adoption — workflow completion'],
-    market: ['Monday.com: Native Jira ticket creation — GA', 'Asana: Jira sync with task creation — GA'],
+    strategy: ['[Example] OKR 1 — Enterprise deal enabler', '[Example] OKR 2 — Workflow completion'],
+    market: ['[Competitor 1]: Native integration — GA', '[Competitor 2]: Integration with sync — GA'],
   },
   'enriched-backlog': {
-    title: 'Enriched Backlog (Insights × Tables)',
+    title: '[Example] Evidence-Enriched Feature',
     tag: 'tag-danger-subtle', tagText: 'High confidence',
-    meta: 'Productboard migration opportunity · RICE: 82',
+    meta: 'Competitor migration opportunity',
     signals: {voc:true, usage:false, strategy:true, market:true},
     quotes: [
-      { text: 'We\'re evaluating alternatives to Productboard. If Miro could show customer evidence per backlog item, that would be compelling.', source: 'Gong call, Enterprise PM', type: 'Enterprise', channel: 'Gong call' },
-      { text: 'I want to see how many customers asked for a feature, the total ARR, and the top quotes — right on the backlog item.', source: 'Design partner feedback', type: 'Enterprise', channel: 'Customer interview' },
+      { text: '[Example] Customer evaluating alternatives — if they could see customer evidence per backlog item, that would be compelling.', source: '[Account], [Role]', type: 'Enterprise', channel: 'Customer call' },
+      { text: '[Example] Customer wants to see how many accounts requested a feature, total ARR, and top quotes — right on the backlog item.', source: '[Account], [Role]', type: 'Enterprise', channel: 'Customer interview' },
     ],
     usage: [],
-    strategy: ['O1: Win R&D — sellable product line', 'O4: Next Horizon — AI-first'],
-    market: ['Productboard: Spark AI feedback synthesis — GA', 'Aha!: Customer evidence per feature — GA'],
+    strategy: ['[Example] OKR 1 — Sellable product line', '[Example] OKR 4 — AI-first'],
+    market: ['[Competitor 1]: AI feedback synthesis — GA', '[Competitor 2]: Customer evidence per feature — GA'],
   },
   'kanban-deps': {
-    title: 'Kanban Dependencies',
+    title: '[Example] Dependency Feature',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
-    meta: 'PayPal requested · 9.1% multi-day engagement · RICE: 58',
+    meta: 'Enterprise requested · Strong engagement signal',
     signals: {voc:true, usage:true, strategy:false, market:false},
     quotes: [
-      { text: 'We need swim lanes and sub-records in Kanban. Our teams use it daily but the lack of dependencies means we can\'t see blocked items.', source: 'PayPal, Senior PM', type: 'Enterprise', channel: 'Gong call', arr: '$310K' },
+      { text: '[Example] Customer needs sub-records and swim lanes — their teams use this view daily but can\'t see blocked items without dependencies.', source: '[Account], [Role]', type: 'Enterprise', channel: 'Customer call' },
     ],
     usage: [
-      { label: 'Kanban multi-day engagement', value: '9.1%', detail: 'Highest across all views (2x Tables)', pct: 91, color: 'var(--background-success-prominent)' },
+      { label: 'Multi-day engagement', value: 'N%', detail: 'Highest across all views', pct: 91, color: 'var(--background-success-prominent)' },
     ],
     strategy: [],
     market: [],
   },
   'views-parity': {
-    title: 'Views Parity (Timeline/Kanban)',
+    title: '[Example] Usability Parity',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
-    meta: 'FY27 Q1 planning · Core usability issue · RICE: 71',
+    meta: 'Quarterly planning · Core usability issue',
     signals: {voc:true, usage:true, strategy:true, market:false},
     quotes: [
-      { text: 'Users cannot manage fields in Timeline or Kanban, only in Tables. This inconsistency causes constant friction and support tickets.', source: 'FY27 Q1 Planning board', type: 'Internal', channel: 'Internal' },
+      { text: '[Example] Inconsistency across views causes constant friction and support tickets — users expect the same capabilities everywhere.', source: 'Internal planning', type: 'Internal', channel: 'Internal' },
     ],
     usage: [],
-    strategy: ['O2: Drive Adoption — usability blocker'],
+    strategy: ['[Example] OKR: Adoption — usability blocker'],
     market: [],
   },
   'ai-signal-synthesis': {
-    title: 'AI Signal Synthesis (Feasibility)',
+    title: '[Example] AI Synthesis Feasibility',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
-    meta: 'Leapfrog bet · No competitor has cracked this · RICE: 67',
+    meta: 'Leapfrog bet · No competitor has solved this',
     signals: {voc:false, usage:false, strategy:true, market:true},
     quotes: [
-      { text: 'The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined.', source: 'Andrey Khusid, CEO', type: 'Internal', channel: 'Sync Feb 18' },
+      { text: '[Example] The value is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined.', source: 'Leadership', type: 'Internal', channel: 'Strategy sync' },
     ],
     usage: [],
-    strategy: ['O1: Win R&D — the leapfrog bet', 'O4: Next Horizon — AI-first transformation'],
-    market: ['Linear Pulse: Execution signals only — limited', 'Productboard Spark: Feedback synthesis only', 'No competitor has cross-signal AI roadmapping'],
+    strategy: ['[Example] OKR 1 — The leapfrog bet', '[Example] OKR 4 — AI-first transformation'],
+    market: ['[Competitor 1]: Execution signals only — limited', '[Competitor 2]: Feedback synthesis only', 'No competitor has cross-signal AI roadmapping'],
   },
   'ai-table-setup': {
-    title: 'AI-Assisted Table Setup',
+    title: '[Example] AI-Assisted Setup',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
-    meta: '53% deletion rate signal · RICE: 64',
+    meta: 'Usage anomaly detected',
     signals: {voc:false, usage:true, strategy:true, market:false},
     quotes: [
-      { text: '53% of tables deleted within 2 days of creation. Only 9% of users return in Week 1. AI-generated templates could solve the blank canvas problem.', source: 'Analytics + Growth Design Sprint', type: 'Internal', channel: 'Internal analysis' },
+      { text: '[Example] High early deletion rate detected — AI-generated templates could solve the blank canvas problem and improve activation.', source: 'Analytics + Design Sprint', type: 'Internal', channel: 'Internal analysis' },
     ],
     usage: [
-      { label: 'Tables deleted within 2 days', value: '53%', detail: 'Critical first-experience failure', pct: 53, color: 'var(--background-danger-prominent)' },
-      { label: 'Week 1 return rate', value: '9%', detail: 'vs 52.7% for boards with table creation day 1', pct: 9, color: 'var(--background-danger-prominent)' },
+      { label: 'Early deletion rate', value: 'High', detail: 'Critical first-experience failure', pct: 53, color: 'var(--background-danger-prominent)' },
+      { label: 'Week 1 return rate', value: 'Low', detail: 'Much lower than engaged cohort', pct: 9, color: 'var(--background-danger-prominent)' },
     ],
-    strategy: ['O2: Drive Adoption — retention emergency', 'O4: Next Horizon — AI-first'],
+    strategy: ['[Example] OKR: Adoption — retention issue', '[Example] OKR: AI-first'],
     market: [],
   },
 };
@@ -1456,9 +1457,9 @@ function openBriefingTile(type) {
         <div class="sp-rec-header">
           <div class="sp-rec-num" style="background:var(--background-success-subtle); color:var(--text-success);">↑</div>
           <div class="sp-rec-content">
-            <div class="sp-rec-title">Jira Custom Fields</div>
-            <div class="sp-rec-tag"><span class="tag tag-success-subtle">+12 new mentions this week</span></div>
-            <div class="sp-rec-reason">LEGO and PayPal both raised this in Gong calls. Mentions up from 31 → 43 (+39%). ARR impact grew to $2.1M.</div>
+            <div class="sp-rec-title">[Example] Feature Request A</div>
+            <div class="sp-rec-tag"><span class="tag tag-success-subtle">+N new mentions this week</span></div>
+            <div class="sp-rec-reason">[Example] Multiple enterprise accounts raised this in customer calls. Mentions and ARR impact both grew.</div>
           </div>
         </div>
       </div>
@@ -1466,9 +1467,9 @@ function openBriefingTile(type) {
         <div class="sp-rec-header">
           <div class="sp-rec-num" style="background:var(--background-success-subtle); color:var(--text-success);">↑</div>
           <div class="sp-rec-content">
-            <div class="sp-rec-title">Performance at Scale</div>
+            <div class="sp-rec-title">[Example] Performance Issue</div>
             <div class="sp-rec-tag"><span class="tag tag-success-subtle">Usage data confirmed</span></div>
-            <div class="sp-rec-reason">New Snowflake data shows 30s+ load times for 100+ record tables. Previously anecdotal — now confirmed with metrics.</div>
+            <div class="sp-rec-reason">[Example] New analytics data confirms performance issues at scale. Previously anecdotal — now confirmed with metrics.</div>
           </div>
         </div>
       </div>`;
@@ -1492,9 +1493,9 @@ function openBriefingTile(type) {
         <div class="sp-rec-header">
           <div class="sp-rec-num" style="background:var(--background-brand-subtle); color:var(--text-brand);">+</div>
           <div class="sp-rec-content">
-            <div class="sp-rec-title">Portfolio View for Leaders</div>
-            <div class="sp-rec-tag"><span class="tag tag-primary-subtle">3 enterprise accounts</span></div>
-            <div class="sp-rec-reason">Nemetschek, WPP, and Reece Group all mentioned "portfolio view" in separate Gong calls within 5 days. $890K combined ARR. Only VoC signal — no usage or strategy data yet.</div>
+            <div class="sp-rec-title">[Example] Emerging Topic</div>
+            <div class="sp-rec-tag"><span class="tag tag-primary-subtle">N enterprise accounts</span></div>
+            <div class="sp-rec-reason">[Example] Multiple enterprise accounts mentioned a new topic in separate customer calls within the past week. Only VoC signal — no usage or strategy data yet.</div>
           </div>
         </div>
       </div>
@@ -1522,9 +1523,9 @@ function openBriefingTile(type) {
         <div class="sp-rec-header">
           <div class="sp-rec-num" style="background:var(--background-danger-subtle); color:var(--text-danger);">↓</div>
           <div class="sp-rec-content">
-            <div class="sp-rec-title">Feature Y Silent Abandonment</div>
+            <div class="sp-rec-title">[Example] Silent Abandonment</div>
             <div class="sp-rec-tag"><span class="tag tag-danger-subtle">Usage dropped further</span></div>
-            <div class="sp-rec-reason">Adoption fell from 4.7% to 4.1% this week. Still no customer complaints. The anomaly persists but the trend is accelerating — silence is getting louder.</div>
+            <div class="sp-rec-reason">[Example] Adoption continues declining this week. Still no customer complaints. The anomaly persists but the trend is accelerating — silence is getting louder.</div>
           </div>
         </div>
       </div>
@@ -1552,8 +1553,8 @@ function openBriefingTile(type) {
         <div class="sp-rec-header">
           <div class="sp-rec-num" style="background:var(--background-tertiary); color:var(--text-tertiary);">—</div>
           <div class="sp-rec-content">
-            <div class="sp-rec-title">Convert Rows → Jira Tickets</div>
-            <div class="sp-rec-reason">Strong evidence, no change. Q1 confirmed build — on track.</div>
+            <div class="sp-rec-title">[Example] Integration Feature</div>
+            <div class="sp-rec-reason">[Example] Strong evidence, no change. Confirmed build — on track.</div>
           </div>
         </div>
       </div>
@@ -1561,8 +1562,8 @@ function openBriefingTile(type) {
         <div class="sp-rec-header">
           <div class="sp-rec-num" style="background:var(--background-tertiary); color:var(--text-tertiary);">—</div>
           <div class="sp-rec-content">
-            <div class="sp-rec-title">Enriched Backlog (Insights x Tables)</div>
-            <div class="sp-rec-reason">Steady interest from Productboard migration prospects. No new data points.</div>
+            <div class="sp-rec-title">[Example] Evidence-Enriched Feature</div>
+            <div class="sp-rec-reason">[Example] Steady interest from competitor migration prospects. No new data points.</div>
           </div>
         </div>
       </div>
@@ -1570,8 +1571,8 @@ function openBriefingTile(type) {
         <div class="sp-rec-header">
           <div class="sp-rec-num" style="background:var(--background-tertiary); color:var(--text-tertiary);">—</div>
           <div class="sp-rec-content">
-            <div class="sp-rec-title">Kanban Dependencies</div>
-            <div class="sp-rec-reason">PayPal request still active. No new accounts or usage shifts.</div>
+            <div class="sp-rec-title">[Example] Dependency Feature</div>
+            <div class="sp-rec-reason">[Example] Enterprise request still active. No new accounts or usage shifts.</div>
           </div>
         </div>
       </div>`;
@@ -1711,7 +1712,7 @@ function sendMsg() {
     </div>
     <div class="sp-ai-msg" style="margin-top:var(--space-300);">
       <div class="sp-ai-avatar">✦</div>
-      <div class="sp-ai-text">Let me look into that. Searching across Gong transcripts, Slack threads, and Insights for relevant evidence…<br><br><em style="color:var(--text-tertiary)">[In the real product, this would query connected data sources and return specific quotes, metrics, or context.]</em></div>
+      <div class="sp-ai-text">Let me look into that. Searching across connected data sources for relevant evidence…<br><br><em style="color:var(--text-tertiary)">[In the real product, this would query connected data sources and return specific quotes, metrics, or context.]</em></div>
     </div>
   `;
   sec.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -1727,32 +1728,24 @@ function spotSignal(type, el) {
   if (type === 'voc') {
     html = `
       <div class="ssk-result">
-        <div class="ssk-result-head"><div class="signal-dot voc" style="margin-top:0"></div> Voice of Customer — 43 mentions</div>
+        <div class="ssk-result-head"><div class="signal-dot voc" style="margin-top:0"></div> Voice of Customer — N mentions</div>
         <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"Every time I show agile teams the table/timeline widget, they ask about custom Jira fields. Every single time."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— Dave Ross, Solutions Consultant</div><div class="sp-quote-tags"><span class="tag tag-neutral">Gong</span></div></div>
+          <div class="sp-quote-text">"[Example] Internal teams consistently hearing this request in demos and customer calls."</div>
+          <div class="sp-quote-source"><div class="sp-quote-attr">— [Role], [Team]</div><div class="sp-quote-tags"><span class="tag tag-neutral">Customer call</span></div></div>
         </div>
         <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"We'd switch to Aha! if custom fields aren't on your H1 roadmap. This is a dealbreaker for our team."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— ZEISS, Product Operations Lead</div><div class="sp-quote-tags"><span class="tag tag-neutral">Gong</span><span class="tag tag-success-subtle">$420K</span></div></div>
+          <div class="sp-quote-text">"[Example] Customer expressing urgency — this is a dealbreaker and they're evaluating competitors."</div>
+          <div class="sp-quote-source"><div class="sp-quote-attr">— [Account], [Role]</div><div class="sp-quote-tags"><span class="tag tag-neutral">Customer call</span><span class="tag tag-success-subtle">$N ARR</span></div></div>
         </div>
         <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"The inability to pull custom Jira fields into timeline views is the #1 reason our DevOps teams won't adopt Miro for planning."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— LEGO, Engineering Manager</div><div class="sp-quote-tags"><span class="tag tag-neutral">Gong</span><span class="tag tag-success-subtle">$680K</span></div></div>
+          <div class="sp-quote-text">"[Example] Engineering teams cite this gap as the #1 reason they resist adopting the product for planning."</div>
+          <div class="sp-quote-source"><div class="sp-quote-attr">— [Account], [Role]</div><div class="sp-quote-tags"><span class="tag tag-neutral">Customer call</span><span class="tag tag-success-subtle">$N ARR</span></div></div>
         </div>
         <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"We need Fix Version, Components, and Team fields from Jira. Without those, the table is just a pretty spreadsheet."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— PayPal, Senior PM</div><div class="sp-quote-tags"><span class="tag tag-neutral">Gong</span><span class="tag tag-success-subtle">$310K</span></div></div>
+          <div class="sp-quote-text">"[Example] Customer needs specific capabilities — without them, the tool feels incomplete."</div>
+          <div class="sp-quote-source"><div class="sp-quote-attr">— [Account], [Role]</div><div class="sp-quote-tags"><span class="tag tag-neutral">Customer call</span><span class="tag tag-success-subtle">$N ARR</span></div></div>
         </div>
-        <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"Accelerating the upstream is a major demo talking point — Jira custom fields is what closes enterprise deals."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— Amanda Biacchi Eloy, Sales</div><div class="sp-quote-tags"><span class="tag tag-primary-subtle">Internal</span><span class="tag tag-neutral">Slack</span></div></div>
-        </div>
-        <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"Can we PLEASE get custom Jira fields? I've had 3 prospects this week ask for it."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— Alicia Tan, SE</div><div class="sp-quote-tags"><span class="tag tag-primary-subtle">Internal</span><span class="tag tag-neutral">Slack</span></div></div>
-        </div>
-        <div style="margin-top:var(--space-300); font-size:12px; color:var(--text-tertiary);">Showing 6 of 43 mentions · <span style="color:var(--text-brand); cursor:pointer;">Load more</span></div>
+        <div style="margin-top:var(--space-300); font-size:12px; color:var(--text-tertiary);">Showing 4 of N mentions · <span style="color:var(--text-brand); cursor:pointer;">Load more</span></div>
       </div>`;
   }
   if (type === 'usage') {
@@ -1761,32 +1754,32 @@ function spotSignal(type, el) {
         <div class="ssk-result-head"><div class="signal-dot usage" style="margin-top:0"></div> Usage Data Deep Dive</div>
         <div class="sp-usage-card" style="margin-bottom:var(--space-200);">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
-            <div class="sp-usage-label">Jira-connected engagement multiplier</div>
-            <div class="sp-usage-stat">4x</div>
+            <div class="sp-usage-label">[Example] Connected user engagement multiplier</div>
+            <div class="sp-usage-stat">Nx</div>
           </div>
           <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:80%; background:var(--background-success-prominent)"></div></div>
-          <div style="font-size:11px; color:var(--text-tertiary)">12.4 active days/month vs 3.1 baseline</div>
+          <div style="font-size:11px; color:var(--text-tertiary)">Higher active days/month vs baseline</div>
         </div>
         <div class="sp-usage-card" style="margin-bottom:var(--space-200);">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
-            <div class="sp-usage-label">Retention rate (Jira-connected)</div>
-            <div class="sp-usage-stat">52%</div>
+            <div class="sp-usage-label">[Example] Connected user retention rate</div>
+            <div class="sp-usage-stat">N%</div>
           </div>
           <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:52%; background:var(--background-success-prominent)"></div></div>
-          <div style="font-size:11px; color:var(--text-tertiary)">vs 35% for non-connected users (+17pp)</div>
+          <div style="font-size:11px; color:var(--text-tertiary)">vs lower for non-connected users</div>
         </div>
         <div class="sp-usage-card" style="margin-bottom:var(--space-200);">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
-            <div class="sp-usage-label">Custom field requests QoQ growth</div>
-            <div class="sp-usage-stat" style="color:var(--text-danger)">+65%</div>
+            <div class="sp-usage-label">[Example] Feature requests QoQ growth</div>
+            <div class="sp-usage-stat" style="color:var(--text-danger)">↑</div>
           </div>
           <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:65%; background:var(--background-danger-prominent)"></div></div>
           <div style="font-size:11px; color:var(--text-tertiary)">Accelerating demand — strongest growth signal in backlog</div>
         </div>
         <div class="sp-usage-card">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
-            <div class="sp-usage-label">Users who tried Jira sync → requested custom fields</div>
-            <div class="sp-usage-stat">38%</div>
+            <div class="sp-usage-label">[Example] Users who tried feature → requested enhancement</div>
+            <div class="sp-usage-stat">N%</div>
           </div>
           <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:38%; background:var(--background-warning-prominent)"></div></div>
           <div style="font-size:11px; color:var(--text-tertiary)">High conversion signal — users know what they want</div>
@@ -1798,15 +1791,15 @@ function spotSignal(type, el) {
       <div class="ssk-result">
         <div class="ssk-result-head"><div class="signal-dot strategy" style="margin-top:0"></div> Strategy Alignment Detail</div>
         <div style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200);">
-          <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-150);"><span style="color:var(--text-success); font-size:14px;">●</span> <strong style="font-size:13px;">O1: Win R&D — $82M HT bookings</strong></div>
-          <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Direct enabler. Jira custom fields is the #1 feature request from R&D teams evaluating Miro. It's referenced in 7 active opportunity records totalling $2.1M ARR.</div>
+          <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-150);"><span style="color:var(--text-success); font-size:14px;">●</span> <strong style="font-size:13px;">[Example] OKR 1 — Key business target</strong></div>
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">[Example] Direct enabler. This is the #1 feature request from target teams. Referenced in active opportunity records.</div>
         </div>
         <div style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200);">
-          <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-150);"><span style="color:var(--text-success); font-size:14px;">●</span> <strong style="font-size:13px;">O2: Drive Adoption — 60%+ MAU/Paid</strong></div>
-          <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Jira-connected users retain at 52% vs 35%. Custom fields would deepen the integration and drive more connected users, directly lifting MAU/Paid.</div>
+          <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-150);"><span style="color:var(--text-success); font-size:14px;">●</span> <strong style="font-size:13px;">[Example] OKR 2 — Adoption target</strong></div>
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">[Example] Connected users retain at higher rates. This feature would deepen adoption and directly lift engagement metrics.</div>
         </div>
         <div style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary); opacity:0.6;">
-          <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-150);"><span style="color:var(--text-tertiary); font-size:14px;">○</span> <span style="font-size:13px; color:var(--text-tertiary);">O3: Flywheel — indirect only</span></div>
+          <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-150);"><span style="color:var(--text-tertiary); font-size:14px;">○</span> <span style="font-size:13px; color:var(--text-tertiary);">[Example] OKR 3 — indirect only</span></div>
           <div style="font-size:12px; color:var(--text-tertiary); line-height:1.5;">May support cross-team visibility but not a primary driver.</div>
         </div>
       </div>`;
@@ -1816,35 +1809,35 @@ function spotSignal(type, el) {
       <div class="ssk-result">
         <div class="ssk-result-head"><div class="signal-dot market" style="margin-top:0"></div> Competitive Landscape</div>
         <div class="comp-row" style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200);">
-          <div class="comp-logo">As</div>
+          <div class="comp-logo">C1</div>
           <div style="flex:1">
-            <div class="comp-name">Asana</div>
-            <div style="font-size:11px; color:var(--text-tertiary)">Custom fields in timeline — GA Oct 2025</div>
-            <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-top:var(--space-100);">Full custom field support in timeline and list views. Actively marketing to Miro's R&D segment.</div>
+            <div class="comp-name">[Competitor 1]</div>
+            <div style="font-size:11px; color:var(--text-tertiary)">Shipped this feature — GA</div>
+            <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-top:var(--space-100);">[Example] Full feature support. Actively marketing to our target segment.</div>
           </div>
           <span class="tag tag-danger-subtle">GA</span>
         </div>
         <div class="comp-row" style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200);">
-          <div class="comp-logo">Mo</div>
+          <div class="comp-logo">C2</div>
           <div style="flex:1">
-            <div class="comp-name">Monday.com</div>
-            <div style="font-size:11px; color:var(--text-tertiary)">Deep Jira integration — Beta Jan 2026</div>
-            <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-top:var(--space-100);">Bi-directional sync with custom field mapping. Expected GA Q2 2026.</div>
+            <div class="comp-name">[Competitor 2]</div>
+            <div style="font-size:11px; color:var(--text-tertiary)">Similar feature — Beta</div>
+            <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-top:var(--space-100);">[Example] Integration with sync capability. Expected GA next quarter.</div>
           </div>
           <span class="tag tag-warning-subtle">Beta</span>
         </div>
         <div class="comp-row" style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary);">
-          <div class="comp-logo">Li</div>
+          <div class="comp-logo">C3</div>
           <div style="flex:1">
-            <div class="comp-name">Linear</div>
-            <div style="font-size:11px; color:var(--text-tertiary)">Native fields, no Jira sync</div>
-            <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-top:var(--space-100);">Focuses on native workflow. Not pursuing Jira integration — different market segment.</div>
+            <div class="comp-name">[Competitor 3]</div>
+            <div style="font-size:11px; color:var(--text-tertiary)">No equivalent feature</div>
+            <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-top:var(--space-100);">[Example] Different market segment — not pursuing this capability.</div>
           </div>
           <span class="tag tag-neutral">N/A</span>
         </div>
         <div class="callout callout-warning" style="margin-top:var(--space-300); padding:var(--space-300) var(--space-400); font-size:12px;">
           <div class="callout-icon">⚠️</div>
-          <div><strong>Window estimate: 6–12 months.</strong> After Monday.com ships GA, Miro will be last among primary competitors without Jira custom field support.</div>
+          <div><strong>Window estimate: closing.</strong> [Example] After competitors ship GA, we will be last without this capability.</div>
         </div>
       </div>`;
   }
@@ -1862,7 +1855,7 @@ function spotQuick(question, el) {
     </div>
     <div class="sp-ai-msg" style="margin-top:var(--space-200);">
       <div class="sp-ai-avatar">✦</div>
-      <div class="sp-ai-text">Searching across Gong, Slack, Snowflake, and Insights for <strong>"${question.toLowerCase()}"</strong>…<br><br><em style="color:var(--text-tertiary);">[In the live product, results would appear here from connected data sources.]</em></div>
+      <div class="sp-ai-text">Searching across connected data sources for <strong>"${question.toLowerCase()}"</strong>…<br><br><em style="color:var(--text-tertiary);">[In the live product, results would appear here from connected data sources.]</em></div>
     </div>
   `;
   dyn.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -1885,11 +1878,11 @@ function openPlanSidekick() {
         <span class="tag tag-warning-subtle">Room to improve</span>
       </div>
       <div class="sp-context-title">Plan Confidence Analysis</div>
-      <div class="sp-context-meta">7 initiatives · 5 strong · 2 validating · 0 weak</div>
+      <div class="sp-context-meta">N initiatives · N strong · N validating · N weak</div>
     </div>
     <div class="sp-ai-msg">
       <div class="sp-ai-avatar">✦</div>
-      <div class="sp-ai-text">I've analysed your plan and found <strong>3 actions</strong> that could raise confidence from 72% to ~85%. Here are my recommendations, ranked by impact.</div>
+      <div class="sp-ai-text">I've analysed your plan and found <strong>3 actions</strong> that could raise confidence. Here are my recommendations, ranked by impact.</div>
     </div>
 
     <div class="sp-section-head" style="margin-top:var(--space-200);">High impact</div>
@@ -1897,16 +1890,16 @@ function openPlanSidekick() {
       <div class="sp-rec-header">
         <div class="sp-rec-num">1</div>
         <div class="sp-rec-content">
-          <div class="sp-rec-title">Run a feasibility spike for AI Signal Synthesis</div>
-          <div class="sp-rec-tag"><span class="tag tag-danger-subtle">+8% confidence</span></div>
-          <div class="sp-rec-reason">Blocking Q2 scope decisions. A 2-week spike would move it from "validating" to "strong" or allow early descoping.</div>
+          <div class="sp-rec-title">[Example] Run a feasibility spike for Initiative 3</div>
+          <div class="sp-rec-tag"><span class="tag tag-danger-subtle">High confidence impact</span></div>
+          <div class="sp-rec-reason">[Example] Blocking scope decisions. A short spike would move it from "validating" to "strong" or allow early descoping.</div>
         </div>
       </div>
       <div class="sp-rec-detail">
         <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Why this matters</div>
         <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— Andrey Khusid, CEO · Sync Feb 18</div></div>
+          <div class="sp-quote-text">"[Example] The value is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined."</div>
+          <div class="sp-quote-source"><div class="sp-quote-attr">— [Leadership source]</div></div>
         </div>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">This initiative has <strong>no VoC evidence</strong> and <strong>no usage data</strong> — it's strategy + market only. A spike would validate the approach or reveal it needs rescoping.</div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
@@ -1920,9 +1913,9 @@ function openPlanSidekick() {
       <div class="sp-rec-header">
         <div class="sp-rec-num">2</div>
         <div class="sp-rec-content">
-          <div class="sp-rec-title">Gather usage data for Roadmapping Space UX</div>
-          <div class="sp-rec-tag"><span class="tag tag-warning-subtle">+5% confidence</span></div>
-          <div class="sp-rec-reason">Moderate evidence but no baseline usage metrics. A 1-week instrumentation pass would strengthen the case.</div>
+          <div class="sp-rec-title">[Example] Gather usage data for Initiative 4</div>
+          <div class="sp-rec-tag"><span class="tag tag-warning-subtle">Medium confidence impact</span></div>
+          <div class="sp-rec-reason">[Example] Moderate evidence but no baseline usage metrics. Instrumentation would strengthen the case.</div>
         </div>
       </div>
       <div class="sp-rec-detail">
@@ -1930,11 +1923,11 @@ function openPlanSidekick() {
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200); margin-bottom:var(--space-300);">
           <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-danger-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
             <div style="font-weight:600; color:var(--text-danger);">No usage data</div>
-            <div style="color:var(--text-secondary); margin-top:2px;">How many PMs use roadmapping?</div>
+            <div style="color:var(--text-secondary); margin-top:2px;">How many users are active?</div>
           </div>
           <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-warning-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
             <div style="font-weight:600; color:var(--text-warning);">No market data</div>
-            <div style="color:var(--text-secondary); margin-top:2px;">How does Aha! compare?</div>
+            <div style="color:var(--text-secondary); margin-top:2px;">How do competitors compare?</div>
           </div>
         </div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
@@ -1949,18 +1942,18 @@ function openPlanSidekick() {
       <div class="sp-rec-header">
         <div class="sp-rec-num">3</div>
         <div class="sp-rec-content">
-          <div class="sp-rec-title">Validate Views Parity with 3 customer interviews</div>
-          <div class="sp-rec-tag"><span class="tag tag-primary-subtle">+3% confidence</span></div>
-          <div class="sp-rec-reason">Internal usage data + strategy alignment, but only 1 direct quote. 3 targeted interviews would confirm scope.</div>
+          <div class="sp-rec-title">[Example] Validate Initiative 7 with customer interviews</div>
+          <div class="sp-rec-tag"><span class="tag tag-primary-subtle">Lower confidence impact</span></div>
+          <div class="sp-rec-reason">[Example] Internal usage data + strategy alignment, but limited direct quotes. Targeted interviews would confirm scope.</div>
         </div>
       </div>
       <div class="sp-rec-detail">
         <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Suggested interviewees</div>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:var(--space-300);">
-          Based on usage patterns, heaviest Timeline/Kanban users:<br>
-          <strong>1.</strong> LEGO (Agile Coach — 12 boards)<br>
-          <strong>2.</strong> PayPal (PM team — 8 boards)<br>
-          <strong>3.</strong> Reece Group (Product Ops — 6 boards)
+          [Example] Based on usage patterns, highest-engagement users:<br>
+          <strong>1.</strong> [Account A] ([Role] — N active boards)<br>
+          <strong>2.</strong> [Account B] ([Role] — N active boards)<br>
+          <strong>3.</strong> [Account C] ([Role] — N active boards)
         </div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
           <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Draft interview request</button>
