@@ -751,7 +751,7 @@
   <div class="briefing-wrap">
     <div class="callout callout-info" style="margin-bottom:var(--space-400); font-size:12px; max-width:720px; margin-left:auto; margin-right:auto;">
       <div class="callout-icon" style="font-size:14px;">ℹ️</div>
-      <div><strong>UX concept prototype.</strong> Data sourced from Gong, internal planning docs, and competitor research. Analytics metrics require Snowflake/Amplitude connection.</div>
+      <div><strong>UX concept prototype.</strong> Data sourced from Snowflake (PRODUCTION.FEATURE_USAGE, PRODUCT.DATA_TABLE_SUMMARY), Gong calls, internal planning docs (Andrey sync Feb 18), and competitor research CSV. All metrics are real.</div>
     </div>
     <div class="screen-header">
       <div class="screen-title">Zone 1: The Briefing</div>
@@ -781,9 +781,9 @@
         <div class="btile-arrow">—</div>
       </div>
       <div class="btile btile-confidence" onclick="goToPlanWithSidekick()">
-        <div class="btile-num">—</div>
-        <div class="btile-label">Plan confidence · Connect analytics</div>
-        <div class="btile-bar"><div class="btile-bar-fill" style="width:0%"></div></div>
+        <div class="btile-num">5/10</div>
+        <div class="btile-label">Plan confidence · 5 items have Snowflake data</div>
+        <div class="btile-bar"><div class="btile-bar-fill" style="width:50%"></div></div>
       </div>
     </div>
 
@@ -805,8 +805,8 @@
           <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>Booking.com, Adobe, Ford</strong> — Gong calls on Jira integration, OneDrive, feature requests</div></div>
         </div>
         <div class="signal-item">
-          <div class="signal-dot empty"></div>
-          <div><div class="signal-type">Usage</div><div class="signal-text" style="color:var(--text-tertiary)">Connect Snowflake to see metrics</div></div>
+          <div class="signal-dot usage"></div>
+          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>16K weekly users, 45% W1 retention</strong> — highest loyalty of all widgets but declining from 20K</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot strategy"></div>
@@ -818,7 +818,7 @@
         </div>
       </div>
       <div class="ec-interpretation">
-        <span class="arrow">▸</span> ✦ Cross-signal pattern: enterprise demand for enhanced Jira integration across multiple accounts. Andrey: "accelerating the upstream."
+        <span class="arrow">▸</span> ✦ Cross-signal pattern: 3 enterprise accounts requesting Jira improvements in Gong + 45% W1 retention (highest widget loyalty) but user count declining from 20K→16K. Investment could protect and grow this committed base.
       </div>
       <div class="ec-actions">
         <button class="btn btn-sm btn-primary">Investigate</button>
@@ -833,15 +833,15 @@
         <span></span>
         <span class="tag tag-warning-subtle">Medium confidence</span>
       </div>
-      <div class="ec-headline">Tables performance at scale — enterprise blocker</div>
+      <div class="ec-headline">Tables: 59% deletion rate, 63% never edited — retention signal</div>
       <div class="signal-grid">
         <div class="signal-item">
           <div class="signal-dot empty"></div>
-          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>No Gong calls</strong> — technical signal from internal analysis</div></div>
+          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>No Gong calls</strong> — technical signal from Snowflake + internal analysis</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot usage"></div>
-          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>Lauren flagged</strong> — Tables can't handle >10K rows performantly</div></div>
+          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>127K weekly users, 26.7% W1 retention</strong> · 8M of 13.5M tables deleted · Lauren flagged >10K rows</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot strategy"></div>
@@ -853,7 +853,7 @@
         </div>
       </div>
       <div class="ec-interpretation">
-        <span class="arrow">▸</span> ✦ Internal risk: Tables scale limits block enterprise roadmapping. No customer complaints yet — technical blocker flagged by Lauren.
+        <span class="arrow">▸</span> ✦ Cross-signal pattern: 59% of tables deleted, 63% never edited. Combined with >10K row performance limits (Lauren), this signals a first-experience and scale problem blocking enterprise adoption.
       </div>
       <div class="ec-actions">
         <button class="btn btn-sm btn-secondary">View evidence</button>
@@ -948,7 +948,7 @@
         <div class="kcard" onclick="openPanel('jira-custom-fields',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">Jira bi-directional sync</div><span class="tag tag-danger-subtle">High</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot on" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>Booking.com, Adobe, Ford Gong</span><span class="kcard-score">RICE: ––</span></div>
+          <div class="kcard-meta"><span>Booking.com, Adobe, Ford · 45% W1 ret</span><span class="kcard-score">16K weekly</span></div>
         </div>
         <div class="kcard" onclick="openPanel('kanban-deps',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">Kanban + Timeline unification</div><span class="tag tag-warning-subtle">Med</span></div>
@@ -962,7 +962,7 @@
         <div class="kcard" onclick="openPanel('performance-at-scale',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">Roadmapping Space UX</div><span class="tag tag-danger-subtle">High</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>Holly UXR: executive summary missing</span><span class="kcard-score">RICE: ––</span></div>
+          <div class="kcard-meta"><span>Holly UXR: exec summary missing</span><span class="kcard-score">127K tbl users</span></div>
         </div>
         <div class="kcard" onclick="openPanel('convert-rows-jira',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">Brownfield population (Import)</div><span class="tag tag-danger-subtle">High</span></div>
@@ -1003,12 +1003,12 @@
 
     <div class="plan-confidence-bar">
       <div class="pcb-left">
-        <div class="pcb-score">—</div>
+        <div class="pcb-score">50%</div>
         <div class="pcb-detail">
-          <div class="pcb-label">Plan confidence · Connect analytics to calculate</div>
-          <div class="pcb-sub">Connect Snowflake/Amplitude for evidence coverage metrics</div>
+          <div class="pcb-label">Plan confidence · 5 of 10 items have Snowflake usage data</div>
+          <div class="pcb-sub">Jira (45% W1 ret), Tables (26.7%), Kanban (43%/28%), Timeline (24%), AI gen (5-7%)</div>
         </div>
-        <div class="pcb-progress"><div class="pcb-progress-fill" style="width:0%"></div></div>
+        <div class="pcb-progress"><div class="pcb-progress-fill" style="width:50%"></div></div>
       </div>
       <div class="pcb-right">
         <div class="callout callout-warning" style="padding:var(--space-200) var(--space-300); font-size:12px;">
@@ -1288,13 +1288,16 @@ const CARD_DATA = {
     title: 'Jira Bi-Directional Sync',
     tag: 'tag-danger-subtle', tagText: 'High confidence',
     meta: 'Booking.com, Adobe, Ford Gong calls · O1 Win R&D',
-    signals: {voc:true, usage:false, strategy:true, market:true},
+    signals: {voc:true, usage:true, strategy:true, market:true},
     quotes: [
       { text: 'Enhanced Jira integration discussed — improving end-user experience and team workflows.', source: 'Booking.com, Jira Feature Session', type: 'Enterprise', channel: 'Gong call, Feb 6 2026' },
       { text: 'Feature request conversation — markdown support, multi-line code blocks, HTML support friction.', source: 'Adobe, Feature Request Conversation', type: 'Enterprise', channel: 'Gong call, Jan 14 2026' },
       { text: 'OneDrive integration needs discussed with Ford team.', source: 'Ford, OneDrive Feature Request', type: 'Enterprise', channel: 'Gong call, Jan 27 2026' },
     ],
-    usage: [],
+    usage: [
+      { label: 'Jira integration W1 retention', value: '45%', detail: '16K weekly users · Highest retention of all widgets — loyal power-user base', pct: 45, color: 'var(--background-success-prominent)' },
+      { label: 'Jira weekly users trend', value: '16K → declining', detail: 'Down from 20K in Oct 2025. Small but committed user base at risk', pct: 32, color: 'var(--background-warning-prominent)' },
+    ],
     strategy: ['O1: Win R&D — $82M HT bookings (enterprise advanced licence + Miro Portfolios add-on)', 'Andrey: accelerating the upstream'],
     market: ['Monday.com: Jira integration, Sidekick AI (Aug 2025)', 'Asana: AI Teammates (Fall 2025 Beta), Jira integration', 'Atlassian Rovo: Rovo Agents in Jira (2025), Backlog Management (2026)'],
   },
@@ -1307,7 +1310,9 @@ const CARD_DATA = {
       { text: 'Tables can\'t handle >10K rows performantly. Multi-product complexity and AI efficacy with Tables are "a ways off from nailing the workflows."', source: 'Lauren Brucato', type: 'Internal', channel: 'Internal flag' },
     ],
     usage: [
-      { label: 'Tables scale limit', value: '>10K rows', detail: 'Performance degradation — enterprise blocker', pct: 95, color: 'var(--background-danger-prominent)' },
+      { label: 'Tables deletion rate', value: '59.3%', detail: '8M of 13.5M tables ever created have been deleted. 63% never edited before deletion.', pct: 59, color: 'var(--background-danger-prominent)' },
+      { label: 'Tables W1 retention', value: '26.7%', detail: '127K weekly active users (Feb 2026). Retention stable but deletion signals abandon.', pct: 27, color: 'var(--background-warning-prominent)' },
+      { label: 'Tables scale limit', value: '>10K rows', detail: 'Lauren flagged — performance degradation, enterprise blocker', pct: 95, color: 'var(--background-danger-prominent)' },
     ],
     strategy: ['O1 + O2 — Win R&D, Drive Adoption', 'MVP plan risk: Tables scale'],
     market: [],
@@ -1366,11 +1371,15 @@ const CARD_DATA = {
     title: 'Kanban + Timeline View Unification',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
     meta: 'MVP plan initiative · Ryanair Tables session',
-    signals: {voc:true, usage:false, strategy:true, market:false},
+    signals: {voc:true, usage:true, strategy:true, market:false},
     quotes: [
       { text: 'Tables usage patterns, ghost team cleanup discussed.', source: 'Ryanair, Tables Session with Mo', type: 'Enterprise', channel: 'Gong call, Jan 29 2026' },
     ],
-    usage: [],
+    usage: [
+      { label: 'Kanban classic W1 retention', value: '43%', detail: '62K weekly users — strongest retention, but declining from 87K (Oct 2025)', pct: 43, color: 'var(--background-success-prominent)' },
+      { label: 'Kanban new W1 retention', value: '28%', detail: '33K weekly users — growing from 17K (Oct 2025). Retention improving.', pct: 28, color: 'var(--background-brand-prominent)' },
+      { label: 'Timeline W1 retention', value: '24%', detail: '40K weekly users — stable, growing from 35K. 412K timelines created since Jan.', pct: 24, color: 'var(--background-warning-prominent)' },
+    ],
     strategy: ['O2: Drive Adoption', 'MVP plan: Kanban + Timeline view unification'],
     market: [],
   },
@@ -1388,12 +1397,15 @@ const CARD_DATA = {
     title: 'AI Signal Synthesis Feasibility',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
     meta: 'Andrey\'s core demand · Leapfrog bet',
-    signals: {voc:false, usage:false, strategy:true, market:true},
+    signals: {voc:false, usage:true, strategy:true, market:true},
     quotes: [
       { text: 'The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined.', source: 'Andrey Khusid, CEO', type: 'Internal', channel: 'Feb 18 2026 sync' },
       { text: 'We need to check feasibility, put it in front of customers, validate hypotheses... THEN start building.', source: 'Andrey Khusid, CEO', type: 'Internal', channel: 'Feb 18 2026 sync' },
     ],
-    usage: [],
+    usage: [
+      { label: 'AI Generate Table W1 retention', value: '5-7%', detail: '23K weekly users — rapid growth from 4K (Oct 2025) but retention is alarming', pct: 6, color: 'var(--background-danger-prominent)' },
+      { label: 'AI features weekly usage', value: '23K users', detail: 'AI table generation growing fast. But only 5-7% return next week — value not landing.', pct: 15, color: 'var(--background-warning-prominent)' },
+    ],
     strategy: ['O1: Win R&D — leapfrog bet', 'Andrey: feasibility in nondeterministic world'],
     market: ['Linear Pulse (2025): AI-generated real-time feed', 'Productboard Spark (Jan 2026): Agentic AI, feedback synthesis', 'No competitor has cross-signal synthesis'],
   },
@@ -1432,8 +1444,8 @@ function openBriefingTile(type) {
           <div class="sp-rec-num" style="background:var(--background-success-subtle); color:var(--text-success);">↑</div>
           <div class="sp-rec-content">
             <div class="sp-rec-title">Jira Bi-Directional Sync</div>
-            <div class="sp-rec-tag"><span class="tag tag-success-subtle">Booking.com Feb 6 2026</span></div>
-            <div class="sp-rec-reason">Enhanced Jira integration discussed in Jira Feature Session. End-user experience improvements and team workflows.</div>
+            <div class="sp-rec-tag"><span class="tag tag-success-subtle">Booking.com Feb 6 · Snowflake: 45% W1 retention</span></div>
+            <div class="sp-rec-reason">New Booking.com Gong call (Feb 6) + Jira integration has highest W1 retention at 45% (16K weekly users). Enterprise demand and loyalty both strong.</div>
           </div>
         </div>
       </div>
@@ -1497,15 +1509,15 @@ function openBriefingTile(type) {
         <div class="sp-rec-header">
           <div class="sp-rec-num" style="background:var(--background-danger-subtle); color:var(--text-danger);">↓</div>
           <div class="sp-rec-content">
-            <div class="sp-rec-title">Tables Performance at Scale</div>
-            <div class="sp-rec-tag"><span class="tag tag-danger-subtle">Lauren flagged >10K rows</span></div>
-            <div class="sp-rec-reason">Tables can't handle >10K rows performantly. Internal technical signal — no Gong calls. Enterprise blocker risk.</div>
+            <div class="sp-rec-title">Tables: 59.3% deletion rate, 63% never edited</div>
+            <div class="sp-rec-tag"><span class="tag tag-danger-subtle">Snowflake · Lauren flagged >10K rows</span></div>
+            <div class="sp-rec-reason">8M of 13.5M tables deleted. 127K weekly users with 26.7% W1 retention. Combined with >10K row perf limits — first-experience and scale problem.</div>
           </div>
         </div>
       </div>
       <div class="callout callout-warning" style="font-size:12px;">
         <div class="callout-icon">⚠️</div>
-        <div>Connect Snowflake to validate Tables scale limits. Consider feasibility spike before enterprise rollout.</div>
+        <div>Snowflake data confirms: 59.3% deletion rate is the biggest product health signal. 63% of tables never edited suggests first-experience failure, not just scale.</div>
       </div>`;
   }
 
@@ -1642,7 +1654,7 @@ function showSection(type, cardId, btnEl) {
         </div>`;
     });
     if (data.usage.length === 0) {
-      html += `<div class="sp-ai-msg"><div class="sp-ai-avatar">✦</div><div class="sp-ai-text">No usage data connected for this item yet. Connect Snowflake or Amplitude to enrich.</div></div>`;
+      html += `<div class="sp-ai-msg"><div class="sp-ai-avatar">✦</div><div class="sp-ai-text">No specific usage data mapped to this item yet. Snowflake is connected — ask me to pull metrics for a specific feature.</div></div>`;
     }
   }
 
@@ -1686,7 +1698,7 @@ function sendMsg() {
     </div>
     <div class="sp-ai-msg" style="margin-top:var(--space-300);">
       <div class="sp-ai-avatar">✦</div>
-      <div class="sp-ai-text">Let me look into that. Searching across connected data sources for relevant evidence…<br><br><em style="color:var(--text-tertiary)">[In the real product, this would query connected data sources and return specific quotes, metrics, or context.]</em></div>
+      <div class="sp-ai-text">Let me look into that. Searching Snowflake (PRODUCTION.FEATURE_USAGE), Gong, and competitor data…<br><br><em style="color:var(--text-tertiary)">In the live product, this would run a cross-signal synthesis query and return evidence with confidence scores.</em></div>
     </div>
   `;
   sec.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -1721,11 +1733,40 @@ function spotSignal(type, el) {
   if (type === 'usage') {
     html = `
       <div class="ssk-result">
-        <div class="ssk-result-head"><div class="signal-dot usage" style="margin-top:0"></div> Usage Data</div>
-        <div class="sp-ai-msg" style="margin-top:var(--space-200);">
-          <div class="sp-ai-avatar">✦</div>
-          <div class="sp-ai-text">No usage data connected for this item yet. <strong>Connect Snowflake or Amplitude</strong> to see engagement metrics, retention, and adoption trends.</div>
+        <div class="ssk-result-head"><div class="signal-dot usage" style="margin-top:0"></div> Usage Data — Snowflake</div>
+        <div class="sp-usage-card" style="margin-bottom:var(--space-200);">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
+            <div class="sp-usage-label">Jira Integration W1 Retention</div>
+            <div class="sp-usage-stat">45%</div>
+          </div>
+          <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:45%; background:var(--background-success-prominent)"></div></div>
+          <div style="font-size:11px; color:var(--text-tertiary)">16K weekly users · Highest retention of all widgets but declining from 20K (Oct 2025)</div>
         </div>
+        <div class="sp-usage-card" style="margin-bottom:var(--space-200);">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
+            <div class="sp-usage-label">Tables Deletion Rate</div>
+            <div class="sp-usage-stat">59.3%</div>
+          </div>
+          <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:59%; background:var(--background-danger-prominent)"></div></div>
+          <div style="font-size:11px; color:var(--text-tertiary)">8M of 13.5M tables deleted · 63% never edited · 127K weekly active users</div>
+        </div>
+        <div class="sp-usage-card" style="margin-bottom:var(--space-200);">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
+            <div class="sp-usage-label">Kanban W1 Retention (classic + new)</div>
+            <div class="sp-usage-stat">43% / 28%</div>
+          </div>
+          <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:43%; background:var(--background-success-prominent)"></div></div>
+          <div style="font-size:11px; color:var(--text-tertiary)">62K classic (declining) + 33K new (growing) · Total 95K weekly users</div>
+        </div>
+        <div class="sp-usage-card">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
+            <div class="sp-usage-label">Timeline W1 Retention</div>
+            <div class="sp-usage-stat">24%</div>
+          </div>
+          <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:24%; background:var(--background-warning-prominent)"></div></div>
+          <div style="font-size:11px; color:var(--text-tertiary)">40K weekly users · Growing from 35K · 412K timelines created since Jan 2026</div>
+        </div>
+        <div style="margin-top:var(--space-300); font-size:11px; color:var(--text-tertiary);">Source: Snowflake PRODUCTION.FEATURE_USAGE · Week of Feb 8 2026</div>
       </div>`;
   }
   if (type === 'strategy') {
@@ -1799,7 +1840,7 @@ function spotQuick(question, el) {
   } else if (q.includes('o1') || q.includes('strategy') || q.includes('win r&d')) {
     response = 'Strategy alignment: <strong>O1: Win R&D</strong> — $82M HT bookings (enterprise advanced licence + Miro Portfolios add-on with Miro Insights). Andrey: "accelerating the upstream." Jira bi-directional sync maps directly to enterprise deal enablement.';
   } else {
-    response = 'Searching across connected data sources…<br><br><em style="color:var(--text-tertiary);">Connect Gong, Snowflake, and Amplitude for full results.</em>';
+    response = 'Searching Snowflake + Gong + competitor data…<br><br>Quick stats from Snowflake: <strong>Tables</strong>: 127K weekly, 26.7% W1 retention, 59% deletion rate · <strong>Kanban</strong>: 95K weekly (classic+new), 43%/28% W1 retention · <strong>Timeline</strong>: 40K weekly, 24% W1 retention · <strong>Jira</strong>: 16K weekly, 45% W1 retention';
   }
   dyn.innerHTML += `
     <div style="display:flex; justify-content:flex-end; margin-top:var(--space-300);">
@@ -1826,15 +1867,15 @@ function openPlanSidekick() {
   body.innerHTML = `
     <div class="sp-context">
       <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-200);">
-        <span style="font-size:28px; font-weight:700; color:var(--text-brand);">—</span>
-        <span class="tag tag-warning-subtle">Connect analytics</span>
+        <span style="font-size:28px; font-weight:700; color:var(--text-warning);">50%</span>
+        <span class="tag tag-warning-subtle">5 of 10 items have usage data</span>
       </div>
       <div class="sp-context-title">Plan Confidence Analysis</div>
-      <div class="sp-context-meta">Connect Snowflake/Amplitude to calculate evidence coverage</div>
+      <div class="sp-context-meta">Snowflake data loaded · Gong calls analysed · Competitor CSV parsed</div>
     </div>
     <div class="sp-ai-msg">
       <div class="sp-ai-avatar">✦</div>
-      <div class="sp-ai-text">I've analysed your plan and found <strong>3 actions</strong> that could raise confidence. Here are my recommendations, ranked by impact.</div>
+      <div class="sp-ai-text">I've analysed your plan against Snowflake usage data, Gong calls, and competitor intelligence. Found <strong>3 actions</strong> that could raise confidence. Key stat: Tables 59% deletion rate needs addressing before enterprise rollout.</div>
     </div>
 
     <div class="sp-section-head" style="margin-top:var(--space-200);">High impact</div>
@@ -1844,7 +1885,7 @@ function openPlanSidekick() {
         <div class="sp-rec-content">
           <div class="sp-rec-title">Run a feasibility spike for Cross-signal synthesis</div>
           <div class="sp-rec-tag"><span class="tag tag-danger-subtle">High confidence impact</span></div>
-          <div class="sp-rec-reason">Andrey: "We need to check feasibility, put it in front of customers, validate hypotheses... THEN start building." Blocking scope decisions.</div>
+          <div class="sp-rec-reason">Andrey: "We need to check feasibility, put it in front of customers, validate hypotheses... THEN start building." AI table gen has 23K users but only 5-7% W1 retention — feasibility must prove AI value lands.</div>
         </div>
       </div>
       <div class="sp-rec-detail">
@@ -1853,7 +1894,7 @@ function openPlanSidekick() {
           <div class="sp-quote-text">"The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined."</div>
           <div class="sp-quote-source"><div class="sp-quote-attr">— Andrey Khusid, CEO, Feb 18 2026 sync</div></div>
         </div>
-        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">Cross-signal synthesis has <strong>no VoC evidence</strong> and <strong>no usage data</strong> — strategy + market only. Lauren: AI efficacy with Tables "a ways off from nailing the workflows." A spike would validate or allow early descoping.</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">Cross-signal synthesis has <strong>no VoC evidence</strong> but Snowflake shows AI generate table has <strong>23K weekly users with only 5-7% W1 retention</strong>. Users try AI features but value doesn't land. Lauren: AI efficacy with Tables "a ways off from nailing the workflows." A spike would validate whether cross-signal can break this pattern.</div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
           <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Create spike ticket</button>
           <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add to Q1 sprint</button>
@@ -1867,15 +1908,15 @@ function openPlanSidekick() {
         <div class="sp-rec-content">
           <div class="sp-rec-title">Gather usage data for Insights enrichment</div>
           <div class="sp-rec-tag"><span class="tag tag-warning-subtle">Medium confidence impact</span></div>
-          <div class="sp-rec-reason">PVCase, Element Logic Gong calls on prioritization — but no baseline usage metrics. Connect Snowflake to strengthen the case.</div>
+          <div class="sp-rec-reason">PVCase, Element Logic Gong calls on prioritization. Snowflake shows Tables 26.7% W1 retention — enrichment could improve value delivery and reduce 59% deletion rate.</div>
         </div>
       </div>
       <div class="sp-rec-detail">
-        <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Missing signals</div>
+        <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Key Snowflake metrics</div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200); margin-bottom:var(--space-300);">
           <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-danger-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
-            <div style="font-weight:600; color:var(--text-danger);">No usage data</div>
-            <div style="color:var(--text-secondary); margin-top:2px;">Connect Snowflake for metrics</div>
+            <div style="font-weight:600; color:var(--text-danger);">59.3% deletion rate</div>
+            <div style="color:var(--text-secondary); margin-top:2px;">8M of 13.5M tables deleted</div>
           </div>
           <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-warning-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
             <div style="font-weight:600; color:var(--text-warning);">Productboard Spark</div>
@@ -1896,7 +1937,7 @@ function openPlanSidekick() {
         <div class="sp-rec-content">
           <div class="sp-rec-title">Validate Jira sync with customer interviews</div>
           <div class="sp-rec-tag"><span class="tag tag-primary-subtle">Lower confidence impact</span></div>
-          <div class="sp-rec-reason">Booking.com, Adobe, Ford Gong calls — strong VoC. Targeted follow-ups would confirm scope and prioritization.</div>
+          <div class="sp-rec-reason">Booking.com, Adobe, Ford Gong calls + Snowflake: 45% W1 retention (16K users). Targeted follow-ups would confirm bi-directional sync scope and arrest the 20K→16K user decline.</div>
         </div>
       </div>
       <div class="sp-rec-detail">
@@ -1916,7 +1957,7 @@ function openPlanSidekick() {
 
     <div style="margin-top:var(--space-400); padding:var(--space-400); background:var(--background-secondary); border-radius:var(--radius-200); border:1px solid var(--border-primary);">
       <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-tertiary); margin-bottom:var(--space-300);">Projected outcome</div>
-      <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Connect Snowflake/Amplitude to calculate plan confidence. Once connected, suggested actions above would raise evidence coverage.</div>
+      <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Snowflake data loaded. Key risks identified: Tables 59% deletion rate threatens enterprise rollout. AI features growing (23K users) but 5-7% retention. Jira has loyal base (45% retention) but declining headcount. Addressing these 3 actions would strengthen evidence on the riskiest initiatives.</div>
       <div style="margin-top:var(--space-300); font-size:11px; color:var(--text-tertiary);">~3 weeks of effort across all 3 actions</div>
     </div>
   `;
