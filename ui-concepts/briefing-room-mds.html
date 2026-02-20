@@ -511,22 +511,23 @@
 
   /* === PLAN CONFIDENCE BAR (top of Plan screen) === */
   .plan-confidence-bar {
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
     padding: var(--space-400) var(--space-500); margin-bottom: var(--space-500);
     background: var(--background-primary); border: 1px solid var(--border-primary);
     border-radius: var(--radius-300); box-shadow: var(--elevation-100);
+    gap: var(--space-300);
   }
-  .pcb-left { display: flex; align-items: center; gap: var(--space-400); flex: 1; }
-  .pcb-score { font-size: 32px; font-weight: 700; color: var(--text-brand); line-height: 1; }
-  .pcb-detail { flex-shrink: 0; }
+  .pcb-left { display: flex; align-items: center; gap: var(--space-300); flex: 1; min-width: 0; }
+  .pcb-score { font-size: 32px; font-weight: 700; color: var(--text-brand); line-height: 1; flex-shrink: 0; }
+  .pcb-detail { min-width: 0; }
   .pcb-label { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-  .pcb-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 1px; }
+  .pcb-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .pcb-progress {
-    flex: 1; max-width: 180px; height: 6px;
+    flex: 1; max-width: 180px; min-width: 60px; height: 6px;
     background: var(--background-tertiary); border-radius: var(--radius-full); overflow: hidden;
   }
   .pcb-progress-fill { height: 100%; border-radius: var(--radius-full); background: var(--background-brand-prominent); }
-  .pcb-right { display: flex; align-items: center; gap: var(--space-300); flex-shrink: 0; }
+  .pcb-right { display: flex; align-items: center; gap: var(--space-200); flex-shrink: 0; }
 
   /* === SIDEKICK SIDE PANEL === */
   .sidekick-overlay {
@@ -536,12 +537,16 @@
   }
   .sidekick-overlay.open { opacity: 1; pointer-events: auto; }
 
+  body.panel-open .plan-wrap { margin-right: 460px; transition: margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  body.panel-open .briefing-wrap { margin-right: 460px; transition: margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  body.panel-open .backlog-wrap { margin-right: 460px; transition: margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
   .sidekick-panel {
-    position: fixed; top: 0; right: 0; bottom: 0; width: 420px; z-index: 201;
+    position: fixed; top: 0; right: 0; bottom: 0; width: 440px; z-index: 201;
     background: var(--background-primary); border-left: 1px solid var(--border-primary);
     box-shadow: -8px 0 32px rgba(5,0,56,0.12);
     transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex; flex-direction: column; overflow: hidden;
+    display: flex; flex-direction: column;
   }
   .sidekick-panel.open { transform: translateX(0); }
 
@@ -670,29 +675,29 @@
   /* === PLAN RECOMMENDATION CARDS === */
   .sp-rec-card {
     background: var(--background-primary); border: 1px solid var(--border-primary);
-    border-radius: var(--radius-200); overflow: hidden; cursor: pointer;
+    border-radius: var(--radius-200); cursor: pointer;
     transition: border-color 0.12s, box-shadow 0.12s;
   }
   .sp-rec-card:hover { border-color: var(--border-secondary); box-shadow: var(--elevation-100); }
   .sp-rec-header {
-    display: flex; align-items: flex-start; gap: var(--space-300);
-    padding: var(--space-400);
+    display: flex; align-items: flex-start; gap: var(--space-200);
+    padding: var(--space-300);
   }
   .sp-rec-num {
-    width: 24px; height: 24px; border-radius: var(--radius-full);
+    width: 22px; height: 22px; border-radius: var(--radius-full);
     background: var(--background-brand-subtle); color: var(--text-brand);
     display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700; flex-shrink: 0;
+    font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
   }
   .sp-rec-content { flex: 1; min-width: 0; }
-  .sp-rec-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-100); }
-  .sp-rec-reason { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+  .sp-rec-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-50); word-break: break-word; }
+  .sp-rec-tag { margin-top: var(--space-100); }
+  .sp-rec-reason { font-size: 12px; color: var(--text-secondary); line-height: 1.5; word-break: break-word; }
   .sp-rec-detail {
-    display: none; padding: 0 var(--space-400) var(--space-400);
-    border-top: 1px solid var(--border-primary); margin-top: 0;
+    display: none; padding: 0 var(--space-300) var(--space-300);
+    border-top: 1px solid var(--border-primary);
   }
-  .sp-rec-detail.visible { display: block; padding-top: var(--space-400); }
-  .sp-rec-evidence { }
+  .sp-rec-detail.visible { display: block; padding-top: var(--space-300); }
 
   /* Highlight active card */
   .evidence-card.panel-active { background: var(--background-brand-subtle); border-color: var(--border-brand); }
@@ -1439,6 +1444,7 @@ function openPanel(cardId, el) {
 
   document.getElementById('skOverlay').classList.add('open');
   document.getElementById('skPanel').classList.add('open');
+  document.body.classList.add('panel-open');
 }
 
 function showSection(type, cardId, btnEl) {
@@ -1711,28 +1717,26 @@ function openPlanSidekick() {
       <div class="sp-ai-text">I've analysed your plan and found <strong>3 actions</strong> that could raise confidence from 72% to ~85%. Here are my recommendations, ranked by impact.</div>
     </div>
 
-    <div class="sp-section-head" style="margin-top:var(--space-200);">🔴 High impact</div>
+    <div class="sp-section-head" style="margin-top:var(--space-200);">High impact</div>
     <div class="sp-rec-card" onclick="this.querySelector('.sp-rec-detail').classList.toggle('visible')">
       <div class="sp-rec-header">
         <div class="sp-rec-num">1</div>
         <div class="sp-rec-content">
           <div class="sp-rec-title">Run a feasibility spike for AI Signal Synthesis</div>
-          <div class="sp-rec-reason">This item is blocking Q2 scope decisions and is your lowest-confidence initiative. A 2-week spike would move it from "validating" to "strong" or allow you to descope early.</div>
+          <div class="sp-rec-tag"><span class="tag tag-danger-subtle">+8% confidence</span></div>
+          <div class="sp-rec-reason">Blocking Q2 scope decisions. A 2-week spike would move it from "validating" to "strong" or allow early descoping.</div>
         </div>
-        <span class="tag tag-danger-subtle">+8% confidence</span>
       </div>
       <div class="sp-rec-detail">
-        <div class="sp-rec-evidence">
-          <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Why this matters</div>
-          <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-            <div class="sp-quote-text">"The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined."</div>
-            <div class="sp-quote-source"><div class="sp-quote-attr">— Andrey Khusid, CEO · Sync Feb 18</div></div>
-          </div>
-          <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">This initiative has <strong>no VoC evidence</strong> and <strong>no usage data</strong> — it's strategy + market only. Running a feasibility spike would either validate the approach (adding technical evidence) or reveal it needs rescoping.</div>
-          <div style="display:flex; gap:var(--space-200);">
-            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Create spike ticket</button>
-            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add to Q1 sprint</button>
-          </div>
+        <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Why this matters</div>
+        <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
+          <div class="sp-quote-text">"The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined."</div>
+          <div class="sp-quote-source"><div class="sp-quote-attr">— Andrey Khusid, CEO · Sync Feb 18</div></div>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">This initiative has <strong>no VoC evidence</strong> and <strong>no usage data</strong> — it's strategy + market only. A spike would validate the approach or reveal it needs rescoping.</div>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
+          <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Create spike ticket</button>
+          <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add to Q1 sprint</button>
         </div>
       </div>
     </div>
@@ -1742,88 +1746,90 @@ function openPlanSidekick() {
         <div class="sp-rec-num">2</div>
         <div class="sp-rec-content">
           <div class="sp-rec-title">Gather usage data for Roadmapping Space UX</div>
-          <div class="sp-rec-reason">This initiative has moderate evidence but no baseline usage metrics. Running a 1-week instrumentation pass on the current roadmapping flows would strengthen your case.</div>
+          <div class="sp-rec-tag"><span class="tag tag-warning-subtle">+5% confidence</span></div>
+          <div class="sp-rec-reason">Moderate evidence but no baseline usage metrics. A 1-week instrumentation pass would strengthen the case.</div>
         </div>
-        <span class="tag tag-warning-subtle">+5% confidence</span>
       </div>
       <div class="sp-rec-detail">
-        <div class="sp-rec-evidence">
-          <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Missing signals</div>
-          <div style="display:flex; gap:var(--space-200); margin-bottom:var(--space-300);">
-            <div style="flex:1; padding:var(--space-300); background:var(--background-danger-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
-              <div style="font-weight:600; color:var(--text-danger);">No usage data</div>
-              <div style="color:var(--text-secondary); margin-top:2px;">How many PMs use roadmapping today?</div>
-            </div>
-            <div style="flex:1; padding:var(--space-300); background:var(--background-warning-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
-              <div style="font-weight:600; color:var(--text-warning);">No market data</div>
-              <div style="color:var(--text-secondary); margin-top:2px;">How does Aha! roadmapping compare?</div>
-            </div>
+        <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Missing signals</div>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-200); margin-bottom:var(--space-300);">
+          <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-danger-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
+            <div style="font-weight:600; color:var(--text-danger);">No usage data</div>
+            <div style="color:var(--text-secondary); margin-top:2px;">How many PMs use roadmapping?</div>
           </div>
-          <div style="display:flex; gap:var(--space-200);">
-            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Request instrumentation</button>
-            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add competitor review</button>
+          <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-warning-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
+            <div style="font-weight:600; color:var(--text-warning);">No market data</div>
+            <div style="color:var(--text-secondary); margin-top:2px;">How does Aha! compare?</div>
           </div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
+          <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Request instrumentation</button>
+          <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add competitor review</button>
         </div>
       </div>
     </div>
 
-    <div class="sp-section-head">🟡 Medium impact</div>
+    <div class="sp-section-head">Medium impact</div>
     <div class="sp-rec-card" onclick="this.querySelector('.sp-rec-detail').classList.toggle('visible')">
       <div class="sp-rec-header">
         <div class="sp-rec-num">3</div>
         <div class="sp-rec-content">
-          <div class="sp-rec-title">Validate Views Parity scope with 3 customer interviews</div>
-          <div class="sp-rec-reason">You have internal usage data and strategy alignment, but only 1 direct customer quote. 3 targeted interviews with power users of Timeline/Kanban would confirm the scope is right.</div>
+          <div class="sp-rec-title">Validate Views Parity with 3 customer interviews</div>
+          <div class="sp-rec-tag"><span class="tag tag-primary-subtle">+3% confidence</span></div>
+          <div class="sp-rec-reason">Internal usage data + strategy alignment, but only 1 direct quote. 3 targeted interviews would confirm scope.</div>
         </div>
-        <span class="tag tag-primary-subtle">+3% confidence</span>
       </div>
       <div class="sp-rec-detail">
-        <div class="sp-rec-evidence">
-          <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Suggested interviewees</div>
-          <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:var(--space-300);">
-            Based on usage patterns, these accounts use Timeline/Kanban most heavily:<br>
-            <strong>1.</strong> LEGO (Agile Coach team — 12 active boards)<br>
-            <strong>2.</strong> PayPal (PM team — 8 active boards)<br>
-            <strong>3.</strong> Reece Group (Product Ops — 6 active boards)
-          </div>
-          <div style="display:flex; gap:var(--space-200);">
-            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Draft interview request</button>
-            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">View their usage</button>
-          </div>
+        <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Suggested interviewees</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:var(--space-300);">
+          Based on usage patterns, heaviest Timeline/Kanban users:<br>
+          <strong>1.</strong> LEGO (Agile Coach — 12 boards)<br>
+          <strong>2.</strong> PayPal (PM team — 8 boards)<br>
+          <strong>3.</strong> Reece Group (Product Ops — 6 boards)
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
+          <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Draft interview request</button>
+          <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">View their usage</button>
         </div>
       </div>
     </div>
 
     <div style="margin-top:var(--space-400); padding:var(--space-400); background:var(--background-secondary); border-radius:var(--radius-200); border:1px solid var(--border-primary);">
-      <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-200);">
-        <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-tertiary);">Projected outcome</span>
-      </div>
-      <div style="display:flex; align-items:center; gap:var(--space-400);">
-        <div style="text-align:center;">
-          <div style="font-size:11px; color:var(--text-tertiary);">Now</div>
-          <div style="font-size:22px; font-weight:700; color:var(--text-secondary);">72%</div>
+      <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-tertiary); margin-bottom:var(--space-300);">Projected outcome</div>
+      <div style="display:flex; align-items:center; gap:var(--space-300); margin-bottom:var(--space-300);">
+        <div style="text-align:center; flex-shrink:0;">
+          <div style="font-size:10px; color:var(--text-tertiary);">Now</div>
+          <div style="font-size:20px; font-weight:700; color:var(--text-secondary);">72%</div>
         </div>
-        <div style="font-size:18px; color:var(--text-brand);">→</div>
-        <div style="text-align:center;">
-          <div style="font-size:11px; color:var(--text-tertiary);">After actions</div>
-          <div style="font-size:22px; font-weight:700; color:var(--text-success);">~88%</div>
-        </div>
-        <div style="flex:1; height:8px; background:var(--background-tertiary); border-radius:var(--radius-full); overflow:hidden; position:relative;">
-          <div style="height:100%; width:72%; background:var(--background-brand-prominent); border-radius:var(--radius-full); position:absolute;"></div>
-          <div style="height:100%; width:88%; background:var(--background-success-prominent); border-radius:var(--radius-full); opacity:0.35;"></div>
+        <div style="font-size:16px; color:var(--text-brand); flex-shrink:0;">→</div>
+        <div style="text-align:center; flex-shrink:0;">
+          <div style="font-size:10px; color:var(--text-tertiary);">After</div>
+          <div style="font-size:20px; font-weight:700; color:var(--text-success);">~88%</div>
         </div>
       </div>
-      <div style="font-size:11px; color:var(--text-tertiary); margin-top:var(--space-200);">Estimated ~3 weeks of effort across all 3 actions</div>
+      <div style="height:8px; background:var(--background-tertiary); border-radius:var(--radius-full); overflow:hidden; margin-bottom:var(--space-200);">
+        <div style="height:100%; width:88%; background:var(--background-success-prominent); border-radius:var(--radius-full); opacity:0.3;"></div>
+      </div>
+      <div style="height:8px; background:transparent; border-radius:var(--radius-full); overflow:hidden; margin-top:-8px; margin-bottom:var(--space-200);">
+        <div style="height:100%; width:72%; background:var(--background-brand-prominent); border-radius:var(--radius-full);"></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-tertiary); margin-bottom:var(--space-200);">
+        <span>Current</span>
+        <span>+16% potential</span>
+      </div>
+      <div style="font-size:11px; color:var(--text-tertiary);">~3 weeks of effort across all 3 actions</div>
     </div>
   `;
 
   document.getElementById('skOverlay').classList.add('open');
   document.getElementById('skPanel').classList.add('open');
+  document.body.classList.add('panel-open');
 }
 
 function closePanel() {
   document.getElementById('skOverlay').classList.remove('open');
   document.getElementById('skPanel').classList.remove('open');
+  document.body.classList.remove('panel-open');
   document.querySelectorAll('.panel-active').forEach(c => c.classList.remove('panel-active'));
 }
 
