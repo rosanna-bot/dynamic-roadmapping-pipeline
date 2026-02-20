@@ -206,32 +206,34 @@
 
   .ec-actions { display: flex; gap: var(--space-200); }
 
-  /* Briefing Footer / Health */
-  .briefing-footer {
-    margin-top: var(--space-500); background: var(--background-primary);
-    border: 1px solid var(--border-primary); border-radius: var(--radius-300);
-    padding: var(--space-500);
+  /* Summary Tiles */
+  .briefing-tiles {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-300);
+    margin-bottom: var(--space-500);
   }
-  .health-row {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: var(--space-300); font-size: 13px;
+  .btile {
+    background: var(--background-primary); border: 1px solid var(--border-primary);
+    border-radius: var(--radius-300); padding: var(--space-400) var(--space-500);
+    transition: all 0.15s; cursor: pointer; position: relative; overflow: hidden;
   }
-  .health-row:last-child { margin-bottom: 0; }
-  .health-label { color: var(--text-secondary); display: flex; align-items: center; gap: var(--space-200); }
-  .health-value { font-weight: 600; color: var(--text-primary); }
-  .progress-track { height: 6px; flex: 1; max-width: 200px; background: var(--background-tertiary); border-radius: var(--radius-full); margin: 0 var(--space-400); }
-  .progress-fill { height: 100%; border-radius: var(--radius-full); background: var(--background-brand-prominent); }
-  /* MDS Slider stand-in */
-  .sensitivity { display: flex; align-items: center; gap: var(--space-300); margin-top: var(--space-400); padding-top: var(--space-400); border-top: 1px solid var(--border-primary); }
-  .sensitivity-label { font-size: 12px; color: var(--text-tertiary); white-space: nowrap; }
-  .slider-track { flex: 1; max-width: 200px; height: 4px; background: var(--background-tertiary); border-radius: var(--radius-full); position: relative; }
-  .slider-fill { height: 100%; width: 35%; background: var(--background-brand-prominent); border-radius: var(--radius-full); }
-  .slider-thumb {
-    position: absolute; top: -6px; left: 35%; width: 16px; height: 16px;
-    background: var(--background-primary); border: 2px solid var(--background-brand-prominent);
-    border-radius: var(--radius-full); box-shadow: var(--elevation-200); cursor: pointer;
-    transform: translateX(-50%);
-  }
+  .btile:hover { box-shadow: var(--elevation-200); border-color: var(--border-secondary); transform: translateY(-1px); }
+  .btile-num { font-size: 28px; font-weight: 700; line-height: 1.1; margin-bottom: var(--space-100); }
+  .btile-label { font-size: 12px; color: var(--text-secondary); line-height: 1.35; }
+  .btile-bar { height: 4px; background: var(--background-tertiary); border-radius: var(--radius-full); margin-top: var(--space-300); }
+  .btile-bar-fill { height: 100%; border-radius: var(--radius-full); transition: width 0.6s ease; }
+  .btile-confidence { border-left: 3px solid var(--background-brand-prominent); }
+  .btile-confidence .btile-num { color: var(--text-brand); }
+  .btile-confidence:hover { background: var(--background-brand-subtle); }
+  .btile-signals { border-left: 3px solid var(--background-danger-prominent); }
+  .btile-signals .btile-num { color: var(--text-danger); }
+  .btile-signals:hover { background: var(--background-danger-subtle); }
+  .btile-connected { border-left: 3px solid var(--background-success-prominent); }
+  .btile-connected .btile-num { color: var(--text-success); }
+  .btile-connected:hover { background: var(--background-success-subtle); }
+  .btile-changed { border-left: 3px solid var(--background-warning-prominent); }
+  .btile-changed .btile-num { color: var(--text-warning); }
+  .btile-changed:hover { background: var(--background-warning-subtle); }
+  @media (max-width: 600px) { .briefing-tiles { grid-template-columns: 1fr 1fr; } }
 
   /* === BACKLOG SCREEN === */
   .backlog-wrap { max-width: 1200px; margin: 0 auto; }
@@ -739,9 +741,28 @@
       <div class="meta">Feb 19, 2026 · Updated 2h ago</div>
     </div>
     <div class="briefing-stats">
-      <span>📊 4 signals connected</span>
-      <span>📬 3 new since last visit</span>
       <span>⏱ ~3 min read</span>
+      <span>Updated 2h ago</span>
+    </div>
+
+    <div class="briefing-tiles">
+      <div class="btile btile-confidence" onclick="goToPlanWithSidekick()">
+        <div class="btile-num">72%</div>
+        <div class="btile-label">Plan confidence</div>
+        <div class="btile-bar"><div class="btile-bar-fill" style="width:72%; background:var(--background-brand-prominent)"></div></div>
+      </div>
+      <div class="btile btile-signals" onclick="openPanel('jira-custom-fields')">
+        <div class="btile-num">3</div>
+        <div class="btile-label">New signals since last visit</div>
+      </div>
+      <div class="btile btile-connected">
+        <div class="btile-num">4</div>
+        <div class="btile-label">Signals connected</div>
+      </div>
+      <div class="btile btile-changed">
+        <div class="btile-num">2 ↑ 1 ↓</div>
+        <div class="btile-label">Changed since last briefing</div>
+      </div>
     </div>
 
     <!-- HIGH card -->
@@ -846,25 +867,6 @@
       </div>
     </div>
 
-    <div class="briefing-footer">
-      <div class="health-row">
-        <span class="health-label">📊 Plan confidence</span>
-        <div class="progress-track"><div class="progress-fill" style="width:72%"></div></div>
-        <span class="health-value">72%</span>
-      </div>
-      <div class="health-row">
-        <span class="health-label">📈 Since last briefing</span>
-        <span style="font-size:13px; color:var(--text-secondary)">2 strengthened · 1 weakened · 3 unchanged</span>
-      </div>
-      <div class="sensitivity">
-        <span class="sensitivity-label">Less noise</span>
-        <div class="slider-track">
-          <div class="slider-fill"></div>
-          <div class="slider-thumb"></div>
-        </div>
-        <span class="sensitivity-label">More signals</span>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -1834,6 +1836,15 @@ function go(id, el) {
   document.getElementById(id).classList.add('active');
   el.classList.add('active');
   window.scrollTo(0, 0);
+}
+
+function goToPlanWithSidekick() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav .tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('plan').classList.add('active');
+  document.querySelectorAll('.nav .tab')[2].classList.add('active');
+  window.scrollTo(0, 0);
+  setTimeout(() => openPlanSidekick(), 300);
 }
 </script>
 </body>
