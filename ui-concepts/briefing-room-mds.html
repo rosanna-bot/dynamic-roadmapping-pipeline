@@ -308,11 +308,6 @@
   .bar.warning { background: rgba(255,191,0,0.12); border: 1px solid rgba(255,191,0,0.25); color: var(--text-warning); }
   .bar.success { background: rgba(35,180,94,0.12); border: 1px solid rgba(35,180,94,0.25); color: var(--text-success); }
 
-  .plan-footer {
-    margin-top: var(--space-500); padding: var(--space-500);
-    background: var(--background-primary); border: 1px solid var(--border-primary);
-    border-radius: var(--radius-300); display: flex; justify-content: space-between; align-items: center;
-  }
   .pc-block { display: flex; align-items: center; gap: var(--space-400); }
   .pc-num { font-size: 28px; font-weight: 700; color: var(--text-brand); }
   .pc-label { font-size: 13px; color: var(--text-secondary); }
@@ -453,6 +448,25 @@
   .phase-ex-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-tertiary); margin-bottom: var(--space-150); }
   .phase-ex-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; font-style: italic; }
 
+  /* === PLAN CONFIDENCE BAR (top of Plan screen) === */
+  .plan-confidence-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--space-400) var(--space-500); margin-bottom: var(--space-500);
+    background: var(--background-primary); border: 1px solid var(--border-primary);
+    border-radius: var(--radius-300); box-shadow: var(--elevation-100);
+  }
+  .pcb-left { display: flex; align-items: center; gap: var(--space-400); flex: 1; }
+  .pcb-score { font-size: 32px; font-weight: 700; color: var(--text-brand); line-height: 1; }
+  .pcb-detail { flex-shrink: 0; }
+  .pcb-label { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .pcb-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 1px; }
+  .pcb-progress {
+    flex: 1; max-width: 180px; height: 6px;
+    background: var(--background-tertiary); border-radius: var(--radius-full); overflow: hidden;
+  }
+  .pcb-progress-fill { height: 100%; border-radius: var(--radius-full); background: var(--background-brand-prominent); }
+  .pcb-right { display: flex; align-items: center; gap: var(--space-300); flex-shrink: 0; }
+
   /* === SIDEKICK SIDE PANEL === */
   .sidekick-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -591,6 +605,33 @@
     margin-top: var(--space-200);
   }
   .sp-validate-btn:hover { border-color: var(--border-success); color: var(--text-success); background: var(--background-success-subtle); }
+
+  /* === PLAN RECOMMENDATION CARDS === */
+  .sp-rec-card {
+    background: var(--background-primary); border: 1px solid var(--border-primary);
+    border-radius: var(--radius-200); overflow: hidden; cursor: pointer;
+    transition: border-color 0.12s, box-shadow 0.12s;
+  }
+  .sp-rec-card:hover { border-color: var(--border-secondary); box-shadow: var(--elevation-100); }
+  .sp-rec-header {
+    display: flex; align-items: flex-start; gap: var(--space-300);
+    padding: var(--space-400);
+  }
+  .sp-rec-num {
+    width: 24px; height: 24px; border-radius: var(--radius-full);
+    background: var(--background-brand-subtle); color: var(--text-brand);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .sp-rec-content { flex: 1; min-width: 0; }
+  .sp-rec-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-100); }
+  .sp-rec-reason { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+  .sp-rec-detail {
+    display: none; padding: 0 var(--space-400) var(--space-400);
+    border-top: 1px solid var(--border-primary); margin-top: 0;
+  }
+  .sp-rec-detail.visible { display: block; padding-top: var(--space-400); }
+  .sp-rec-evidence { }
 
   /* Highlight active card */
   .evidence-card.panel-active { background: var(--background-brand-subtle); border-color: var(--border-brand); }
@@ -866,6 +907,25 @@
       <div class="screen-title">Zone 3: The Plan</div>
       <div class="screen-desc">Timeline with evidence overlay. Each item's confidence is visible via MDS Tag-colored pips. Stakeholders see what's committed and how well-supported it is.</div>
     </div>
+
+    <div class="plan-confidence-bar">
+      <div class="pcb-left">
+        <div class="pcb-score">72%</div>
+        <div class="pcb-detail">
+          <div class="pcb-label">Plan confidence</div>
+          <div class="pcb-sub">5 of 7 items have strong evidence · 2 still validating</div>
+        </div>
+        <div class="pcb-progress"><div class="pcb-progress-fill" style="width:72%"></div></div>
+      </div>
+      <div class="pcb-right">
+        <div class="callout callout-warning" style="padding:var(--space-200) var(--space-300); font-size:12px;">
+          <div class="callout-icon" style="font-size:13px;">⚠️</div>
+          <div><strong>AI Signal Synthesis</strong> still validating</div>
+        </div>
+        <button class="btn btn-sm btn-primary" onclick="openPlanSidekick()" style="gap:var(--space-150);">✦ Suggested actions</button>
+      </div>
+    </div>
+
     <div class="tl-container">
       <div class="tl-head">
         <div class="tl-label-col">Initiative</div>
@@ -881,18 +941,6 @@
       <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip strong"></div>Performance at Scale</div><div class="tl-bars"><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
       <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip strong"></div>First Experience + AI</div><div class="tl-bars"><div class="tl-cell"></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"><div class="bar danger"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
       <div class="tl-row"><div class="tl-item-label"><div class="evidence-pip moderate"></div>Views Parity + Kanban</div><div class="tl-bars"><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"><div class="bar success"></div></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div><div class="tl-cell"></div></div></div>
-    </div>
-
-    <div class="plan-footer">
-      <div class="pc-block"><div class="pc-num">72%</div><div><div class="pc-label">Plan confidence</div><div class="pc-sub">5 of 7 items have strong evidence</div></div></div>
-      <div class="callout callout-warning" style="max-width:320px; padding:var(--space-300) var(--space-400);">
-        <div class="callout-icon">⚠️</div>
-        <div><strong style="font-size:12px;">AI Signal Synthesis</strong> still validating<br><span style="font-size:11px; color:var(--text-secondary)">Q2 scope depends on feasibility sprint</span></div>
-      </div>
-      <div style="display:flex; gap:var(--space-200);">
-        <button class="btn btn-sm btn-secondary">Compare versions</button>
-        <button class="btn btn-sm btn-primary">Share with stakeholders</button>
-      </div>
     </div>
   </div>
 </div>
@@ -1348,6 +1396,132 @@ function sendMsg() {
     </div>
   `;
   sec.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+function openPlanSidekick() {
+  const body = document.getElementById('skBody');
+  body.innerHTML = `
+    <div class="sp-context">
+      <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-200);">
+        <span style="font-size:28px; font-weight:700; color:var(--text-brand);">72%</span>
+        <span class="tag tag-warning-subtle">Room to improve</span>
+      </div>
+      <div class="sp-context-title">Plan Confidence Analysis</div>
+      <div class="sp-context-meta">7 initiatives · 5 strong · 2 validating · 0 weak</div>
+    </div>
+    <div class="sp-ai-msg">
+      <div class="sp-ai-avatar">✦</div>
+      <div class="sp-ai-text">I've analysed your plan and found <strong>3 actions</strong> that could raise confidence from 72% to ~85%. Here are my recommendations, ranked by impact.</div>
+    </div>
+
+    <div class="sp-section-head" style="margin-top:var(--space-200);">🔴 High impact</div>
+    <div class="sp-rec-card" onclick="this.querySelector('.sp-rec-detail').classList.toggle('visible')">
+      <div class="sp-rec-header">
+        <div class="sp-rec-num">1</div>
+        <div class="sp-rec-content">
+          <div class="sp-rec-title">Run a feasibility spike for AI Signal Synthesis</div>
+          <div class="sp-rec-reason">This item is blocking Q2 scope decisions and is your lowest-confidence initiative. A 2-week spike would move it from "validating" to "strong" or allow you to descope early.</div>
+        </div>
+        <span class="tag tag-danger-subtle">+8% confidence</span>
+      </div>
+      <div class="sp-rec-detail">
+        <div class="sp-rec-evidence">
+          <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Why this matters</div>
+          <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
+            <div class="sp-quote-text">"The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined."</div>
+            <div class="sp-quote-source"><div class="sp-quote-attr">— Andrey Khusid, CEO · Sync Feb 18</div></div>
+          </div>
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">This initiative has <strong>no VoC evidence</strong> and <strong>no usage data</strong> — it's strategy + market only. Running a feasibility spike would either validate the approach (adding technical evidence) or reveal it needs rescoping.</div>
+          <div style="display:flex; gap:var(--space-200);">
+            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Create spike ticket</button>
+            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add to Q1 sprint</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sp-rec-card" onclick="this.querySelector('.sp-rec-detail').classList.toggle('visible')">
+      <div class="sp-rec-header">
+        <div class="sp-rec-num">2</div>
+        <div class="sp-rec-content">
+          <div class="sp-rec-title">Gather usage data for Roadmapping Space UX</div>
+          <div class="sp-rec-reason">This initiative has moderate evidence but no baseline usage metrics. Running a 1-week instrumentation pass on the current roadmapping flows would strengthen your case.</div>
+        </div>
+        <span class="tag tag-warning-subtle">+5% confidence</span>
+      </div>
+      <div class="sp-rec-detail">
+        <div class="sp-rec-evidence">
+          <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Missing signals</div>
+          <div style="display:flex; gap:var(--space-200); margin-bottom:var(--space-300);">
+            <div style="flex:1; padding:var(--space-300); background:var(--background-danger-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
+              <div style="font-weight:600; color:var(--text-danger);">No usage data</div>
+              <div style="color:var(--text-secondary); margin-top:2px;">How many PMs use roadmapping today?</div>
+            </div>
+            <div style="flex:1; padding:var(--space-300); background:var(--background-warning-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
+              <div style="font-weight:600; color:var(--text-warning);">No market data</div>
+              <div style="color:var(--text-secondary); margin-top:2px;">How does Aha! roadmapping compare?</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:var(--space-200);">
+            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Request instrumentation</button>
+            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add competitor review</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sp-section-head">🟡 Medium impact</div>
+    <div class="sp-rec-card" onclick="this.querySelector('.sp-rec-detail').classList.toggle('visible')">
+      <div class="sp-rec-header">
+        <div class="sp-rec-num">3</div>
+        <div class="sp-rec-content">
+          <div class="sp-rec-title">Validate Views Parity scope with 3 customer interviews</div>
+          <div class="sp-rec-reason">You have internal usage data and strategy alignment, but only 1 direct customer quote. 3 targeted interviews with power users of Timeline/Kanban would confirm the scope is right.</div>
+        </div>
+        <span class="tag tag-primary-subtle">+3% confidence</span>
+      </div>
+      <div class="sp-rec-detail">
+        <div class="sp-rec-evidence">
+          <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Suggested interviewees</div>
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:var(--space-300);">
+            Based on usage patterns, these accounts use Timeline/Kanban most heavily:<br>
+            <strong>1.</strong> LEGO (Agile Coach team — 12 active boards)<br>
+            <strong>2.</strong> PayPal (PM team — 8 active boards)<br>
+            <strong>3.</strong> Reece Group (Product Ops — 6 active boards)
+          </div>
+          <div style="display:flex; gap:var(--space-200);">
+            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Draft interview request</button>
+            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">View their usage</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:var(--space-400); padding:var(--space-400); background:var(--background-secondary); border-radius:var(--radius-200); border:1px solid var(--border-primary);">
+      <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-200);">
+        <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-tertiary);">Projected outcome</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:var(--space-400);">
+        <div style="text-align:center;">
+          <div style="font-size:11px; color:var(--text-tertiary);">Now</div>
+          <div style="font-size:22px; font-weight:700; color:var(--text-secondary);">72%</div>
+        </div>
+        <div style="font-size:18px; color:var(--text-brand);">→</div>
+        <div style="text-align:center;">
+          <div style="font-size:11px; color:var(--text-tertiary);">After actions</div>
+          <div style="font-size:22px; font-weight:700; color:var(--text-success);">~88%</div>
+        </div>
+        <div style="flex:1; height:8px; background:var(--background-tertiary); border-radius:var(--radius-full); overflow:hidden; position:relative;">
+          <div style="height:100%; width:72%; background:var(--background-brand-prominent); border-radius:var(--radius-full); position:absolute;"></div>
+          <div style="height:100%; width:88%; background:var(--background-success-prominent); border-radius:var(--radius-full); opacity:0.35;"></div>
+        </div>
+      </div>
+      <div style="font-size:11px; color:var(--text-tertiary); margin-top:var(--space-200);">Estimated ~3 weeks of effort across all 3 actions</div>
+    </div>
+  `;
+
+  document.getElementById('skOverlay').classList.add('open');
+  document.getElementById('skPanel').classList.add('open');
 }
 
 function closePanel() {
