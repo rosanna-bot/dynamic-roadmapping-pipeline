@@ -230,9 +230,9 @@
   .btile-connected { border-left: 3px solid var(--background-success-prominent); }
   .btile-connected .btile-num { color: var(--text-success); }
   .btile-connected:hover { background: var(--background-success-subtle); }
-  .btile-changed { border-left: 3px solid var(--background-warning-prominent); }
-  .btile-changed .btile-num { color: var(--text-warning); }
-  .btile-changed:hover { background: var(--background-warning-subtle); }
+  .btile-changed { border-left: 3px solid var(--background-danger-prominent); }
+  .btile-changed .btile-num { color: var(--text-danger); }
+  .btile-changed:hover { background: var(--background-danger-subtle); }
   @media (max-width: 600px) { .briefing-tiles { grid-template-columns: 1fr 1fr; } }
 
   /* === BACKLOG SCREEN === */
@@ -746,22 +746,22 @@
     </div>
 
     <div class="briefing-tiles">
+      <div class="btile btile-connected" onclick="openStrengthened()">
+        <div class="btile-num">2 <span style="font-size:16px; color:var(--text-success)">↑</span></div>
+        <div class="btile-label">Strengthened</div>
+      </div>
+      <div class="btile btile-signals" onclick="openNewSignals()">
+        <div class="btile-num">1 <span style="font-size:16px; color:var(--text-brand)">+</span></div>
+        <div class="btile-label">New signal</div>
+      </div>
+      <div class="btile btile-changed" onclick="openWeakened()">
+        <div class="btile-num">1 <span style="font-size:16px; color:var(--text-danger)">↓</span></div>
+        <div class="btile-label">Weakened</div>
+      </div>
       <div class="btile btile-confidence" onclick="goToPlanWithSidekick()">
         <div class="btile-num">72%</div>
         <div class="btile-label">Plan confidence</div>
         <div class="btile-bar"><div class="btile-bar-fill" style="width:72%; background:var(--background-brand-prominent)"></div></div>
-      </div>
-      <div class="btile btile-signals" onclick="openPanel('jira-custom-fields')">
-        <div class="btile-num">3</div>
-        <div class="btile-label">New signals since last visit</div>
-      </div>
-      <div class="btile btile-connected">
-        <div class="btile-num">4</div>
-        <div class="btile-label">Signals connected</div>
-      </div>
-      <div class="btile btile-changed">
-        <div class="btile-num">2 ↑ 1 ↓</div>
-        <div class="btile-label">Changed since last briefing</div>
       </div>
     </div>
 
@@ -1836,6 +1836,99 @@ function go(id, el) {
   document.getElementById(id).classList.add('active');
   el.classList.add('active');
   window.scrollTo(0, 0);
+}
+
+function openStrengthened() {
+  const body = document.getElementById('skBody');
+  body.innerHTML = `
+    <div class="sp-context">
+      <div class="sp-context-title"><span class="tag tag-success-subtle">Strengthened</span></div>
+      <div style="font-size:15px; font-weight:700; margin: var(--space-200) 0 var(--space-100);">2 items strengthened since last briefing</div>
+      <div class="sp-context-meta">These items gained new supporting evidence</div>
+    </div>
+    <div class="sp-ai-msg">
+      <div class="sp-ai-avatar">✦</div>
+      <div class="sp-ai-text">Two items in your plan got stronger this week. Here's what changed.</div>
+    </div>
+    <div style="margin-top:var(--space-300);">
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-success); border-radius:var(--radius-200); margin-bottom:var(--space-300); cursor:pointer;" onclick="openPanel('jira-custom-fields')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
+          <div style="font-size:14px; font-weight:600;">Jira Custom Fields</div>
+          <span class="tag tag-danger-subtle">High confidence</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">+7 new Gong mentions this week · 2 new enterprise accounts · ARR impact now $2.1M</div>
+        <div style="font-size:11px; color:var(--text-success); font-weight:600;">↑ Moved from Medium → High confidence</div>
+      </div>
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-success); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('convert-rows-jira')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
+          <div style="font-size:14px; font-weight:600;">Convert Rows → Jira Tickets</div>
+          <span class="tag tag-danger-subtle">High confidence</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Monday.com shipped native Jira creation (GA) — competitive urgency increased</div>
+        <div style="font-size:11px; color:var(--text-success); font-weight:600;">↑ New market signal added</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('skOverlay').classList.add('open');
+  document.getElementById('skPanel').classList.add('open');
+}
+
+function openNewSignals() {
+  const body = document.getElementById('skBody');
+  body.innerHTML = `
+    <div class="sp-context">
+      <div class="sp-context-title"><span class="tag tag-primary-subtle">New signal</span></div>
+      <div style="font-size:15px; font-weight:700; margin: var(--space-200) 0 var(--space-100);">1 new signal detected</div>
+      <div class="sp-context-meta">This wasn't in your top 20 — worth investigating</div>
+    </div>
+    <div class="sp-ai-msg">
+      <div class="sp-ai-avatar">✦</div>
+      <div class="sp-ai-text">I found a new pattern across 3 enterprise accounts that doesn't match any existing backlog item.</div>
+    </div>
+    <div style="margin-top:var(--space-300);">
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-brand); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('portfolio-view')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
+          <div style="font-size:14px; font-weight:600;">Portfolio View for Leaders</div>
+          <span class="tag tag-primary-subtle">New signal</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">3 enterprise accounts mentioned "portfolio view" in Gong calls · $890K combined ARR</div>
+        <div style="display:flex; gap:var(--space-200); margin-top:var(--space-300);">
+          <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); openPanel('portfolio-view')">View evidence</button>
+          <button class="btn btn-sm btn-tertiary" onclick="event.stopPropagation()">Create backlog item</button>
+          <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation()">Dismiss</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('skOverlay').classList.add('open');
+  document.getElementById('skPanel').classList.add('open');
+}
+
+function openWeakened() {
+  const body = document.getElementById('skBody');
+  body.innerHTML = `
+    <div class="sp-context">
+      <div class="sp-context-title"><span class="tag tag-danger-subtle">Weakened</span></div>
+      <div style="font-size:15px; font-weight:700; margin: var(--space-200) 0 var(--space-100);">1 item weakened since last briefing</div>
+      <div class="sp-context-meta">This item lost evidence support — may need attention</div>
+    </div>
+    <div class="sp-ai-msg">
+      <div class="sp-ai-avatar">✦</div>
+      <div class="sp-ai-text">One item's evidence got weaker. Usage data shows a decline that wasn't there last week.</div>
+    </div>
+    <div style="margin-top:var(--space-300);">
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-danger); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('silent-abandonment')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
+          <div style="font-size:14px; font-weight:600;">Feature Y — Silent Abandonment</div>
+          <span class="tag tag-warning-subtle">Medium confidence</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Adoption dropped from 8.2% → 4.7% over 6 weeks · No customer complaints (that's the concern)</div>
+        <div style="font-size:11px; color:var(--text-danger); font-weight:600;">↓ Usage signal weakened — approaching 5% threshold</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('skOverlay').classList.add('open');
+  document.getElementById('skPanel').classList.add('open');
 }
 
 function goToPlanWithSidekick() {
