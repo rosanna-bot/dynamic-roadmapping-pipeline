@@ -206,6 +206,35 @@
 
   .ec-actions { display: flex; gap: var(--space-200); }
 
+  /* Summary Tiles */
+  .briefing-tiles {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-300);
+    margin-bottom: var(--space-500);
+  }
+  .btile {
+    background: var(--background-primary); border: 1px solid var(--border-primary);
+    border-radius: var(--radius-300); padding: var(--space-400) var(--space-500);
+    transition: all 0.15s; cursor: pointer; position: relative; overflow: hidden;
+  }
+  .btile:hover { box-shadow: var(--elevation-200); border-color: var(--border-secondary); transform: translateY(-1px); }
+  .btile-num { font-size: 28px; font-weight: 700; line-height: 1.1; margin-bottom: var(--space-100); }
+  .btile-label { font-size: 12px; color: var(--text-secondary); line-height: 1.35; }
+  .btile-bar { height: 4px; background: var(--background-tertiary); border-radius: var(--radius-full); margin-top: var(--space-300); }
+  .btile-bar-fill { height: 100%; border-radius: var(--radius-full); transition: width 0.6s ease; }
+  .btile-confidence { border-left: 3px solid var(--background-brand-prominent); }
+  .btile-confidence .btile-num { color: var(--text-brand); }
+  .btile-confidence:hover { background: var(--background-brand-subtle); }
+  .btile-strengthened { border-left: 3px solid var(--background-success-prominent); }
+  .btile-strengthened .btile-num { color: var(--text-success); }
+  .btile-strengthened:hover { background: var(--background-success-subtle); }
+  .btile-newsignal { border-left: 3px solid var(--background-brand-prominent); }
+  .btile-newsignal .btile-num { color: var(--text-brand); }
+  .btile-newsignal:hover { background: var(--background-brand-subtle); }
+  .btile-weakened { border-left: 3px solid var(--background-danger-prominent); }
+  .btile-weakened .btile-num { color: var(--text-danger); }
+  .btile-weakened:hover { background: var(--background-danger-subtle); }
+  @media (max-width: 600px) { .briefing-tiles { grid-template-columns: 1fr 1fr; } }
+
   /* Briefing Footer / Health */
   .briefing-footer {
     margin-top: var(--space-500); background: var(--background-primary);
@@ -739,9 +768,28 @@
       <div class="meta">Feb 19, 2026 · Updated 2h ago</div>
     </div>
     <div class="briefing-stats">
-      <span>📊 4 signals connected</span>
-      <span>📬 3 new since last visit</span>
       <span>⏱ ~3 min read</span>
+      <span>Updated 2h ago</span>
+    </div>
+
+    <div class="briefing-tiles">
+      <div class="btile btile-strengthened" onclick="openStrengthened()">
+        <div class="btile-num">2 <span style="font-size:16px; color:var(--text-success)">↑</span></div>
+        <div class="btile-label">Strengthened</div>
+      </div>
+      <div class="btile btile-newsignal" onclick="openNewSignals()">
+        <div class="btile-num">1 <span style="font-size:16px; color:var(--text-brand)">+</span></div>
+        <div class="btile-label">New signal</div>
+      </div>
+      <div class="btile btile-weakened" onclick="openWeakened()">
+        <div class="btile-num">1 <span style="font-size:16px; color:var(--text-danger)">↓</span></div>
+        <div class="btile-label">Weakened</div>
+      </div>
+      <div class="btile btile-confidence" onclick="goToPlanWithSidekick()">
+        <div class="btile-num">72%</div>
+        <div class="btile-label">Plan confidence</div>
+        <div class="btile-bar"><div class="btile-bar-fill" style="width:72%; background:var(--background-brand-prominent)"></div></div>
+      </div>
     </div>
 
     <!-- HIGH card -->
@@ -846,25 +894,6 @@
       </div>
     </div>
 
-    <div class="briefing-footer">
-      <div class="health-row">
-        <span class="health-label">📊 Plan confidence</span>
-        <div class="progress-track"><div class="progress-fill" style="width:72%"></div></div>
-        <span class="health-value">72%</span>
-      </div>
-      <div class="health-row">
-        <span class="health-label">📈 Since last briefing</span>
-        <span style="font-size:13px; color:var(--text-secondary)">2 strengthened · 1 weakened · 3 unchanged</span>
-      </div>
-      <div class="sensitivity">
-        <span class="sensitivity-label">Less noise</span>
-        <div class="slider-track">
-          <div class="slider-fill"></div>
-          <div class="slider-thumb"></div>
-        </div>
-        <span class="sensitivity-label">More signals</span>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -1834,6 +1863,108 @@ function go(id, el) {
   document.getElementById(id).classList.add('active');
   el.classList.add('active');
   window.scrollTo(0, 0);
+}
+
+function goToPlanWithSidekick() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav .tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('plan').classList.add('active');
+  document.querySelectorAll('.nav .tab')[2].classList.add('active');
+  window.scrollTo(0, 0);
+  setTimeout(() => openPlanSidekick(), 300);
+}
+
+function openStrengthened() {
+  const body = document.getElementById('skBody');
+  body.innerHTML = `
+    <div class="sp-context">
+      <div class="sp-context-title"><span class="tag tag-success-subtle">Strengthened</span></div>
+      <div style="font-size:15px; font-weight:700; margin: var(--space-200) 0 var(--space-100);">2 items strengthened since last briefing</div>
+      <div class="sp-context-meta">These items gained new supporting evidence</div>
+    </div>
+    <div class="sp-ai-msg">
+      <div class="sp-ai-avatar">✦</div>
+      <div class="sp-ai-text">Two items in your plan got stronger this week. Here's what changed.</div>
+    </div>
+    <div style="margin-top:var(--space-300);">
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-success); border-radius:var(--radius-200); margin-bottom:var(--space-300); cursor:pointer;" onclick="openPanel('jira-custom-fields')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
+          <div style="font-size:14px; font-weight:600;">Jira Custom Fields</div>
+          <span class="tag tag-danger-subtle">High confidence</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">+7 new Gong mentions this week · 2 new enterprise accounts · ARR impact now $2.1M</div>
+        <div style="font-size:11px; color:var(--text-success); font-weight:600;">↑ Moved from Medium → High confidence</div>
+      </div>
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-success); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('convert-rows-jira')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
+          <div style="font-size:14px; font-weight:600;">Convert Rows → Jira Tickets</div>
+          <span class="tag tag-danger-subtle">High confidence</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Monday.com shipped native Jira creation (GA) — competitive urgency increased</div>
+        <div style="font-size:11px; color:var(--text-success); font-weight:600;">↑ New market signal added</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('skOverlay').classList.add('open');
+  document.getElementById('skPanel').classList.add('open');
+}
+
+function openNewSignals() {
+  const body = document.getElementById('skBody');
+  body.innerHTML = `
+    <div class="sp-context">
+      <div class="sp-context-title"><span class="tag tag-primary-subtle">New signal</span></div>
+      <div style="font-size:15px; font-weight:700; margin: var(--space-200) 0 var(--space-100);">1 new signal detected</div>
+      <div class="sp-context-meta">This wasn't in your top 20 — worth investigating</div>
+    </div>
+    <div class="sp-ai-msg">
+      <div class="sp-ai-avatar">✦</div>
+      <div class="sp-ai-text">I found a new pattern across 3 enterprise accounts that doesn't match any existing backlog item.</div>
+    </div>
+    <div style="margin-top:var(--space-300);">
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-brand); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('portfolio-view')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
+          <div style="font-size:14px; font-weight:600;">Portfolio View for Leaders</div>
+          <span class="tag tag-primary-subtle">New signal</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">3 enterprise accounts mentioned "portfolio view" in Gong calls · $890K combined ARR</div>
+        <div style="display:flex; gap:var(--space-200); margin-top:var(--space-300);">
+          <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); openPanel('portfolio-view')">View evidence</button>
+          <button class="btn btn-sm btn-tertiary" onclick="event.stopPropagation()">Create backlog item</button>
+          <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation()">Dismiss</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('skOverlay').classList.add('open');
+  document.getElementById('skPanel').classList.add('open');
+}
+
+function openWeakened() {
+  const body = document.getElementById('skBody');
+  body.innerHTML = `
+    <div class="sp-context">
+      <div class="sp-context-title"><span class="tag tag-danger-subtle">Weakened</span></div>
+      <div style="font-size:15px; font-weight:700; margin: var(--space-200) 0 var(--space-100);">1 item weakened since last briefing</div>
+      <div class="sp-context-meta">This item lost evidence support — may need attention</div>
+    </div>
+    <div class="sp-ai-msg">
+      <div class="sp-ai-avatar">✦</div>
+      <div class="sp-ai-text">One item's evidence got weaker. Usage data shows a decline that wasn't there last week.</div>
+    </div>
+    <div style="margin-top:var(--space-300);">
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-danger); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('silent-abandonment')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
+          <div style="font-size:14px; font-weight:600;">Feature Y — Silent Abandonment</div>
+          <span class="tag tag-warning-subtle">Medium confidence</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Adoption dropped from 8.2% → 4.7% over 6 weeks · No customer complaints (that's the concern)</div>
+        <div style="font-size:11px; color:var(--text-danger); font-weight:600;">↓ Usage signal weakened — approaching 5% threshold</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('skOverlay').classList.add('open');
+  document.getElementById('skPanel').classList.add('open');
 }
 </script>
 </body>
