@@ -152,20 +152,61 @@
   /* === BRIEFING SCREEN === */
   .briefing-wrap { max-width: 720px; margin: 0 auto; }
 
+  /* Briefing summary tiles */
+  .briefing-tiles {
+    display: flex; gap: var(--space-200); margin-bottom: var(--space-400);
+  }
+  .btile {
+    flex: 1; padding: var(--space-300) var(--space-400);
+    background: var(--background-primary); border: 1px solid var(--border-primary);
+    border-radius: var(--radius-200); cursor: pointer;
+    transition: all 0.15s; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: var(--space-50);
+  }
+  .btile:hover { box-shadow: var(--elevation-200); transform: translateY(-1px); }
+  .btile-num { font-size: 22px; font-weight: 700; line-height: 1.1; }
+  .btile-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+  .btile-arrow {
+    position: absolute; top: var(--space-300); right: var(--space-300);
+    font-size: 13px; font-weight: 700; opacity: 0.5;
+  }
+
+  .btile-success { border-left: 3px solid var(--background-success-prominent); }
+  .btile-success .btile-num { color: var(--text-success); }
+  .btile-success .btile-arrow { color: var(--text-success); }
+  .btile-success:hover { background: var(--background-success-subtle); }
+
+  .btile-new { border-left: 3px solid var(--background-brand-prominent); }
+  .btile-new .btile-num { color: var(--text-brand); }
+  .btile-new .btile-arrow { color: var(--text-brand); }
+  .btile-new:hover { background: var(--background-brand-subtle); }
+
+  .btile-danger { border-left: 3px solid var(--background-danger-prominent); }
+  .btile-danger .btile-num { color: var(--text-danger); }
+  .btile-danger .btile-arrow { color: var(--text-danger); }
+  .btile-danger:hover { background: var(--background-danger-subtle); }
+
+  .btile-neutral { border-left: 3px solid var(--background-tertiary); }
+  .btile-neutral .btile-num { color: var(--text-tertiary); }
+  .btile-neutral .btile-arrow { color: var(--text-tertiary); }
+  .btile-neutral:hover { background: var(--background-secondary); }
+
+  .btile-confidence { border-left: 3px solid var(--background-brand-prominent); }
+  .btile-confidence .btile-num { color: var(--text-brand); }
+  .btile-confidence:hover { background: var(--background-brand-subtle); }
+  .btile-bar {
+    height: 4px; background: var(--background-tertiary); border-radius: var(--radius-full);
+    margin-top: var(--space-100); overflow: hidden;
+  }
+  .btile-bar-fill { height: 100%; background: var(--background-brand-prominent); border-radius: var(--radius-full); }
+
   .briefing-bar {
     display: flex; align-items: center; justify-content: space-between;
-    padding: var(--space-400) var(--space-500); background: var(--background-primary);
+    padding: var(--space-300) var(--space-500); background: var(--background-primary);
     border: 1px solid var(--border-primary); border-radius: var(--radius-300) var(--radius-300) 0 0;
   }
-  .briefing-bar h2 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: var(--space-200); }
+  .briefing-bar h2 { font-size: 15px; font-weight: 700; }
   .briefing-bar .meta { font-size: 12px; color: var(--text-tertiary); }
-
-  .briefing-stats {
-    display: flex; gap: var(--space-500); padding: var(--space-300) var(--space-500);
-    background: var(--background-primary); border-left: 1px solid var(--border-primary);
-    border-right: 1px solid var(--border-primary); font-size: 12px; color: var(--text-secondary);
-  }
-  .briefing-stats span { display: flex; align-items: center; gap: var(--space-100); }
 
   .evidence-card {
     background: var(--background-primary);
@@ -206,32 +247,6 @@
 
   .ec-actions { display: flex; gap: var(--space-200); }
 
-  /* Briefing Footer / Health */
-  .briefing-footer {
-    margin-top: var(--space-500); background: var(--background-primary);
-    border: 1px solid var(--border-primary); border-radius: var(--radius-300);
-    padding: var(--space-500);
-  }
-  .health-row {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: var(--space-300); font-size: 13px;
-  }
-  .health-row:last-child { margin-bottom: 0; }
-  .health-label { color: var(--text-secondary); display: flex; align-items: center; gap: var(--space-200); }
-  .health-value { font-weight: 600; color: var(--text-primary); }
-  .progress-track { height: 6px; flex: 1; max-width: 200px; background: var(--background-tertiary); border-radius: var(--radius-full); margin: 0 var(--space-400); }
-  .progress-fill { height: 100%; border-radius: var(--radius-full); background: var(--background-brand-prominent); }
-  /* MDS Slider stand-in */
-  .sensitivity { display: flex; align-items: center; gap: var(--space-300); margin-top: var(--space-400); padding-top: var(--space-400); border-top: 1px solid var(--border-primary); }
-  .sensitivity-label { font-size: 12px; color: var(--text-tertiary); white-space: nowrap; }
-  .slider-track { flex: 1; max-width: 200px; height: 4px; background: var(--background-tertiary); border-radius: var(--radius-full); position: relative; }
-  .slider-fill { height: 100%; width: 35%; background: var(--background-brand-prominent); border-radius: var(--radius-full); }
-  .slider-thumb {
-    position: absolute; top: -6px; left: 35%; width: 16px; height: 16px;
-    background: var(--background-primary); border: 2px solid var(--background-brand-prominent);
-    border-radius: var(--radius-full); box-shadow: var(--elevation-200); cursor: pointer;
-    transform: translateX(-50%);
-  }
 
   /* === BACKLOG SCREEN === */
   .backlog-wrap { max-width: 1200px; margin: 0 auto; }
@@ -739,14 +754,38 @@
       <div class="screen-desc">3–7 finite evidence cards using MDS Tag, Button, Callout, and Slider components. Confidence communicated via Tag variants (danger/warning/primary).</div>
     </div>
 
-    <div class="briefing-bar">
-      <h2>📋 Your Briefing</h2>
-      <div class="meta">Feb 19, 2026 · Updated 2h ago</div>
+    <!-- Summary tiles -->
+    <div class="briefing-tiles">
+      <div class="btile btile-success" onclick="openBriefingTile('strengthened')">
+        <div class="btile-num">2</div>
+        <div class="btile-label">Strengthened</div>
+        <div class="btile-arrow">↑</div>
+      </div>
+      <div class="btile btile-new" onclick="openBriefingTile('new')">
+        <div class="btile-num">1</div>
+        <div class="btile-label">New signal</div>
+        <div class="btile-arrow">+</div>
+      </div>
+      <div class="btile btile-danger" onclick="openBriefingTile('weakened')">
+        <div class="btile-num">1</div>
+        <div class="btile-label">Weakened</div>
+        <div class="btile-arrow">↓</div>
+      </div>
+      <div class="btile btile-neutral" onclick="openBriefingTile('unchanged')">
+        <div class="btile-num">3</div>
+        <div class="btile-label">Unchanged</div>
+        <div class="btile-arrow">—</div>
+      </div>
+      <div class="btile btile-confidence" onclick="goToPlanWithSidekick()">
+        <div class="btile-num">72%</div>
+        <div class="btile-label">Plan confidence</div>
+        <div class="btile-bar"><div class="btile-bar-fill" style="width:72%"></div></div>
+      </div>
     </div>
-    <div class="briefing-stats">
-      <span>📊 4 signals connected</span>
-      <span>📬 3 new since last visit</span>
-      <span>⏱ ~3 min read</span>
+
+    <div class="briefing-bar">
+      <h2>Your Briefing</h2>
+      <div class="meta">Feb 19, 2026 · Updated 2h ago · ~3 min read</div>
     </div>
 
     <!-- HIGH card -->
@@ -851,25 +890,6 @@
       </div>
     </div>
 
-    <div class="briefing-footer">
-      <div class="health-row">
-        <span class="health-label">📊 Plan confidence</span>
-        <div class="progress-track"><div class="progress-fill" style="width:72%"></div></div>
-        <span class="health-value">72%</span>
-      </div>
-      <div class="health-row">
-        <span class="health-label">📈 Since last briefing</span>
-        <span style="font-size:13px; color:var(--text-secondary)">2 strengthened · 1 weakened · 3 unchanged</span>
-      </div>
-      <div class="sensitivity">
-        <span class="sensitivity-label">Less noise</span>
-        <div class="slider-track">
-          <div class="slider-fill"></div>
-          <div class="slider-thumb"></div>
-        </div>
-        <span class="sensitivity-label">More signals</span>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -1413,6 +1433,161 @@ const CARD_DATA = {
     market: [],
   },
 };
+
+function openBriefingTile(type) {
+  const body = document.getElementById('skBody');
+  let html = '';
+
+  if (type === 'strengthened') {
+    html = `
+      <div class="sp-context">
+        <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-200);">
+          <span style="font-size:24px; font-weight:700; color:var(--text-success);">2</span>
+          <span class="tag tag-success-subtle">Strengthened</span>
+        </div>
+        <div class="sp-context-title">Signals that got stronger since last briefing</div>
+        <div class="sp-context-meta">Based on new data from the past 7 days</div>
+      </div>
+      <div class="sp-ai-msg">
+        <div class="sp-ai-avatar">✦</div>
+        <div class="sp-ai-text">Two items gained new supporting evidence this week. Here's what changed.</div>
+      </div>
+      <div class="sp-rec-card" onclick="event.stopPropagation(); openPanel('jira-custom-fields')">
+        <div class="sp-rec-header">
+          <div class="sp-rec-num" style="background:var(--background-success-subtle); color:var(--text-success);">↑</div>
+          <div class="sp-rec-content">
+            <div class="sp-rec-title">Jira Custom Fields</div>
+            <div class="sp-rec-tag"><span class="tag tag-success-subtle">+12 new mentions this week</span></div>
+            <div class="sp-rec-reason">LEGO and PayPal both raised this in Gong calls. Mentions up from 31 → 43 (+39%). ARR impact grew to $2.1M.</div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-rec-card" onclick="event.stopPropagation(); openPanel('performance-at-scale')">
+        <div class="sp-rec-header">
+          <div class="sp-rec-num" style="background:var(--background-success-subtle); color:var(--text-success);">↑</div>
+          <div class="sp-rec-content">
+            <div class="sp-rec-title">Performance at Scale</div>
+            <div class="sp-rec-tag"><span class="tag tag-success-subtle">Usage data confirmed</span></div>
+            <div class="sp-rec-reason">New Snowflake data shows 30s+ load times for 100+ record tables. Previously anecdotal — now confirmed with metrics.</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  if (type === 'new') {
+    html = `
+      <div class="sp-context">
+        <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-200);">
+          <span style="font-size:24px; font-weight:700; color:var(--text-brand);">1</span>
+          <span class="tag tag-primary-subtle">New signal</span>
+        </div>
+        <div class="sp-context-title">Signals that appeared since last briefing</div>
+        <div class="sp-context-meta">Detected from Gong calls in the past 5 days</div>
+      </div>
+      <div class="sp-ai-msg">
+        <div class="sp-ai-avatar">✦</div>
+        <div class="sp-ai-text">One new signal emerged that <strong>wasn't in your top 20</strong>. It may deserve attention — or it may be noise. Click to investigate.</div>
+      </div>
+      <div class="sp-rec-card" onclick="event.stopPropagation(); openPanel('portfolio-view')">
+        <div class="sp-rec-header">
+          <div class="sp-rec-num" style="background:var(--background-brand-subtle); color:var(--text-brand);">+</div>
+          <div class="sp-rec-content">
+            <div class="sp-rec-title">Portfolio View for Leaders</div>
+            <div class="sp-rec-tag"><span class="tag tag-primary-subtle">3 enterprise accounts</span></div>
+            <div class="sp-rec-reason">Nemetschek, WPP, and Reece Group all mentioned "portfolio view" in separate Gong calls within 5 days. $890K combined ARR. Only VoC signal — no usage or strategy data yet.</div>
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-info" style="font-size:12px;">
+        <div class="callout-icon">💡</div>
+        <div>New signals start with low confidence. Investigate to connect more data sources and build evidence.</div>
+      </div>`;
+  }
+
+  if (type === 'weakened') {
+    html = `
+      <div class="sp-context">
+        <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-200);">
+          <span style="font-size:24px; font-weight:700; color:var(--text-danger);">1</span>
+          <span class="tag tag-danger-subtle">Weakened</span>
+        </div>
+        <div class="sp-context-title">Signals that lost support since last briefing</div>
+        <div class="sp-context-meta">Evidence changed in the past 7 days</div>
+      </div>
+      <div class="sp-ai-msg">
+        <div class="sp-ai-avatar">✦</div>
+        <div class="sp-ai-text">One item's evidence weakened. This doesn't mean it's wrong — but the data shifted and you should be aware.</div>
+      </div>
+      <div class="sp-rec-card" onclick="event.stopPropagation(); openPanel('silent-abandonment')">
+        <div class="sp-rec-header">
+          <div class="sp-rec-num" style="background:var(--background-danger-subtle); color:var(--text-danger);">↓</div>
+          <div class="sp-rec-content">
+            <div class="sp-rec-title">Feature Y Silent Abandonment</div>
+            <div class="sp-rec-tag"><span class="tag tag-danger-subtle">Usage dropped further</span></div>
+            <div class="sp-rec-reason">Adoption fell from 4.7% to 4.1% this week. Still no customer complaints. The anomaly persists but the trend is accelerating — silence is getting louder.</div>
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-warning" style="font-size:12px;">
+        <div class="callout-icon">⚠️</div>
+        <div>Consider running a targeted user interview to understand why users are leaving silently.</div>
+      </div>`;
+  }
+
+  if (type === 'unchanged') {
+    html = `
+      <div class="sp-context">
+        <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-200);">
+          <span style="font-size:24px; font-weight:700; color:var(--text-tertiary);">3</span>
+          <span class="tag tag-neutral">Unchanged</span>
+        </div>
+        <div class="sp-context-title">Signals with no material change</div>
+        <div class="sp-context-meta">Stable over the past 7 days</div>
+      </div>
+      <div class="sp-ai-msg">
+        <div class="sp-ai-avatar">✦</div>
+        <div class="sp-ai-text">Three items had no significant evidence changes. Stable signals need less attention — but I'm monitoring them.</div>
+      </div>
+      <div class="sp-rec-card" onclick="event.stopPropagation(); openPanel('convert-rows-jira')">
+        <div class="sp-rec-header">
+          <div class="sp-rec-num" style="background:var(--background-tertiary); color:var(--text-tertiary);">—</div>
+          <div class="sp-rec-content">
+            <div class="sp-rec-title">Convert Rows → Jira Tickets</div>
+            <div class="sp-rec-reason">Strong evidence, no change. Q1 confirmed build — on track.</div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-rec-card" onclick="event.stopPropagation(); openPanel('enriched-backlog')">
+        <div class="sp-rec-header">
+          <div class="sp-rec-num" style="background:var(--background-tertiary); color:var(--text-tertiary);">—</div>
+          <div class="sp-rec-content">
+            <div class="sp-rec-title">Enriched Backlog (Insights x Tables)</div>
+            <div class="sp-rec-reason">Steady interest from Productboard migration prospects. No new data points.</div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-rec-card" onclick="event.stopPropagation(); openPanel('kanban-deps')">
+        <div class="sp-rec-header">
+          <div class="sp-rec-num" style="background:var(--background-tertiary); color:var(--text-tertiary);">—</div>
+          <div class="sp-rec-content">
+            <div class="sp-rec-title">Kanban Dependencies</div>
+            <div class="sp-rec-reason">PayPal request still active. No new accounts or usage shifts.</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  body.innerHTML = html;
+  document.getElementById('skOverlay').classList.add('open');
+  document.getElementById('skPanel').classList.add('open');
+  document.body.classList.add('panel-open');
+}
+
+function goToPlanWithSidekick() {
+  const planTab = document.querySelectorAll('.nav .tab')[2];
+  go('plan', planTab);
+  setTimeout(function() { openPlanSidekick(); }, 350);
+}
 
 function openPanel(cardId, el) {
   const data = CARD_DATA[cardId];
