@@ -453,10 +453,154 @@
   .phase-ex-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-tertiary); margin-bottom: var(--space-150); }
   .phase-ex-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; font-style: italic; }
 
+  /* === SIDEKICK SIDE PANEL === */
+  .sidekick-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(5,0,56,0.15); z-index: 200;
+    opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  }
+  .sidekick-overlay.open { opacity: 1; pointer-events: auto; }
+
+  .sidekick-panel {
+    position: fixed; top: 0; right: 0; bottom: 0; width: 420px; z-index: 201;
+    background: var(--background-primary); border-left: 1px solid var(--border-primary);
+    box-shadow: -8px 0 32px rgba(5,0,56,0.12);
+    transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .sidekick-panel.open { transform: translateX(0); }
+
+  .sp-header {
+    padding: var(--space-400) var(--space-500); border-bottom: 1px solid var(--border-primary);
+    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+  }
+  .sp-header-left { display: flex; align-items: center; gap: var(--space-200); }
+  .sp-ai-icon {
+    width: 28px; height: 28px; border-radius: var(--radius-200);
+    background: var(--background-brand-prominent); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .sp-header-title { font-size: 14px; font-weight: 700; }
+  .sp-close {
+    width: 28px; height: 28px; border-radius: var(--radius-200);
+    background: var(--background-secondary); border: 1px solid var(--border-primary);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 13px; color: var(--text-secondary);
+    transition: background 0.12s;
+  }
+  .sp-close:hover { background: var(--background-tertiary); }
+
+  .sp-body {
+    flex: 1; overflow-y: auto; padding: var(--space-500);
+    display: flex; flex-direction: column; gap: var(--space-400);
+  }
+
+  .sp-context {
+    padding: var(--space-400); background: var(--background-secondary);
+    border-radius: var(--radius-200); border: 1px solid var(--border-primary);
+  }
+  .sp-context-title {
+    font-size: 14px; font-weight: 700; margin-bottom: var(--space-100);
+    display: flex; align-items: center; gap: var(--space-200);
+  }
+  .sp-context-meta { font-size: 12px; color: var(--text-secondary); }
+
+  .sp-ai-msg {
+    display: flex; gap: var(--space-300); align-items: flex-start;
+  }
+  .sp-ai-msg .sp-ai-avatar {
+    width: 24px; height: 24px; border-radius: var(--radius-100);
+    background: var(--background-brand-prominent); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; flex-shrink: 0; margin-top: 2px;
+  }
+  .sp-ai-msg .sp-ai-text {
+    font-size: 13px; color: var(--text-secondary); line-height: 1.6;
+    background: var(--background-secondary); padding: var(--space-300) var(--space-400);
+    border-radius: 2px var(--radius-200) var(--radius-200) var(--radius-200);
+    border: 1px solid var(--border-primary);
+  }
+
+  .sp-dive-options {
+    display: flex; flex-wrap: wrap; gap: var(--space-200);
+  }
+  .sp-dive-btn {
+    display: flex; align-items: center; gap: var(--space-150);
+    padding: var(--space-200) var(--space-300); border-radius: var(--radius-full);
+    font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.12s;
+    border: 1px solid var(--border-primary); background: var(--background-primary);
+    color: var(--text-secondary); font-family: var(--font);
+  }
+  .sp-dive-btn:hover { border-color: var(--border-brand); color: var(--text-brand); background: var(--background-brand-subtle); }
+  .sp-dive-btn.active { border-color: var(--border-brand); color: var(--text-on-brand); background: var(--background-brand-prominent); }
+  .sp-dive-dot { width: 6px; height: 6px; border-radius: var(--radius-full); }
+
+  .sp-quotes-section { display: none; }
+  .sp-quotes-section.visible { display: block; }
+
+  .sp-section-head {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--text-tertiary); margin-bottom: var(--space-300);
+    display: flex; align-items: center; gap: var(--space-200);
+  }
+  .sp-quote-card {
+    background: var(--background-secondary); border: 1px solid var(--border-primary);
+    border-radius: var(--radius-200); padding: var(--space-400); margin-bottom: var(--space-200);
+    border-left: 2px solid var(--border-brand); transition: background 0.12s;
+  }
+  .sp-quote-card:hover { background: var(--background-primary-hover); }
+  .sp-quote-text { font-size: 13px; color: var(--text-primary); line-height: 1.55; margin-bottom: var(--space-200); font-style: italic; }
+  .sp-quote-source { display: flex; align-items: center; justify-content: space-between; }
+  .sp-quote-attr { font-size: 11px; color: var(--text-tertiary); }
+  .sp-quote-tags { display: flex; gap: var(--space-100); }
+
+  .sp-usage-card {
+    background: var(--background-secondary); border: 1px solid var(--border-primary);
+    border-radius: var(--radius-200); padding: var(--space-400);
+    margin-bottom: var(--space-200);
+  }
+  .sp-usage-stat { font-size: 20px; font-weight: 700; color: var(--text-primary); }
+  .sp-usage-label { font-size: 12px; color: var(--text-secondary); margin-bottom: var(--space-200); }
+  .sp-usage-bar-track {
+    height: 8px; background: var(--background-tertiary); border-radius: var(--radius-full);
+    overflow: hidden; margin-bottom: var(--space-100);
+  }
+  .sp-usage-bar-fill { height: 100%; border-radius: var(--radius-full); transition: width 0.5s ease; }
+
+  .sp-footer {
+    padding: var(--space-300) var(--space-500); border-top: 1px solid var(--border-primary);
+    flex-shrink: 0;
+  }
+  .sp-input-row { display: flex; gap: var(--space-200); }
+  .sp-input {
+    flex: 1; padding: var(--space-250) var(--space-300); border-radius: var(--radius-200);
+    background: var(--background-secondary); border: 1px solid var(--border-primary);
+    font-size: 13px; font-family: var(--font); color: var(--text-primary);
+    transition: border-color 0.12s;
+  }
+  .sp-input::placeholder { color: var(--text-tertiary); }
+  .sp-input:focus { outline: none; border-color: var(--border-brand); }
+
+  .sp-validate-btn {
+    display: flex; align-items: center; gap: var(--space-150);
+    padding: var(--space-200) var(--space-300); border-radius: var(--radius-200);
+    font-size: 11px; font-weight: 600; cursor: pointer;
+    border: 1px solid var(--border-primary); background: var(--background-primary);
+    color: var(--text-secondary); font-family: var(--font); transition: all 0.12s;
+    margin-top: var(--space-200);
+  }
+  .sp-validate-btn:hover { border-color: var(--border-success); color: var(--text-success); background: var(--background-success-subtle); }
+
+  /* Highlight active card */
+  .evidence-card.panel-active { background: var(--background-brand-subtle); border-color: var(--border-brand); }
+  .kcard.panel-active { background: var(--background-brand-subtle); border-color: var(--border-brand) !important; }
+
   @media (max-width: 900px) {
     .kanban { grid-template-columns: 1fr 1fr; }
     .evidence-grid { grid-template-columns: 1fr; }
     .phases { grid-template-columns: 1fr 1fr; }
+    .sidekick-panel { width: 100%; }
   }
 </style>
 </head>
@@ -496,7 +640,7 @@
     </div>
 
     <!-- HIGH card -->
-    <div class="evidence-card border-danger">
+    <div class="evidence-card border-danger" onclick="openPanel('jira-custom-fields',this)" style="cursor:pointer">
       <div class="ec-header">
         <span></span>
         <span class="tag tag-danger-subtle">High confidence</span>
@@ -531,7 +675,7 @@
     </div>
 
     <!-- MEDIUM card -->
-    <div class="evidence-card border-warning">
+    <div class="evidence-card border-warning" onclick="openPanel('silent-abandonment',this)" style="cursor:pointer">
       <div class="ec-header">
         <span></span>
         <span class="tag tag-warning-subtle">Medium confidence</span>
@@ -566,7 +710,7 @@
     </div>
 
     <!-- NEW SIGNAL card -->
-    <div class="evidence-card border-brand">
+    <div class="evidence-card border-brand" onclick="openPanel('portfolio-view',this)" style="cursor:pointer">
       <div class="ec-header">
         <span></span>
         <span class="tag tag-primary-subtle">New signal</span>
@@ -645,19 +789,19 @@
           <div><div class="col-title" style="color:var(--text-brand)">✦ Signals</div><div class="col-sub">AI-populated</div></div>
           <div class="col-count">3</div>
         </div>
-        <div class="kcard ai-border">
+        <div class="kcard ai-border" onclick="openPanel('portfolio-view',this)" style="cursor:pointer">
           <div class="ai-label">✦ AI suggested</div>
           <div class="kcard-top"><div class="kcard-title">Portfolio view for leaders</div><span class="tag tag-primary-subtle">New</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot off" style="background:var(--background-success-prominent)"></div><div class="kcard-dot off" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
           <div class="kcard-meta"><span>3 accounts · $890K</span></div>
         </div>
-        <div class="kcard ai-border">
+        <div class="kcard ai-border" onclick="openPanel('ai-table-setup',this)" style="cursor:pointer">
           <div class="ai-label">✦ AI suggested</div>
           <div class="kcard-top"><div class="kcard-title">AI-assisted table setup</div><span class="tag tag-warning-subtle">Med</span></div>
           <div class="kcard-dots"><div class="kcard-dot off" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
           <div class="kcard-meta"><span>53% deletion rate signal</span><span class="kcard-score">RICE: 64</span></div>
         </div>
-        <div class="kcard ai-border">
+        <div class="kcard ai-border" onclick="openPanel('silent-abandonment',this)" style="cursor:pointer">
           <div class="ai-label">✦ Anomaly detected</div>
           <div class="kcard-top"><div class="kcard-title">Feature Y silent abandonment</div><span class="tag tag-warning-subtle">Med</span></div>
           <div class="kcard-dots"><div class="kcard-dot off" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
@@ -667,12 +811,12 @@
 
       <div class="kanban-col" style="border-top:2px solid var(--background-warning-prominent)">
         <div class="col-head"><div><div class="col-title" style="color:var(--text-warning)">Triage</div><div class="col-sub">Under review</div></div><div class="col-count">2</div></div>
-        <div class="kcard">
+        <div class="kcard" onclick="openPanel('jira-custom-fields',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">Jira custom fields</div><span class="tag tag-danger-subtle">High</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot on" style="background:var(--background-warning-prominent)"></div></div>
           <div class="kcard-meta"><span>43 mentions · $2.1M</span><span class="kcard-score">RICE: 91</span></div>
         </div>
-        <div class="kcard">
+        <div class="kcard" onclick="openPanel('kanban-deps',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">Kanban dependencies</div><span class="tag tag-warning-subtle">Med</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot off" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
           <div class="kcard-meta"><span>PayPal requested</span><span class="kcard-score">RICE: 58</span></div>
@@ -681,12 +825,12 @@
 
       <div class="kanban-col" style="border-top:2px solid var(--background-danger-prominent)">
         <div class="col-head"><div><div class="col-title" style="color:var(--text-danger)">Now</div><div class="col-sub">In progress</div></div><div class="col-count">2</div></div>
-        <div class="kcard">
+        <div class="kcard" onclick="openPanel('performance-at-scale',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">Performance at scale</div><span class="tag tag-danger-subtle">High</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
           <div class="kcard-meta"><span>ZEISS blocker</span><span class="kcard-score">RICE: 88</span></div>
         </div>
-        <div class="kcard">
+        <div class="kcard" onclick="openPanel('convert-rows-jira',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">Convert rows → Jira tickets</div><span class="tag tag-danger-subtle">High</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot on" style="background:var(--background-warning-prominent)"></div></div>
           <div class="kcard-meta"><span>Q1 confirmed build</span><span class="kcard-score">RICE: 95</span></div>
@@ -695,17 +839,17 @@
 
       <div class="kanban-col" style="border-top:2px solid var(--background-success-prominent)">
         <div class="col-head"><div><div class="col-title" style="color:var(--text-success)">Next</div><div class="col-sub">Planned</div></div><div class="col-count">3</div></div>
-        <div class="kcard">
+        <div class="kcard" onclick="openPanel('enriched-backlog',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">Enriched backlog (Insights × Tables)</div><span class="tag tag-danger-subtle">High</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot off" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot on" style="background:var(--background-warning-prominent)"></div></div>
           <div class="kcard-meta"><span>Productboard migration</span><span class="kcard-score">RICE: 82</span></div>
         </div>
-        <div class="kcard">
+        <div class="kcard" onclick="openPanel('views-parity',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">Views parity (Timeline/Kanban)</div><span class="tag tag-warning-subtle">Med</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot off" style="background:var(--background-warning-prominent)"></div></div>
           <div class="kcard-meta"><span>FY27 Q1 planning</span><span class="kcard-score">RICE: 71</span></div>
         </div>
-        <div class="kcard">
+        <div class="kcard" onclick="openPanel('ai-signal-synthesis',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">AI signal synthesis (feasibility)</div><span class="tag tag-warning-subtle">Med</span></div>
           <div class="kcard-dots"><div class="kcard-dot off" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot off" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot on" style="background:var(--background-warning-prominent)"></div></div>
           <div class="kcard-meta"><span>Leapfrog bet</span><span class="kcard-score">RICE: 67</span></div>
@@ -908,13 +1052,317 @@
   </div>
 </div>
 
+<!-- SIDEKICK SIDE PANEL -->
+<div class="sidekick-overlay" id="skOverlay" onclick="closePanel()"></div>
+<div class="sidekick-panel" id="skPanel">
+  <div class="sp-header">
+    <div class="sp-header-left">
+      <div class="sp-ai-icon">✦</div>
+      <div class="sp-header-title">Sidekick</div>
+    </div>
+    <div class="sp-close" onclick="closePanel()">✕</div>
+  </div>
+  <div class="sp-body" id="skBody"></div>
+  <div class="sp-footer">
+    <div class="sp-input-row">
+      <input class="sp-input" id="skInput" placeholder="Ask a follow-up question…" onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="btn btn-sm btn-primary" onclick="sendMsg()">Ask</button>
+    </div>
+  </div>
+</div>
+
 <script>
-function go(id,el){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+const CARD_DATA = {
+  'jira-custom-fields': {
+    title: 'Jira Custom Fields',
+    tag: 'tag-danger-subtle', tagText: 'High confidence',
+    meta: '43 mentions · 12 accounts · $2.1M ARR · RICE: 91',
+    signals: {voc:true, usage:true, strategy:true, market:true},
+    quotes: [
+      { text: 'Every time I show agile teams the table/timeline widget, they ask about custom Jira fields. Every single time.', source: 'Dave Ross, Solutions Consultant', type: 'Internal', channel: 'Gong call' },
+      { text: "We'd switch to Aha! if custom fields aren't on your H1 roadmap. This is a dealbreaker for our team.", source: 'ZEISS, Product Operations Lead', type: 'Enterprise', channel: 'Gong call', arr: '$420K' },
+      { text: 'I get questions EVERY TIME I show agile teams the table/timeline widget about whether we support custom Jira fields.', source: 'Dave Ross', type: 'Internal', channel: 'Slack' },
+      { text: 'The inability to pull custom Jira fields into timeline views is the #1 reason our DevOps teams won\'t adopt Miro for planning.', source: 'LEGO, Engineering Manager', type: 'Enterprise', channel: 'Gong call', arr: '$680K' },
+      { text: "We need Fix Version, Components, and Team fields from Jira. Without those, the table is just a pretty spreadsheet.", source: 'PayPal, Senior PM', type: 'Enterprise', channel: 'Gong call', arr: '$310K' },
+      { text: 'Accelerating the upstream is a major demo talking point — Jira custom fields is what closes enterprise deals.', source: 'Amanda Biacchi Eloy, Sales', type: 'Internal', channel: 'Slack' },
+      { text: "Can we PLEASE get custom Jira fields? I've had 3 prospects this week ask for it.", source: 'Alicia Tan, SE', type: 'Internal', channel: 'Slack #product-feedback' },
+    ],
+    usage: [
+      { label: 'Jira-connected user engagement', value: '4x', detail: '12.4 active days/month vs 3.1 baseline', pct: 80, color: 'var(--background-success-prominent)' },
+      { label: 'Jira-connected user retention', value: '52%', detail: 'vs 35% for non-connected users', pct: 52, color: 'var(--background-success-prominent)' },
+      { label: 'Custom field requests in feedback', value: '+65%', detail: 'Quarter-over-quarter increase', pct: 65, color: 'var(--background-danger-prominent)' },
+    ],
+    strategy: ['O1: Win R&D — $82M HT bookings (direct)', 'O2: Drive Adoption — 60%+ MAU/Paid (direct)'],
+    market: ['Asana: Custom fields in timeline — GA Oct 2025', 'Monday.com: Deep Jira integration — Beta Jan 2026', 'Linear: Native fields only, no Jira sync'],
+  },
+  'silent-abandonment': {
+    title: 'Feature Y Silent Abandonment',
+    tag: 'tag-warning-subtle', tagText: 'Medium confidence',
+    meta: 'Adoption: 8.2% → 4.7% over 6 weeks · No customer complaints',
+    signals: {voc:false, usage:true, strategy:true, market:false},
+    quotes: [
+      { text: 'No direct customer feedback about this feature decline — which is the worrying part. Users aren\'t complaining, they\'re just leaving.', source: 'Analytics observation', type: 'Internal', channel: 'Usage data' },
+    ],
+    usage: [
+      { label: 'Feature adoption rate', value: '4.7%', detail: 'Down from 8.2% six weeks ago', pct: 47, color: 'var(--background-danger-prominent)' },
+      { label: 'Users who adopted → retained', value: '68%', detail: 'High retention IF they adopt — activation is the issue', pct: 68, color: 'var(--background-success-prominent)' },
+    ],
+    strategy: ['O2: Drive Adoption — 60%+ MAU/Paid (supports)'],
+    market: [],
+  },
+  'portfolio-view': {
+    title: 'Portfolio View for Leaders',
+    tag: 'tag-primary-subtle', tagText: 'New signal',
+    meta: '3 accounts · $890K combined ARR · Emerging',
+    signals: {voc:true, usage:false, strategy:false, market:false},
+    quotes: [
+      { text: 'I need a single view that shows me all 12 product roadmaps and their health status. Right now I use a spreadsheet.', source: 'Nemetschek, VP Product', type: 'Enterprise', channel: 'Gong call', arr: '$340K' },
+      { text: 'Portfolio visibility is the reason we\'re evaluating Aha! Roadmaps. If Miro could do this natively, we\'d stay.', source: 'WPP, Head of Product Ops', type: 'Enterprise', channel: 'Gong call', arr: '$290K' },
+      { text: 'Our leadership team wants a roll-up view across all teams. Right now everyone has their own board and nothing connects.', source: 'Reece Group, PM Lead', type: 'Enterprise', channel: 'Gong call', arr: '$260K' },
+    ],
+    usage: [],
+    strategy: [],
+    market: [],
+  },
+  'performance-at-scale': {
+    title: 'Performance at Scale',
+    tag: 'tag-danger-subtle', tagText: 'High confidence',
+    meta: 'ZEISS blocker · 100+ record tables freeze · RICE: 88',
+    signals: {voc:true, usage:true, strategy:true, market:false},
+    quotes: [
+      { text: 'We hit the performance limits with about 150 items. The table froze completely during our quarterly planning session.', source: 'ZEISS, Product Operations', type: 'Enterprise', channel: 'Gong call', arr: '$420K' },
+      { text: 'Tables with 100+ records take 30+ seconds to load. For SPM use cases with 2,000 items, this is a non-starter.', source: 'Performance FY26 board', type: 'Internal', channel: 'Internal analysis' },
+    ],
+    usage: [
+      { label: 'Tables 100+ records load time', value: '30s+', detail: 'Target: <3s', pct: 95, color: 'var(--background-danger-prominent)' },
+      { label: 'Timeline 500 records (week view)', value: '8s', detail: 'Target: <5s', pct: 60, color: 'var(--background-warning-prominent)' },
+    ],
+    strategy: ['O1: Win R&D — $82M bookings (hard blocker)', 'O2: Drive Adoption — enterprise churn risk'],
+    market: [],
+  },
+  'convert-rows-jira': {
+    title: 'Convert Rows → Jira Tickets',
+    tag: 'tag-danger-subtle', tagText: 'High confidence',
+    meta: 'Q1 confirmed build · Sales asking constantly · RICE: 95',
+    signals: {voc:true, usage:true, strategy:true, market:true},
+    quotes: [
+      { text: 'The ability to convert table rows to Jira tickets would change everything for how teams plan in Miro.', source: 'Amanda Biacchi Eloy, Sales', type: 'Internal', channel: 'Slack' },
+      { text: 'My teams brainstorm in Miro then manually copy everything to Jira. It takes hours. If I could push rows to Jira directly — that\'s the killer feature.', source: 'LEGO, Agile Coach', type: 'Enterprise', channel: 'Gong call', arr: '$680K' },
+    ],
+    usage: [
+      { label: 'Jira-connected engagement multiplier', value: '4x', detail: 'Active days/month vs non-connected', pct: 80, color: 'var(--background-success-prominent)' },
+    ],
+    strategy: ['O1: Win R&D — enterprise deal enabler', 'O2: Drive Adoption — workflow completion'],
+    market: ['Monday.com: Native Jira ticket creation — GA', 'Asana: Jira sync with task creation — GA'],
+  },
+  'enriched-backlog': {
+    title: 'Enriched Backlog (Insights × Tables)',
+    tag: 'tag-danger-subtle', tagText: 'High confidence',
+    meta: 'Productboard migration opportunity · RICE: 82',
+    signals: {voc:true, usage:false, strategy:true, market:true},
+    quotes: [
+      { text: 'We\'re evaluating alternatives to Productboard. If Miro could show customer evidence per backlog item, that would be compelling.', source: 'Gong call, Enterprise PM', type: 'Enterprise', channel: 'Gong call' },
+      { text: 'I want to see how many customers asked for a feature, the total ARR, and the top quotes — right on the backlog item.', source: 'Design partner feedback', type: 'Enterprise', channel: 'Customer interview' },
+    ],
+    usage: [],
+    strategy: ['O1: Win R&D — sellable product line', 'O4: Next Horizon — AI-first'],
+    market: ['Productboard: Spark AI feedback synthesis — GA', 'Aha!: Customer evidence per feature — GA'],
+  },
+  'kanban-deps': {
+    title: 'Kanban Dependencies',
+    tag: 'tag-warning-subtle', tagText: 'Medium confidence',
+    meta: 'PayPal requested · 9.1% multi-day engagement · RICE: 58',
+    signals: {voc:true, usage:true, strategy:false, market:false},
+    quotes: [
+      { text: 'We need swim lanes and sub-records in Kanban. Our teams use it daily but the lack of dependencies means we can\'t see blocked items.', source: 'PayPal, Senior PM', type: 'Enterprise', channel: 'Gong call', arr: '$310K' },
+    ],
+    usage: [
+      { label: 'Kanban multi-day engagement', value: '9.1%', detail: 'Highest across all views (2x Tables)', pct: 91, color: 'var(--background-success-prominent)' },
+    ],
+    strategy: [],
+    market: [],
+  },
+  'views-parity': {
+    title: 'Views Parity (Timeline/Kanban)',
+    tag: 'tag-warning-subtle', tagText: 'Medium confidence',
+    meta: 'FY27 Q1 planning · Core usability issue · RICE: 71',
+    signals: {voc:true, usage:true, strategy:true, market:false},
+    quotes: [
+      { text: 'Users cannot manage fields in Timeline or Kanban, only in Tables. This inconsistency causes constant friction and support tickets.', source: 'FY27 Q1 Planning board', type: 'Internal', channel: 'Internal' },
+    ],
+    usage: [],
+    strategy: ['O2: Drive Adoption — usability blocker'],
+    market: [],
+  },
+  'ai-signal-synthesis': {
+    title: 'AI Signal Synthesis (Feasibility)',
+    tag: 'tag-warning-subtle', tagText: 'Medium confidence',
+    meta: 'Leapfrog bet · No competitor has cracked this · RICE: 67',
+    signals: {voc:false, usage:false, strategy:true, market:true},
+    quotes: [
+      { text: 'The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined.', source: 'Andrey Khusid, CEO', type: 'Internal', channel: 'Sync Feb 18' },
+    ],
+    usage: [],
+    strategy: ['O1: Win R&D — the leapfrog bet', 'O4: Next Horizon — AI-first transformation'],
+    market: ['Linear Pulse: Execution signals only — limited', 'Productboard Spark: Feedback synthesis only', 'No competitor has cross-signal AI roadmapping'],
+  },
+  'ai-table-setup': {
+    title: 'AI-Assisted Table Setup',
+    tag: 'tag-warning-subtle', tagText: 'Medium confidence',
+    meta: '53% deletion rate signal · RICE: 64',
+    signals: {voc:false, usage:true, strategy:true, market:false},
+    quotes: [
+      { text: '53% of tables deleted within 2 days of creation. Only 9% of users return in Week 1. AI-generated templates could solve the blank canvas problem.', source: 'Analytics + Growth Design Sprint', type: 'Internal', channel: 'Internal analysis' },
+    ],
+    usage: [
+      { label: 'Tables deleted within 2 days', value: '53%', detail: 'Critical first-experience failure', pct: 53, color: 'var(--background-danger-prominent)' },
+      { label: 'Week 1 return rate', value: '9%', detail: 'vs 52.7% for boards with table creation day 1', pct: 9, color: 'var(--background-danger-prominent)' },
+    ],
+    strategy: ['O2: Drive Adoption — retention emergency', 'O4: Next Horizon — AI-first'],
+    market: [],
+  },
+};
+
+function openPanel(cardId, el) {
+  const data = CARD_DATA[cardId];
+  if (!data) return;
+  document.querySelectorAll('.panel-active').forEach(c => c.classList.remove('panel-active'));
+  if (el) el.classList.add('panel-active');
+
+  const body = document.getElementById('skBody');
+  const signalBtns = [
+    data.signals.voc ? `<button class="sp-dive-btn" onclick="showSection('voc','${cardId}',this)"><div class="sp-dive-dot" style="background:var(--background-brand-prominent)"></div>Customer quotes (${data.quotes.length})</button>` : '',
+    data.signals.usage || data.usage.length ? `<button class="sp-dive-btn" onclick="showSection('usage','${cardId}',this)"><div class="sp-dive-dot" style="background:var(--background-success-prominent)"></div>Usage data (${data.usage.length})</button>` : '',
+    data.signals.strategy || data.strategy.length ? `<button class="sp-dive-btn" onclick="showSection('strategy','${cardId}',this)"><div class="sp-dive-dot" style="background:var(--background-danger-prominent)"></div>Strategy alignment</button>` : '',
+    data.signals.market || data.market.length ? `<button class="sp-dive-btn" onclick="showSection('market','${cardId}',this)"><div class="sp-dive-dot" style="background:var(--background-warning-prominent)"></div>Competitor context</button>` : '',
+  ].filter(Boolean).join('');
+
+  body.innerHTML = `
+    <div class="sp-context">
+      <div class="sp-context-title"><span class="tag ${data.tag}">${data.tagText}</span></div>
+      <div style="font-size:15px; font-weight:700; margin: var(--space-200) 0 var(--space-100);">${data.title}</div>
+      <div class="sp-context-meta">${data.meta}</div>
+    </div>
+    <div class="sp-ai-msg">
+      <div class="sp-ai-avatar">✦</div>
+      <div class="sp-ai-text">I've loaded the evidence for <strong>${data.title}</strong>. Where would you like to dive deeper?</div>
+    </div>
+    <div class="sp-dive-options">${signalBtns}</div>
+    <div id="spSection"></div>
+  `;
+
+  document.getElementById('skOverlay').classList.add('open');
+  document.getElementById('skPanel').classList.add('open');
+}
+
+function showSection(type, cardId, btnEl) {
+  const data = CARD_DATA[cardId];
+  if (!data) return;
+
+  document.querySelectorAll('.sp-dive-btn').forEach(b => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+
+  const sec = document.getElementById('spSection');
+  let html = '';
+
+  if (type === 'voc') {
+    html = `<div class="sp-section-head"><div class="sp-dive-dot" style="background:var(--background-brand-prominent)"></div> Customer Quotes — ${data.quotes.length} found</div>`;
+    data.quotes.forEach((q, i) => {
+      html += `
+        <div class="sp-quote-card">
+          <div class="sp-quote-text">"${q.text}"</div>
+          <div class="sp-quote-source">
+            <div class="sp-quote-attr">— ${q.source}</div>
+            <div class="sp-quote-tags">
+              <span class="tag tag-neutral">${q.channel}</span>
+              ${q.arr ? `<span class="tag tag-success-subtle">${q.arr} ARR</span>` : ''}
+              <span class="tag ${q.type === 'Enterprise' ? 'tag-danger-subtle' : 'tag-primary-subtle'}">${q.type}</span>
+            </div>
+          </div>
+        </div>`;
+    });
+    html += `<button class="sp-validate-btn" onclick="this.innerHTML='✓ Marked as validated'; this.style.color='var(--text-success)'; this.style.borderColor='var(--border-success)'; this.style.background='var(--background-success-subtle)'">
+      ✓ I've validated these quotes — evidence checks out
+    </button>`;
+  }
+
+  if (type === 'usage') {
+    html = `<div class="sp-section-head"><div class="sp-dive-dot" style="background:var(--background-success-prominent)"></div> Usage Data</div>`;
+    data.usage.forEach(u => {
+      html += `
+        <div class="sp-usage-card">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
+            <div class="sp-usage-label">${u.label}</div>
+            <div class="sp-usage-stat">${u.value}</div>
+          </div>
+          <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:${u.pct}%; background:${u.color}"></div></div>
+          <div style="font-size:11px; color:var(--text-tertiary)">${u.detail}</div>
+        </div>`;
+    });
+    if (data.usage.length === 0) {
+      html += `<div class="sp-ai-msg"><div class="sp-ai-avatar">✦</div><div class="sp-ai-text">No usage data connected for this item yet. Connect Snowflake or Amplitude to enrich.</div></div>`;
+    }
+  }
+
+  if (type === 'strategy') {
+    html = `<div class="sp-section-head"><div class="sp-dive-dot" style="background:var(--background-danger-prominent)"></div> Strategy Alignment</div>`;
+    if (data.strategy.length) {
+      data.strategy.forEach(s => {
+        html += `<div style="display:flex; align-items:center; gap:var(--space-200); padding:var(--space-300); background:var(--background-secondary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200); font-size:13px;">
+          <span style="color:var(--text-success); font-size:14px;">●</span> ${s}
+        </div>`;
+      });
+    } else {
+      html += `<div class="sp-ai-msg"><div class="sp-ai-avatar">✦</div><div class="sp-ai-text">This item hasn't been mapped to any OKR yet. Would you like me to suggest alignment?</div></div>`;
+    }
+  }
+
+  if (type === 'market') {
+    html = `<div class="sp-section-head"><div class="sp-dive-dot" style="background:var(--background-warning-prominent)"></div> Competitor Context</div>`;
+    if (data.market.length) {
+      data.market.forEach(m => {
+        html += `<div style="padding:var(--space-300); background:var(--background-secondary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200); font-size:13px; color:var(--text-secondary);">${m}</div>`;
+      });
+    } else {
+      html += `<div class="sp-ai-msg"><div class="sp-ai-avatar">✦</div><div class="sp-ai-text">No competitor activity detected for this area. Market signal source may need updating.</div></div>`;
+    }
+  }
+
+  sec.innerHTML = html;
+}
+
+function sendMsg() {
+  const input = document.getElementById('skInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+
+  const sec = document.getElementById('spSection');
+  sec.innerHTML += `
+    <div style="display:flex; gap:var(--space-300); align-items:flex-start; justify-content:flex-end; margin-top:var(--space-300);">
+      <div style="font-size:13px; color:var(--text-primary); background:var(--background-brand-subtle); padding:var(--space-300) var(--space-400); border-radius:var(--radius-200) 2px var(--radius-200) var(--radius-200); max-width:80%;">${msg}</div>
+    </div>
+    <div class="sp-ai-msg" style="margin-top:var(--space-300);">
+      <div class="sp-ai-avatar">✦</div>
+      <div class="sp-ai-text">Let me look into that. Searching across Gong transcripts, Slack threads, and Insights for relevant evidence…<br><br><em style="color:var(--text-tertiary)">[In the real product, this would query connected data sources and return specific quotes, metrics, or context.]</em></div>
+    </div>
+  `;
+  sec.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+function closePanel() {
+  document.getElementById('skOverlay').classList.remove('open');
+  document.getElementById('skPanel').classList.remove('open');
+  document.querySelectorAll('.panel-active').forEach(c => c.classList.remove('panel-active'));
+}
+
+function go(id, el) {
+  closePanel();
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav .tab').forEach(t => t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   el.classList.add('active');
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 </script>
 </body>
