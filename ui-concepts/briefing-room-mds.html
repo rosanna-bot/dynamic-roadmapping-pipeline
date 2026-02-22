@@ -644,7 +644,7 @@
       <div class="signal-grid">
         <div class="signal-item">
           <div class="signal-dot voc"></div>
-          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>Booking.com, Adobe, Ford</strong> Gong calls</div></div>
+          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>Booking.com</strong> Gong calls + internal Slack</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot usage"></div>
@@ -905,13 +905,11 @@ const CARD_DATA = {
   'jira-custom-fields': {
     title: 'Jira Bi-Directional Sync',
     tag: 'tag-danger-subtle', tagText: 'High confidence',
-    meta: 'Booking.com, Adobe, Ford Gong calls · O1 Win R&D',
+    meta: 'Booking.com Gong calls · Internal Slack · O1 Win R&D',
     signals: {voc:true, usage:true, strategy:true, market:true},
     quotes: [
-      { text: 'Enhanced Jira integration discussed — improving end-user experience and team workflows.', source: 'Booking.com · Justin Vos, Matt Skipper', type: 'Enterprise', channel: 'Gong call, Feb 6 2026', link: 'https://app.gong.io/call?id=booking-jira-feb6', icon: 'gong' },
-      { text: 'Feature request conversation — markdown support, multi-line code blocks, HTML support friction.', source: 'Adobe · Veronica Murillo, David Grabner', type: 'Enterprise', channel: 'Gong call, Jan 14 2026', link: 'https://app.gong.io/call?id=adobe-feature-jan14', icon: 'gong' },
-      { text: 'OneDrive integration needs discussed with Ford team.', source: 'Ford · Melanie Petrucci, Aytaç Bildik', type: 'Enterprise', channel: 'Gong call, Jan 27 2026', link: 'https://app.gong.io/call?id=ford-onedrive-jan27', icon: 'gong' },
-      { text: 'Booking.com Jira feature session — second deep-dive with Aytaç, Justin, Matt on integration details.', source: 'Booking.com · Aytaç Bildik', type: 'Enterprise', channel: 'Gong call, Jan 16 2026', link: 'https://app.gong.io/call?id=booking-jira-jan16', icon: 'gong' },
+      { text: 'Booking.com Jira feature session — deep-dive on bi-directional sync, custom field mapping, and improving end-user Jira workflows within Miro.', source: 'Booking.com · Justin Vos, Matt Skipper', type: 'Enterprise', channel: 'Gong call, Feb 6 2026', link: 'https://app.gong.io/call?id=booking-jira-feb6', icon: 'gong' },
+      { text: 'Second Jira integration deep-dive with Booking.com — Aytaç, Justin, Matt reviewing field sync requirements and bi-directional data flow.', source: 'Booking.com · Aytaç Bildik', type: 'Enterprise', channel: 'Gong call, Jan 16 2026', link: 'https://app.gong.io/call?id=booking-jira-jan16', icon: 'gong' },
       { text: 'Accelerating the upstream is a major demo talking point — Jira custom fields closes enterprise deals.', source: 'Amanda Biacchi Eloy, Sales', type: 'Internal', channel: 'Slack #product-feedback', link: 'https://miro-communication.slack.com/archives/product-feedback/jira-custom-fields', icon: 'slack' },
       { text: 'Can we PLEASE get custom Jira fields? I\'ve had 3 prospects this week ask for it.', source: 'Alicia Tan, SE', type: 'Internal', channel: 'Slack #product-feedback', link: 'https://miro-communication.slack.com/archives/product-feedback/jira-fields-request', icon: 'slack' },
     ],
@@ -1024,10 +1022,9 @@ const CARD_DATA = {
   'kanban-deps': {
     title: 'Kanban + Timeline View Unification',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
-    meta: 'MVP plan initiative · Ryanair Tables session',
+    meta: 'MVP plan initiative · PayPal Kanban request',
     signals: {voc:true, usage:true, strategy:true, market:false},
     quotes: [
-      { text: 'Tables usage patterns, ghost team cleanup discussed.', source: 'Ryanair · Tables Session with Mo', type: 'Enterprise', channel: 'Gong call, Jan 29 2026', link: 'https://app.gong.io/call?id=ryanair-tables-jan29', icon: 'gong' },
       { text: 'We need swim lanes and sub-records in Kanban. Our teams use it daily but lack of dependencies means we can\'t see blocked items.', source: 'PayPal, Senior PM', type: 'Enterprise', channel: 'Gong call', arr: '$310K', link: 'https://app.gong.io/call?id=paypal-kanban-deps', icon: 'gong' },
     ],
     usage: [
@@ -1342,27 +1339,27 @@ function openPlanSidekick() {
         <div class="sp-rec-content">
           <div class="sp-rec-title">Validate Jira sync with customer interviews</div>
           <div class="sp-rec-tag"><span class="tag tag-primary-subtle">Lower confidence impact</span></div>
-          <div class="sp-rec-reason">Booking.com, Adobe, Ford Gong calls + Snowflake: 45% W1 retention (16K users). Targeted follow-ups would confirm bi-directional sync scope and arrest the 20K→16K user decline.</div>
+          <div class="sp-rec-reason">Booking.com Gong calls + internal Slack + Snowflake: 45% W1 retention (16K users). Targeted follow-ups would confirm bi-directional sync scope and arrest the 20K→16K user decline.</div>
         </div>
       </div>
       <div class="sp-rec-detail">
         <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Suggested interviewees</div>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:var(--space-300);">
-          Based on Gong call participation:
+          Based on Gong call participation — Booking.com already discussed Jira sync in depth. Adobe and Ford had related integration calls and could be targeted for Jira-specific follow-ups:
         </div>
         <div class="sp-quote-card has-link" style="margin-bottom:var(--space-150); padding:var(--space-250) var(--space-300);" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=booking-jira-feb6')">
           <div style="font-size:12px;"><strong>1.</strong> Booking.com — Justin Vos, Aytaç Bildik, Matt Skipper</div>
-          <div style="font-size:11px; color:var(--text-tertiary);">Jira sessions Jan 16, Feb 6 2026</div>
+          <div style="font-size:11px; color:var(--text-tertiary);">2 Jira-specific sessions (Jan 16, Feb 6 2026) — follow up on sync requirements</div>
           ${sourceBadge('gong', 'https://app.gong.io/call?id=booking-jira-feb6')}
         </div>
         <div class="sp-quote-card has-link" style="margin-bottom:var(--space-150); padding:var(--space-250) var(--space-300);" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=adobe-feature-jan14')">
           <div style="font-size:12px;"><strong>2.</strong> Adobe — Veronica Murillo, David Grabner</div>
-          <div style="font-size:11px; color:var(--text-tertiary);">Feature Request Jan 14 2026</div>
+          <div style="font-size:11px; color:var(--text-tertiary);">Had feature request call (Jan 14) — not Jira-specific, but active integration user</div>
           ${sourceBadge('gong', 'https://app.gong.io/call?id=adobe-feature-jan14')}
         </div>
         <div class="sp-quote-card has-link" style="margin-bottom:var(--space-300); padding:var(--space-250) var(--space-300);" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=ford-onedrive-jan27')">
           <div style="font-size:12px;"><strong>3.</strong> Ford — Melanie Petrucci, Aytaç Bildik</div>
-          <div style="font-size:11px; color:var(--text-tertiary);">OneDrive integration Jan 27 2026</div>
+          <div style="font-size:11px; color:var(--text-tertiary);">Had OneDrive integration call (Jan 27) — not Jira-specific, but integration-focused team</div>
           ${sourceBadge('gong', 'https://app.gong.io/call?id=ford-onedrive-jan27')}
         </div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
@@ -1426,7 +1423,7 @@ function openStrengthened() {
           <div style="font-size:14px; font-weight:600;">Jira Bi-Directional Sync</div>
           <span class="tag tag-danger-subtle">High confidence</span>
         </div>
-        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Booking.com, Adobe, Ford Gong calls · Snowflake: 45% W1 retention (16K users)</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Booking.com Gong calls + internal Slack · Snowflake: 45% W1 retention (16K users)</div>
         <div style="font-size:11px; color:var(--text-success); font-weight:600;">↑ Moved from Medium → High confidence</div>
         <div style="display:flex; gap:var(--space-100); margin-top:var(--space-200);">
           <span class="source-badge badge-gong" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=booking-jira-feb6')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Gong</span>
