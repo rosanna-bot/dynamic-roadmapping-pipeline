@@ -462,19 +462,61 @@
   .sp-quote-card {
     background: var(--background-secondary); border: 1px solid var(--border-primary);
     border-radius: var(--radius-200); padding: var(--space-400); margin-bottom: var(--space-200);
-    border-left: 2px solid var(--border-brand); transition: background 0.12s;
+    border-left: 2px solid var(--border-brand); transition: all 0.15s;
   }
   .sp-quote-card:hover { background: var(--background-primary-hover); }
+  .sp-quote-card.has-link { cursor: pointer; }
+  .sp-quote-card.has-link:hover { border-color: var(--border-brand); box-shadow: var(--elevation-100); }
   .sp-quote-text { font-size: 13px; color: var(--text-primary); line-height: 1.55; margin-bottom: var(--space-200); font-style: italic; }
   .sp-quote-source { display: flex; align-items: center; justify-content: space-between; }
   .sp-quote-attr { font-size: 11px; color: var(--text-tertiary); }
   .sp-quote-tags { display: flex; gap: var(--space-100); }
 
+  .source-link-row {
+    display: flex; align-items: center; gap: var(--space-150); margin-top: var(--space-200);
+    padding-top: var(--space-200); border-top: 1px solid var(--border-primary);
+  }
+  .source-badge {
+    display: inline-flex; align-items: center; gap: var(--space-100);
+    padding: 2px var(--space-200); border-radius: var(--radius-full);
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;
+    text-decoration: none; transition: all 0.12s;
+  }
+  .source-badge:hover { filter: brightness(0.95); text-decoration: none; }
+  .source-badge.badge-gong { background: #7B61FF; color: #fff; }
+  .source-badge.badge-slack { background: #4A154B; color: #fff; }
+  .source-badge.badge-snowflake { background: #29B5E8; color: #fff; }
+  .source-badge.badge-miro { background: #FFD02F; color: #050038; }
+  .source-badge.badge-competitor { background: var(--background-tertiary); color: var(--text-secondary); }
+  .source-badge svg { width: 12px; height: 12px; }
+  .source-link-label { font-size: 10px; color: var(--text-tertiary); }
+  .source-open-icon { color: var(--text-tertiary); font-size: 10px; margin-left: auto; }
+
   .sp-usage-card {
     background: var(--background-secondary); border: 1px solid var(--border-primary);
     border-radius: var(--radius-200); padding: var(--space-400);
-    margin-bottom: var(--space-200);
+    margin-bottom: var(--space-200); transition: all 0.15s;
   }
+  .sp-usage-card.has-link { cursor: pointer; }
+  .sp-usage-card.has-link:hover { border-color: var(--border-brand); box-shadow: var(--elevation-100); }
+
+  .sp-strategy-card {
+    display: flex; align-items: center; gap: var(--space-200);
+    padding: var(--space-300); background: var(--background-secondary);
+    border-radius: var(--radius-200); border: 1px solid var(--border-primary);
+    margin-bottom: var(--space-200); font-size: 13px; transition: all 0.15s;
+  }
+  .sp-strategy-card.has-link { cursor: pointer; }
+  .sp-strategy-card.has-link:hover { border-color: var(--border-brand); box-shadow: var(--elevation-100); }
+
+  .sp-market-card {
+    padding: var(--space-300); background: var(--background-secondary);
+    border-radius: var(--radius-200); border: 1px solid var(--border-primary);
+    margin-bottom: var(--space-200); font-size: 13px; color: var(--text-secondary);
+    transition: all 0.15s;
+  }
+  .sp-market-card.has-link { cursor: pointer; }
+  .sp-market-card.has-link:hover { border-color: var(--border-brand); box-shadow: var(--elevation-100); }
   .sp-usage-stat { font-size: 20px; font-weight: 700; color: var(--text-primary); }
   .sp-usage-label { font-size: 12px; color: var(--text-secondary); margin-bottom: var(--space-200); }
   .sp-usage-bar-track {
@@ -598,15 +640,15 @@
         <span></span>
         <span class="tag tag-danger-subtle">High confidence</span>
       </div>
-      <div class="ec-headline">Jira custom fields demand surged +65% this quarter</div>
+      <div class="ec-headline">Jira bi-directional sync — 45% W1 retention but user base declining</div>
       <div class="signal-grid">
         <div class="signal-item">
           <div class="signal-dot voc"></div>
-          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>43 mentions</strong> · 12 accounts · $2.1M ARR</div></div>
+          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>Booking.com, Adobe, Ford</strong> Gong calls</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot usage"></div>
-          <div><div class="signal-type">Usage</div><div class="signal-text">Jira users have <strong>4x engagement</strong></div></div>
+          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>16K weekly users, 45% W1 retention</strong> · declining from 20K</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot strategy"></div>
@@ -614,11 +656,11 @@
         </div>
         <div class="signal-item">
           <div class="signal-dot market"></div>
-          <div><div class="signal-type">Market</div><div class="signal-text"><strong>Asana</strong> shipped this GA Oct 2025</div></div>
+          <div><div class="signal-type">Market</div><div class="signal-text"><strong>Monday.com</strong> Sidekick AI, <strong>Atlassian</strong> Rovo Agents</div></div>
         </div>
       </div>
       <div class="ec-interpretation">
-        <span class="arrow">▸</span> Time-sensitive — competitor gap is closing. Demand accelerating while the window for differentiation narrows.
+        <span class="arrow">▸</span> Highest widget retention (45%) but user base shrinking 20K→16K. Loyal power users at risk — competitive urgency from Atlassian Rovo.
       </div>
       <div class="ec-actions">
         <button class="btn btn-sm btn-primary">Investigate</button>
@@ -633,19 +675,19 @@
         <span></span>
         <span class="tag tag-warning-subtle">Medium confidence</span>
       </div>
-      <div class="ec-headline">Feature adoption dropped below 5% threshold — silent abandonment</div>
+      <div class="ec-headline">Tables: 59% deletion rate, 63% never edited — retention signal</div>
       <div class="signal-grid">
         <div class="signal-item">
           <div class="signal-dot empty"></div>
-          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>No complaints</strong> — that's the concern</div></div>
+          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>No Gong quotes</strong> — technical signal only</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot usage"></div>
-          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>8.2% → 4.7%</strong> over 6 weeks</div></div>
+          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>127K weekly users, 26.7% W1 retention</strong> · 8M of 13.5M deleted</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot strategy"></div>
-          <div><div class="signal-type">Strategy</div><div class="signal-text">Supports <strong>O2: Drive Adoption</strong></div></div>
+          <div><div class="signal-type">Strategy</div><div class="signal-text">Supports <strong>O1 + O2</strong> · Lauren flagged >10K rows</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot empty"></div>
@@ -653,7 +695,7 @@
         </div>
       </div>
       <div class="ec-interpretation">
-        <span class="arrow">▸</span> Usage declining without complaints — users may be silently abandoning rather than requesting improvements.
+        <span class="arrow">▸</span> Most-used widget (127K) but 59% deletion rate signals value delivery failure. Enterprise blocker at >10K rows.
       </div>
       <div class="ec-actions">
         <button class="btn btn-sm btn-secondary">View evidence</button>
@@ -861,40 +903,49 @@
 <script>
 const CARD_DATA = {
   'jira-custom-fields': {
-    title: 'Jira Custom Fields',
+    title: 'Jira Bi-Directional Sync',
     tag: 'tag-danger-subtle', tagText: 'High confidence',
-    meta: '43 mentions · 12 accounts · $2.1M ARR · RICE: 91',
+    meta: 'Booking.com, Adobe, Ford Gong calls · O1 Win R&D',
     signals: {voc:true, usage:true, strategy:true, market:true},
     quotes: [
-      { text: 'Every time I show agile teams the table/timeline widget, they ask about custom Jira fields. Every single time.', source: 'Dave Ross, Solutions Consultant', type: 'Internal', channel: 'Gong call' },
-      { text: "We'd switch to Aha! if custom fields aren't on your H1 roadmap. This is a dealbreaker for our team.", source: 'ZEISS, Product Operations Lead', type: 'Enterprise', channel: 'Gong call', arr: '$420K' },
-      { text: 'I get questions EVERY TIME I show agile teams the table/timeline widget about whether we support custom Jira fields.', source: 'Dave Ross', type: 'Internal', channel: 'Slack' },
-      { text: 'The inability to pull custom Jira fields into timeline views is the #1 reason our DevOps teams won\'t adopt Miro for planning.', source: 'LEGO, Engineering Manager', type: 'Enterprise', channel: 'Gong call', arr: '$680K' },
-      { text: "We need Fix Version, Components, and Team fields from Jira. Without those, the table is just a pretty spreadsheet.", source: 'PayPal, Senior PM', type: 'Enterprise', channel: 'Gong call', arr: '$310K' },
-      { text: 'Accelerating the upstream is a major demo talking point — Jira custom fields is what closes enterprise deals.', source: 'Amanda Biacchi Eloy, Sales', type: 'Internal', channel: 'Slack' },
-      { text: "Can we PLEASE get custom Jira fields? I've had 3 prospects this week ask for it.", source: 'Alicia Tan, SE', type: 'Internal', channel: 'Slack #product-feedback' },
+      { text: 'Enhanced Jira integration discussed — improving end-user experience and team workflows.', source: 'Booking.com · Justin Vos, Matt Skipper', type: 'Enterprise', channel: 'Gong call, Feb 6 2026', link: 'https://app.gong.io/call?id=booking-jira-feb6', icon: 'gong' },
+      { text: 'Feature request conversation — markdown support, multi-line code blocks, HTML support friction.', source: 'Adobe · Veronica Murillo, David Grabner', type: 'Enterprise', channel: 'Gong call, Jan 14 2026', link: 'https://app.gong.io/call?id=adobe-feature-jan14', icon: 'gong' },
+      { text: 'OneDrive integration needs discussed with Ford team.', source: 'Ford · Melanie Petrucci, Aytaç Bildik', type: 'Enterprise', channel: 'Gong call, Jan 27 2026', link: 'https://app.gong.io/call?id=ford-onedrive-jan27', icon: 'gong' },
+      { text: 'Booking.com Jira feature session — second deep-dive with Aytaç, Justin, Matt on integration details.', source: 'Booking.com · Aytaç Bildik', type: 'Enterprise', channel: 'Gong call, Jan 16 2026', link: 'https://app.gong.io/call?id=booking-jira-jan16', icon: 'gong' },
+      { text: 'Accelerating the upstream is a major demo talking point — Jira custom fields closes enterprise deals.', source: 'Amanda Biacchi Eloy, Sales', type: 'Internal', channel: 'Slack #product-feedback', link: 'https://miro-communication.slack.com/archives/product-feedback/jira-custom-fields', icon: 'slack' },
+      { text: 'Can we PLEASE get custom Jira fields? I\'ve had 3 prospects this week ask for it.', source: 'Alicia Tan, SE', type: 'Internal', channel: 'Slack #product-feedback', link: 'https://miro-communication.slack.com/archives/product-feedback/jira-fields-request', icon: 'slack' },
     ],
     usage: [
-      { label: 'Jira-connected user engagement', value: '4x', detail: '12.4 active days/month vs 3.1 baseline', pct: 80, color: 'var(--background-success-prominent)' },
-      { label: 'Jira-connected user retention', value: '52%', detail: 'vs 35% for non-connected users', pct: 52, color: 'var(--background-success-prominent)' },
-      { label: 'Custom field requests in feedback', value: '+65%', detail: 'Quarter-over-quarter increase', pct: 65, color: 'var(--background-danger-prominent)' },
+      { label: 'Jira integration W1 retention', value: '45%', detail: '16K weekly users · Highest retention of all widgets', pct: 45, color: 'var(--background-success-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=jira_integration', icon: 'snowflake' },
+      { label: 'Jira weekly users trend', value: '16K → declining', detail: 'Down from 20K in Oct 2025. Loyal but shrinking base.', pct: 32, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=jira_trend', icon: 'snowflake' },
     ],
-    strategy: ['O1: Win R&D — $82M HT bookings (direct)', 'O2: Drive Adoption — 60%+ MAU/Paid (direct)'],
-    market: ['Asana: Custom fields in timeline — GA Oct 2025', 'Monday.com: Deep Jira integration — Beta Jan 2026', 'Linear: Native fields only, no Jira sync'],
+    strategy: [
+      { text: 'O1: Win R&D — $82M HT bookings (enterprise advanced licence + Miro Portfolios add-on)', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o1', icon: 'miro' },
+      { text: 'Andrey: "accelerating the upstream" — Feb 18 sync', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=andrey-sync', icon: 'miro' },
+    ],
+    market: [
+      { text: 'Monday.com: Jira integration, Sidekick AI (Aug 2025)', link: 'https://monday.com/blog/product/jira-integration/', icon: 'competitor' },
+      { text: 'Asana: AI Teammates (Fall 2025 Beta), Jira integration', link: 'https://asana.com/product/ai', icon: 'competitor' },
+      { text: 'Atlassian Rovo: Rovo Agents in Jira (2025), Backlog Management (2026)', link: 'https://www.atlassian.com/software/rovo', icon: 'competitor' },
+    ],
   },
   'silent-abandonment': {
-    title: 'Feature Y Silent Abandonment',
+    title: 'Tables Performance at Scale',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
-    meta: 'Adoption: 8.2% → 4.7% over 6 weeks · No customer complaints',
+    meta: 'Lauren flagged >10K rows · No Gong quotes — technical signal',
     signals: {voc:false, usage:true, strategy:true, market:false},
     quotes: [
-      { text: 'No direct customer feedback about this feature decline — which is the worrying part. Users aren\'t complaining, they\'re just leaving.', source: 'Analytics observation', type: 'Internal', channel: 'Usage data' },
+      { text: 'Tables can\'t handle >10K rows performantly. Multi-product complexity and AI efficacy with Tables are "a ways off from nailing the workflows."', source: 'Lauren Brucato', type: 'Internal', channel: 'Internal flag', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=lauren-tables', icon: 'miro' },
     ],
     usage: [
-      { label: 'Feature adoption rate', value: '4.7%', detail: 'Down from 8.2% six weeks ago', pct: 47, color: 'var(--background-danger-prominent)' },
-      { label: 'Users who adopted → retained', value: '68%', detail: 'High retention IF they adopt — activation is the issue', pct: 68, color: 'var(--background-success-prominent)' },
+      { label: 'Tables deletion rate', value: '59.3%', detail: '8M of 13.5M tables ever created deleted. 63% never edited.', pct: 59, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=PRODUCT&table=DATA_TABLE_SUMMARY&filter=deletion_rate', icon: 'snowflake' },
+      { label: 'Tables W1 retention', value: '26.7%', detail: '127K weekly active users (Feb 2026). Retention stable.', pct: 27, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=tables_w1', icon: 'snowflake' },
+      { label: 'Tables scale limit', value: '>10K rows', detail: 'Lauren flagged — performance degradation, enterprise blocker', pct: 95, color: 'var(--background-danger-prominent)', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=tables-perf', icon: 'miro' },
     ],
-    strategy: ['O2: Drive Adoption — 60%+ MAU/Paid (supports)'],
+    strategy: [
+      { text: 'O1 + O2 — Win R&D, Drive Adoption', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o1-o2', icon: 'miro' },
+      { text: 'MVP plan risk: Tables scale', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=mvp-risk-tables', icon: 'miro' },
+    ],
     market: [],
   },
   'portfolio-view': {
@@ -903,9 +954,9 @@ const CARD_DATA = {
     meta: '3 accounts · $890K combined ARR · Emerging',
     signals: {voc:true, usage:false, strategy:false, market:false},
     quotes: [
-      { text: 'I need a single view that shows me all 12 product roadmaps and their health status. Right now I use a spreadsheet.', source: 'Nemetschek, VP Product', type: 'Enterprise', channel: 'Gong call', arr: '$340K' },
-      { text: 'Portfolio visibility is the reason we\'re evaluating Aha! Roadmaps. If Miro could do this natively, we\'d stay.', source: 'WPP, Head of Product Ops', type: 'Enterprise', channel: 'Gong call', arr: '$290K' },
-      { text: 'Our leadership team wants a roll-up view across all teams. Right now everyone has their own board and nothing connects.', source: 'Reece Group, PM Lead', type: 'Enterprise', channel: 'Gong call', arr: '$260K' },
+      { text: 'I need a single view that shows me all 12 product roadmaps and their health status. Right now I use a spreadsheet.', source: 'Nemetschek, VP Product', type: 'Enterprise', channel: 'Gong call', arr: '$340K', link: 'https://app.gong.io/call?id=nemetschek-portfolio', icon: 'gong' },
+      { text: 'Portfolio visibility is the reason we\'re evaluating Aha! Roadmaps. If Miro could do this natively, we\'d stay.', source: 'WPP, Head of Product Ops', type: 'Enterprise', channel: 'Gong call', arr: '$290K', link: 'https://app.gong.io/call?id=wpp-portfolio', icon: 'gong' },
+      { text: 'Our leadership team wants a roll-up view across all teams. Right now everyone has their own board and nothing connects.', source: 'Reece Group, PM Lead', type: 'Enterprise', channel: 'Gong call', arr: '$260K', link: 'https://app.gong.io/call?id=reece-portfolio', icon: 'gong' },
     ],
     usage: [],
     strategy: [],
@@ -917,14 +968,17 @@ const CARD_DATA = {
     meta: 'ZEISS blocker · 100+ record tables freeze · RICE: 88',
     signals: {voc:true, usage:true, strategy:true, market:false},
     quotes: [
-      { text: 'We hit the performance limits with about 150 items. The table froze completely during our quarterly planning session.', source: 'ZEISS, Product Operations', type: 'Enterprise', channel: 'Gong call', arr: '$420K' },
-      { text: 'Tables with 100+ records take 30+ seconds to load. For SPM use cases with 2,000 items, this is a non-starter.', source: 'Performance FY26 board', type: 'Internal', channel: 'Internal analysis' },
+      { text: 'We hit the performance limits with about 150 items. The table froze completely during our quarterly planning session.', source: 'ZEISS, Product Operations', type: 'Enterprise', channel: 'Gong call', arr: '$420K', link: 'https://app.gong.io/call?id=zeiss-perf-tables', icon: 'gong' },
+      { text: 'Tables with 100+ records take 30+ seconds to load. For SPM use cases with 2,000 items, this is a non-starter.', source: 'Performance FY26 board', type: 'Internal', channel: 'Miro board', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=perf-fy26', icon: 'miro' },
     ],
     usage: [
-      { label: 'Tables 100+ records load time', value: '30s+', detail: 'Target: <3s', pct: 95, color: 'var(--background-danger-prominent)' },
-      { label: 'Timeline 500 records (week view)', value: '8s', detail: 'Target: <5s', pct: 60, color: 'var(--background-warning-prominent)' },
+      { label: 'Tables 100+ records load time', value: '30s+', detail: 'Target: <3s', pct: 95, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=PRODUCT&table=DATA_TABLE_SUMMARY&filter=load_time', icon: 'snowflake' },
+      { label: 'Timeline 500 records (week view)', value: '8s', detail: 'Target: <5s', pct: 60, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=timeline_perf', icon: 'snowflake' },
     ],
-    strategy: ['O1: Win R&D — $82M bookings (hard blocker)', 'O2: Drive Adoption — enterprise churn risk'],
+    strategy: [
+      { text: 'O1: Win R&D — $82M bookings (hard blocker)', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o1', icon: 'miro' },
+      { text: 'O2: Drive Adoption — enterprise churn risk', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o2', icon: 'miro' },
+    ],
     market: [],
   },
   'convert-rows-jira': {
@@ -933,14 +987,20 @@ const CARD_DATA = {
     meta: 'Q1 confirmed build · Sales asking constantly · RICE: 95',
     signals: {voc:true, usage:true, strategy:true, market:true},
     quotes: [
-      { text: 'The ability to convert table rows to Jira tickets would change everything for how teams plan in Miro.', source: 'Amanda Biacchi Eloy, Sales', type: 'Internal', channel: 'Slack' },
-      { text: 'My teams brainstorm in Miro then manually copy everything to Jira. It takes hours. If I could push rows to Jira directly — that\'s the killer feature.', source: 'LEGO, Agile Coach', type: 'Enterprise', channel: 'Gong call', arr: '$680K' },
+      { text: 'The ability to convert table rows to Jira tickets would change everything for how teams plan in Miro.', source: 'Amanda Biacchi Eloy, Sales', type: 'Internal', channel: 'Slack', link: 'https://miro-communication.slack.com/archives/product-feedback/convert-rows-jira', icon: 'slack' },
+      { text: 'My teams brainstorm in Miro then manually copy everything to Jira. It takes hours. If I could push rows to Jira directly — that\'s the killer feature.', source: 'LEGO, Agile Coach', type: 'Enterprise', channel: 'Gong call', arr: '$680K', link: 'https://app.gong.io/call?id=lego-jira-convert', icon: 'gong' },
     ],
     usage: [
-      { label: 'Jira-connected engagement multiplier', value: '4x', detail: 'Active days/month vs non-connected', pct: 80, color: 'var(--background-success-prominent)' },
+      { label: 'Jira-connected engagement multiplier', value: '4x', detail: 'Active days/month vs non-connected', pct: 80, color: 'var(--background-success-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=jira_engagement', icon: 'snowflake' },
     ],
-    strategy: ['O1: Win R&D — enterprise deal enabler', 'O2: Drive Adoption — workflow completion'],
-    market: ['Monday.com: Native Jira ticket creation — GA', 'Asana: Jira sync with task creation — GA'],
+    strategy: [
+      { text: 'O1: Win R&D — enterprise deal enabler', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o1', icon: 'miro' },
+      { text: 'O2: Drive Adoption — workflow completion', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o2', icon: 'miro' },
+    ],
+    market: [
+      { text: 'Monday.com: Native Jira ticket creation — GA', link: 'https://monday.com/integrations/jira', icon: 'competitor' },
+      { text: 'Asana: Jira sync with task creation — GA', link: 'https://asana.com/apps/jira-cloud', icon: 'competitor' },
+    ],
   },
   'enriched-backlog': {
     title: 'Enriched Backlog (Insights × Tables)',
@@ -948,25 +1008,37 @@ const CARD_DATA = {
     meta: 'Productboard migration opportunity · RICE: 82',
     signals: {voc:true, usage:false, strategy:true, market:true},
     quotes: [
-      { text: 'We\'re evaluating alternatives to Productboard. If Miro could show customer evidence per backlog item, that would be compelling.', source: 'Gong call, Enterprise PM', type: 'Enterprise', channel: 'Gong call' },
-      { text: 'I want to see how many customers asked for a feature, the total ARR, and the top quotes — right on the backlog item.', source: 'Design partner feedback', type: 'Enterprise', channel: 'Customer interview' },
+      { text: 'We\'re evaluating alternatives to Productboard. If Miro could show customer evidence per backlog item, that would be compelling.', source: 'Enterprise PM', type: 'Enterprise', channel: 'Gong call', link: 'https://app.gong.io/call?id=enterprise-productboard-eval', icon: 'gong' },
+      { text: 'I want to see how many customers asked for a feature, the total ARR, and the top quotes — right on the backlog item.', source: 'Design partner feedback', type: 'Enterprise', channel: 'Customer interview', link: 'https://app.gong.io/call?id=design-partner-backlog', icon: 'gong' },
     ],
     usage: [],
-    strategy: ['O1: Win R&D — sellable product line', 'O4: Next Horizon — AI-first'],
-    market: ['Productboard: Spark AI feedback synthesis — GA', 'Aha!: Customer evidence per feature — GA'],
+    strategy: [
+      { text: 'O1: Win R&D — sellable product line', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o1', icon: 'miro' },
+      { text: 'O4: Next Horizon — AI-first', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o4', icon: 'miro' },
+    ],
+    market: [
+      { text: 'Productboard: Spark AI feedback synthesis — GA Jan 2026', link: 'https://www.productboard.com/product/spark/', icon: 'competitor' },
+      { text: 'Aha!: Customer evidence per feature — GA', link: 'https://www.aha.io/roadmapping/features/idea-management', icon: 'competitor' },
+    ],
   },
   'kanban-deps': {
-    title: 'Kanban Dependencies',
+    title: 'Kanban + Timeline View Unification',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
-    meta: 'PayPal requested · 9.1% multi-day engagement · RICE: 58',
-    signals: {voc:true, usage:true, strategy:false, market:false},
+    meta: 'MVP plan initiative · Ryanair Tables session',
+    signals: {voc:true, usage:true, strategy:true, market:false},
     quotes: [
-      { text: 'We need swim lanes and sub-records in Kanban. Our teams use it daily but the lack of dependencies means we can\'t see blocked items.', source: 'PayPal, Senior PM', type: 'Enterprise', channel: 'Gong call', arr: '$310K' },
+      { text: 'Tables usage patterns, ghost team cleanup discussed.', source: 'Ryanair · Tables Session with Mo', type: 'Enterprise', channel: 'Gong call, Jan 29 2026', link: 'https://app.gong.io/call?id=ryanair-tables-jan29', icon: 'gong' },
+      { text: 'We need swim lanes and sub-records in Kanban. Our teams use it daily but lack of dependencies means we can\'t see blocked items.', source: 'PayPal, Senior PM', type: 'Enterprise', channel: 'Gong call', arr: '$310K', link: 'https://app.gong.io/call?id=paypal-kanban-deps', icon: 'gong' },
     ],
     usage: [
-      { label: 'Kanban multi-day engagement', value: '9.1%', detail: 'Highest across all views (2x Tables)', pct: 91, color: 'var(--background-success-prominent)' },
+      { label: 'Kanban classic W1 retention', value: '43%', detail: '62K weekly users — strongest retention, but declining from 87K (Oct 2025)', pct: 43, color: 'var(--background-success-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=kanban_classic', icon: 'snowflake' },
+      { label: 'Kanban new W1 retention', value: '28%', detail: '33K weekly users — growing from 17K (Oct 2025). Retention improving.', pct: 28, color: 'var(--background-brand-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=kanban_new', icon: 'snowflake' },
+      { label: 'Timeline W1 retention', value: '24%', detail: '40K weekly users — stable. 412K timelines created since Jan.', pct: 24, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=timeline_w1', icon: 'snowflake' },
     ],
-    strategy: [],
+    strategy: [
+      { text: 'O2: Drive Adoption', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o2', icon: 'miro' },
+      { text: 'MVP plan: Kanban + Timeline view unification', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=mvp-kanban-timeline', icon: 'miro' },
+    ],
     market: [],
   },
   'views-parity': {
@@ -975,37 +1047,53 @@ const CARD_DATA = {
     meta: 'FY27 Q1 planning · Core usability issue · RICE: 71',
     signals: {voc:true, usage:true, strategy:true, market:false},
     quotes: [
-      { text: 'Users cannot manage fields in Timeline or Kanban, only in Tables. This inconsistency causes constant friction and support tickets.', source: 'FY27 Q1 Planning board', type: 'Internal', channel: 'Internal' },
+      { text: 'Users cannot manage fields in Timeline or Kanban, only in Tables. This inconsistency causes constant friction and support tickets.', source: 'FY27 Q1 Planning board', type: 'Internal', channel: 'Miro board', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=views-parity-q1', icon: 'miro' },
     ],
     usage: [],
-    strategy: ['O2: Drive Adoption — usability blocker'],
+    strategy: [
+      { text: 'O2: Drive Adoption — usability blocker', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o2', icon: 'miro' },
+    ],
     market: [],
   },
   'ai-signal-synthesis': {
     title: 'AI Signal Synthesis (Feasibility)',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
-    meta: 'Leapfrog bet · No competitor has cracked this · RICE: 67',
-    signals: {voc:false, usage:false, strategy:true, market:true},
+    meta: 'Andrey\'s core demand · Leapfrog bet',
+    signals: {voc:false, usage:true, strategy:true, market:true},
     quotes: [
-      { text: 'The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined.', source: 'Andrey Khusid, CEO', type: 'Internal', channel: 'Sync Feb 18' },
+      { text: 'The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined.', source: 'Andrey Khusid, CEO', type: 'Internal', channel: 'Sync Feb 18 2026', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=andrey-sync-feb18', icon: 'miro' },
+      { text: 'We need to check feasibility, put it in front of customers, validate hypotheses... THEN start building.', source: 'Andrey Khusid, CEO', type: 'Internal', channel: 'Sync Feb 18 2026', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=andrey-feasibility', icon: 'miro' },
     ],
-    usage: [],
-    strategy: ['O1: Win R&D — the leapfrog bet', 'O4: Next Horizon — AI-first transformation'],
-    market: ['Linear Pulse: Execution signals only — limited', 'Productboard Spark: Feedback synthesis only', 'No competitor has cross-signal AI roadmapping'],
+    usage: [
+      { label: 'AI Generate Table W1 retention', value: '5-7%', detail: '23K weekly users — rapid growth from 4K (Oct 2025) but retention alarming', pct: 6, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=ai_gen_table', icon: 'snowflake' },
+      { label: 'AI features weekly usage', value: '23K users', detail: 'Growing fast but only 5-7% return next week — value not landing.', pct: 15, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=ai_features_weekly', icon: 'snowflake' },
+    ],
+    strategy: [
+      { text: 'O1: Win R&D — the leapfrog bet', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o1', icon: 'miro' },
+      { text: 'O4: Next Horizon — AI-first transformation', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o4', icon: 'miro' },
+    ],
+    market: [
+      { text: 'Linear Pulse (2025): AI-generated real-time feed', link: 'https://linear.app/changelog/pulse', icon: 'competitor' },
+      { text: 'Productboard Spark (Jan 2026): Agentic AI, feedback synthesis', link: 'https://www.productboard.com/product/spark/', icon: 'competitor' },
+      { text: 'No competitor has cross-signal synthesis', link: null, icon: 'competitor' },
+    ],
   },
   'ai-table-setup': {
     title: 'AI-Assisted Table Setup',
     tag: 'tag-warning-subtle', tagText: 'Medium confidence',
-    meta: '53% deletion rate signal · RICE: 64',
+    meta: '59% deletion rate signal · RICE: 64',
     signals: {voc:false, usage:true, strategy:true, market:false},
     quotes: [
-      { text: '53% of tables deleted within 2 days of creation. Only 9% of users return in Week 1. AI-generated templates could solve the blank canvas problem.', source: 'Analytics + Growth Design Sprint', type: 'Internal', channel: 'Internal analysis' },
+      { text: '59% of tables deleted. 63% never edited before deletion. AI-generated templates could solve the blank canvas problem.', source: 'Analytics + Growth Design Sprint', type: 'Internal', channel: 'Internal analysis', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=growth-sprint-tables', icon: 'miro' },
     ],
     usage: [
-      { label: 'Tables deleted within 2 days', value: '53%', detail: 'Critical first-experience failure', pct: 53, color: 'var(--background-danger-prominent)' },
-      { label: 'Week 1 return rate', value: '9%', detail: 'vs 52.7% for boards with table creation day 1', pct: 9, color: 'var(--background-danger-prominent)' },
+      { label: 'Tables deleted (lifetime)', value: '59.3%', detail: '8M of 13.5M tables deleted · 63% never edited', pct: 59, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=PRODUCT&table=DATA_TABLE_SUMMARY&filter=deletion_rate', icon: 'snowflake' },
+      { label: 'Tables W1 return rate', value: '26.7%', detail: '127K weekly users (Feb 2026)', pct: 27, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=tables_w1_return', icon: 'snowflake' },
     ],
-    strategy: ['O2: Drive Adoption — retention emergency', 'O4: Next Horizon — AI-first'],
+    strategy: [
+      { text: 'O2: Drive Adoption — retention emergency', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o2', icon: 'miro' },
+      { text: 'O4: Next Horizon — AI-first', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o4', icon: 'miro' },
+    ],
     market: [],
   },
 };
@@ -1042,6 +1130,21 @@ function openPanel(cardId, el) {
   document.getElementById('skPanel').classList.add('open');
 }
 
+function sourceBadge(icon, link) {
+  if (!link) return '';
+  const labels = { gong: 'Gong', slack: 'Slack', snowflake: 'Snowflake', miro: 'Miro Board', competitor: 'Source' };
+  const cls = 'badge-' + (icon || 'competitor');
+  const arrows = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg>';
+  return `<div class="source-link-row">
+    <span class="source-badge ${cls}">${arrows} Open in ${labels[icon] || 'Source'}</span>
+  </div>`;
+}
+
+function openSource(link, event) {
+  if (event) event.stopPropagation();
+  if (link) window.open(link, '_blank', 'noopener');
+}
+
 function showSection(type, cardId, btnEl) {
   const data = CARD_DATA[cardId];
   if (!data) return;
@@ -1055,8 +1158,10 @@ function showSection(type, cardId, btnEl) {
   if (type === 'voc') {
     html = `<div class="sp-section-head"><div class="sp-dive-dot" style="background:var(--background-brand-prominent)"></div> Customer Quotes — ${data.quotes.length} found</div>`;
     data.quotes.forEach((q, i) => {
+      const hasLink = q.link ? 'has-link' : '';
+      const onclick = q.link ? `onclick="openSource('${q.link}', event)"` : '';
       html += `
-        <div class="sp-quote-card">
+        <div class="sp-quote-card ${hasLink}" ${onclick}>
           <div class="sp-quote-text">"${q.text}"</div>
           <div class="sp-quote-source">
             <div class="sp-quote-attr">— ${q.source}</div>
@@ -1066,6 +1171,7 @@ function showSection(type, cardId, btnEl) {
               <span class="tag ${q.type === 'Enterprise' ? 'tag-danger-subtle' : 'tag-primary-subtle'}">${q.type}</span>
             </div>
           </div>
+          ${q.link ? sourceBadge(q.icon, q.link) : ''}
         </div>`;
     });
     html += `<button class="sp-validate-btn" onclick="this.innerHTML='✓ Marked as validated'; this.style.color='var(--text-success)'; this.style.borderColor='var(--border-success)'; this.style.background='var(--background-success-subtle)'">
@@ -1074,16 +1180,19 @@ function showSection(type, cardId, btnEl) {
   }
 
   if (type === 'usage') {
-    html = `<div class="sp-section-head"><div class="sp-dive-dot" style="background:var(--background-success-prominent)"></div> Usage Data</div>`;
+    html = `<div class="sp-section-head"><div class="sp-dive-dot" style="background:var(--background-success-prominent)"></div> Usage Data — Snowflake</div>`;
     data.usage.forEach(u => {
+      const hasLink = u.link ? 'has-link' : '';
+      const onclick = u.link ? `onclick="openSource('${u.link}', event)"` : '';
       html += `
-        <div class="sp-usage-card">
+        <div class="sp-usage-card ${hasLink}" ${onclick}>
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
             <div class="sp-usage-label">${u.label}</div>
             <div class="sp-usage-stat">${u.value}</div>
           </div>
           <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:${u.pct}%; background:${u.color}"></div></div>
           <div style="font-size:11px; color:var(--text-tertiary)">${u.detail}</div>
+          ${u.link ? sourceBadge(u.icon, u.link) : ''}
         </div>`;
     });
     if (data.usage.length === 0) {
@@ -1095,8 +1204,12 @@ function showSection(type, cardId, btnEl) {
     html = `<div class="sp-section-head"><div class="sp-dive-dot" style="background:var(--background-danger-prominent)"></div> Strategy Alignment</div>`;
     if (data.strategy.length) {
       data.strategy.forEach(s => {
-        html += `<div style="display:flex; align-items:center; gap:var(--space-200); padding:var(--space-300); background:var(--background-secondary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200); font-size:13px;">
-          <span style="color:var(--text-success); font-size:14px;">●</span> ${s}
+        const item = typeof s === 'object' ? s : { text: s };
+        const hasLink = item.link ? 'has-link' : '';
+        const onclick = item.link ? `onclick="openSource('${item.link}', event)"` : '';
+        html += `<div class="sp-strategy-card ${hasLink}" ${onclick}>
+          <span style="color:var(--text-success); font-size:14px;">●</span>
+          <div style="flex:1">${item.text}${item.link ? sourceBadge(item.icon, item.link) : ''}</div>
         </div>`;
       });
     } else {
@@ -1108,7 +1221,13 @@ function showSection(type, cardId, btnEl) {
     html = `<div class="sp-section-head"><div class="sp-dive-dot" style="background:var(--background-warning-prominent)"></div> Competitor Context</div>`;
     if (data.market.length) {
       data.market.forEach(m => {
-        html += `<div style="padding:var(--space-300); background:var(--background-secondary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200); font-size:13px; color:var(--text-secondary);">${m}</div>`;
+        const item = typeof m === 'object' ? m : { text: m };
+        const hasLink = item.link ? 'has-link' : '';
+        const onclick = item.link ? `onclick="openSource('${item.link}', event)"` : '';
+        html += `<div class="sp-market-card ${hasLink}" ${onclick}>
+          <div>${item.text}</div>
+          ${item.link ? sourceBadge(item.icon, item.link) : ''}
+        </div>`;
       });
     } else {
       html += `<div class="sp-ai-msg"><div class="sp-ai-avatar">✦</div><div class="sp-ai-text">No competitor activity detected for this area. Market signal source may need updating.</div></div>`;
@@ -1165,11 +1284,20 @@ function openPlanSidekick() {
       </div>
       <div class="sp-rec-detail">
         <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Why this matters</div>
-        <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
+        <div class="sp-quote-card has-link" style="margin-bottom:var(--space-200);" onclick="openSource('https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=andrey-sync-feb18', event)">
           <div class="sp-quote-text">"The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined."</div>
           <div class="sp-quote-source"><div class="sp-quote-attr">— Andrey Khusid, CEO, Feb 18 2026 sync</div></div>
+          ${sourceBadge('miro', 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=andrey-sync-feb18')}
         </div>
-        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">Cross-signal synthesis has <strong>no VoC evidence</strong> but Snowflake shows AI generate table has <strong>23K weekly users with only 5-7% W1 retention</strong>. Users try AI features but value doesn't land. Lauren: AI efficacy with Tables "a ways off from nailing the workflows." A spike would validate whether cross-signal can break this pattern.</div>
+        <div class="sp-usage-card has-link" style="margin-bottom:var(--space-300); cursor:pointer;" onclick="openSource('https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=ai_gen_table', event)">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
+            <div class="sp-usage-label">AI Generate Table W1 retention</div>
+            <div class="sp-usage-stat" style="color:var(--text-danger)">5-7%</div>
+          </div>
+          <div style="font-size:11px; color:var(--text-tertiary)">23K weekly users — rapid growth but alarming retention</div>
+          ${sourceBadge('snowflake', 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=ai_gen_table')}
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">Cross-signal synthesis has <strong>no VoC evidence</strong> but Snowflake shows AI generate table has <strong>23K weekly users with only 5-7% W1 retention</strong>. Lauren: AI efficacy with Tables "a ways off from nailing the workflows." A spike would validate whether cross-signal can break this pattern.</div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
           <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Create spike ticket</button>
           <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add to Q1 sprint</button>
@@ -1189,13 +1317,15 @@ function openPlanSidekick() {
       <div class="sp-rec-detail">
         <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Key Snowflake metrics</div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200); margin-bottom:var(--space-300);">
-          <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-danger-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
+          <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-danger-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center; cursor:pointer; transition:all 0.12s;" onclick="event.stopPropagation(); openSource('https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=PRODUCT&table=DATA_TABLE_SUMMARY&filter=deletion_rate')">
             <div style="font-weight:600; color:var(--text-danger);">59.3% deletion rate</div>
             <div style="color:var(--text-secondary); margin-top:2px;">8M of 13.5M tables deleted</div>
+            <div style="margin-top:4px;"><span class="source-badge badge-snowflake" style="font-size:9px;"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" style="width:10px;height:10px"><path d="M3 9l6-6M5 3h4v4"/></svg> Snowflake</span></div>
           </div>
-          <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-warning-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
+          <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-warning-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center; cursor:pointer; transition:all 0.12s;" onclick="event.stopPropagation(); openSource('https://www.productboard.com/product/spark/')">
             <div style="font-weight:600; color:var(--text-warning);">Productboard Spark</div>
             <div style="color:var(--text-secondary); margin-top:2px;">Competitor: feedback synthesis (Jan 2026)</div>
+            <div style="margin-top:4px;"><span class="source-badge badge-competitor" style="font-size:9px;"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" style="width:10px;height:10px"><path d="M3 9l6-6M5 3h4v4"/></svg> Source</span></div>
           </div>
         </div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
@@ -1218,10 +1348,22 @@ function openPlanSidekick() {
       <div class="sp-rec-detail">
         <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Suggested interviewees</div>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:var(--space-300);">
-          Based on Gong call participation:<br>
-          <strong>1.</strong> Booking.com (Justin Vos, Aytaç Bildik, Matt Skipper — Jira sessions Jan 16, Feb 6 2026)<br>
-          <strong>2.</strong> Adobe (Veronica Murillo, David Grabner — Feature Request Jan 14 2026)<br>
-          <strong>3.</strong> Ford (Melanie Petrucci, Aytaç Bildik — OneDrive Jan 27 2026)
+          Based on Gong call participation:
+        </div>
+        <div class="sp-quote-card has-link" style="margin-bottom:var(--space-150); padding:var(--space-250) var(--space-300);" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=booking-jira-feb6')">
+          <div style="font-size:12px;"><strong>1.</strong> Booking.com — Justin Vos, Aytaç Bildik, Matt Skipper</div>
+          <div style="font-size:11px; color:var(--text-tertiary);">Jira sessions Jan 16, Feb 6 2026</div>
+          ${sourceBadge('gong', 'https://app.gong.io/call?id=booking-jira-feb6')}
+        </div>
+        <div class="sp-quote-card has-link" style="margin-bottom:var(--space-150); padding:var(--space-250) var(--space-300);" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=adobe-feature-jan14')">
+          <div style="font-size:12px;"><strong>2.</strong> Adobe — Veronica Murillo, David Grabner</div>
+          <div style="font-size:11px; color:var(--text-tertiary);">Feature Request Jan 14 2026</div>
+          ${sourceBadge('gong', 'https://app.gong.io/call?id=adobe-feature-jan14')}
+        </div>
+        <div class="sp-quote-card has-link" style="margin-bottom:var(--space-300); padding:var(--space-250) var(--space-300);" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=ford-onedrive-jan27')">
+          <div style="font-size:12px;"><strong>3.</strong> Ford — Melanie Petrucci, Aytaç Bildik</div>
+          <div style="font-size:11px; color:var(--text-tertiary);">OneDrive integration Jan 27 2026</div>
+          ${sourceBadge('gong', 'https://app.gong.io/call?id=ford-onedrive-jan27')}
         </div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
           <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Draft interview request</button>
@@ -1281,11 +1423,15 @@ function openStrengthened() {
     <div style="margin-top:var(--space-300);">
       <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-success); border-radius:var(--radius-200); margin-bottom:var(--space-300); cursor:pointer;" onclick="openPanel('jira-custom-fields')">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
-          <div style="font-size:14px; font-weight:600;">Jira Custom Fields</div>
+          <div style="font-size:14px; font-weight:600;">Jira Bi-Directional Sync</div>
           <span class="tag tag-danger-subtle">High confidence</span>
         </div>
-        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">+7 new Gong mentions this week · 2 new enterprise accounts · ARR impact now $2.1M</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Booking.com, Adobe, Ford Gong calls · Snowflake: 45% W1 retention (16K users)</div>
         <div style="font-size:11px; color:var(--text-success); font-weight:600;">↑ Moved from Medium → High confidence</div>
+        <div style="display:flex; gap:var(--space-100); margin-top:var(--space-200);">
+          <span class="source-badge badge-gong" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=booking-jira-feb6')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Gong</span>
+          <span class="source-badge badge-snowflake" onclick="event.stopPropagation(); openSource('https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=jira_integration')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Snowflake</span>
+        </div>
       </div>
       <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-success); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('convert-rows-jira')">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
@@ -1294,6 +1440,10 @@ function openStrengthened() {
         </div>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Monday.com shipped native Jira creation (GA) — competitive urgency increased</div>
         <div style="font-size:11px; color:var(--text-success); font-weight:600;">↑ New market signal added</div>
+        <div style="display:flex; gap:var(--space-100); margin-top:var(--space-200);">
+          <span class="source-badge badge-slack" onclick="event.stopPropagation(); openSource('https://miro-communication.slack.com/archives/product-feedback/convert-rows-jira')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Slack</span>
+          <span class="source-badge badge-competitor" onclick="event.stopPropagation(); openSource('https://monday.com/integrations/jira')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Monday.com</span>
+        </div>
       </div>
     </div>
   `;
@@ -1320,7 +1470,12 @@ function openNewSignals() {
           <span class="tag tag-primary-subtle">New signal</span>
         </div>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">3 enterprise accounts mentioned "portfolio view" in Gong calls · $890K combined ARR</div>
-        <div style="display:flex; gap:var(--space-200); margin-top:var(--space-300);">
+        <div style="display:flex; gap:var(--space-100); margin-bottom:var(--space-200);">
+          <span class="source-badge badge-gong" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=nemetschek-portfolio')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Nemetschek</span>
+          <span class="source-badge badge-gong" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=wpp-portfolio')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> WPP</span>
+          <span class="source-badge badge-gong" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=reece-portfolio')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Reece</span>
+        </div>
+        <div style="display:flex; gap:var(--space-200);">
           <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); openPanel('portfolio-view')">View evidence</button>
           <button class="btn btn-sm btn-tertiary" onclick="event.stopPropagation()">Create backlog item</button>
           <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation()">Dismiss</button>
@@ -1347,11 +1502,15 @@ function openWeakened() {
     <div style="margin-top:var(--space-300);">
       <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-danger); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('silent-abandonment')">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
-          <div style="font-size:14px; font-weight:600;">Feature Y — Silent Abandonment</div>
+          <div style="font-size:14px; font-weight:600;">Tables Performance at Scale</div>
           <span class="tag tag-warning-subtle">Medium confidence</span>
         </div>
-        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Adoption dropped from 8.2% → 4.7% over 6 weeks · No customer complaints (that's the concern)</div>
-        <div style="font-size:11px; color:var(--text-danger); font-weight:600;">↓ Usage signal weakened — approaching 5% threshold</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Snowflake: 59.3% deletion rate · 63% never edited · Lauren flagged >10K rows</div>
+        <div style="font-size:11px; color:var(--text-danger); font-weight:600;">↓ Usage signal weakened — deletion rate critical</div>
+        <div style="display:flex; gap:var(--space-100); margin-top:var(--space-200);">
+          <span class="source-badge badge-snowflake" onclick="event.stopPropagation(); openSource('https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=PRODUCT&table=DATA_TABLE_SUMMARY&filter=deletion_rate')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Snowflake</span>
+          <span class="source-badge badge-miro" onclick="event.stopPropagation(); openSource('https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=lauren-tables')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Miro Board</span>
+        </div>
       </div>
     </div>
   `;
