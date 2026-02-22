@@ -342,201 +342,12 @@
   .pc-label { font-size: 13px; color: var(--text-secondary); }
   .pc-sub { font-size: 11px; color: var(--text-tertiary); }
 
-  /* === SPOTLIGHT SCREEN === */
-  .spot-layout {
-    display: flex; gap: 0; max-width: 1400px; margin: 0 auto;
-    min-height: calc(100vh - 72px);
-  }
-  .spot-main { flex: 1; min-width: 0; padding-right: var(--space-500); }
-  .dimmed { display: flex; gap: var(--space-300); margin-bottom: var(--space-500); }
-  .dimmed-box { flex: 1; height: 72px; background: var(--background-tertiary); border-radius: var(--radius-200); opacity: 0.25; }
-
-  .spot-panel {
-    background: var(--background-primary); border: 2px solid var(--border-brand);
-    border-radius: var(--radius-300); padding: var(--space-800); box-shadow: var(--elevation-400);
-  }
-  .spot-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-600); }
-  .spot-title { font-size: 20px; font-weight: 700; }
-  .spot-close {
-    width: 32px; height: 32px; border-radius: var(--radius-200); background: var(--background-secondary);
-    border: 1px solid var(--border-primary); display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 14px; color: var(--text-secondary);
-  }
-
-  /* Spotlight Sidekick — always-open right panel */
-  .spot-sidekick {
-    width: 380px; flex-shrink: 0;
-    background: var(--background-primary); border-left: 1px solid var(--border-primary);
-    display: flex; flex-direction: column;
-    margin: -72px -32px -40px 0; padding-top: 72px;
-    box-shadow: -4px 0 16px rgba(5,0,56,0.06);
-  }
-  .ssk-header {
-    padding: var(--space-400) var(--space-500);
-    border-bottom: 1px solid var(--border-primary); flex-shrink: 0;
-  }
-  .ssk-header-left { display: flex; align-items: center; gap: var(--space-200); }
-  .ssk-body {
-    flex: 1; overflow-y: auto; padding: var(--space-500);
-    display: flex; flex-direction: column; gap: var(--space-400);
-  }
-  .ssk-footer {
-    padding: var(--space-300) var(--space-500);
-    border-top: 1px solid var(--border-primary); flex-shrink: 0;
-  }
-
-  .ssk-explore-section { }
-
-  .ssk-signal-cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-200); }
-  .ssk-signal-card {
-    padding: var(--space-300); background: var(--background-secondary);
-    border: 1px solid var(--border-primary); border-radius: var(--radius-200);
-    cursor: pointer; transition: all 0.12s;
-  }
-  .ssk-signal-card:hover { border-color: var(--border-brand); background: var(--background-brand-subtle); }
-  .ssk-signal-card.active { border-color: var(--border-brand); background: var(--background-brand-subtle); box-shadow: var(--elevation-100); }
-  .ssk-sig-top { display: flex; align-items: center; gap: var(--space-150); margin-bottom: var(--space-100); }
-  .ssk-sig-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-tertiary); }
-  .ssk-sig-stat { font-size: 15px; font-weight: 700; color: var(--text-primary); }
-  .ssk-sig-sub { font-size: 11px; color: var(--text-tertiary); }
-
-  .ssk-quick-btns { display: flex; flex-wrap: wrap; gap: var(--space-150); }
-  .ssk-quick-btn {
-    padding: var(--space-150) var(--space-300); border-radius: var(--radius-full);
-    font-size: 12px; font-weight: 500; cursor: pointer;
-    border: 1px solid var(--border-primary); background: var(--background-primary);
-    color: var(--text-secondary); font-family: var(--font); transition: all 0.12s;
-  }
-  .ssk-quick-btn:hover { border-color: var(--border-brand); color: var(--text-brand); }
-  .ssk-quick-btn.used { opacity: 0.5; pointer-events: none; }
-
-  .ssk-result {
-    padding: var(--space-400); background: var(--background-secondary);
-    border: 1px solid var(--border-primary); border-radius: var(--radius-200);
-  }
-  .ssk-result-head {
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-    color: var(--text-tertiary); margin-bottom: var(--space-300);
-    display: flex; align-items: center; gap: var(--space-200);
-  }
-
-  .evidence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-400); margin-bottom: var(--space-600); }
-  .ep {
-    background: var(--background-secondary); border-radius: var(--radius-200); padding: var(--space-500);
-    border: 1px solid var(--border-primary);
-  }
-  .ep h4 {
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-    color: var(--text-secondary); margin-bottom: var(--space-300); display: flex; align-items: center; gap: var(--space-200);
-  }
-  .ep-stat { font-size: 22px; font-weight: 700; color: var(--text-primary); margin-bottom: var(--space-100); }
-  .ep-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: var(--space-300); }
-
-  .quote {
-    background: var(--background-primary); border-radius: var(--radius-200); padding: var(--space-300);
-    border-left: 2px solid var(--border-brand); font-size: 12px; color: var(--text-secondary);
-    line-height: 1.5; margin-bottom: var(--space-200);
-  }
-  .quote-attr { font-size: 11px; color: var(--text-tertiary); margin-top: var(--space-100); }
-
-  .mini-chart { display: flex; align-items: flex-end; gap: 3px; height: 64px; padding: var(--space-200) 0; }
-  .chart-bar { flex: 1; border-radius: 2px 2px 0 0; min-height: 3px; }
-  .chart-bar.up { background: var(--background-success-prominent); }
-  .chart-bar.flat { background: var(--background-tertiary); }
-
   .comp-row { display: flex; align-items: center; gap: var(--space-300); margin-bottom: var(--space-300); font-size: 12px; }
   .comp-logo {
     width: 28px; height: 28px; border-radius: var(--radius-200); background: var(--background-tertiary);
     display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--text-secondary);
   }
   .comp-name { font-weight: 600; }
-
-  .okr-item { display: flex; align-items: center; gap: var(--space-200); margin-bottom: var(--space-200); font-size: 12px; }
-
-  .spot-actions { display: flex; gap: var(--space-200); padding-top: var(--space-500); border-top: 1px solid var(--border-primary); }
-
-  .sidekick {
-    margin-top: var(--space-500); border: 1px solid var(--border-primary);
-    border-radius: var(--radius-200); overflow: hidden;
-  }
-  .sk-head {
-    padding: var(--space-300) var(--space-400); border-bottom: 1px solid var(--border-primary);
-    background: var(--background-secondary); font-size: 12px; font-weight: 600;
-    color: var(--text-secondary); display: flex; align-items: center; gap: var(--space-200);
-  }
-  .sk-icon { width: 20px; height: 20px; border-radius: var(--radius-100); background: var(--background-brand-prominent); color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; }
-  .sk-body { padding: var(--space-400); }
-  .sk-msg { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--space-300); }
-  .sk-input { display: flex; gap: var(--space-200); }
-  .sk-input input {
-    flex: 1; padding: var(--space-250) var(--space-300); border-radius: var(--radius-200);
-    background: var(--background-secondary); border: 1px solid var(--border-primary);
-    font-size: 13px; font-family: var(--font); color: var(--text-primary);
-  }
-  .sk-input input::placeholder { color: var(--text-tertiary); }
-
-  /* === CARD FLIP === */
-  .flip-wrap { max-width: 600px; margin: 0 auto; }
-  .flip-perspective { perspective: 1200px; margin-bottom: var(--space-800); }
-  .flip-card {
-    position: relative; width: 100%; min-height: 340px;
-    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-style: preserve-3d;
-  }
-  .flip-card.flipped { transform: rotateY(180deg); }
-  .flip-face {
-    position: absolute; top: 0; left: 0; width: 100%;
-    backface-visibility: hidden; border-radius: var(--radius-300);
-    background: var(--background-primary); border: 1px solid var(--border-primary);
-    box-shadow: var(--elevation-200);
-  }
-  .flip-back { transform: rotateY(180deg); }
-  .flip-face-inner { padding: var(--space-600); }
-
-  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-200); }
-  .stat-box {
-    text-align: center; padding: var(--space-300); background: var(--background-secondary);
-    border-radius: var(--radius-200);
-  }
-  .stat-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-tertiary); }
-  .stat-value { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 2px; }
-  .stat-value.brand { color: var(--text-brand); }
-  .stat-value.success { color: var(--text-success); }
-
-  .back-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-300); }
-  .back-cell { padding: var(--space-400); background: var(--background-secondary); border-radius: var(--radius-200); border: 1px solid var(--border-primary); }
-  .back-cell h5 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-tertiary); margin-bottom: var(--space-200); display: flex; align-items: center; gap: var(--space-150); }
-  .back-cell .bc-stat { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: var(--space-100); }
-  .back-cell p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
-
-  .flip-hint {
-    text-align: center; font-size: 12px; color: var(--text-tertiary); cursor: pointer;
-    padding: var(--space-200); display: flex; align-items: center; justify-content: center; gap: var(--space-200);
-  }
-  .flip-hint:hover { color: var(--text-secondary); }
-
-  /* === TRUST PHASES === */
-  .trust-wrap { max-width: 1000px; margin: 0 auto; }
-  .phases { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-400); }
-  .phase {
-    background: var(--background-primary); border: 1px solid var(--border-primary);
-    border-radius: var(--radius-300); padding: var(--space-500); position: relative; overflow: hidden;
-  }
-  .phase::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-  .phase.p1::before { background: var(--background-tertiary); }
-  .phase.p2::before { background: var(--background-brand-prominent); }
-  .phase.p3::before { background: var(--background-warning-prominent); }
-  .phase.p4::before { background: var(--background-success-prominent); }
-  .phase-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-tertiary); margin-bottom: var(--space-150); }
-  .phase-title { font-size: 15px; font-weight: 700; margin-bottom: var(--space-50); }
-  .phase-sub { font-size: 13px; color: var(--text-brand); font-weight: 500; margin-bottom: var(--space-300); }
-  .phase-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--space-400); }
-  .phase-ex {
-    background: var(--background-secondary); border-radius: var(--radius-200); padding: var(--space-300);
-    border: 1px solid var(--border-primary);
-  }
-  .phase-ex-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-tertiary); margin-bottom: var(--space-150); }
-  .phase-ex-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; font-style: italic; }
 
   /* === PLAN CONFIDENCE BAR (top of Plan screen) === */
   .plan-confidence-bar {
@@ -729,10 +540,7 @@
 
   @media (max-width: 900px) {
     .kanban { grid-template-columns: 1fr 1fr; }
-    .evidence-grid { grid-template-columns: 1fr; }
-    .phases { grid-template-columns: 1fr 1fr; }
     .sidekick-panel { width: 100%; }
-    .spot-layout { flex-direction: column; }
     .spot-main { padding-right: 0; }
     .spot-sidekick { width: 100%; margin: var(--space-500) 0 0; border-left: none; border-top: 1px solid var(--border-primary); padding-top: 0; }
   }
@@ -749,9 +557,6 @@
     <button class="tab active" onclick="go('briefing',this)">The Briefing</button>
     <button class="tab" onclick="go('backlog',this)">The Backlog</button>
     <button class="tab" onclick="go('plan',this)">The Plan</button>
-    <button class="tab" onclick="go('spotlight',this)">Spotlight</button>
-    <button class="tab" onclick="go('flip',this)">Card Flip</button>
-    <button class="tab" onclick="go('trust',this)">Trust Phases</button>
   </div>
 </nav>
 
@@ -1033,236 +838,8 @@
   </div>
 </div>
 
-<!-- SPOTLIGHT -->
-<div id="spotlight" class="screen">
-  <div class="spot-layout">
-    <!-- LEFT: Evidence panels -->
-    <div class="spot-main">
-      <div class="screen-header">
-        <div class="screen-title">The Spotlight</div>
-        <div class="screen-desc">Focused investigation mode with AI Sidekick. Evidence panels on the left, conversational exploration on the right.</div>
-      </div>
-      <div class="dimmed"><div class="dimmed-box"></div><div class="dimmed-box"></div><div class="dimmed-box"></div></div>
-      <div class="spot-panel">
-        <div class="spot-head">
-          <div><span class="tag tag-danger-subtle" style="margin-bottom:var(--space-200); display:inline-flex;">High confidence</span><div class="spot-title">Jira Custom Fields</div></div>
-          <div class="spot-close">✕</div>
-        </div>
-        <div class="evidence-grid">
-          <div class="ep">
-            <h4><div class="signal-dot voc" style="margin-top:0"></div> Voice of Customer</h4>
-            <div class="ep-stat">43 <span style="font-size:13px; font-weight:400; color:var(--text-secondary)">mentions</span></div>
-            <div class="ep-sub">12 accounts · $2.1M ARR · +65% vs last quarter</div>
-            <div class="quote">"Every time I show agile teams the table/timeline widget, they ask about custom Jira fields."<div class="quote-attr">— Dave Ross, Solutions Consultant</div></div>
-            <div class="quote">"We'd switch to Aha! if this isn't on your H1 roadmap."<div class="quote-attr">— ZEISS, Product Operations Lead</div></div>
-          </div>
-          <div class="ep">
-            <h4><div class="signal-dot usage" style="margin-top:0"></div> Usage Data</h4>
-            <div class="ep-stat">4x <span style="font-size:13px; font-weight:400; color:var(--text-secondary)">engagement</span></div>
-            <div class="ep-sub">Jira-connected users vs non-connected</div>
-            <div class="mini-chart">
-              <div class="chart-bar up" style="height:18%"></div><div class="chart-bar up" style="height:24%"></div><div class="chart-bar up" style="height:28%"></div><div class="chart-bar up" style="height:34%"></div><div class="chart-bar up" style="height:42%"></div><div class="chart-bar up" style="height:48%"></div><div class="chart-bar up" style="height:56%"></div><div class="chart-bar up" style="height:64%"></div><div class="chart-bar up" style="height:72%"></div><div class="chart-bar up" style="height:80%"></div><div class="chart-bar up" style="height:88%"></div><div class="chart-bar up" style="height:96%"></div>
-            </div>
-            <div style="font-size:11px; color:var(--text-tertiary)">Active days/month: Jira users vs baseline (12-month trend)</div>
-          </div>
-          <div class="ep">
-            <h4><div class="signal-dot strategy" style="margin-top:0"></div> Strategy Alignment</h4>
-            <div class="okr-item"><span style="color:var(--text-success)">●</span> <strong>O1: Win R&D</strong> — $82M HT bookings</div>
-            <div class="okr-item"><span style="color:var(--text-success)">●</span> <strong>O2: Adoption</strong> — 60%+ MAU/Paid</div>
-            <div class="okr-item"><span style="color:var(--text-tertiary)">○</span> <span style="color:var(--text-tertiary)">O3: Flywheel — indirect</span></div>
-            <div class="okr-item"><span style="color:var(--text-tertiary)">○</span> <span style="color:var(--text-tertiary)">O4: Next Horizon — not primary</span></div>
-            <div style="margin-top:var(--space-300); font-size:12px; color:var(--text-secondary); line-height:1.5;">Direct tie to $82M through enterprise deal enablement.</div>
-          </div>
-          <div class="ep">
-            <h4><div class="signal-dot market" style="margin-top:0"></div> Market Context</h4>
-            <div class="comp-row"><div class="comp-logo">As</div><div style="flex:1"><div class="comp-name">Asana</div><div style="font-size:11px; color:var(--text-tertiary)">Custom fields — Oct 2025</div></div><span class="tag tag-danger-subtle">GA</span></div>
-            <div class="comp-row"><div class="comp-logo">Mo</div><div style="flex:1"><div class="comp-name">Monday.com</div><div style="font-size:11px; color:var(--text-tertiary)">Jira integration — Jan 2026</div></div><span class="tag tag-warning-subtle">Beta</span></div>
-            <div class="comp-row"><div class="comp-logo">Li</div><div style="flex:1"><div class="comp-name">Linear</div><div style="font-size:11px; color:var(--text-tertiary)">Native fields, no Jira sync</div></div><span class="tag tag-neutral">N/A</span></div>
-          </div>
-        </div>
-        <div class="spot-actions">
-          <button class="btn btn-md btn-primary">Promote to roadmap</button>
-          <div style="flex:1"></div>
-          <button class="btn btn-md btn-tertiary">Snooze</button>
-          <button class="btn btn-md btn-ghost">Dismiss</button>
-        </div>
-      </div>
-    </div>
 
-    <!-- RIGHT: Sidekick always-open panel -->
-    <div class="spot-sidekick">
-      <div class="ssk-header">
-        <div class="ssk-header-left">
-          <div class="sp-ai-icon">✦</div>
-          <div>
-            <div style="font-size:14px; font-weight:700;">Sidekick</div>
-            <div style="font-size:11px; color:var(--text-tertiary);">Investigating Jira Custom Fields</div>
-          </div>
-        </div>
-      </div>
 
-      <div class="ssk-body" id="sskBody">
-        <div class="sp-ai-msg">
-          <div class="sp-ai-avatar">✦</div>
-          <div class="sp-ai-text">I've loaded all evidence for <strong>Jira Custom Fields</strong>. What would you like to explore?</div>
-        </div>
-
-        <div class="ssk-explore-section">
-          <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Dive into signals</div>
-          <div class="ssk-signal-cards">
-            <div class="ssk-signal-card" onclick="spotSignal('voc', this)">
-              <div class="ssk-sig-top">
-                <div class="signal-dot voc" style="margin-top:0"></div>
-                <div class="ssk-sig-label">Voice of Customer</div>
-              </div>
-              <div class="ssk-sig-stat">43 mentions</div>
-              <div class="ssk-sig-sub">12 accounts · $2.1M ARR</div>
-            </div>
-            <div class="ssk-signal-card" onclick="spotSignal('usage', this)">
-              <div class="ssk-sig-top">
-                <div class="signal-dot usage" style="margin-top:0"></div>
-                <div class="ssk-sig-label">Usage Data</div>
-              </div>
-              <div class="ssk-sig-stat">4x engagement</div>
-              <div class="ssk-sig-sub">Jira vs non-Jira users</div>
-            </div>
-            <div class="ssk-signal-card" onclick="spotSignal('strategy', this)">
-              <div class="ssk-sig-top">
-                <div class="signal-dot strategy" style="margin-top:0"></div>
-                <div class="ssk-sig-label">Strategy</div>
-              </div>
-              <div class="ssk-sig-stat">O1 + O2</div>
-              <div class="ssk-sig-sub">$82M bookings target</div>
-            </div>
-            <div class="ssk-signal-card" onclick="spotSignal('market', this)">
-              <div class="ssk-sig-top">
-                <div class="signal-dot market" style="margin-top:0"></div>
-                <div class="ssk-sig-label">Market</div>
-              </div>
-              <div class="ssk-sig-stat">2 of 5</div>
-              <div class="ssk-sig-sub">competitors shipped</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="ssk-explore-section">
-          <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Quick questions</div>
-          <div class="ssk-quick-btns">
-            <button class="ssk-quick-btn" onclick="spotQuick('Show me the strongest customer quotes', this)">Strongest customer quotes</button>
-            <button class="ssk-quick-btn" onclick="spotQuick('Which accounts have the highest churn risk?', this)">Accounts with churn risk</button>
-            <button class="ssk-quick-btn" onclick="spotQuick('What would happen if we delay this by a quarter?', this)">Impact of delaying a quarter</button>
-            <button class="ssk-quick-btn" onclick="spotQuick('Compare our approach to Asana\\'s implementation', this)">Compare to Asana</button>
-            <button class="ssk-quick-btn" onclick="spotQuick('What is the effort estimate from engineering?', this)">Engineering effort estimate</button>
-            <button class="ssk-quick-btn" onclick="spotQuick('Show Gong calls mentioning this topic', this)">Related Gong calls</button>
-          </div>
-        </div>
-
-        <div id="sskDynamic"></div>
-      </div>
-
-      <div class="ssk-footer">
-        <div class="sp-input-row">
-          <input class="sp-input" id="sskInput" placeholder="Ask anything about this item…" onkeydown="if(event.key==='Enter')sendSpotMsg()">
-          <button class="btn btn-sm btn-primary" onclick="sendSpotMsg()">Ask</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- CARD FLIP -->
-<div id="flip" class="screen">
-  <div class="flip-wrap">
-    <div class="screen-header">
-      <div class="screen-title">The Card Flip</div>
-      <div class="screen-desc">Front face: scannable summary with MDS stat blocks. Back face: 4-quadrant evidence in spatially consistent positions. Click the card to flip.</div>
-    </div>
-    <div class="flip-perspective">
-      <div class="flip-card" onclick="this.classList.toggle('flipped')">
-        <div class="flip-face" style="padding:0;">
-          <div class="flip-face-inner">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-              <span class="tag tag-danger-subtle">High confidence</span>
-              <span style="font-size:11px; color:var(--text-tertiary)">Click to flip →</span>
-            </div>
-            <div style="font-size:18px; font-weight:700; margin:var(--space-400) 0 var(--space-200);">Jira custom fields demand surged +65%</div>
-            <div style="font-size:13px; color:var(--text-secondary); line-height:1.55; margin-bottom:var(--space-500);">43 mentions across 12 accounts ($2.1M ARR). Jira-connected users have 4x engagement. Maps to O1 ($82M bookings). Asana shipped this GA in Oct 2025.</div>
-            <div class="ec-interpretation" style="margin:0 0 var(--space-500);">
-              <span class="arrow">▸</span> Time-sensitive — competitor gap closing while demand accelerates.
-            </div>
-            <div class="stat-row">
-              <div class="stat-box"><div class="stat-label">RICE</div><div class="stat-value">91</div></div>
-              <div class="stat-box"><div class="stat-label">Signals</div><div class="stat-value brand">4/4</div></div>
-              <div class="stat-box"><div class="stat-label">ARR</div><div class="stat-value">$2.1M</div></div>
-              <div class="stat-box"><div class="stat-label">Trend</div><div class="stat-value success">↑ 65%</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="flip-face flip-back" style="padding:0;">
-          <div class="flip-face-inner">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:var(--space-400);">
-              <span style="font-size:15px; font-weight:700;">Evidence Detail</span>
-              <span style="font-size:11px; color:var(--text-tertiary)">Click to flip back →</span>
-            </div>
-            <div class="back-grid">
-              <div class="back-cell"><h5><div class="signal-dot voc" style="margin-top:0"></div> Voice of Customer</h5><div class="bc-stat">43</div><p>mentions · 12 accounts<br>$2.1M combined ARR<br>+65% vs last quarter<br><em>"We'd switch to Aha!"</em> — ZEISS</p></div>
-              <div class="back-cell"><h5><div class="signal-dot usage" style="margin-top:0"></div> Usage Data</h5><div class="bc-stat">4x</div><p>engagement multiplier<br>Active days: 12.4 vs 3.1<br>Retention: 52% vs 35%<br>Strongest driver found</p></div>
-              <div class="back-cell"><h5><div class="signal-dot strategy" style="margin-top:0"></div> Strategy</h5><div class="bc-stat">O1+O2</div><p>$82M bookings target<br>Enterprise deal enabler<br>"The demo talking point"<br>Also supports adoption</p></div>
-              <div class="back-cell"><h5><div class="signal-dot market" style="margin-top:0"></div> Market</h5><div class="bc-stat">2/5</div><p>competitors shipped<br>Asana: GA Oct 2025<br>Monday: Beta Jan 2026<br>Window: 6–12 months</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="flip-hint" onclick="document.querySelector('.flip-card').classList.toggle('flipped')">↻ Click the card to flip between summary and evidence</div>
-  </div>
-</div>
-
-<!-- TRUST PHASES -->
-<div id="trust" class="screen">
-  <div class="trust-wrap">
-    <div class="screen-header">
-      <div class="screen-title">Progressive Trust Building</div>
-      <div class="screen-desc">The AI's role evolves over 12 weeks. MDS Tag shades (subtle → prominent) mirror the increasing confidence of AI contributions.</div>
-    </div>
-    <div class="phases">
-      <div class="phase p1">
-        <div class="phase-num">Phase 1</div>
-        <div class="phase-title">Weeks 1–2</div>
-        <div class="phase-sub">"I know things you know"</div>
-        <span class="tag tag-neutral" style="margin-bottom:var(--space-300); display:inline-flex;">AI: Librarian</span>
-        <div class="phase-desc">Organises, deduplicates, finds gaps. Nothing non-obvious — building the trust account before withdrawals.</div>
-        <div class="phase-ex"><div class="phase-ex-label">Example</div><div class="phase-ex-text">"You have 40 items but none address retention — is that intentional?"</div></div>
-      </div>
-      <div class="phase p2">
-        <div class="phase-num">Phase 2</div>
-        <div class="phase-title">Weeks 3–4</div>
-        <div class="phase-sub">"Here's what the data says"</div>
-        <span class="tag tag-primary-subtle" style="margin-bottom:var(--space-300); display:inline-flex;">AI: Analyst</span>
-        <div class="phase-desc">Evidence cards appear in the Briefing. Only facts — no interpretation. PM can verify every claim.</div>
-        <div class="phase-ex"><div class="phase-ex-label">Example</div><div class="phase-ex-text">"43 customers mentioned Jira custom fields this quarter. Here are the top quotes and ARR breakdown."</div></div>
-      </div>
-      <div class="phase p3">
-        <div class="phase-num">Phase 3</div>
-        <div class="phase-title">Weeks 5–8</div>
-        <div class="phase-sub">"I noticed something"</div>
-        <span class="tag tag-warning-subtle" style="margin-bottom:var(--space-300); display:inline-flex;">AI: Observer</span>
-        <div class="phase-desc">Cross-signal connections. Signals column activates. Anomaly detection surfaces changes. Observation, not directive.</div>
-        <div class="phase-ex"><div class="phase-ex-label">Example</div><div class="phase-ex-text">"Feature X demand is up AND adoption is down AND Competitor Y shipped it. This wasn't true last month."</div></div>
-      </div>
-      <div class="phase p4">
-        <div class="phase-num">Phase 4</div>
-        <div class="phase-title">Month 3+</div>
-        <div class="phase-sub">"This should change your plan"</div>
-        <span class="tag tag-success-subtle" style="margin-bottom:var(--space-300); display:inline-flex;">AI: Advisor</span>
-        <div class="phase-desc">Earned recommendations framed with evidence and confidence. The PM decides, but the AI has earned the right to suggest.</div>
-        <div class="phase-ex"><div class="phase-ex-label">Example</div><div class="phase-ex-text">"Based on converging signals, Feature X may deserve higher priority than Feature Z. Here's the comparison."</div></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SIDEKICK SIDE PANEL -->
 <div class="sidekick-overlay" id="skOverlay" onclick="closePanel()"></div>
 <div class="sidekick-panel" id="skPanel">
   <div class="sp-header">
@@ -1560,203 +1137,42 @@ function sendMsg() {
   sec.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
-function spotSignal(type, el) {
-  document.querySelectorAll('.ssk-signal-card').forEach(c => c.classList.remove('active'));
-  if (el) el.classList.add('active');
-
-  const dyn = document.getElementById('sskDynamic');
-  let html = '';
-
-  if (type === 'voc') {
-    html = `
-      <div class="ssk-result">
-        <div class="ssk-result-head"><div class="signal-dot voc" style="margin-top:0"></div> Voice of Customer — 43 mentions</div>
-        <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"Every time I show agile teams the table/timeline widget, they ask about custom Jira fields. Every single time."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— Dave Ross, Solutions Consultant</div><div class="sp-quote-tags"><span class="tag tag-neutral">Gong</span></div></div>
-        </div>
-        <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"We'd switch to Aha! if custom fields aren't on your H1 roadmap. This is a dealbreaker for our team."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— ZEISS, Product Operations Lead</div><div class="sp-quote-tags"><span class="tag tag-neutral">Gong</span><span class="tag tag-success-subtle">$420K</span></div></div>
-        </div>
-        <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"The inability to pull custom Jira fields into timeline views is the #1 reason our DevOps teams won't adopt Miro for planning."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— LEGO, Engineering Manager</div><div class="sp-quote-tags"><span class="tag tag-neutral">Gong</span><span class="tag tag-success-subtle">$680K</span></div></div>
-        </div>
-        <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"We need Fix Version, Components, and Team fields from Jira. Without those, the table is just a pretty spreadsheet."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— PayPal, Senior PM</div><div class="sp-quote-tags"><span class="tag tag-neutral">Gong</span><span class="tag tag-success-subtle">$310K</span></div></div>
-        </div>
-        <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"Accelerating the upstream is a major demo talking point — Jira custom fields is what closes enterprise deals."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— Amanda Biacchi Eloy, Sales</div><div class="sp-quote-tags"><span class="tag tag-primary-subtle">Internal</span><span class="tag tag-neutral">Slack</span></div></div>
-        </div>
-        <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-          <div class="sp-quote-text">"Can we PLEASE get custom Jira fields? I've had 3 prospects this week ask for it."</div>
-          <div class="sp-quote-source"><div class="sp-quote-attr">— Alicia Tan, SE</div><div class="sp-quote-tags"><span class="tag tag-primary-subtle">Internal</span><span class="tag tag-neutral">Slack</span></div></div>
-        </div>
-        <div style="margin-top:var(--space-300); font-size:12px; color:var(--text-tertiary);">Showing 6 of 43 mentions · <span style="color:var(--text-brand); cursor:pointer;">Load more</span></div>
-      </div>`;
-  }
-  if (type === 'usage') {
-    html = `
-      <div class="ssk-result">
-        <div class="ssk-result-head"><div class="signal-dot usage" style="margin-top:0"></div> Usage Data Deep Dive</div>
-        <div class="sp-usage-card" style="margin-bottom:var(--space-200);">
-          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
-            <div class="sp-usage-label">Jira-connected engagement multiplier</div>
-            <div class="sp-usage-stat">4x</div>
-          </div>
-          <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:80%; background:var(--background-success-prominent)"></div></div>
-          <div style="font-size:11px; color:var(--text-tertiary)">12.4 active days/month vs 3.1 baseline</div>
-        </div>
-        <div class="sp-usage-card" style="margin-bottom:var(--space-200);">
-          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
-            <div class="sp-usage-label">Retention rate (Jira-connected)</div>
-            <div class="sp-usage-stat">52%</div>
-          </div>
-          <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:52%; background:var(--background-success-prominent)"></div></div>
-          <div style="font-size:11px; color:var(--text-tertiary)">vs 35% for non-connected users (+17pp)</div>
-        </div>
-        <div class="sp-usage-card" style="margin-bottom:var(--space-200);">
-          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
-            <div class="sp-usage-label">Custom field requests QoQ growth</div>
-            <div class="sp-usage-stat" style="color:var(--text-danger)">+65%</div>
-          </div>
-          <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:65%; background:var(--background-danger-prominent)"></div></div>
-          <div style="font-size:11px; color:var(--text-tertiary)">Accelerating demand — strongest growth signal in backlog</div>
-        </div>
-        <div class="sp-usage-card">
-          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
-            <div class="sp-usage-label">Users who tried Jira sync → requested custom fields</div>
-            <div class="sp-usage-stat">38%</div>
-          </div>
-          <div class="sp-usage-bar-track"><div class="sp-usage-bar-fill" style="width:38%; background:var(--background-warning-prominent)"></div></div>
-          <div style="font-size:11px; color:var(--text-tertiary)">High conversion signal — users know what they want</div>
-        </div>
-      </div>`;
-  }
-  if (type === 'strategy') {
-    html = `
-      <div class="ssk-result">
-        <div class="ssk-result-head"><div class="signal-dot strategy" style="margin-top:0"></div> Strategy Alignment Detail</div>
-        <div style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200);">
-          <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-150);"><span style="color:var(--text-success); font-size:14px;">●</span> <strong style="font-size:13px;">O1: Win R&D — $82M HT bookings</strong></div>
-          <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Direct enabler. Jira custom fields is the #1 feature request from R&D teams evaluating Miro. It's referenced in 7 active opportunity records totalling $2.1M ARR.</div>
-        </div>
-        <div style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200);">
-          <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-150);"><span style="color:var(--text-success); font-size:14px;">●</span> <strong style="font-size:13px;">O2: Drive Adoption — 60%+ MAU/Paid</strong></div>
-          <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Jira-connected users retain at 52% vs 35%. Custom fields would deepen the integration and drive more connected users, directly lifting MAU/Paid.</div>
-        </div>
-        <div style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary); opacity:0.6;">
-          <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-150);"><span style="color:var(--text-tertiary); font-size:14px;">○</span> <span style="font-size:13px; color:var(--text-tertiary);">O3: Flywheel — indirect only</span></div>
-          <div style="font-size:12px; color:var(--text-tertiary); line-height:1.5;">May support cross-team visibility but not a primary driver.</div>
-        </div>
-      </div>`;
-  }
-  if (type === 'market') {
-    html = `
-      <div class="ssk-result">
-        <div class="ssk-result-head"><div class="signal-dot market" style="margin-top:0"></div> Competitive Landscape</div>
-        <div class="comp-row" style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200);">
-          <div class="comp-logo">As</div>
-          <div style="flex:1">
-            <div class="comp-name">Asana</div>
-            <div style="font-size:11px; color:var(--text-tertiary)">Custom fields in timeline — GA Oct 2025</div>
-            <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-top:var(--space-100);">Full custom field support in timeline and list views. Actively marketing to Miro's R&D segment.</div>
-          </div>
-          <span class="tag tag-danger-subtle">GA</span>
-        </div>
-        <div class="comp-row" style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary); margin-bottom:var(--space-200);">
-          <div class="comp-logo">Mo</div>
-          <div style="flex:1">
-            <div class="comp-name">Monday.com</div>
-            <div style="font-size:11px; color:var(--text-tertiary)">Deep Jira integration — Beta Jan 2026</div>
-            <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-top:var(--space-100);">Bi-directional sync with custom field mapping. Expected GA Q2 2026.</div>
-          </div>
-          <span class="tag tag-warning-subtle">Beta</span>
-        </div>
-        <div class="comp-row" style="padding:var(--space-300); background:var(--background-primary); border-radius:var(--radius-200); border:1px solid var(--border-primary);">
-          <div class="comp-logo">Li</div>
-          <div style="flex:1">
-            <div class="comp-name">Linear</div>
-            <div style="font-size:11px; color:var(--text-tertiary)">Native fields, no Jira sync</div>
-            <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-top:var(--space-100);">Focuses on native workflow. Not pursuing Jira integration — different market segment.</div>
-          </div>
-          <span class="tag tag-neutral">N/A</span>
-        </div>
-        <div class="callout callout-warning" style="margin-top:var(--space-300); padding:var(--space-300) var(--space-400); font-size:12px;">
-          <div class="callout-icon">⚠️</div>
-          <div><strong>Window estimate: 6–12 months.</strong> After Monday.com ships GA, Miro will be last among primary competitors without Jira custom field support.</div>
-        </div>
-      </div>`;
-  }
-
-  dyn.innerHTML = html;
-  dyn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function spotQuick(question, el) {
-  if (el) el.classList.add('used');
-  const dyn = document.getElementById('sskDynamic');
-  dyn.innerHTML += `
-    <div style="display:flex; justify-content:flex-end; margin-top:var(--space-300);">
-      <div style="font-size:13px; color:var(--text-primary); background:var(--background-brand-subtle); padding:var(--space-300) var(--space-400); border-radius:var(--radius-200) 2px var(--radius-200) var(--radius-200); max-width:85%;">${question}</div>
-    </div>
-    <div class="sp-ai-msg" style="margin-top:var(--space-200);">
-      <div class="sp-ai-avatar">✦</div>
-      <div class="sp-ai-text">Searching across Gong, Slack, Snowflake, and Insights for <strong>"${question.toLowerCase()}"</strong>…<br><br><em style="color:var(--text-tertiary);">[In the live product, results would appear here from connected data sources.]</em></div>
-    </div>
-  `;
-  dyn.scrollIntoView({ behavior: 'smooth', block: 'end' });
-}
-
-function sendSpotMsg() {
-  const input = document.getElementById('sskInput');
-  const msg = input.value.trim();
-  if (!msg) return;
-  input.value = '';
-  spotQuick(msg, null);
-}
-
 function openPlanSidekick() {
   const body = document.getElementById('skBody');
   body.innerHTML = `
     <div class="sp-context">
       <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-200);">
-        <span style="font-size:28px; font-weight:700; color:var(--text-brand);">72%</span>
-        <span class="tag tag-warning-subtle">Room to improve</span>
+        <span style="font-size:28px; font-weight:700; color:var(--text-warning);">50%</span>
+        <span class="tag tag-warning-subtle">5 of 10 items have usage data</span>
       </div>
       <div class="sp-context-title">Plan Confidence Analysis</div>
-      <div class="sp-context-meta">7 initiatives · 5 strong · 2 validating · 0 weak</div>
+      <div class="sp-context-meta">Snowflake data loaded · Gong calls analysed · Competitor CSV parsed</div>
     </div>
     <div class="sp-ai-msg">
       <div class="sp-ai-avatar">✦</div>
-      <div class="sp-ai-text">I've analysed your plan and found <strong>3 actions</strong> that could raise confidence from 72% to ~85%. Here are my recommendations, ranked by impact.</div>
+      <div class="sp-ai-text">I've analysed your plan against Snowflake usage data, Gong calls, and competitor intelligence. Found <strong>3 actions</strong> that could raise confidence. Key stat: Tables 59% deletion rate needs addressing before enterprise rollout.</div>
     </div>
 
-    <div class="sp-section-head" style="margin-top:var(--space-200);">🔴 High impact</div>
+    <div class="sp-section-head" style="margin-top:var(--space-200);">High impact</div>
     <div class="sp-rec-card" onclick="this.querySelector('.sp-rec-detail').classList.toggle('visible')">
       <div class="sp-rec-header">
         <div class="sp-rec-num">1</div>
         <div class="sp-rec-content">
-          <div class="sp-rec-title">Run a feasibility spike for AI Signal Synthesis</div>
-          <div class="sp-rec-reason">This item is blocking Q2 scope decisions and is your lowest-confidence initiative. A 2-week spike would move it from "validating" to "strong" or allow you to descope early.</div>
+          <div class="sp-rec-title">Run a feasibility spike for Cross-signal synthesis</div>
+          <div class="sp-rec-tag"><span class="tag tag-danger-subtle">High confidence impact</span></div>
+          <div class="sp-rec-reason">Andrey: "We need to check feasibility, put it in front of customers, validate hypotheses... THEN start building." AI table gen has 23K users but only 5-7% W1 retention — feasibility must prove AI value lands.</div>
         </div>
-        <span class="tag tag-danger-subtle">+8% confidence</span>
       </div>
       <div class="sp-rec-detail">
-        <div class="sp-rec-evidence">
-          <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Why this matters</div>
-          <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
-            <div class="sp-quote-text">"The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined."</div>
-            <div class="sp-quote-source"><div class="sp-quote-attr">— Andrey Khusid, CEO · Sync Feb 18</div></div>
-          </div>
-          <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">This initiative has <strong>no VoC evidence</strong> and <strong>no usage data</strong> — it's strategy + market only. Running a feasibility spike would either validate the approach (adding technical evidence) or reveal it needs rescoping.</div>
-          <div style="display:flex; gap:var(--space-200);">
-            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Create spike ticket</button>
-            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add to Q1 sprint</button>
-          </div>
+        <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Why this matters</div>
+        <div class="sp-quote-card" style="margin-bottom:var(--space-200);">
+          <div class="sp-quote-text">"The magic is in cross-signal synthesis — a weak signal across four sources becomes a strong signal when combined."</div>
+          <div class="sp-quote-source"><div class="sp-quote-attr">— Andrey Khusid, CEO, Feb 18 2026 sync</div></div>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">Cross-signal synthesis has <strong>no VoC evidence</strong> but Snowflake shows AI generate table has <strong>23K weekly users with only 5-7% W1 retention</strong>. Users try AI features but value doesn't land. Lauren: AI efficacy with Tables "a ways off from nailing the workflows." A spike would validate whether cross-signal can break this pattern.</div>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
+          <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Create spike ticket</button>
+          <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add to Q1 sprint</button>
         </div>
       </div>
     </div>
@@ -1765,84 +1181,65 @@ function openPlanSidekick() {
       <div class="sp-rec-header">
         <div class="sp-rec-num">2</div>
         <div class="sp-rec-content">
-          <div class="sp-rec-title">Gather usage data for Roadmapping Space UX</div>
-          <div class="sp-rec-reason">This initiative has moderate evidence but no baseline usage metrics. Running a 1-week instrumentation pass on the current roadmapping flows would strengthen your case.</div>
+          <div class="sp-rec-title">Gather usage data for Insights enrichment</div>
+          <div class="sp-rec-tag"><span class="tag tag-warning-subtle">Medium confidence impact</span></div>
+          <div class="sp-rec-reason">PVCase, Element Logic Gong calls on prioritization. Snowflake shows Tables 26.7% W1 retention — enrichment could improve value delivery and reduce 59% deletion rate.</div>
         </div>
-        <span class="tag tag-warning-subtle">+5% confidence</span>
       </div>
       <div class="sp-rec-detail">
-        <div class="sp-rec-evidence">
-          <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Missing signals</div>
-          <div style="display:flex; gap:var(--space-200); margin-bottom:var(--space-300);">
-            <div style="flex:1; padding:var(--space-300); background:var(--background-danger-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
-              <div style="font-weight:600; color:var(--text-danger);">No usage data</div>
-              <div style="color:var(--text-secondary); margin-top:2px;">How many PMs use roadmapping today?</div>
-            </div>
-            <div style="flex:1; padding:var(--space-300); background:var(--background-warning-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
-              <div style="font-weight:600; color:var(--text-warning);">No market data</div>
-              <div style="color:var(--text-secondary); margin-top:2px;">How does Aha! roadmapping compare?</div>
-            </div>
+        <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Key Snowflake metrics</div>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-200); margin-bottom:var(--space-300);">
+          <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-danger-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
+            <div style="font-weight:600; color:var(--text-danger);">59.3% deletion rate</div>
+            <div style="color:var(--text-secondary); margin-top:2px;">8M of 13.5M tables deleted</div>
           </div>
-          <div style="display:flex; gap:var(--space-200);">
-            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Request instrumentation</button>
-            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add competitor review</button>
+          <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-warning-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center;">
+            <div style="font-weight:600; color:var(--text-warning);">Productboard Spark</div>
+            <div style="color:var(--text-secondary); margin-top:2px;">Competitor: feedback synthesis (Jan 2026)</div>
           </div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
+          <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Request instrumentation</button>
+          <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add competitor review</button>
         </div>
       </div>
     </div>
 
-    <div class="sp-section-head">🟡 Medium impact</div>
+    <div class="sp-section-head">Medium impact</div>
     <div class="sp-rec-card" onclick="this.querySelector('.sp-rec-detail').classList.toggle('visible')">
       <div class="sp-rec-header">
         <div class="sp-rec-num">3</div>
         <div class="sp-rec-content">
-          <div class="sp-rec-title">Validate Views Parity scope with 3 customer interviews</div>
-          <div class="sp-rec-reason">You have internal usage data and strategy alignment, but only 1 direct customer quote. 3 targeted interviews with power users of Timeline/Kanban would confirm the scope is right.</div>
+          <div class="sp-rec-title">Validate Jira sync with customer interviews</div>
+          <div class="sp-rec-tag"><span class="tag tag-primary-subtle">Lower confidence impact</span></div>
+          <div class="sp-rec-reason">Booking.com, Adobe, Ford Gong calls + Snowflake: 45% W1 retention (16K users). Targeted follow-ups would confirm bi-directional sync scope and arrest the 20K→16K user decline.</div>
         </div>
-        <span class="tag tag-primary-subtle">+3% confidence</span>
       </div>
       <div class="sp-rec-detail">
-        <div class="sp-rec-evidence">
-          <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Suggested interviewees</div>
-          <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:var(--space-300);">
-            Based on usage patterns, these accounts use Timeline/Kanban most heavily:<br>
-            <strong>1.</strong> LEGO (Agile Coach team — 12 active boards)<br>
-            <strong>2.</strong> PayPal (PM team — 8 active boards)<br>
-            <strong>3.</strong> Reece Group (Product Ops — 6 active boards)
-          </div>
-          <div style="display:flex; gap:var(--space-200);">
-            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Draft interview request</button>
-            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">View their usage</button>
-          </div>
+        <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Suggested interviewees</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:var(--space-300);">
+          Based on Gong call participation:<br>
+          <strong>1.</strong> Booking.com (Justin Vos, Aytaç Bildik, Matt Skipper — Jira sessions Jan 16, Feb 6 2026)<br>
+          <strong>2.</strong> Adobe (Veronica Murillo, David Grabner — Feature Request Jan 14 2026)<br>
+          <strong>3.</strong> Ford (Melanie Petrucci, Aytaç Bildik — OneDrive Jan 27 2026)
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
+          <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Draft interview request</button>
+          <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">View their usage</button>
         </div>
       </div>
     </div>
 
     <div style="margin-top:var(--space-400); padding:var(--space-400); background:var(--background-secondary); border-radius:var(--radius-200); border:1px solid var(--border-primary);">
-      <div style="display:flex; align-items:center; gap:var(--space-200); margin-bottom:var(--space-200);">
-        <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-tertiary);">Projected outcome</span>
-      </div>
-      <div style="display:flex; align-items:center; gap:var(--space-400);">
-        <div style="text-align:center;">
-          <div style="font-size:11px; color:var(--text-tertiary);">Now</div>
-          <div style="font-size:22px; font-weight:700; color:var(--text-secondary);">72%</div>
-        </div>
-        <div style="font-size:18px; color:var(--text-brand);">→</div>
-        <div style="text-align:center;">
-          <div style="font-size:11px; color:var(--text-tertiary);">After actions</div>
-          <div style="font-size:22px; font-weight:700; color:var(--text-success);">~88%</div>
-        </div>
-        <div style="flex:1; height:8px; background:var(--background-tertiary); border-radius:var(--radius-full); overflow:hidden; position:relative;">
-          <div style="height:100%; width:72%; background:var(--background-brand-prominent); border-radius:var(--radius-full); position:absolute;"></div>
-          <div style="height:100%; width:88%; background:var(--background-success-prominent); border-radius:var(--radius-full); opacity:0.35;"></div>
-        </div>
-      </div>
-      <div style="font-size:11px; color:var(--text-tertiary); margin-top:var(--space-200);">Estimated ~3 weeks of effort across all 3 actions</div>
+      <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-tertiary); margin-bottom:var(--space-300);">Projected outcome</div>
+      <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Snowflake data loaded. Key risks identified: Tables 59% deletion rate threatens enterprise rollout. AI features growing (23K users) but 5-7% retention. Jira has loyal base (45% retention) but declining headcount. Addressing these 3 actions would strengthen evidence on the riskiest initiatives.</div>
+      <div style="margin-top:var(--space-300); font-size:11px; color:var(--text-tertiary);">~3 weeks of effort across all 3 actions</div>
     </div>
   `;
 
   document.getElementById('skOverlay').classList.add('open');
   document.getElementById('skPanel').classList.add('open');
+  document.body.classList.add('panel-open');
 }
 
 function closePanel() {
