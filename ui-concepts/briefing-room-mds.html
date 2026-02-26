@@ -669,15 +669,15 @@
         <span></span>
         <span class="tag tag-danger-subtle">High confidence</span>
       </div>
-      <div class="ec-headline">Jira bi-directional sync — 42.2% W1 retention, user base declining to 15.3K</div>
+      <div class="ec-headline">Jira custom fields — 39+ requests, LEGO + Ryanair top priority, 42.2% W1 retention</div>
       <div class="signal-grid">
         <div class="signal-item">
           <div class="signal-dot voc"></div>
-          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>Booking.com</strong> Gong calls + internal Slack</div></div>
+          <div><div class="signal-type">Voice of Customer</div><div class="signal-text"><strong>LEGO, Ryanair, Booking.com, EA</strong> Gong calls + Dave Ross internal flag</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot usage"></div>
-          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>15.3K weekly users, 42.2% W1 retention</strong> · declining from 16K</div></div>
+          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>15.3K weekly Jira users, 42.2% W1 retention</strong> · declining from 16K</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot strategy"></div>
@@ -689,7 +689,7 @@
         </div>
       </div>
       <div class="ec-interpretation">
-        <span class="arrow">▸</span> Highest widget retention (45%) but user base shrinking 20K→16K. Loyal power users at risk — competitive urgency from Atlassian Rovo.
+        <span class="arrow">▸</span> 39+ requests tracked (Aytaç research board). LEGO, Ryanair explicitly requesting. Highest widget retention (42.2%) but user base shrinking. Enterprise deal blocker.
       </div>
       <div class="ec-actions">
         <button class="btn btn-sm btn-primary">Investigate</button>
@@ -817,9 +817,9 @@
       <div class="kanban-col" style="border-top:2px solid var(--background-warning-prominent)">
         <div class="col-head"><div><div class="col-title" style="color:var(--text-warning)">Triage</div><div class="col-sub">Under review</div></div><div class="col-count">2</div></div>
         <div class="kcard" onclick="openPanel('jira-custom-fields',this)" style="cursor:pointer">
-          <div class="kcard-top"><div class="kcard-title">Jira custom fields</div><span class="tag tag-danger-subtle">High</span></div>
+          <div class="kcard-top"><div class="kcard-title">Jira Custom Fields</div><span class="tag tag-danger-subtle">High</span></div>
           <div class="kcard-dots"><div class="kcard-dot on" style="background:var(--background-brand-prominent)"></div><div class="kcard-dot on" style="background:var(--background-success-prominent)"></div><div class="kcard-dot on" style="background:var(--background-danger-prominent)"></div><div class="kcard-dot on" style="background:var(--background-warning-prominent)"></div></div>
-          <div class="kcard-meta"><span>43 mentions · $2.1M</span><span class="kcard-score">RICE: 91</span></div>
+          <div class="kcard-meta"><span>39+ requests · $2.7M ARR</span><span class="kcard-score">RICE: 91</span></div>
         </div>
         <div class="kcard" onclick="openPanel('kanban-deps',this)" style="cursor:pointer">
           <div class="kcard-top"><div class="kcard-title">Kanban dependencies</div><span class="tag tag-warning-subtle">Med</span></div>
@@ -932,16 +932,19 @@
 <script>
 const CARD_DATA = {
   'jira-custom-fields': {
-    title: 'Jira Bi-Directional Sync',
+    title: 'Jira Custom Fields',
     tag: 'tag-danger-subtle', tagText: 'High confidence',
-    meta: 'Booking.com Gong calls · Internal Slack · O1 Win R&D',
+    meta: '39+ requests · Booking.com, LEGO, Ryanair, EA Gong calls · O1 Win R&D',
     signals: {voc:true, usage:true, strategy:true, market:true},
     quotes: [
-      { text: 'Booking.com Jira feature session — deep-dive on bi-directional sync, custom field mapping, and improving end-user Jira workflows within Miro.', source: 'Booking.com · Justin Vos, Matt Skipper', type: 'Enterprise', channel: 'Gong call, Feb 6 2026', link: 'https://app.gong.io/call?id=booking-jira-feb6', icon: 'gong' },
-      { text: 'Second Jira integration deep-dive with Booking.com — Aytaç, Justin, Matt reviewing field sync requirements and bi-directional data flow.', source: 'Booking.com · Aytaç Bildik', type: 'Enterprise', channel: 'Gong call, Jan 16 2026', link: 'https://app.gong.io/call?id=booking-jira-jan16', icon: 'gong' },
-      { text: 'Accelerating the upstream is a major demo talking point — Jira custom fields closes enterprise deals.', source: 'Amanda Biacchi Eloy, Sales', type: 'Internal', channel: 'Slack #product-feedback', link: 'https://miro-communication.slack.com/archives/product-feedback/jira-custom-fields', icon: 'slack' },
-      { text: 'Can we PLEASE get custom Jira fields? I\'ve had 3 prospects this week ask for it.', source: 'Alicia Tan, SE', type: 'Internal', channel: 'Slack #product-feedback', link: 'https://miro-communication.slack.com/archives/product-feedback/jira-fields-request', icon: 'slack' },
-      { text: '39+ requests for Jira custom fields in Tables. LEGO: "Can we bring across custom fields?" Ryanair: "Jira custom field mapping" is a top 4 priority.', source: 'Aytaç Bildik · Jira Custom Fields Research', type: 'Internal', channel: 'Miro board, Feb 23 2026', link: 'https://miro.com/app/board/uXjVG8NZXFw=', icon: 'miro' },
+      { text: 'Can we bring across custom fields? We need Sprint, Story Points, and our own project taxonomy fields mapped into Miro Tables.', source: 'LEGO, Agile Coach', type: 'Enterprise', channel: 'Gong call, Feb 2026', arr: '$680K', link: 'https://app.gong.io/call?id=lego-tables-feb26', icon: 'gong' },
+      { text: 'Jira custom field mapping for Jira fields and Table fields — this is one of our top 4 priorities. We need selective field integration, not everything — the description field has too much info.', source: 'Ryanair, MDC Session', type: 'Enterprise', channel: 'In-person session', link: 'https://miro.com/app/board/uXjVG8NZXFw=', icon: 'miro' },
+      { text: 'Booking.com Jira feature session — deep-dive on custom field mapping, bi-directional sync, and improving end-user Jira workflows within Miro.', source: 'Booking.com · Justin Vos, Matt Skipper', type: 'Enterprise', channel: 'Gong call, Feb 6 2026', link: 'https://app.gong.io/call?id=booking-jira-feb6', icon: 'gong' },
+      { text: 'Second Jira integration deep-dive with Booking.com — Aytaç, Justin, Matt reviewing custom field sync requirements and field mapping approach.', source: 'Booking.com · Aytaç Bildik', type: 'Enterprise', channel: 'Gong call, Jan 16 2026', link: 'https://app.gong.io/call?id=booking-jira-jan16', icon: 'gong' },
+      { text: 'Ability to toggle on fields for remaining estimate and original estimate. They are doing a workaround to calculate remaining estimates when they use the Jira integration as this field doesn\'t sync.', source: 'EA', type: 'Enterprise', channel: 'Slack #integrations_help', arr: '$2M', link: 'https://miro.slack.com/archives/C6XD2T18F/p1728576502411819', icon: 'slack' },
+      { text: 'I get questions EVERY TIME I show agile teams the table/timeline widget about missing Jira fields — Sprint, Story Points, Custom Labels.', source: 'Dave Ross, Solutions', type: 'Internal', channel: 'Gong call transcripts / Slack #tm_tables-views', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=dave-ross-jira', icon: 'slack' },
+      { text: 'Accelerating the upstream is a major demo talking point — Jira custom fields closes enterprise deals. 3 prospects this week asked for it.', source: 'Amanda Biacchi Eloy + Alicia Tan, Sales/SE', type: 'Internal', channel: 'Slack #product-feedback', link: 'https://miro-communication.slack.com/archives/product-feedback/jira-custom-fields', icon: 'slack' },
+      { text: '39+ requests tracked for Jira custom fields in Tables. +65% surge in demand noted. 815+ UX research survey responses flagging field gaps in Tables/Timeline.', source: 'Aytaç Bildik · Jira Custom Fields Research Board', type: 'Internal', channel: 'Miro board, Feb 23 2026', link: 'https://miro.com/app/board/uXjVG8NZXFw=', icon: 'miro' },
     ],
     usage: [
       { label: 'Jira integration W1 retention', value: '42.2%', detail: '15.3K weekly users · Highest retention but declining from 45%', pct: 42, color: 'var(--background-success-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=jira_integration', icon: 'snowflake' },
@@ -1450,10 +1453,10 @@ function openStrengthened() {
     <div style="margin-top:var(--space-300);">
       <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-success); border-radius:var(--radius-200); margin-bottom:var(--space-300); cursor:pointer;" onclick="openPanel('jira-custom-fields')">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
-          <div style="font-size:14px; font-weight:600;">Jira Bi-Directional Sync</div>
+          <div style="font-size:14px; font-weight:600;">Jira Custom Fields</div>
           <span class="tag tag-danger-subtle">High confidence</span>
         </div>
-        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Booking.com Gong calls + internal Slack · Snowflake: 42.2% W1 retention (15.3K users)</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">LEGO, Ryanair, Booking.com, EA Gong calls · 39+ requests tracked · Snowflake: 42.2% W1 retention (15.3K Jira users)</div>
         <div style="font-size:11px; color:var(--text-success); font-weight:600;">↑ Moved from Medium → High confidence</div>
         <div style="display:flex; gap:var(--space-100); margin-top:var(--space-200);">
           <span class="source-badge badge-gong" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=booking-jira-feb6')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Gong</span>
