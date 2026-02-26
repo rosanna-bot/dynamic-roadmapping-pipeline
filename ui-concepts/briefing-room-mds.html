@@ -641,7 +641,7 @@
 
     <div class="briefing-tiles">
       <div class="btile btile-strengthened" onclick="openStrengthened()">
-        <div class="btile-num">2 <span style="font-size:16px; color:var(--text-success)">↑</span></div>
+        <div class="btile-num">3 <span style="font-size:16px; color:var(--text-success)">↑</span></div>
         <div class="btile-label">Strengthened</div>
       </div>
       <div class="btile btile-newsignal" onclick="openNewSignals()">
@@ -649,7 +649,7 @@
         <div class="btile-label">New signal</div>
       </div>
       <div class="btile btile-weakened" onclick="openWeakened()">
-        <div class="btile-num">1 <span style="font-size:16px; color:var(--text-danger)">↓</span></div>
+        <div class="btile-num">3 <span style="font-size:16px; color:var(--text-danger)">↓</span></div>
         <div class="btile-label">Weakened</div>
       </div>
       <div class="btile btile-confidence" onclick="goToPlanWithSidekick()">
@@ -661,7 +661,7 @@
 
     <div class="briefing-bar">
       <h2>📋 Your Briefing</h2>
-      <div class="meta">Feb 19, 2026 · Updated 2h ago · ~3 min read</div>
+      <div class="meta">Week of Feb 15, 2026 · Updated 2h ago · ~3 min read</div>
     </div>
     <!-- HIGH card -->
     <div class="evidence-card border-danger" onclick="openPanel('jira-custom-fields',this)" style="cursor:pointer">
@@ -669,7 +669,7 @@
         <span></span>
         <span class="tag tag-danger-subtle">High confidence</span>
       </div>
-      <div class="ec-headline">Jira bi-directional sync — 45% W1 retention but user base declining</div>
+      <div class="ec-headline">Jira bi-directional sync — 42.2% W1 retention, user base declining to 15.3K</div>
       <div class="signal-grid">
         <div class="signal-item">
           <div class="signal-dot voc"></div>
@@ -677,7 +677,7 @@
         </div>
         <div class="signal-item">
           <div class="signal-dot usage"></div>
-          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>16K weekly users, 45% W1 retention</strong> · declining from 20K</div></div>
+          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>15.3K weekly users, 42.2% W1 retention</strong> · declining from 16K</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot strategy"></div>
@@ -704,7 +704,7 @@
         <span></span>
         <span class="tag tag-warning-subtle">Medium confidence</span>
       </div>
-      <div class="ec-headline">Tables: 59% deletion rate, 63% never edited — retention signal</div>
+      <div class="ec-headline">Tables: 59.4% deletion rate — W1 retention dropped to 21.8% this week</div>
       <div class="signal-grid">
         <div class="signal-item">
           <div class="signal-dot empty"></div>
@@ -712,7 +712,7 @@
         </div>
         <div class="signal-item">
           <div class="signal-dot usage"></div>
-          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>127K weekly users, 26.7% W1 retention</strong> · 8M of 13.5M deleted</div></div>
+          <div><div class="signal-type">Usage</div><div class="signal-text"><strong>120K weekly users, 21.8% W1 retention ↓</strong> · 8.2M of 13.8M deleted</div></div>
         </div>
         <div class="signal-item">
           <div class="signal-dot strategy"></div>
@@ -724,7 +724,7 @@
         </div>
       </div>
       <div class="ec-interpretation">
-        <span class="arrow">▸</span> Most-used widget (127K) but 59% deletion rate signals value delivery failure. Enterprise blocker at >10K rows.
+        <span class="arrow">▸</span> Most-used widget (120K) but W1 retention dropped 26.7%→21.8% this week. 59.4% deletion rate. Enterprise blocker at >10K rows.
       </div>
       <div class="ec-actions">
         <button class="btn btn-sm btn-secondary">View evidence</button>
@@ -941,10 +941,11 @@ const CARD_DATA = {
       { text: 'Second Jira integration deep-dive with Booking.com — Aytaç, Justin, Matt reviewing field sync requirements and bi-directional data flow.', source: 'Booking.com · Aytaç Bildik', type: 'Enterprise', channel: 'Gong call, Jan 16 2026', link: 'https://app.gong.io/call?id=booking-jira-jan16', icon: 'gong' },
       { text: 'Accelerating the upstream is a major demo talking point — Jira custom fields closes enterprise deals.', source: 'Amanda Biacchi Eloy, Sales', type: 'Internal', channel: 'Slack #product-feedback', link: 'https://miro-communication.slack.com/archives/product-feedback/jira-custom-fields', icon: 'slack' },
       { text: 'Can we PLEASE get custom Jira fields? I\'ve had 3 prospects this week ask for it.', source: 'Alicia Tan, SE', type: 'Internal', channel: 'Slack #product-feedback', link: 'https://miro-communication.slack.com/archives/product-feedback/jira-fields-request', icon: 'slack' },
+      { text: '39+ requests for Jira custom fields in Tables. LEGO: "Can we bring across custom fields?" Ryanair: "Jira custom field mapping" is a top 4 priority.', source: 'Aytaç Bildik · Jira Custom Fields Research', type: 'Internal', channel: 'Miro board, Feb 23 2026', link: 'https://miro.com/app/board/uXjVG8NZXFw=', icon: 'miro' },
     ],
     usage: [
-      { label: 'Jira integration W1 retention', value: '45%', detail: '16K weekly users · Highest retention of all widgets', pct: 45, color: 'var(--background-success-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=jira_integration', icon: 'snowflake' },
-      { label: 'Jira weekly users trend', value: '16K → declining', detail: 'Down from 20K in Oct 2025. Loyal but shrinking base.', pct: 32, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=jira_trend', icon: 'snowflake' },
+      { label: 'Jira integration W1 retention', value: '42.2%', detail: '15.3K weekly users · Highest retention but declining from 45%', pct: 42, color: 'var(--background-success-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=jira_integration', icon: 'snowflake' },
+      { label: 'Jira weekly users trend', value: '15.3K ↓', detail: 'Down from 16K last week, 20K in Oct 2025. Accelerating decline.', pct: 30, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=jira_trend', icon: 'snowflake' },
     ],
     strategy: [
       { text: 'O1: Win R&D — $82M HT bookings (enterprise advanced licence + Miro Portfolios add-on)', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o1', icon: 'miro' },
@@ -965,8 +966,8 @@ const CARD_DATA = {
       { text: 'Tables can\'t handle >10K rows performantly. Multi-product complexity and AI efficacy with Tables are "a ways off from nailing the workflows."', source: 'Lauren Brucato', type: 'Internal', channel: 'Internal flag', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=lauren-tables', icon: 'miro' },
     ],
     usage: [
-      { label: 'Tables deletion rate', value: '59.3%', detail: '8M of 13.5M tables ever created deleted. 63% never edited.', pct: 59, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=PRODUCT&table=DATA_TABLE_SUMMARY&filter=deletion_rate', icon: 'snowflake' },
-      { label: 'Tables W1 retention', value: '26.7%', detail: '127K weekly active users (Feb 2026). Retention stable.', pct: 27, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=tables_w1', icon: 'snowflake' },
+      { label: 'Tables deletion rate', value: '59.4%', detail: '8.2M of 13.8M tables ever created deleted. 63% never edited.', pct: 59, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=PRODUCT&table=DATA_TABLE_SUMMARY&filter=deletion_rate', icon: 'snowflake' },
+      { label: 'Tables W1 retention', value: '21.8%', detail: '120K weekly users (Feb 15). Down from 26.7% last week — retention declining.', pct: 22, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=tables_w1', icon: 'snowflake' },
       { label: 'Tables scale limit', value: '>10K rows', detail: 'Lauren flagged — performance degradation, enterprise blocker', pct: 95, color: 'var(--background-danger-prominent)', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=tables-perf', icon: 'miro' },
     ],
     strategy: [
@@ -1057,9 +1058,9 @@ const CARD_DATA = {
       { text: 'We need swim lanes and sub-records in Kanban. Our teams use it daily but lack of dependencies means we can\'t see blocked items.', source: 'PayPal, Senior PM', type: 'Enterprise', channel: 'Gong call', arr: '$310K', link: 'https://app.gong.io/call?id=paypal-kanban-deps', icon: 'gong' },
     ],
     usage: [
-      { label: 'Kanban classic W1 retention', value: '43%', detail: '62K weekly users — strongest retention, but declining from 87K (Oct 2025)', pct: 43, color: 'var(--background-success-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=kanban_classic', icon: 'snowflake' },
-      { label: 'Kanban new W1 retention', value: '28%', detail: '33K weekly users — growing from 17K (Oct 2025). Retention improving.', pct: 28, color: 'var(--background-brand-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=kanban_new', icon: 'snowflake' },
-      { label: 'Timeline W1 retention', value: '24%', detail: '40K weekly users — stable. 412K timelines created since Jan.', pct: 24, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=timeline_w1', icon: 'snowflake' },
+      { label: 'Kanban classic W1 retention', value: '37.9%', detail: '57.6K weekly users — down from 62K and 43% W1 retention last week', pct: 38, color: 'var(--background-success-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=kanban_classic', icon: 'snowflake' },
+      { label: 'Kanban new W1 retention', value: '23.0%', detail: '33K weekly users — retention dropped from 28% last week', pct: 23, color: 'var(--background-brand-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=kanban_new', icon: 'snowflake' },
+      { label: 'Timeline W1 retention', value: '17.7%', detail: '40.2K weekly users — retention dropped from 24% last week', pct: 18, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=timeline_w1', icon: 'snowflake' },
     ],
     strategy: [
       { text: 'O2: Drive Adoption', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o2', icon: 'miro' },
@@ -1091,8 +1092,8 @@ const CARD_DATA = {
       { text: 'We need to check feasibility, put it in front of customers, validate hypotheses... THEN start building.', source: 'Andrey Khusid, CEO', type: 'Internal', channel: 'Sync Feb 18 2026', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=andrey-feasibility', icon: 'miro' },
     ],
     usage: [
-      { label: 'AI Generate Table W1 retention', value: '5-7%', detail: '23K weekly users — rapid growth from 4K (Oct 2025) but retention alarming', pct: 6, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=ai_gen_table', icon: 'snowflake' },
-      { label: 'AI features weekly usage', value: '23K users', detail: 'Growing fast but only 5-7% return next week — value not landing.', pct: 15, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=ai_features_weekly', icon: 'snowflake' },
+      { label: 'AI Generate Table W1 retention', value: '4.6%', detail: '15.4K weekly users — dropped from 23K last week. Retention worsening.', pct: 5, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=ai_gen_table', icon: 'snowflake' },
+      { label: 'AI features weekly usage', value: '15.4K users ↓', detail: 'Dropped 33% WoW. Only 4.6% return next week.', pct: 10, color: 'var(--background-warning-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=ai_features_weekly', icon: 'snowflake' },
     ],
     strategy: [
       { text: 'O1: Win R&D — the leapfrog bet', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o1', icon: 'miro' },
@@ -1113,8 +1114,8 @@ const CARD_DATA = {
       { text: '59% of tables deleted. 63% never edited before deletion. AI-generated templates could solve the blank canvas problem.', source: 'Analytics + Growth Design Sprint', type: 'Internal', channel: 'Internal analysis', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=growth-sprint-tables', icon: 'miro' },
     ],
     usage: [
-      { label: 'Tables deleted (lifetime)', value: '59.3%', detail: '8M of 13.5M tables deleted · 63% never edited', pct: 59, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=PRODUCT&table=DATA_TABLE_SUMMARY&filter=deletion_rate', icon: 'snowflake' },
-      { label: 'Tables W1 return rate', value: '26.7%', detail: '127K weekly users (Feb 2026)', pct: 27, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=tables_w1_return', icon: 'snowflake' },
+      { label: 'Tables deleted (lifetime)', value: '59.4%', detail: '8.2M of 13.8M tables deleted · 63% never edited', pct: 59, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=PRODUCT&table=DATA_TABLE_SUMMARY&filter=deletion_rate', icon: 'snowflake' },
+      { label: 'Tables W1 return rate', value: '21.8%', detail: '120K weekly users (Feb 15)', pct: 22, color: 'var(--background-danger-prominent)', link: 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=tables_w1_return', icon: 'snowflake' },
     ],
     strategy: [
       { text: 'O2: Drive Adoption — retention emergency', link: 'https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=okr-o2', icon: 'miro' },
@@ -1291,7 +1292,7 @@ function openPlanSidekick() {
         <span class="tag tag-warning-subtle">5 of 10 items have usage data</span>
       </div>
       <div class="sp-context-title">Plan Confidence Analysis</div>
-      <div class="sp-context-meta">Snowflake data loaded · Gong calls analysed · Competitor CSV parsed</div>
+      <div class="sp-context-meta">Data sourced from Snowflake (week of Feb 15, 2026) · Gong calls analysed · Competitor CSV parsed</div>
     </div>
     <div class="sp-ai-msg">
       <div class="sp-ai-avatar">✦</div>
@@ -1305,7 +1306,7 @@ function openPlanSidekick() {
         <div class="sp-rec-content">
           <div class="sp-rec-title">Run a feasibility spike for Cross-signal synthesis</div>
           <div class="sp-rec-tag"><span class="tag tag-danger-subtle">High confidence impact</span></div>
-          <div class="sp-rec-reason">Andrey: "We need to check feasibility, put it in front of customers, validate hypotheses... THEN start building." AI table gen has 23K users but only 5-7% W1 retention — feasibility must prove AI value lands.</div>
+          <div class="sp-rec-reason">Andrey: "We need to check feasibility, put it in front of customers, validate hypotheses... THEN start building." AI table gen dropped to 15.4K users with 4.6% W1 retention — feasibility must prove AI value lands.</div>
         </div>
       </div>
       <div class="sp-rec-detail">
@@ -1318,12 +1319,12 @@ function openPlanSidekick() {
         <div class="sp-usage-card has-link" style="margin-bottom:var(--space-300); cursor:pointer;" onclick="openSource('https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=ai_gen_table', event)">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-100);">
             <div class="sp-usage-label">AI Generate Table W1 retention</div>
-            <div class="sp-usage-stat" style="color:var(--text-danger)">5-7%</div>
+            <div class="sp-usage-stat" style="color:var(--text-danger)">4.6%</div>
           </div>
-          <div style="font-size:11px; color:var(--text-tertiary)">23K weekly users — rapid growth but alarming retention</div>
+          <div style="font-size:11px; color:var(--text-tertiary)">15.4K weekly users ↓ — dropped 33% WoW, retention worsening</div>
           ${sourceBadge('snowflake', 'https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=ai_gen_table')}
         </div>
-        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">Cross-signal synthesis has <strong>no VoC evidence</strong> but Snowflake shows AI generate table has <strong>23K weekly users with only 5-7% W1 retention</strong>. Lauren: AI efficacy with Tables "a ways off from nailing the workflows." A spike would validate whether cross-signal can break this pattern.</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-300);">Cross-signal synthesis has <strong>no VoC evidence</strong> but Snowflake shows AI generate table dropped to <strong>15.4K weekly users with 4.6% W1 retention</strong> (down from 23K/5-7% last week). Lauren: AI efficacy with Tables "a ways off from nailing the workflows." A spike would validate whether cross-signal can break this pattern.</div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200);">
           <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Create spike ticket</button>
           <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation()">Add to Q1 sprint</button>
@@ -1337,15 +1338,15 @@ function openPlanSidekick() {
         <div class="sp-rec-content">
           <div class="sp-rec-title">Gather usage data for Insights enrichment</div>
           <div class="sp-rec-tag"><span class="tag tag-warning-subtle">Medium confidence impact</span></div>
-          <div class="sp-rec-reason">PVCase, Element Logic Gong calls on prioritization. Snowflake shows Tables 26.7% W1 retention — enrichment could improve value delivery and reduce 59% deletion rate.</div>
+          <div class="sp-rec-reason">PVCase, Element Logic Gong calls on prioritization. Snowflake shows Tables W1 retention dropped to 21.8% — enrichment could improve value delivery and reduce 59.4% deletion rate.</div>
         </div>
       </div>
       <div class="sp-rec-detail">
         <div style="font-size:11px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:var(--space-200);">Key Snowflake metrics</div>
         <div style="display:flex; flex-wrap:wrap; gap:var(--space-200); margin-bottom:var(--space-300);">
           <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-danger-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center; cursor:pointer; transition:all 0.12s;" onclick="event.stopPropagation(); openSource('https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=PRODUCT&table=DATA_TABLE_SUMMARY&filter=deletion_rate')">
-            <div style="font-weight:600; color:var(--text-danger);">59.3% deletion rate</div>
-            <div style="color:var(--text-secondary); margin-top:2px;">8M of 13.5M tables deleted</div>
+            <div style="font-weight:600; color:var(--text-danger);">59.4% deletion rate</div>
+            <div style="color:var(--text-secondary); margin-top:2px;">8.2M of 13.8M tables deleted</div>
             <div style="margin-top:4px;"><span class="source-badge badge-snowflake" style="font-size:9px;"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" style="width:10px;height:10px"><path d="M3 9l6-6M5 3h4v4"/></svg> Snowflake</span></div>
           </div>
           <div style="flex:1; min-width:140px; padding:var(--space-300) var(--space-300) var(--space-400); background:var(--background-warning-subtle); border-radius:var(--radius-200); font-size:12px; text-align:center; cursor:pointer; transition:all 0.12s;" onclick="event.stopPropagation(); openSource('https://www.productboard.com/product/spark/')">
@@ -1368,7 +1369,7 @@ function openPlanSidekick() {
         <div class="sp-rec-content">
           <div class="sp-rec-title">Validate Jira sync with customer interviews</div>
           <div class="sp-rec-tag"><span class="tag tag-primary-subtle">Lower confidence impact</span></div>
-          <div class="sp-rec-reason">Booking.com Gong calls + internal Slack + Snowflake: 45% W1 retention (16K users). Targeted follow-ups would confirm bi-directional sync scope and arrest the 20K→16K user decline.</div>
+          <div class="sp-rec-reason">Booking.com Gong calls + internal Slack + Snowflake: 42.2% W1 retention (15.3K users). Targeted follow-ups would confirm bi-directional sync scope and arrest the accelerating user decline.</div>
         </div>
       </div>
       <div class="sp-rec-detail">
@@ -1439,12 +1440,12 @@ function openStrengthened() {
   body.innerHTML = `
     <div class="sp-context">
       <div class="sp-context-title"><span class="tag tag-success-subtle">Strengthened</span></div>
-      <div style="font-size:15px; font-weight:700; margin: var(--space-200) 0 var(--space-100);">2 items strengthened since last briefing</div>
+      <div style="font-size:15px; font-weight:700; margin: var(--space-200) 0 var(--space-100);">3 items strengthened since last briefing</div>
       <div class="sp-context-meta">These items gained new supporting evidence</div>
     </div>
     <div class="sp-ai-msg">
       <div class="sp-ai-avatar">✦</div>
-      <div class="sp-ai-text">Two items in your plan got stronger this week. Here's what changed.</div>
+      <div class="sp-ai-text">Three items in your plan got stronger this week. Aytaç's Jira custom fields research board (Feb 23) documents 39+ requests — LEGO and Ryanair both explicitly asking.</div>
     </div>
     <div style="margin-top:var(--space-300);">
       <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-success); border-radius:var(--radius-200); margin-bottom:var(--space-300); cursor:pointer;" onclick="openPanel('jira-custom-fields')">
@@ -1452,14 +1453,14 @@ function openStrengthened() {
           <div style="font-size:14px; font-weight:600;">Jira Bi-Directional Sync</div>
           <span class="tag tag-danger-subtle">High confidence</span>
         </div>
-        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Booking.com Gong calls + internal Slack · Snowflake: 45% W1 retention (16K users)</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Booking.com Gong calls + internal Slack · Snowflake: 42.2% W1 retention (15.3K users)</div>
         <div style="font-size:11px; color:var(--text-success); font-weight:600;">↑ Moved from Medium → High confidence</div>
         <div style="display:flex; gap:var(--space-100); margin-top:var(--space-200);">
           <span class="source-badge badge-gong" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=booking-jira-feb6')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Gong</span>
           <span class="source-badge badge-snowflake" onclick="event.stopPropagation(); openSource('https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=jira_integration')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Snowflake</span>
         </div>
       </div>
-      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-success); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('convert-rows-jira')">
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-success); border-radius:var(--radius-200); margin-bottom:var(--space-300); cursor:pointer;" onclick="openPanel('convert-rows-jira')">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
           <div style="font-size:14px; font-weight:600;">Convert Rows → Jira Tickets</div>
           <span class="tag tag-danger-subtle">High confidence</span>
@@ -1469,6 +1470,18 @@ function openStrengthened() {
         <div style="display:flex; gap:var(--space-100); margin-top:var(--space-200);">
           <span class="source-badge badge-slack" onclick="event.stopPropagation(); openSource('https://miro-communication.slack.com/archives/product-feedback/convert-rows-jira')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Slack</span>
           <span class="source-badge badge-competitor" onclick="event.stopPropagation(); openSource('https://monday.com/integrations/jira')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Monday.com</span>
+        </div>
+      </div>
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-success); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('jira-custom-fields')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
+          <div style="font-size:14px; font-weight:600;">Jira Custom Fields Research (NEW)</div>
+          <span class="tag tag-danger-subtle">High confidence</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Aytaç Bildik created research board (Feb 23) · 39+ requests · LEGO: "Can we bring across custom fields?" · Ryanair: top 4 priority</div>
+        <div style="font-size:11px; color:var(--text-success); font-weight:600;">↑ New evidence: dedicated research board + enterprise customers requesting explicitly</div>
+        <div style="display:flex; gap:var(--space-100); margin-top:var(--space-200);">
+          <span class="source-badge badge-miro" onclick="event.stopPropagation(); openSource('https://miro.com/app/board/uXjVG8NZXFw=')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Jira Custom Fields Board</span>
+          <span class="source-badge badge-gong" onclick="event.stopPropagation(); openSource('https://app.gong.io/call?id=booking-jira-feb6')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Booking.com Gong</span>
         </div>
       </div>
     </div>
@@ -1518,24 +1531,46 @@ function openWeakened() {
   body.innerHTML = `
     <div class="sp-context">
       <div class="sp-context-title"><span class="tag tag-danger-subtle">Weakened</span></div>
-      <div style="font-size:15px; font-weight:700; margin: var(--space-200) 0 var(--space-100);">1 item weakened since last briefing</div>
-      <div class="sp-context-meta">This item lost evidence support — may need attention</div>
+      <div style="font-size:15px; font-weight:700; margin: var(--space-200) 0 var(--space-100);">3 items weakened since last briefing</div>
+      <div class="sp-context-meta">Broad-based W1 retention decline across all widgets this week</div>
     </div>
     <div class="sp-ai-msg">
       <div class="sp-ai-avatar">✦</div>
-      <div class="sp-ai-text">One item's evidence got weaker. Usage data shows a decline that wasn't there last week.</div>
+      <div class="sp-ai-text">W1 retention dropped across <strong>every widget</strong> this week. Tables fell from 26.7% to 21.8%, Kanban classic from 43% to 37.9%, Timeline from 24% to 17.7%, and AI Generate Table collapsed from 23K to 15.4K users. This is a systemic signal worth investigating.</div>
     </div>
     <div style="margin-top:var(--space-300);">
-      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-danger); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('silent-abandonment')">
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-danger); border-radius:var(--radius-200); margin-bottom:var(--space-300); cursor:pointer;" onclick="openPanel('silent-abandonment')">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
           <div style="font-size:14px; font-weight:600;">Tables Performance at Scale</div>
           <span class="tag tag-warning-subtle">Medium confidence</span>
         </div>
-        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Snowflake: 59.3% deletion rate · 63% never edited · Lauren flagged >10K rows</div>
-        <div style="font-size:11px; color:var(--text-danger); font-weight:600;">↓ Usage signal weakened — deletion rate critical</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Snowflake: W1 retention 26.7% → 21.8% · 59.4% deletion rate · 120K weekly users (down from 127K)</div>
+        <div style="font-size:11px; color:var(--text-danger); font-weight:600;">↓ Retention dropped 18% WoW — biggest decline across widgets</div>
         <div style="display:flex; gap:var(--space-100); margin-top:var(--space-200);">
           <span class="source-badge badge-snowflake" onclick="event.stopPropagation(); openSource('https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=PRODUCT&table=DATA_TABLE_SUMMARY&filter=deletion_rate')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Snowflake</span>
           <span class="source-badge badge-miro" onclick="event.stopPropagation(); openSource('https://miro.com/app/board/uXjVGCv3iRs=/?moveToWidget=lauren-tables')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Miro Board</span>
+        </div>
+      </div>
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-danger); border-radius:var(--radius-200); margin-bottom:var(--space-300); cursor:pointer;" onclick="openPanel('kanban-deps')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
+          <div style="font-size:14px; font-weight:600;">Kanban + Timeline Retention</div>
+          <span class="tag tag-warning-subtle">Medium confidence</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Kanban classic: 43% → 37.9% W1 · Kanban new: 28% → 23% · Timeline: 24% → 17.7%</div>
+        <div style="font-size:11px; color:var(--text-danger); font-weight:600;">↓ All view types declining — views parity gap widening</div>
+        <div style="display:flex; gap:var(--space-100); margin-top:var(--space-200);">
+          <span class="source-badge badge-snowflake" onclick="event.stopPropagation(); openSource('https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=kanban_classic')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Snowflake</span>
+        </div>
+      </div>
+      <div style="padding:var(--space-400); background:var(--background-primary); border:1px solid var(--border-primary); border-left:3px solid var(--border-danger); border-radius:var(--radius-200); cursor:pointer;" onclick="openPanel('ai-signal-synthesis')">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-200);">
+          <div style="font-size:14px; font-weight:600;">AI Generate Table Collapse</div>
+          <span class="tag tag-danger-subtle">High concern</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:var(--space-200);">Weekly users: 23K → 15.4K (−33% WoW) · W1 retention: 5-7% → 4.6%</div>
+        <div style="font-size:11px; color:var(--text-danger); font-weight:600;">↓ AI adoption collapsing — urgently validate AI value proposition</div>
+        <div style="display:flex; gap:var(--space-100); margin-top:var(--space-200);">
+          <span class="source-badge badge-snowflake" onclick="event.stopPropagation(); openSource('https://app.snowflake.com/miro/production#/query?db=PRODUCTION&schema=FEATURE_USAGE&table=FUM_WEEKLY_STICKINESS&filter=ai_gen_table')"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg> Snowflake</span>
         </div>
       </div>
     </div>
