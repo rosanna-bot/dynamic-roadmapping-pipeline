@@ -249,6 +249,120 @@
   .btile-weakened:hover { background: var(--background-danger-subtle); }
   @media (max-width: 600px) { .briefing-tiles { grid-template-columns: 1fr 1fr; } }
 
+  /* === CONTEXT PANEL (collapsible) === */
+  .context-panel {
+    margin-bottom: var(--space-400);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-300);
+    background: var(--background-primary);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .context-panel:hover { box-shadow: var(--elevation-100); }
+  .context-toggle {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--space-300) var(--space-400);
+    cursor: pointer; user-select: none;
+    background: transparent; border: none; width: 100%;
+    font-family: var(--font);
+  }
+  .context-toggle:hover { background: var(--background-primary-hover); }
+  .context-toggle-left {
+    display: flex; align-items: center; gap: var(--space-200);
+    font-size: 12px; font-weight: 600; color: var(--text-secondary);
+  }
+  .context-toggle-left svg { width: 14px; height: 14px; color: var(--icon-secondary); flex-shrink: 0; }
+  .context-chevron {
+    width: 16px; height: 16px; color: var(--text-tertiary);
+    transition: transform 0.2s ease;
+  }
+  .context-panel.open .context-chevron { transform: rotate(180deg); }
+  .context-sources-inline {
+    display: flex; align-items: center; gap: var(--space-200); margin-left: var(--space-200);
+  }
+  .context-source-pip {
+    width: 6px; height: 6px; border-radius: var(--radius-full);
+  }
+  .context-source-pip.connected { background: var(--background-success-prominent); }
+  .context-source-pip.disconnected { background: var(--background-tertiary); }
+  .context-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.2s ease;
+    padding: 0 var(--space-400);
+  }
+  .context-panel.open .context-body {
+    max-height: 600px;
+    padding: 0 var(--space-400) var(--space-400);
+  }
+  .context-divider {
+    height: 1px; background: var(--border-primary);
+    margin-bottom: var(--space-400);
+  }
+  .context-section-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.5px; color: var(--text-tertiary);
+    margin-bottom: var(--space-200);
+  }
+  .context-sources-grid {
+    display: flex; flex-wrap: wrap; gap: var(--space-200);
+    margin-bottom: var(--space-400);
+  }
+  .context-source-chip {
+    display: inline-flex; align-items: center; gap: var(--space-150);
+    padding: 4px 10px; border-radius: var(--radius-full);
+    font-size: 11px; font-weight: 500; color: var(--text-secondary);
+    background: var(--background-secondary); border: 1px solid var(--border-primary);
+    transition: all 0.12s;
+  }
+  .context-source-chip.active {
+    border-color: var(--border-success);
+    background: var(--background-success-subtle);
+    color: var(--text-success);
+  }
+  .context-source-chip .chip-dot {
+    width: 5px; height: 5px; border-radius: var(--radius-full);
+    background: var(--background-tertiary);
+  }
+  .context-source-chip.active .chip-dot {
+    background: var(--background-success-prominent);
+  }
+  .context-links-list {
+    display: flex; flex-direction: column; gap: var(--space-150);
+    margin-bottom: var(--space-300);
+  }
+  .context-link-row {
+    display: flex; align-items: center; gap: var(--space-200);
+    padding: var(--space-150) var(--space-300);
+    border-radius: var(--radius-200);
+    font-size: 12px; color: var(--text-secondary);
+    background: var(--background-secondary);
+    transition: background 0.12s;
+  }
+  .context-link-row:hover { background: var(--background-tertiary); }
+  .context-link-row svg { width: 13px; height: 13px; flex-shrink: 0; color: var(--text-tertiary); }
+  .context-link-label { font-weight: 500; color: var(--text-primary); }
+  .context-link-meta { color: var(--text-tertiary); font-size: 11px; margin-left: auto; white-space: nowrap; }
+  .context-add-row {
+    display: flex; gap: var(--space-200);
+  }
+  .context-add-input {
+    flex: 1; padding: 5px 10px;
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-200);
+    font-family: var(--font); font-size: 12px;
+    color: var(--text-primary); background: var(--background-primary);
+    outline: none; transition: border-color 0.12s;
+  }
+  .context-add-input::placeholder { color: var(--text-tertiary); }
+  .context-add-input:focus { border-color: var(--border-brand); }
+  .context-add-btn {
+    padding: 5px 12px; border-radius: var(--radius-200);
+    font-family: var(--font); font-size: 11px; font-weight: 600;
+    background: var(--background-secondary); border: 1px solid var(--border-primary);
+    color: var(--text-secondary); cursor: pointer; transition: all 0.12s;
+  }
+  .context-add-btn:hover { background: var(--background-tertiary); color: var(--text-primary); }
+
   /* Briefing Footer / Health */
   .briefing-footer {
     margin-top: var(--space-500); background: var(--background-primary);
@@ -637,6 +751,60 @@
     <div class="screen-header">
     </div>
 
+    <!-- Context & Sources (collapsible) -->
+    <div class="context-panel" id="contextPanel">
+      <button class="context-toggle" onclick="toggleContext()">
+        <span class="context-toggle-left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          Sources &amp; context
+          <span class="context-sources-inline">
+            <span class="context-source-pip connected" title="Snowflake"></span>
+            <span class="context-source-pip connected" title="Slack"></span>
+            <span class="context-source-pip connected" title="Glean"></span>
+            <span class="context-source-pip connected" title="Granola"></span>
+            <span class="context-source-pip connected" title="Jira"></span>
+            <span class="context-source-pip disconnected" title="Gong"></span>
+          </span>
+        </span>
+        <svg class="context-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="context-body">
+        <div class="context-divider"></div>
+        <div class="context-section-label">Connected sources</div>
+        <div class="context-sources-grid">
+          <span class="context-source-chip active"><span class="chip-dot"></span>Snowflake</span>
+          <span class="context-source-chip active"><span class="chip-dot"></span>Slack</span>
+          <span class="context-source-chip active"><span class="chip-dot"></span>Glean</span>
+          <span class="context-source-chip active"><span class="chip-dot"></span>Granola</span>
+          <span class="context-source-chip active"><span class="chip-dot"></span>Jira</span>
+          <span class="context-source-chip"><span class="chip-dot"></span>Gong</span>
+          <span class="context-source-chip"><span class="chip-dot"></span>Amplitude</span>
+        </div>
+        <div class="context-section-label">Relevant links &amp; context</div>
+        <div class="context-links-list" id="contextLinks">
+          <div class="context-link-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span class="context-link-label">FY27 Strategy — O1: Win R&D</span>
+            <span class="context-link-meta">Confluence</span>
+          </div>
+          <div class="context-link-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <span class="context-link-label">Tables adoption dashboard</span>
+            <span class="context-link-meta">Snowflake</span>
+          </div>
+          <div class="context-link-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            <span class="context-link-label">#proj-tables-v2 — retention thread</span>
+            <span class="context-link-meta">Slack</span>
+          </div>
+        </div>
+        <div class="context-add-row">
+          <input class="context-add-input" id="contextInput" type="text" placeholder="Paste a link or add context…" onkeydown="if(event.key==='Enter')addContextLink()">
+          <button class="context-add-btn" onclick="addContextLink()">Add</button>
+        </div>
+      </div>
+    </div>
+
     <div class="briefing-tiles">
       <div class="btile btile-strengthened" onclick="openStrengthened()">
         <div class="btile-num">3 <span style="font-size:16px; color:var(--text-success)">↑</span></div>
@@ -928,6 +1096,22 @@
 </div>
 
 <script>
+/* Context panel toggle & add link */
+function toggleContext() {
+  document.getElementById('contextPanel').classList.toggle('open');
+}
+function addContextLink() {
+  const input = document.getElementById('contextInput');
+  const val = input.value.trim();
+  if (!val) return;
+  const list = document.getElementById('contextLinks');
+  const row = document.createElement('div');
+  row.className = 'context-link-row';
+  row.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg><span class="context-link-label">${val}</span><span class="context-link-meta">Added just now</span>`;
+  list.appendChild(row);
+  input.value = '';
+}
+
 const CARD_DATA = {
   'jira-custom-fields': {
     title: 'Jira Custom Fields',
